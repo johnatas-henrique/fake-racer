@@ -14,7 +14,8 @@ const loop = (time, render, camera, player, road, width, height) => {
   // requestAnimationFrame((time) => loop(time, render, camera, player, road, width, height));
   render.clear(0, 0, width, height);
   render.save();
-  render.drawTrapezium(200, 350, 200, 250, 75, 150);
+  camera.update(road);
+  // render.drawTrapezium(250, 125, 150, 250, 75, 75);
   render.restore();
 };
 
