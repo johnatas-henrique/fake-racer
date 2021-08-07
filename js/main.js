@@ -15,7 +15,8 @@ const loop = (time, render, camera, player, road, width, height) => {
   render.clear(0, 0, width, height);
   render.save();
   camera.update(road);
-  // render.drawTrapezium(250, 125, 150, 250, 75, 75);
+  road.render(render, camera, player);
+  // render.drawTrapezium(300, 395, 295, 300, 5, 75);
   render.restore();
 };
 
@@ -24,6 +25,8 @@ const init = (time) => {
   const camera = new Camera();
   const player = new Player();
   const road = new Road();
+
+  road.create();
   loop(time, render, camera, player, road, canvas.width, canvas.height);
 };
 

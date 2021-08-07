@@ -2,20 +2,21 @@ class Camera {
   x = 0;
   y = 1500;
   z = 0;
-  h = y;
+  h = this.y;
   cursor = 0;
   deltaZ = 0;
   #distanceToProjectionPlane = 1 / tan(theta);
   screen = new class {
     midpoint = new class {
+      #screen;
       constructor(screen) {
-        this.screen = screen;
+        this.#screen = screen;
       }
       get x() {
-        return screen.width / 2;
+        return this.#screen.width * 0.5;
       }
       get y() {
-        return screen.height / 2;
+        return this.#screen.height * 0.5;
       }
     }(this);
 
@@ -28,7 +29,7 @@ class Camera {
     }
   };
   get distanceToProjectionPlane() {
-    this.#distanceToProjectionPlane;
+    return this.#distanceToProjectionPlane;
   }
 
   /**

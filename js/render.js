@@ -1,16 +1,16 @@
 class Render {
-  renderingContext;
+  #renderingContext;
 
   /**
    *
    * @param {CanvasRenderingContext2D} renderingContext
    */
   constructor(renderingContext) {
-    this.renderingContext = renderingContext;
+    this.#renderingContext = renderingContext;
   }
 
   get renderingContext() {
-    return this.renderingContext;
+    return this.#renderingContext;
   }
 
   clear(x, y, w, h) {
@@ -29,13 +29,14 @@ class Render {
     this.drawPolygon(color,
       x1 - w1, y1,
       x1 + w1, y1,
-      x2 + y2, y2,
-      x2 - w2, y2);
+      x2 + w2, y2,
+      x2 - w2, y2
+      );
   }
 
   drawPolygon(color, ...coords) {
     if (coords.length > 1) {
-      const { renderingContext } = this;
+      const renderingContext = this.renderingContext;
       renderingContext.save();
       renderingContext.fillStyle = color;
       renderingContext.beginPath();
