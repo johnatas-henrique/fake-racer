@@ -11,12 +11,10 @@ class Keyboard {
    */
   handler(event) {
     const key = event.key.toLowerCase();
-    console.log('key', key);
-    console.table('map', this.map);
     this.map[key] = event.type === 'keydown';
   }
 
   isKeyDown(key) {
-    return Boolean(this.map[key]);
+    return Boolean(this.map[key.toLowerCase()]);
   }
 }
