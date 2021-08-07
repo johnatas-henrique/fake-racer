@@ -45,8 +45,8 @@ class Road {
   create(segmentsNumber = 500) {
     const rumbleLength = this.rumbleLength;
     for (let i = 0; i < segmentsNumber; i += 1) {
-      const darkColors = { road: 'gray', grass: 'darkgreen', rumble: 'red', strip: '' };
-      const lightColors = { road: 'darkgray', grass: 'green', rumble: 'white', strip: '' };
+      const darkColors = { road: '#444', grass: 'darkgreen', rumble: '#f00', strip: '' };
+      const lightColors = { road: '#444', grass: 'green', rumble: 'white', strip: 'white' };
       const segmentLine = new SegmentLine;
       segmentLine.index = i;
       segmentLine.colors = floor(i / rumbleLength) % 2 ? darkColors : lightColors;
@@ -56,7 +56,13 @@ class Road {
       this.#segments.push(segmentLine);
     }
 
-    // stripes
+    // marking start of lap
+
+    for (let i=0 ; i< rumbleLength; i+=1) {
+      console.log(rumbleLength)
+      this.#segments[i].colors.grass = 'gray';
+      this.#segments[i].colors.road = 'white';
+    }
   }
 
   /**
@@ -70,15 +76,33 @@ class Road {
     const baseSegment = this.getSegment(camera.cursor);
     const startPos = baseSegment.index;
     const visibleSegments = 300;
+
+    let maxY = camera.screen.height
+
     for (let i = startPos; i < startPos + visibleSegments; i += 1) {
       const currentSegment = this.getSegmentFromIndex(i);
+      camera.z = camera.cursor - (i >= segmentsLength ? this.length : 0);
       currentSegment.project(camera);
       const currentScreenPoint = currentSegment.points.screen;
+
+      if (
+        currentScreenPoint.y >= maxY ||
+        camera.deltaZ <= camera.distanceToProjectionPlane
+      ) {
+        continue;
+      }
+
+      maxY = currentScreenPoint.y;
 
       if (i > 0) {
         const previousSegment = this.getSegmentFromIndex(i - 1);
         const previousScreenPoint = previousSegment.points.screen;
         const colors = currentSegment.colors;
+
+        if (currentScreenPoint.y >= previousScreenPoint.y) {
+          continue;
+        }
+
         render.drawTrapezium(
           previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w,
           currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w,
@@ -120,6 +144,16 @@ class Road {
           currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y,
           currentScreenPoint.x + currentScreenPoint.w * 1.3, currentScreenPoint.y,
         );
+
+        // center strip
+        if(colors.strip) {
+          const value = 0.03;
+          render.drawTrapezium(
+            previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w * value,
+            currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
+            colors.strip,
+          );
+        }
       };
     };
   };
