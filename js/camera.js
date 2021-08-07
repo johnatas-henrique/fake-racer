@@ -37,10 +37,19 @@ class Camera {
    * @param {Road} road 
    */
   update(road) {
-    if(keyboard.isKeyDown('arrowUp')){
-      console.log('go faster');
-    }else if(keyboard.isKeyDown("arrowDown")){
-      console.log('stopping');
+    const step = road.segmentLength;
+    const length = road.length;
+    // console.log(keyboard.isKeyDown('arrowUp'))
+    if (keyboard.isKeyDown('arrowUp')) {
+      this.cursor += step;
+    } else if (keyboard.isKeyDown("arrowDown")) {
+      this.cursor -= step;
+    }
+
+    if (this.cursor >= length) {
+      this.cursor -= length;
+    } else if (this.cursor < 0) {
+      this.cursor += length;
     }
   }
 }

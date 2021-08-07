@@ -11,12 +11,11 @@ const canvas = document.querySelector('canvas');
  * @param {Number} height
  */
 const loop = (time, render, camera, player, road, width, height) => {
-  // requestAnimationFrame((time) => loop(time, render, camera, player, road, width, height));
+  requestAnimationFrame(() => loop(time, render, camera, player, road, width, height));
   render.clear(0, 0, width, height);
   render.save();
   camera.update(road);
   road.render(render, camera, player);
-  // render.drawTrapezium(300, 395, 295, 300, 5, 75);
   render.restore();
 };
 
@@ -26,6 +25,7 @@ const init = (time) => {
   const player = new Player();
   const road = new Road();
 
+  camera.cursor = -road.segmentLength * road.rumbleLength * 2; // spawn before startLine
   road.create();
   loop(time, render, camera, player, road, canvas.width, canvas.height);
 };
