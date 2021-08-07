@@ -1,6 +1,9 @@
 class SegmentLine {
   scale = 0;
   index = 0;
+  #colors = {
+    road: '', grass: '', rumble: '', strip: ''
+  };
   points = new class {
     world = new class {
       x = 0;
@@ -15,6 +18,13 @@ class SegmentLine {
     };
   };
 
+  get colors() {
+    return this.#colors;
+  }
+
+  set colors(colors) {
+    this.#colors = colors;
+  }
   /**
    * 
    * @param {Camera} camera 
@@ -24,7 +34,8 @@ class SegmentLine {
     const midpoint = camera.screen.midpoint;
     camera.deltaZ = world.z - camera.z;
     const scale = this.scale = camera.distanceToProjectionPlane / camera.deltaZ;
-    screen.x = round((1 + (world.x - camera.x) * scale) * midpoint.y);
+
+    screen.x = round((1 + (world.x - camera.x) * scale) * midpoint.x);
     screen.y = round((1 - (world.y - camera.y) * scale) * midpoint.y);
     screen.w = round(world.w * scale * camera.screen.width);
   }

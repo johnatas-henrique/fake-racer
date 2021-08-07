@@ -1,6 +1,8 @@
-const { tan, round, PI } = Math;
+const {
+  tan, round, floor, PI,
+} = Math;
 
 const fieldOfView = (120 / 180) * PI;
-const theta = fieldOfView / 2;
+const theta = fieldOfView * 0.5;
 
 const keyboard = new Keyboard();
