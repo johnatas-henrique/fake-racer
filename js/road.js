@@ -45,7 +45,8 @@ class Road {
   create(segmentsNumber = 2001) {
     const rumbleLength = this.rumbleLength;
     const fixRumble = segmentsNumber + rumbleLength;
-    for (let i = 0; i < fixRumble; i += 1) {
+    // great tip: if you put more counter variables, they increment too!
+    for (let i = 0, angleSegment = 0; i < fixRumble; i += 1) {
       const darkColors = { road: '#444', grass: 'darkgreen', rumble: '#f00', strip: '' };
       const lightColors = { road: '#444', grass: 'green', rumble: 'white', strip: 'white' };
       const segmentLine = new SegmentLine;
@@ -55,12 +56,19 @@ class Road {
       world.w = this.#width;
       world.z = (i + 1) * this.segmentLength;
       this.#segments.push(segmentLine);
-      
-      if (i > 300 && i < 500) {
+
+      // adding curves
+      if (i > 500 && i < 700) {
         segmentLine.curve = 7.5;
       }
       if (i >= 700 && i < 900) {
         segmentLine.curve = -7.5;
+      }
+
+      // hills
+      // console.log('an', angle);
+      if (i > 100 && angleSegment < 360) {
+        world.y = sin(angleSegment++ / 180 * PI) * 3000;
       }
     }
 
@@ -82,7 +90,7 @@ class Road {
     const baseSegment = this.getSegment(camera.cursor);
     const startPos = baseSegment.index;
     const visibleSegments = 300;
-
+    camera.y = camera.h + baseSegment.points.world.y;
     let maxY = camera.screen.height;
     let anx = 0;
     let snx = 0;
