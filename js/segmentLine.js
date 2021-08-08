@@ -1,6 +1,7 @@
 class SegmentLine {
   scale = 0;
   index = 0;
+  curve = 0;
   #colors = {
     road: '', grass: '', rumble: '', strip: ''
   };
