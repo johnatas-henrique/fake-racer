@@ -42,9 +42,10 @@ class Road {
     return this.#segments[index % this.segmentsLength];
   }
 
-  create(segmentsNumber = 500) {
+  create(segmentsNumber = 2001) {
     const rumbleLength = this.rumbleLength;
-    for (let i = 0; i < segmentsNumber; i += 1) {
+    const fixRumble = segmentsNumber + rumbleLength;
+    for (let i = 0; i < fixRumble; i += 1) {
       const darkColors = { road: '#444', grass: 'darkgreen', rumble: '#f00', strip: '' };
       const lightColors = { road: '#444', grass: 'green', rumble: 'white', strip: 'white' };
       const segmentLine = new SegmentLine;
@@ -54,13 +55,18 @@ class Road {
       world.w = this.#width;
       world.z = (i + 1) * this.segmentLength;
       this.#segments.push(segmentLine);
+      
+      if (i > 300 && i < 500) {
+        segmentLine.curve = 7.5;
+      }
+      if (i >= 700 && i < 900) {
+        segmentLine.curve = -7.5;
+      }
     }
 
-    // marking start of lap
+    // marking finish line
 
-    for (let i=0 ; i< rumbleLength; i+=1) {
-      console.log(rumbleLength)
-      this.#segments[i].colors.grass = 'gray';
+    for (let i = 0; i < rumbleLength; i += 1) {
       this.#segments[i].colors.road = 'white';
     }
   }
@@ -77,14 +83,19 @@ class Road {
     const startPos = baseSegment.index;
     const visibleSegments = 300;
 
-    let maxY = camera.screen.height
+    let maxY = camera.screen.height;
+    let anx = 0;
+    let snx = 0;
 
     for (let i = startPos; i < startPos + visibleSegments; i += 1) {
       const currentSegment = this.getSegmentFromIndex(i);
       camera.z = camera.cursor - (i >= segmentsLength ? this.length : 0);
+      camera.x = -snx;
       currentSegment.project(camera);
-      const currentScreenPoint = currentSegment.points.screen;
+      anx += currentSegment.curve;
+      snx += anx;
 
+      const currentScreenPoint = currentSegment.points.screen;
       if (
         currentScreenPoint.y >= maxY ||
         camera.deltaZ <= camera.distanceToProjectionPlane
@@ -146,7 +157,7 @@ class Road {
         );
 
         // center strip
-        if(colors.strip) {
+        if (colors.strip) {
           const value = 0.03;
           render.drawTrapezium(
             previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w * value,
