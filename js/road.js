@@ -42,11 +42,10 @@ class Road {
     return this.#segments[index % this.segmentsLength];
   }
 
-  create(segmentsNumber = 2001) {
+  create(segmentsNumber = 2002) {
     const rumbleLength = this.rumbleLength;
-    const fixRumble = segmentsNumber + rumbleLength;
     // great tip: if you put more counter variables, they increment too!
-    for (let i = 0, angleSegment = 0; i < fixRumble; i += 1) {
+    for (let i = 0, angleSegment = 0; i < segmentsNumber; i += 1) {
       const darkColors = { road: '#444', grass: 'darkgreen', rumble: '#f00', strip: '' };
       const lightColors = { road: '#444', grass: 'green', rumble: 'white', strip: 'white' };
       const segmentLine = new SegmentLine;
@@ -65,10 +64,20 @@ class Road {
         segmentLine.curve = -7.5;
       }
 
-      // hills
-      // console.log('an', angle);
-      if (i > 100 && angleSegment < 360) {
+      // adding hills
+      if (i > 1000 && angleSegment < 720) {
         world.y = sin(angleSegment++ / 180 * PI) * 3000;
+        if (i < 1360) {
+          segmentLine.curve = 1.5;
+        } else {
+          segmentLine.curve = -1.5;
+        }
+      }
+
+      // adding speed bump
+      if (i === 1900) {
+        world.y = sin(PI * 0.5) * 500;
+        segmentLine.colors.road = 'black';
       }
     }
 
@@ -104,14 +113,13 @@ class Road {
       snx += anx;
 
       const currentScreenPoint = currentSegment.points.screen;
+      currentSegment.clip = maxY;
       if (
         currentScreenPoint.y >= maxY ||
         camera.deltaZ <= camera.distanceToProjectionPlane
       ) {
         continue;
       }
-
-      maxY = currentScreenPoint.y;
 
       if (i > 0) {
         const previousSegment = this.getSegmentFromIndex(i - 1);
@@ -174,6 +182,11 @@ class Road {
           );
         }
       };
+
+      maxY = currentScreenPoint.y;
     };
+    for (let i = visibleSegments + startPos; i >= startPos; i -= 1) {
+      this.getSegmentFromIndex(i).drawSprite(render, camera, player);
+    }
   };
 };
