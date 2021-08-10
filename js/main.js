@@ -30,4 +30,9 @@ const init = (time) => {
   loop(time, render, camera, player, road, canvas.width, canvas.height);
 };
 
-requestAnimationFrame((time) => init(time));
+const billboardSega = new Image();
+billboardSega.onload = () => {
+  requestAnimationFrame((time) => init(time));
+};
+
+billboardSega.src = './/images/sprites/billboard04.png';
