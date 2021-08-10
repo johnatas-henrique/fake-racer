@@ -1,7 +1,7 @@
 class Sprite {
 
   /**
-   * @tpye {HTMLImageElement}
+   * @type {HTMLImageElement}
    */
   image;
 

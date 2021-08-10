@@ -54,7 +54,7 @@ class SegmentLine {
   drawSprite(render, camera, player) {
     const sprites = this.sprites;
     for (let i = sprites.length - 1; i >= 0; i -= 1) {
-      const sprites = sprites[i];
+      const sprite = sprites[i];
       const scale = this.scale;
       const { screen, world } = this.points;
       const roadWidth = world.w;
