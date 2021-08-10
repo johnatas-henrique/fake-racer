@@ -39,10 +39,11 @@ class Camera {
   update(road) {
     const step = road.segmentLength;
     const length = road.length;
-    // console.log(keyboard.isKeyDown('arrowUp'))
     if (keyboard.isKeyDown('arrowUp')) {
       this.cursor += step;
+      // console.log('track', this.cursor / 200);
     } else if (keyboard.isKeyDown("arrowDown")) {
+      console.log('track', this.cursor / 200);
       this.cursor -= step;
     }
 

@@ -31,7 +31,7 @@ class Render {
       x1 + w1, y1,
       x2 + w2, y2,
       x2 - w2, y2
-      );
+    );
   }
 
   drawPolygon(color, ...coords) {
@@ -47,6 +47,43 @@ class Render {
       renderingContext.closePath();
       renderingContext.fill();
       renderingContext.restore();
+    }
+  }
+
+  /**
+   * 
+   * @param {Sprite} sprite 
+   * @param {Camera} camera 
+   * @param {Player} player 
+   * @param {Number} roadWidth 
+   * @param {Number} scale 
+   * @param {Number} destX 
+   * @param {Number} destY 
+   * @param {Number} clip 
+   */
+  drawSprite(sprite, camera, player, roadWidth, scale, destX, destY, clip) {
+    const midpoint = camera.screen.midpoint;
+    const spriteWidth = sprite.width;
+    const spriteHeight = sprite.height;
+    const factor = 1 / 3;
+    const offsetY = sprite.offsetY || 1;
+    const scaleX = sprite.scaleX;
+    const scaleY = sprite.scaleY;
+    const destWidth = (spriteWidth * scale * midpoint.x) *
+      ((roadWidth * scaleX / (player.width ?? 64)) * factor);
+    const destHeight = (spriteHeight * scale * midpoint.x) *
+      ((roadWidth * scaleX / (player.width ?? 64)) * factor);
+    destX += -destWidth * 0.5;
+    destY -= destHeight * offsetY;
+    const clipHeight = clip ? max(0, (destY + destHeight - clip)) : 0;
+
+    if (clipHeight < destHeight) {
+      this.renderingContext.drawImage(
+        sprite.image,
+        0, 0,
+        spriteWidth, spriteHeight - spriteHeight * clipHeight / destHeight,
+        destX, destY, destWidth, destHeight - clipHeight
+      )
     }
   }
 }
