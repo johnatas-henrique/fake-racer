@@ -74,17 +74,31 @@ class Road {
         }
       }
 
+      // sprites
+      [15, 30, 0].forEach(segmentNumber => {
+        if (i === segmentNumber) {
+          const spriteLeft = new Sprite;
+          spriteLeft.offsetX = -1.6;
+          spriteLeft.image = billboardSega;
+          segmentLine.sprites.push(spriteLeft);
+
+          const spriteRight = new Sprite;
+          spriteRight.offsetX = 1.6;
+          spriteRight.image = billboardSega;
+          segmentLine.sprites.push(spriteRight);
+        }
+      })
+
       // adding speed bump
-      if (i === 1900) {
-        world.y = sin(PI * 0.5) * 500;
-        segmentLine.colors.road = 'black';
-      }
+      // if (i <=rumbleLength) {
+      //   world.y = sin(i * 0.5) * 1000;
+      // }
     }
 
     // marking finish line
 
     for (let i = 0; i < rumbleLength; i += 1) {
-      this.#segments[i].colors.road = 'white';
+      this.#segments[i].colors.road = 'gray';
     }
   }
 
