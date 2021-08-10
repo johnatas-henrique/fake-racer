@@ -46,11 +46,18 @@ class Road {
     const rumbleLength = this.rumbleLength;
     // great tip: if you put more counter variables, they increment too!
     for (let i = 0, angleSegment = 0; i < segmentsNumber; i += 1) {
-      const darkColors = { road: '#444', grass: 'darkgreen', rumble: '#f00', strip: '' };
-      const lightColors = { road: '#444', grass: 'green', rumble: 'white', strip: 'white' };
+      const lightestColors = { road: '#525152', grass: 'green', rumble: 'white', strip: '' };
+      const lightColors = { road: '#4A494A', grass: 'green', rumble: 'white', strip: '' };
+      const darkColors = { road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: 'white' };
+      const darkestColors = { road: '#393839', grass: 'darkgreen', rumble: '#f00', strip: 'white' };
       const segmentLine = new SegmentLine;
       segmentLine.index = i;
-      segmentLine.colors = floor(i / rumbleLength) % 2 ? darkColors : lightColors;
+
+      segmentLine.colors = floor(i / rumbleLength) % 4 === 0 
+      ? lightestColors : floor(i / rumbleLength) % 4 === 1 
+      ? darkestColors : floor(i / rumbleLength) % 4 === 2 
+      ? lightColors : darkColors;
+
       const world = segmentLine.points.world;
       world.w = this.#width;
       world.z = (i + 1) * this.segmentLength;
@@ -98,7 +105,8 @@ class Road {
     // marking finish line
 
     for (let i = 0; i < rumbleLength; i += 1) {
-      this.#segments[i].colors.road = 'gray';
+      this.#segments[i].colors.road = '#888';
+      this.#segments[i].colors.strip = 'black';
     }
   }
 
@@ -154,46 +162,67 @@ class Road {
         render.drawPolygon(
           colors.grass,
           0, previousScreenPoint.y,
-          previousScreenPoint.x - previousScreenPoint.w * 1.3, previousScreenPoint.y,
-          currentScreenPoint.x - currentScreenPoint.w * 1.3, currentScreenPoint.y,
+          previousScreenPoint.x - previousScreenPoint.w, previousScreenPoint.y,
+          currentScreenPoint.x - currentScreenPoint.w, currentScreenPoint.y,
           0, currentScreenPoint.y
         );
 
         // right grass
         render.drawPolygon(
           colors.grass,
-          previousScreenPoint.x + previousScreenPoint.w * 1.3, previousScreenPoint.y,
+          previousScreenPoint.x + previousScreenPoint.w * 1, previousScreenPoint.y,
           camera.screen.width, previousScreenPoint.y,
           camera.screen.width, currentScreenPoint.y,
-          currentScreenPoint.x + currentScreenPoint.w * 1.3, currentScreenPoint.y
+          currentScreenPoint.x + currentScreenPoint.w , currentScreenPoint.y
         );
-
-        // left rumble
-        render.drawPolygon(
-          colors.rumble,
-          previousScreenPoint.x - previousScreenPoint.w * 1.3, previousScreenPoint.y,
-          previousScreenPoint.x - previousScreenPoint.w, previousScreenPoint.y,
-          currentScreenPoint.x - currentScreenPoint.w, currentScreenPoint.y,
-          currentScreenPoint.x - currentScreenPoint.w * 1.3, currentScreenPoint.y,
-        );
-
-        // right rumble
-        render.drawPolygon(
-          colors.rumble,
-          previousScreenPoint.x + previousScreenPoint.w * 1.3, previousScreenPoint.y,
-          previousScreenPoint.x + previousScreenPoint.w, previousScreenPoint.y,
-          currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y,
-          currentScreenPoint.x + currentScreenPoint.w * 1.3, currentScreenPoint.y,
-        );
-
-        // center strip
-        if (colors.strip) {
-          const value = 0.03;
-          render.drawTrapezium(
-            previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w * value,
-            currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
-            colors.strip,
+        
+        if (currentSegment.curve) {
+          // left rumble
+          render.drawPolygon(
+            colors.rumble,
+            previousScreenPoint.x - previousScreenPoint.w * 1.3, previousScreenPoint.y,
+            previousScreenPoint.x - previousScreenPoint.w, previousScreenPoint.y,
+            currentScreenPoint.x - currentScreenPoint.w, currentScreenPoint.y,
+            currentScreenPoint.x - currentScreenPoint.w * 1.3, currentScreenPoint.y,
           );
+  
+          // right rumble
+          render.drawPolygon(
+            colors.rumble,
+            previousScreenPoint.x + previousScreenPoint.w * 1.3, previousScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w, previousScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * 1.3, currentScreenPoint.y,
+          );
+        }
+        
+        // center strip and lateral stripes
+        if (colors.strip) {
+          //right stripe
+          render.drawPolygon(
+            colors.strip,
+            previousScreenPoint.x + previousScreenPoint.w * -0.96, previousScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w * -0.92, previousScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * -0.92, currentScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * -0.96, currentScreenPoint.y,
+          );
+
+          //right stripe
+          render.drawPolygon(
+            colors.strip,
+            previousScreenPoint.x + previousScreenPoint.w * 0.96, previousScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w * 0.92, previousScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * 0.92, currentScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * 0.96, currentScreenPoint.y,
+          );
+
+          //center strip
+          // const value = 0.03;
+          // render.drawTrapezium(
+          //   previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w * value,
+          //   currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
+          //   colors.strip,
+          // );
         }
       };
 
