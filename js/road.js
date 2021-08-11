@@ -88,17 +88,23 @@ class Road {
       // sprites
       if (i % rumbleLength === 0) {
         const spriteLeft = new Sprite;
-        spriteLeft.offsetX = floor(i) % 2 ? (-random() * 2) - 2 : (random() * 2) + 2;
+        spriteLeft.offsetX = floor(i) % 2 ? (-random() * 3) - 2 : (random() * 3) + 2;
         spriteLeft.image = resource.get('billboardSega');
-        spriteLeft.scaleX = 3;
+        spriteLeft.scaleX = 24;
         console.log(spriteLeft)
         segmentLine.sprites.push(spriteLeft);
 
-        // const spriteRight = new Sprite;
-        // spriteRight.offsetX = 1.6;
-        // spriteRight.image = resource.get('billboardSega');
-        // segmentLine.sprites.push(spriteRight);
       }
+      // [0, 15, 30].forEach(number => {
+      //   if (i === number){
+
+      //     const spriteRight = new Sprite;
+      //     spriteRight.offsetX = 1.6;
+      //     spriteRight.scaleX = 24;
+      //     spriteRight.image = resource.get('billboardSega');
+      //     segmentLine.sprites.push(spriteRight);
+      //   }
+      // })
 
       // adding speed bump
       // if (i <=rumbleLength) {
