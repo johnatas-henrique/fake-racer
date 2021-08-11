@@ -1,5 +1,5 @@
 const {
-  tan, sin, cos, round, floor, max, PI,
+  tan, sin, cos, round, floor, max, random, PI,
 } = Math;
 
 const fieldOfView = (120 / 180) * PI;

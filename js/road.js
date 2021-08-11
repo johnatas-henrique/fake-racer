@@ -57,10 +57,10 @@ class Road {
       const segmentLine = new SegmentLine;
       segmentLine.index = i;
 
-      segmentLine.colors = floor(i / rumbleLength) % 4 === 0 
-      ? lightestColors : floor(i / rumbleLength) % 4 === 1 
-      ? darkestColors : floor(i / rumbleLength) % 4 === 2 
-      ? lightColors : darkColors;
+      segmentLine.colors = floor(i / rumbleLength) % 4 === 0
+        ? lightestColors : floor(i / rumbleLength) % 4 === 1
+          ? darkestColors : floor(i / rumbleLength) % 4 === 2
+            ? lightColors : darkColors;
 
       const world = segmentLine.points.world;
       world.w = this.#width;
@@ -86,19 +86,19 @@ class Road {
       }
 
       // sprites
-      [15, 30, 0].forEach(segmentNumber => {
-        if (i === segmentNumber) {
-          const spriteLeft = new Sprite;
-          spriteLeft.offsetX = -1.6;
-          spriteLeft.image = resource.get('billboardSega');
-          segmentLine.sprites.push(spriteLeft);
+      if (i % rumbleLength === 0) {
+        const spriteLeft = new Sprite;
+        spriteLeft.offsetX = floor(i) % 2 ? (-random() * 2) - 2 : (random() * 2) + 2;
+        spriteLeft.image = resource.get('billboardSega');
+        spriteLeft.scaleX = 3;
+        console.log(spriteLeft)
+        segmentLine.sprites.push(spriteLeft);
 
-          const spriteRight = new Sprite;
-          spriteRight.offsetX = 1.6;
-          spriteRight.image = resource.get('billboardSega');
-          segmentLine.sprites.push(spriteRight);
-        }
-      })
+        // const spriteRight = new Sprite;
+        // spriteRight.offsetX = 1.6;
+        // spriteRight.image = resource.get('billboardSega');
+        // segmentLine.sprites.push(spriteRight);
+      }
 
       // adding speed bump
       // if (i <=rumbleLength) {
@@ -179,9 +179,9 @@ class Road {
           previousScreenPoint.x + previousScreenPoint.w * 1, previousScreenPoint.y,
           camera.screen.width, previousScreenPoint.y,
           camera.screen.width, currentScreenPoint.y,
-          currentScreenPoint.x + currentScreenPoint.w , currentScreenPoint.y
+          currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y
         );
-        
+
         if (currentSegment.curve) {
           // left rumble
           render.drawPolygon(
@@ -191,7 +191,7 @@ class Road {
             currentScreenPoint.x - currentScreenPoint.w, currentScreenPoint.y,
             currentScreenPoint.x - currentScreenPoint.w * 1.3, currentScreenPoint.y,
           );
-  
+
           // right rumble
           render.drawPolygon(
             colors.rumble,
@@ -201,7 +201,7 @@ class Road {
             currentScreenPoint.x + currentScreenPoint.w * 1.3, currentScreenPoint.y,
           );
         }
-        
+
         // center strip and lateral stripes
         if (colors.strip) {
           //right stripe

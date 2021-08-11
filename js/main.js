@@ -25,6 +25,7 @@ const init = (time) => {
   const camera = new Camera();
   const player = new Player();
   player.sprite.image = resource.get('playerCar');
+  player.sprite.scaleX = 3;
   const road = new Road();
 
   camera.cursor = -road.segmentLength * road.rumbleLength * 2; // spawn before startLine
