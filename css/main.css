@@ -13,9 +13,9 @@ html, body {
 }
 
 canvas {
+  height: 100vh;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  border: solid 1px #ffffff;
 }
