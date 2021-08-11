@@ -16,6 +16,7 @@ const loop = (time, render, camera, player, road, width, height) => {
   render.save();
   camera.update(road);
   road.render(render, camera, player);
+  player.render(render, camera, road.width);
   render.restore();
 };
 
@@ -23,6 +24,7 @@ const init = (time) => {
   const render = new Render(canvas.getContext('2d'));
   const camera = new Camera();
   const player = new Player();
+  player.sprite.image = resource.get('playerCar');
   const road = new Road();
 
   camera.cursor = -road.segmentLength * road.rumbleLength * 2; // spawn before startLine
@@ -30,9 +32,19 @@ const init = (time) => {
   loop(time, render, camera, player, road, canvas.width, canvas.height);
 };
 
-const billboardSega = new Image();
-billboardSega.onload = () => {
-  requestAnimationFrame((time) => init(time));
-};
+resource
+  .add('billboardSega', './images/sprites/billboard04.png')
+  .add('playerCar', './images/sprites/player_centerD.png')
+  .load(() => {
+    requestAnimationFrame((time) => init(time));
+  });
 
-billboardSega.src = './images/sprites/billboard04.png';
+// const billboardSega = new Image();
+// const playerCar = new Image();
+// billboardSega.onload = () => {
+//   playerCar.onload = () => {
+//   };
+//   playerCar.src = './images/sprites/player_straight.png';
+// };
+
+// billboardSega.src = './images/sprites/billboard04.png';
