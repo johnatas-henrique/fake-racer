@@ -35,4 +35,4 @@ billboardSega.onload = () => {
   requestAnimationFrame((time) => init(time));
 };
 
-billboardSega.src = './/images/sprites/billboard04.png';
+billboardSega.src = './images/sprites/billboard04.png';
