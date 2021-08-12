@@ -50,10 +50,10 @@ class Road {
     const rumbleLength = this.rumbleLength;
     // great tip: if you put more counter variables, they increment too!
     for (let i = 0, angleSegment = 0; i < segmentsNumber; i += 1) {
-      const lightestColors = { road: '#525152', grass: 'green', rumble: 'white', strip: '' };
-      const lightColors = { road: '#4A494A', grass: 'green', rumble: 'white', strip: '' };
-      const darkColors = { road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: 'white' };
-      const darkestColors = { road: '#393839', grass: 'darkgreen', rumble: '#f00', strip: 'white' };
+      const lightestColors = { road: '#525152', grass: 'green', rumble: 'white', strip: '#fff' };
+      const lightColors = { road: '#4A494A', grass: 'green', rumble: 'white', strip: '#fff' };
+      const darkColors = { road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff' };
+      const darkestColors = { road: '#393839', grass: 'darkgreen', rumble: '#f00', strip: '#fff' };
       const segmentLine = new SegmentLine;
       segmentLine.index = i;
 
@@ -115,7 +115,7 @@ class Road {
 
     for (let i = 0; i < rumbleLength; i += 1) {
       this.#segments[i].colors.road = '#888';
-      this.#segments[i].colors.strip = 'black';
+      this.#segments[i].colors.strip = '#fff';
     }
   }
 
