@@ -13,7 +13,7 @@ html, body {
 }
 
 canvas {
-  height: 100vh;
+  height: 95vh;
   position: absolute;
   left: 50%;
   top: 50%;

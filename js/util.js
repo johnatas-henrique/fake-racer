@@ -44,3 +44,12 @@ const resource = new class {
     }
   }
 }
+
+document.querySelector('#up').addEventListener('click', () => {
+  keyboard.map['arrowup'] = !keyboard.map['arrowup'];
+  keyboard.map['arrowdown'] = false;
+})
+document.querySelector('#down').addEventListener('click', () => {
+  keyboard.map['arrowup'] = false;
+  keyboard.map['arrowdown'] = !keyboard.map['arrowdown'];
+})

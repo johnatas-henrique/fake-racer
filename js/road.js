@@ -91,7 +91,6 @@ class Road {
         spriteLeft.offsetX = floor(i) % 2 ? (-random() * 3) - 2 : (random() * 3) + 2;
         spriteLeft.image = resource.get('billboardSega');
         spriteLeft.scaleX = 24;
-        console.log(spriteLeft)
         segmentLine.sprites.push(spriteLeft);
 
       }
