@@ -85,7 +85,7 @@ class Road {
         }
       }
 
-      // sprites
+      // sprite SegaBillboard
       if (i % rumbleLength === 0) {
         const spriteLeft = new Sprite;
         spriteLeft.offsetX = floor(i) % 2 ? (-random() * 3) - 2 : (random() * 3) + 2;
@@ -94,16 +94,16 @@ class Road {
         segmentLine.sprites.push(spriteLeft);
 
       }
-      // [0, 15, 30].forEach(number => {
-      //   if (i === number){
 
-      //     const spriteRight = new Sprite;
-      //     spriteRight.offsetX = 1.6;
-      //     spriteRight.scaleX = 24;
-      //     spriteRight.image = resource.get('billboardSega');
-      //     segmentLine.sprites.push(spriteRight);
-      //   }
-      // })
+      // sprite FinishLine
+      if (i === 0) {
+        const finishLine = new Sprite;
+        finishLine.offsetX = 0;
+        finishLine.scaleX = 18.9;
+        finishLine.image = resource.get('finishLine');
+        segmentLine.sprites.push(finishLine);
+      }
+
 
       // adding speed bump
       // if (i <=rumbleLength) {
