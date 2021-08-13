@@ -63,25 +63,25 @@ class Road {
             ? lightColors : darkColors;
 
       const world = segmentLine.points.world;
-      world.w = this.#width;
+      world.w = this.width;
       world.z = (i + 1) * this.segmentLength;
       this.#segments.push(segmentLine);
 
       // adding curves
       if (i > 500 && i < 700) {
-        segmentLine.curve = 7.5;
+        segmentLine.curve = 0.9;
       }
       if (i >= 700 && i < 900) {
-        segmentLine.curve = -7.5;
+        segmentLine.curve = -0.9;
       }
 
       // adding hills
       if (i > 1000 && angleSegment < 720) {
         world.y = sin(angleSegment++ / 180 * PI) * 3000;
         if (i < 1360) {
-          segmentLine.curve = 1.5;
+          segmentLine.curve = 1;
         } else {
-          segmentLine.curve = -1.5;
+          segmentLine.curve = -1;
         }
       }
 
@@ -138,7 +138,7 @@ class Road {
     for (let i = startPos; i < startPos + visibleSegments; i += 1) {
       const currentSegment = this.getSegmentFromIndex(i);
       camera.z = camera.cursor - (i >= segmentsLength ? this.length : 0);
-      camera.x = -snx;
+      camera.x = player.x * currentSegment.points.world.w - snx;
       currentSegment.project(camera);
       anx += currentSegment.curve;
       snx += anx;
