@@ -18,6 +18,9 @@ class SegmentLine {
       w = 0;
     };
     screen = new class {
+      xUnrounded = 0;
+      yUnrounded = 0;
+      wUnrounded = 0;
       x = 0;
       y = 0;
       w = 0;
@@ -40,9 +43,12 @@ class SegmentLine {
     const midpoint = camera.screen.midpoint;
     camera.deltaZ = world.z - camera.z;
     const scale = this.scale = camera.distanceToProjectionPlane / camera.deltaZ;
-    screen.x = round((1 + (world.x - camera.x) * scale) * midpoint.x);
-    screen.y = round((1 - (world.y - camera.y) * scale) * midpoint.y);
-    screen.w = round(world.w * scale * camera.screen.width);
+    screen.xUnrounded = (1 + (world.x - camera.x) * scale) * midpoint.x;
+    screen.yUnrounded = (1 - (world.y - camera.y) * scale) * midpoint.y;
+    screen.wUnrounded = world.w * scale * camera.screen.width;
+    screen.x = round(screen.xUnrounded);
+    screen.y = round(screen.yUnrounded);
+    screen.w = round(screen.wUnrounded);
   }
 
   /**
@@ -58,8 +64,8 @@ class SegmentLine {
       const scale = this.scale;
       const { screen, world } = this.points;
       const roadWidth = world.w;
-      const destX = screen.x + screen.w * sprite.offsetX;
-      const destY = screen.y;
+      const destX = screen.xUnrounded + screen.wUnrounded * sprite.offsetX;
+      const destY = screen.yUnrounded;
       render.drawSprite(sprite, camera, player, roadWidth, scale, destX, destY, this.clip);
     }
   }
