@@ -19,6 +19,7 @@ const loop = (time, render, camera, player, road, width, height) => {
   (camera.cursor / road.segmentLength % 2 === 0)
     ? playerAnim.sprite.image = resource.get('playerCarCenterU')
     : playerAnim.sprite.image = resource.get('playerCarCenterD');
+  player.update();
   road.render(render, camera, player);
   player.render(render, camera, road.width);
   render.restore();

@@ -12,6 +12,14 @@ class Player {
     return this.sprite.height;
   };
 
+  update() {
+    if (keyboard.isKeyDown('arrowleft')) {
+      this.x -= 1 / 100;
+    } else if (keyboard.isKeyDown('arrowright')) {
+      this.x += 1 / 100;
+    }
+  }
+
   /**
    * 
    * @param {Render} render 
