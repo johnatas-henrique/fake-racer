@@ -14,9 +14,9 @@ class Player {
 
   update() {
     if (keyboard.isKeyDown('arrowleft')) {
-      this.x -= 1 / 100;
+      this.x -= 4 / 100;
     } else if (keyboard.isKeyDown('arrowright')) {
-      this.x += 1 / 100;
+      this.x += 4 / 100;
     }
   }
 
