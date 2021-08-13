@@ -1,5 +1,19 @@
 const canvas = document.querySelector('canvas');
 
+const flickerAnim = (camera, road, playerAnim, animDown, animUp) => {
+  (camera.cursor / road.segmentLength % 2 === 0)
+    ? playerAnim.sprite.image = resource.get(animDown)
+    : playerAnim.sprite.image = resource.get(animUp);
+};
+
+const curveAnim = (playerAnim) => {
+  if (keyboard.isKeyDown('arrowleft')) {
+    playerAnim.sprite.image = resource.get('playerCarLeft1D');
+  } else if (keyboard.isKeyDown('arrowright')) {
+    playerAnim.sprite.image = resource.get('playerCarLeft1D');
+  }
+};
+
 /**
  *
  * @param {Number} time
@@ -16,9 +30,9 @@ const loop = (time, render, camera, player, road, width, height) => {
   render.clear(0, 0, width, height);
   render.save();
   camera.update(road);
-  (camera.cursor / road.segmentLength % 2 === 0)
-    ? playerAnim.sprite.image = resource.get('playerCarCenterU')
-    : playerAnim.sprite.image = resource.get('playerCarCenterD');
+  // keyboard.update();
+  flickerAnim(camera, road, playerAnim, 'playerCarCenterD', 'playerCarCenterU');
+  // curveAnim(playerAnim);
   player.update();
   road.render(render, camera, player);
   player.render(render, camera, road.width);
@@ -39,18 +53,10 @@ const init = (time) => {
 
 resource
   .add('billboardSega', './images/sprites/other/billboard04.png')
+  .add('finishLine', './images/sprites/other/finishLine.png')
   .add('playerCarCenterD', './images/sprites/player/centerDown.png')
   .add('playerCarCenterU', './images/sprites/player/centerUp.png')
+  .add('playerCarLeft1D', './images/sprites/player/car01.png')
   .load(() => {
     requestAnimationFrame((time) => init(time));
   });
-
-// const billboardSega = new Image();
-// const playerCar = new Image();
-// billboardSega.onload = () => {
-//   playerCar.onload = () => {
-//   };
-//   playerCar.src = './images/sprites/player_straight.png';
-// };
-
-// billboardSega.src = './images/sprites/billboard04.png';
