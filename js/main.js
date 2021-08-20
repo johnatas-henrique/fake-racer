@@ -1,9 +1,9 @@
 const canvas = document.querySelector('canvas');
 
 const flickerAnim = (camera, road, playerAnim, animDown, animUp) => {
-  (camera.cursor / road.segmentLength % 2 === 0)
-    ? playerAnim.sprite.image = resource.get(animDown)
-    : playerAnim.sprite.image = resource.get(animUp);
+  playerAnim.sprite.image = (camera.cursor / road.segmentLength % 2 === 0)
+    ? resource.get(animDown)
+    : resource.get(animUp);
 };
 
 const curveAnim = (playerAnim) => {
@@ -33,7 +33,7 @@ const loop = (time, render, camera, player, road, width, height) => {
   // keyboard.update();
   flickerAnim(camera, road, playerAnim, 'playerCarCenterD', 'playerCarCenterU');
   // curveAnim(playerAnim);
-  player.update();
+  player.update(camera, road);
   road.render(render, camera, player);
   player.render(render, camera, road.width);
   render.restore();
