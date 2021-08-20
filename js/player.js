@@ -3,6 +3,7 @@ class Player {
   y = 0;
   z = 0;
   maxRange = 6;
+  curvePower = 0.04;
   sprite = new Sprite;
 
   get width() {
@@ -13,13 +14,31 @@ class Player {
     return this.sprite.height;
   };
 
-  update() {
+  changeXToLeft(curvePower){
+    this.x <= -this.maxRange ? this.x = -this.maxRange : this.x -= curvePower;
+  }
+
+  changeXToRight(curvePower){
+    this.x >= this.maxRange ? this.x = this.maxRange : this.x += curvePower;
+  }
+
+  update(camera, road) {
+    // making a centrifugal force to pull the car
+    const segment = road.getSegment(camera.cursor);
+    if ((camera.cursor / 200) === segment.index && segment.curve) {
+      if (segment.curve < 0) {
+        this.changeXToRight(-segment.curve * 0.03)
+      }
+      if (segment.curve > 0) {
+        this.changeXToLeft(+segment.curve * 0.03)
+      }
+    }
+
+    // making playerCar moves in X axis
     if (keyboard.isKeyDown('arrowleft')) {
-      this.x <= -this.maxRange ? this.x = -this.maxRange : this.x -= 4 / 100;
-      console.log(this.x);
+      this.changeXToLeft(this.curvePower);
     } else if (keyboard.isKeyDown('arrowright')) {
-      this.x >= this.maxRange ? this.x = this.maxRange : this.x += 4 / 100;
-      console.log(this.x);
+      this.changeXToRight(this.curvePower);
     }
   }
 
