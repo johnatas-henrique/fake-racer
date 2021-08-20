@@ -2,6 +2,7 @@ class Player {
   x = 0;
   y = 0;
   z = 0;
+  maxRange = 6;
   sprite = new Sprite;
 
   get width() {
@@ -14,9 +15,11 @@ class Player {
 
   update() {
     if (keyboard.isKeyDown('arrowleft')) {
-      this.x -= 4 / 100;
+      this.x <= -this.maxRange ? this.x = -this.maxRange : this.x -= 4 / 100;
+      console.log(this.x);
     } else if (keyboard.isKeyDown('arrowright')) {
-      this.x += 4 / 100;
+      this.x >= this.maxRange ? this.x = this.maxRange : this.x += 4 / 100;
+      console.log(this.x);
     }
   }
 
