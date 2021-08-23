@@ -1,3 +1,7 @@
+import SegmentLine from "./segmentLine.js";
+import Sprite from "./sprite.js";
+import { sin, floor, random, PI, resource } from './util.js';
+
 class Road {
   /**
    * @type {SegmentLine[]} 
@@ -242,3 +246,5 @@ class Road {
     }
   };
 };
+
+export default Road;

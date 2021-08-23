@@ -1,3 +1,5 @@
+import { max } from './util.js';
+
 class Render {
   #renderingContext;
 
@@ -87,3 +89,5 @@ class Render {
     }
   }
 }
+
+export default Render;

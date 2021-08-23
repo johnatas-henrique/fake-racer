@@ -17,3 +17,5 @@ class Sprite {
     return this.image.height;
   }
 }
+
+export default Sprite;

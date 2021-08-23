@@ -1,14 +1,37 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "es6": true
+    },
+    "globals": {
+        "addItens": "writable",
+        "camera": "writable",
+        "Camera": "writable",
+        "keyboard": "writable",
+        "Keyboard": "writable",
+        "player": "writable",
+        "Player": "writable",
+        "render": "writable",
+        "Render": "writable",
+        "road": "writable",
+        "Road": "writable",
+        "resource": "writable"
     },
     "extends": [
         "airbnb-base"
     ],
     "parserOptions": {
-        "ecmaVersion": 12
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "rules": {
+        "import/extensions": [
+            "error",
+            "always",
+            {
+                "ignorePackages": true
+            }
+        ]
     }
 }
