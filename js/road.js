@@ -78,9 +78,9 @@ class Road {
       // adding hills
       if (i > 1000 && angleSegment < 720) {
         world.y = sin(angleSegment++ / 180 * PI) * 3000;
-        if (i < 1360) {
+        if (i < 1280) {
           segmentLine.curve = 1;
-        } else {
+        } else if (i > 1440) {
           segmentLine.curve = -1;
         }
       }
