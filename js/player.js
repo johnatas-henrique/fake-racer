@@ -3,6 +3,7 @@ class Player {
   y = 0;
   z = 0;
   maxRange = 6;
+  animationUpdateTime = 3 / 60;
   curvePower = 0.04;
   sprite = new Sprite;
 
@@ -14,11 +15,11 @@ class Player {
     return this.sprite.height;
   };
 
-  changeXToLeft(curvePower){
+  changeXToLeft(curvePower) {
     this.x <= -this.maxRange ? this.x = -this.maxRange : this.x -= curvePower;
   }
 
-  changeXToRight(curvePower){
+  changeXToRight(curvePower) {
     this.x >= this.maxRange ? this.x = this.maxRange : this.x += curvePower;
   }
 
