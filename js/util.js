@@ -1,6 +1,6 @@
-const {
-  tan, sin, cos, round, floor, max, random, PI,
-} = Math;
+import Keyboard from "./keyboard.js";
+
+const { tan, sin, cos, round, floor, max, random, PI } = Math;
 
 const fieldOfView = (120 / 180) * PI;
 const theta = fieldOfView * 0.5;
@@ -48,4 +48,13 @@ const resource = new class {
 const addItens = (liId, text) => {
   const li = document.querySelector(liId);
   li.textContent = text;
+};
+
+export {
+  tan, sin, cos, round, floor, max, random, PI,
+  fieldOfView,
+  theta,
+  keyboard,
+  resource,
+  addItens
 };

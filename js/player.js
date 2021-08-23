@@ -1,3 +1,6 @@
+import Sprite from './sprite.js';
+import { keyboard } from './util.js';
+
 class Player {
   x = 0;
   y = 0;
@@ -58,3 +61,5 @@ class Player {
     );
   }
 }
+
+export default Player;

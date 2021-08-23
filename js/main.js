@@ -1,3 +1,9 @@
+import Camera from './camera.js';
+import Player from './player.js';
+import Render from './render.js';
+import Road from './road.js';
+import { keyboard, resource, addItens } from './util.js';
+
 const canvas = document.querySelector('canvas');
 let lastTime = 0;
 let timeSinceLastFrameSwap = 0;
