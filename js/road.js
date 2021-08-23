@@ -87,11 +87,11 @@ class Road {
 
       // sprite SegaBillboard
       if (i % rumbleLength === 0) {
-        const spriteLeft = new Sprite;
-        spriteLeft.offsetX = floor(i) % 2 ? (-random() * 3) - 2 : (random() * 3) + 2;
-        spriteLeft.image = resource.get('billboardSega');
-        spriteLeft.scaleX = 24;
-        segmentLine.sprites.push(spriteLeft);
+        const segaBillboard = new Sprite;
+        segaBillboard.offsetX = floor(i) % 2 ? (-random() * 3) - 2 : (random() * 3) + 2;
+        segaBillboard.image = resource.get('billboardSega');
+        segaBillboard.scaleX = 24;
+        segmentLine.sprites.push(segaBillboard);
 
       }
 
