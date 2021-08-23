@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,10 +8,20 @@
   <title>Fake Racer</title>
   <link rel='stylesheet' type="text/css" href="./css/main.css">
 </head>
+
 <body>
-  <button type="button" id="up">Up</button>
-  <button type="button" id="down">Down</button>
-  <canvas width="600" height="400"></canvas>
+  <!-- <button type="button" id="up">Up</button>
+  <button type="button" id="down">Down</button> -->
+  <div class="container">
+    <ul id="info">
+      <li id="playerSegment"></li>
+      <li id="playerX"></li>
+      <li id="keyMap"></li>
+      <li id="keyPress"></li>
+      <li id="time"></li>
+    </ul>
+    <canvas width="600" height="400"></canvas>
+  </div>
   <script src="./js/road.js"></script>
   <script src="./js/camera.js"></script>
   <script src="./js/keyboard.js"></script>
@@ -21,4 +32,5 @@
   <script src="./js/util.js"></script>
   <script src="./js/main.js"></script>
 </body>
+
 </html>
