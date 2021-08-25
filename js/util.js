@@ -1,6 +1,6 @@
 import Keyboard from "./keyboard.js";
 
-const { tan, sin, cos, round, floor, max, random, PI } = Math;
+const { tan, sin, cos, round, floor, ceil, max, random, PI } = Math;
 
 const fieldOfView = (120 / 180) * PI;
 const theta = fieldOfView * 0.5;
@@ -51,7 +51,7 @@ const addItens = (liId, text) => {
 };
 
 export {
-  tan, sin, cos, round, floor, max, random, PI,
+  tan, sin, cos, round, floor, ceil, max, random, PI,
   fieldOfView,
   theta,
   keyboard,
