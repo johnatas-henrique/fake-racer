@@ -103,11 +103,12 @@ const loop = (time, render, camera, player, road, width, height) => {
   render.restore();
 
   // print to screen (a better console.log)
-  addItens('#playerSegment', `Segment: ${camera.cursor / 200}`);
-  addItens('#playerX', `PlayerX: ${player.x.toFixed(3)}`);
-  addItens('#keyMap', `KeyMap: ${JSON.stringify(keyboard.map)}`);
-  addItens('#keyPress', `ActualVal: ${JSON.stringify(actualVal)}`);
-  addItens('#time', `Time: ${window.performance.now().toFixed(3)}`);
+  addItens('#line1', `Segment: ${camera.cursor / 200}`);
+  addItens('#line2', `PlayerX: ${player.x.toFixed(3)}`);
+  addItens('#line3', `Speed: ${camera.runningPower}`);
+  addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
+  addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
+  addItens('#line6', `Time: ${window.performance.now().toFixed(3)}`);
 };
 
 const init = (time) => {
