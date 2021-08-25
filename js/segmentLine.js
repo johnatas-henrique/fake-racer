@@ -36,6 +36,7 @@ class SegmentLine {
   set colors(colors) {
     this.#colors = colors;
   }
+  
   /**
    * 
    * @param {Camera} camera 
