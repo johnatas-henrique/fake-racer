@@ -54,8 +54,8 @@ class Road {
     const rumbleLength = this.rumbleLength;
     // great tip: if you put more counter variables, they increment too!
     for (let i = 0, angleSegment = 0; i < segmentsNumber; i += 1) {
-      const lightestColors = { road: '#525152', grass: 'green', rumble: 'white', strip: '#fff' };
-      const lightColors = { road: '#4A494A', grass: 'green', rumble: 'white', strip: '#fff' };
+      const lightestColors = { road: '#525152', grass: 'green', rumble: 'white', strip: '' };
+      const lightColors = { road: '#4A494A', grass: 'green', rumble: 'white', strip: '' };
       const darkColors = { road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff' };
       const darkestColors = { road: '#393839', grass: 'darkgreen', rumble: '#f00', strip: '#fff' };
       const segmentLine = new SegmentLine;
@@ -72,12 +72,16 @@ class Road {
       this.#segments.push(segmentLine);
 
       // adding curves
+      if (i > 50 && i < 300) {
+        segmentLine.curve = -2;
+      }
       if (i > 500 && i < 700) {
-        segmentLine.curve = 0.9;
+        segmentLine.curve = 5;
       }
       if (i >= 700 && i < 900) {
-        segmentLine.curve = -0.9;
+        segmentLine.curve = -3;
       }
+
 
       // adding hills
       if (i > 1000 && angleSegment < 720) {
@@ -89,32 +93,34 @@ class Road {
         }
       }
 
-      // sprite SegaBillboard
-      if (i % rumbleLength === 0) {
-        const segaBillboard = new Sprite;
-        segaBillboard.offsetX = floor(i) % 2 ? (-random() * 3) - 2 : (random() * 3) + 2;
-        segaBillboard.image = resource.get('billboardSega');
-        segaBillboard.scaleX = 24;
-        segmentLine.sprites.push(segaBillboard);
-
-      }
-
-      // sprite FinishLine
-      if (i === 0) {
-        const finishLine = new Sprite;
-        finishLine.offsetX = 0;
-        finishLine.scaleX = 18.9;
-        finishLine.image = resource.get('finishLine');
-        segmentLine.sprites.push(finishLine);
-      }
-
-
       // adding speed bump
       // if (i <=rumbleLength) {
       //   world.y = sin(i * 0.5) * 1000;
       // }
-    }
 
+
+
+      // Road Sprites
+
+      // signalDirections
+      const curvePower = this.getSegmentFromIndex(i).curve;
+      if (i % (rumbleLength * 2) === 0 && curvePower !== 0) {
+        const finishLine = new Sprite;
+        finishLine.offsetX = curvePower > 0 ? -1.5 : 1.5;
+        finishLine.scaleX = 12;
+        finishLine.image = resource.get(curvePower > 0 ? 'leftSignal' : 'rightSignal');
+        segmentLine.sprites.push(finishLine);
+      }
+
+      // startLine
+      if (i === 0) {
+        const startLine = new Sprite;
+        startLine.offsetX = 0;
+        startLine.scaleX = 9;
+        startLine.image = resource.get('startLine');
+        segmentLine.sprites.push(startLine);
+      }
+    }
     // marking finish line
 
     for (let i = 0; i < rumbleLength; i += 1) {
@@ -229,13 +235,13 @@ class Road {
             currentScreenPoint.x + currentScreenPoint.w * 0.96, currentScreenPoint.y,
           );
 
-          //center strip
-          // const value = 0.03;
-          // render.drawTrapezium(
-          //   previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w * value,
-          //   currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
-          //   colors.strip,
-          // );
+          // center strip
+          const value = 0.03;
+          render.drawTrapezium(
+            previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w * value,
+            currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
+            colors.strip,
+          );
         }
       };
 

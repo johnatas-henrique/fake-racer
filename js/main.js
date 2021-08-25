@@ -94,7 +94,6 @@ const loop = (time, render, camera, player, road, width, height) => {
   lastTime = timeNow;
   timeSinceLastFrameSwap += elapsed;
   if (timeSinceLastFrameSwap > player.animationUpdateTime) {
-    // flickerAnim(camera.cursor, road.segmentLength, player, 'playerCenterD', 'playerCenterU');
     curveAnim(player);
     timeSinceLastFrameSwap = 0;
   }
@@ -127,7 +126,9 @@ const init = (time) => {
 
 resource
   .add('billboardSega', './images/sprites/other/billboard04.png')
-  .add('finishLine', './images/sprites/other/finishLine.png')
+  .add('startLine', './images/sprites/other/startLine.png')
+  .add('leftSignal', './images/sprites/other/leftSignal.png')
+  .add('rightSignal', './images/sprites/other/rightSignal.png')
   .add('playerLeftD0', './images/sprites/player/playerLeftD0.png')
   .add('playerLeftU0', './images/sprites/player/playerLeftU0.png')
   .add('playerLeftD1', './images/sprites/player/playerLeftD1.png')
