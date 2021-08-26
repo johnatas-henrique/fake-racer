@@ -104,9 +104,9 @@ const loop = (time, render, camera, player, road, width, height) => {
   render.restore();
 
   // print to screen (a better console.log)
-  addItens('#line1', `Segment: ${camera.cursor / 200}`);
+  addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
   addItens('#line2', `PlayerX: ${player.x.toFixed(3)}`);
-  addItens('#line3', `Speed: ${camera.runningPower}`);
+  addItens('#line3', `Speed: ${(camera.runningPower / 4).toFixed(0)}`);
   addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
   addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
   addItens('#line6', `Time: ${window.performance.now().toFixed(3)}`);
@@ -117,7 +117,7 @@ const init = (time) => {
   const camera = new Camera();
   const player = new Player();
   player.sprite.image = resource.get('playerLeftD0');
-  player.sprite.scaleX = 3;
+  player.sprite.scaleX = 2.85;
   const road = new Road();
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
