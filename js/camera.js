@@ -1,6 +1,4 @@
-import { tan, theta, keyboard, ceil } from './util.js';
-
-const canvas = document.querySelector('canvas');
+import { canvas, tan, theta, keyboard, ceil } from './util.js';
 
 class Camera {
   x = 0;
