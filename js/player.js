@@ -31,7 +31,7 @@ class Player {
   update(camera, road) {
     // making a centrifugal force to pull the car
     const segment = road.getSegment(camera.cursor);
-    this.centrifugalForce = 0.06 * (camera.runningPower / camera.globalMaxSpeed);
+    this.centrifugalForce = 0.06 * (camera.runningPower / camera.maxSpeed);
     if ((Math.floor((camera.cursor / road.segmentLength)) === segment.index && segment.curve) && camera.runningPower !== 0) {
       if (segment.curve < 0) {
         this.changeXToRight(this.centrifugalForce); // with curveInclination
@@ -42,7 +42,7 @@ class Player {
     }
 
     // making playerCar moves in X axis
-    this.curvePower = 0.08 * (camera.runningPower / camera.globalMaxSpeed);
+    this.curvePower = 0.08 * (camera.runningPower / camera.maxSpeed);
     if (keyboard.isKeyDown('arrowleft') && camera.runningPower !== 0) {
       this.changeXToLeft(this.curvePower); // with speed
     } else if (keyboard.isKeyDown('arrowright') && camera.runningPower !== 0) {
