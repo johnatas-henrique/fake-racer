@@ -10,12 +10,12 @@ let lastTime = 0;
 let timeSinceLastFrameSwap = 0;
 let actualVal = 0;
 
-const flickerAnim = (player, animDown, animUp) => {
+const tyreAnimation = (player, direction, tyre, invertTyre, spriteNum, speed) => {
   const playerAnim = player;
-  if (playerAnim.sprite.image === resource.get(animDown)) {
-    playerAnim.sprite.image = resource.get(animUp);
+  if (speed) {
+    playerAnim.sprite.image = resource.get(`player${direction}${invertTyre}${spriteNum}`);
   } else {
-    playerAnim.sprite.image = resource.get(animDown);
+    playerAnim.sprite.image = resource.get(`player${direction}${tyre}${spriteNum}`);
   }
 };
 
@@ -26,51 +26,34 @@ const findDirection = () => {
   return 'Center';
 };
 
-const curveAnim = (player) => {
+const curveAnim = (player, speed) => {
   const playerAnim = player;
   const { arrowleft, arrowright } = keyboard.map;
-  const actualArrow = (playerAnim.sprite.image)
-    .src.match(/player\w*\d/g, '')[0].slice(6, -2);
-  const tyreDirection = (playerAnim.sprite.image)
-    .src.match(/player\w*\d/g, '')[0].slice(-2, -1);
+  const actualImage = playerAnim.sprite.image;
+  const actualArrow = actualImage.src.match(/player\w*\d/g, '')[0].slice(6, -2);
+  const tyreDirection = actualImage.src.match(/player\w*\d/g, '')[0].slice(-2, -1);
   const otherTyre = tyreDirection === 'D' ? 'U' : 'D';
   const keyPress = findDirection();
 
   if ((!arrowleft && !arrowright) && actualVal > 0) {
     actualVal = actualVal > 0 ? actualVal -= 1 : 0;
-    flickerAnim(player,
-      `player${actualArrow}${tyreDirection}${actualVal + 1}`,
-      `player${actualArrow}${otherTyre}${actualVal}`);
+    tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
   }
 
   if ((!arrowleft && !arrowright) && actualVal === 0) {
-    flickerAnim(player,
-      `player${actualArrow}${tyreDirection}${actualVal}`,
-      `player${actualArrow}${otherTyre}${actualVal}`);
+    tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
   }
 
   if (arrowleft || arrowright) {
     if (keyPress === actualArrow) {
       actualVal = actualVal < 5 ? actualVal += 1 : 5;
-      if (actualVal === 5) {
-        flickerAnim(player,
-          `player${keyPress}${tyreDirection}${actualVal}`,
-          `player${keyPress}${otherTyre}${actualVal}`);
-      } else {
-        flickerAnim(player,
-          `player${keyPress}${tyreDirection}${actualVal - 1}`,
-          `player${keyPress}${otherTyre}${actualVal}`);
-      }
+      tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
     } else if (keyPress !== actualArrow && actualVal > 0) {
+      tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
       actualVal = actualVal > 0 ? actualVal -= 1 : 0;
-      flickerAnim(player,
-        `player${actualArrow}${tyreDirection}${actualVal}`,
-        `player${actualArrow}${otherTyre}${actualVal}`);
     } else if (keyPress !== actualArrow && actualVal === 0) {
       actualVal = 1;
-      flickerAnim(player,
-        `player${keyPress}${tyreDirection}${actualVal}`,
-        `player${keyPress}${otherTyre}${actualVal}`);
+      tyreAnimation(player, keyPress, tyreDirection, otherTyre, actualVal, speed);
     }
   }
 };
@@ -95,7 +78,7 @@ const loop = (time, render, camera, player, road, width, height) => {
   lastTime = timeNow;
   timeSinceLastFrameSwap += elapsed;
   if (timeSinceLastFrameSwap > player.animationUpdateTime) {
-    curveAnim(player);
+    curveAnim(player, camera.runningPower);
     timeSinceLastFrameSwap = 0;
   }
   player.update(camera, road);
