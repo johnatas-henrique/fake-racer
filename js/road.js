@@ -1,6 +1,6 @@
 import SegmentLine from "./segmentLine.js";
 import Sprite from "./sprite.js";
-import { sin, floor, random, PI, resource } from './util.js';
+import { canvas, sin, floor, random, PI, resource } from './util.js';
 
 class Road {
   /**
@@ -125,7 +125,6 @@ class Road {
 
     for (let i = 0; i < rumbleLength; i += 1) {
       this.#segments[i].colors.road = '#888';
-      this.#segments[i].colors.strip = '#fff';
     }
   }
 
@@ -217,26 +216,42 @@ class Road {
 
         // center strip and lateral stripes
         if (colors.strip) {
-          //right stripe
+          //left stripe
           render.drawPolygon(
             colors.strip,
-            previousScreenPoint.x + previousScreenPoint.w * -0.96, previousScreenPoint.y,
-            previousScreenPoint.x + previousScreenPoint.w * -0.92, previousScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * -0.92, currentScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * -0.96, currentScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w * -0.97, previousScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w * -0.94, previousScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * -0.94, currentScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * -0.97, currentScreenPoint.y,
+          );
+
+          render.drawPolygon(
+            colors.strip,
+            previousScreenPoint.x + previousScreenPoint.w * -0.91, previousScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w * -0.88, previousScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * -0.88, currentScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * -0.91, currentScreenPoint.y,
           );
 
           //right stripe
           render.drawPolygon(
             colors.strip,
-            previousScreenPoint.x + previousScreenPoint.w * 0.96, previousScreenPoint.y,
-            previousScreenPoint.x + previousScreenPoint.w * 0.92, previousScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * 0.92, currentScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * 0.96, currentScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w * 0.97, previousScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w * 0.94, previousScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * 0.94, currentScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * 0.97, currentScreenPoint.y,
+          );
+
+          render.drawPolygon(
+            colors.strip,
+            previousScreenPoint.x + previousScreenPoint.w * 0.91, previousScreenPoint.y,
+            previousScreenPoint.x + previousScreenPoint.w * 0.88, previousScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * 0.88, currentScreenPoint.y,
+            currentScreenPoint.x + currentScreenPoint.w * 0.91, currentScreenPoint.y,
           );
 
           // center strip
-          const value = 0.03;
+          const value = 0.02;
           render.drawTrapezium(
             previousScreenPoint.x, previousScreenPoint.y, previousScreenPoint.w * value,
             currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
