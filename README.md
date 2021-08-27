@@ -10,3 +10,6 @@ Sprites usadas de jogos antigos como:
 Super Monaco GP (Mega Drive)<br>
 Nigel Mansell's World Championship Racing (Super Nintendo)<br>
 Top Gear (Super Nintendo)<br>
+
+Link para o deploy do jogo:
+https://johnatas-henrique.github.io/fake-racer/
