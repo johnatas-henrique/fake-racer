@@ -48,17 +48,17 @@ canvas {
   background-color: rgba(255, 0, 0, 0.4);
   border-bottom: 2px solid black;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   height: 3vw;
   padding: 5px 0;
   font-size: 1vw;
-  padding: 0 1%;
+  padding: 0 4%;
 }
 
 #hud .hud {
   background-color: rgba(255, 255, 255, 0.6);
-  padding: 5px;
+  padding: 0.5em;
   border: 1px solid black;
   margin: 0 5px;
   transition-property: background-color;
@@ -68,7 +68,7 @@ canvas {
 }
 
 #hud #last_lap_time {
-  display: none;
+  /* display: none; */
 }
 
 #hud #fast_lap_time {
