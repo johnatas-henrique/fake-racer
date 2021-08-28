@@ -35,12 +35,8 @@ const curveAnim = (player, speed) => {
   const otherTyre = tyreDirection === 'D' ? 'U' : 'D';
   const keyPress = findDirection();
 
-  if ((!arrowleft && !arrowright) && actualVal > 0) {
+  if ((!arrowleft && !arrowright) && actualVal >= 0) {
     actualVal = actualVal > 0 ? actualVal -= 1 : 0;
-    tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
-  }
-
-  if ((!arrowleft && !arrowright) && actualVal === 0) {
     tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
   }
 
