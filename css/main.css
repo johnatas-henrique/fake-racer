@@ -1,11 +1,14 @@
 * {
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
 html, body {
   background: #000000;
+  font-family: Verdana, Geneva, sans-serif;
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -25,12 +28,11 @@ canvas {
   width: 100%;
 }
 
-#info {
+#info, #hud {
   color: white;
   text-shadow: 1px 1px 2px black;
   position: absolute;
   width: 100%;
-  height: 100%;
   list-style-type: none;
   font-weight: 700;
   font-size: 2vw;
@@ -38,16 +40,66 @@ canvas {
   z-index: 2;
 }
 
+#info {
+  top: 60px;
+}
+
+#hud {
+  background-color: rgba(255, 0, 0, 0.4);
+  border-bottom: 2px solid black;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 3vw;
+  padding: 5px 0;
+  font-size: 1vw;
+  padding: 0 1%;
+}
+
+#hud .hud {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 5px;
+  border: 1px solid black;
+  margin: 0 5px;
+  transition-property: background-color;
+  transition-duration: 2s;
+  -webkit-transition-property: background-color;
+  -webkit-transition-duration: 2s;
+}
+
+#hud #last_lap_time {
+  display: none;
+}
+
+#hud #fast_lap_time {
+  display: block;
+  width: 12em;
+  text-align: center;
+  transition-property: background-color;
+  transition-duration: 2s;
+  -webkit-transition-property: background-color;
+  -webkit-transition-duration: 2s;
+}
+
+#hud .value {
+  color: white;
+  font-weight: bold;
+}
+
+#hud .fastest {
+  background-color: rgba(255, 215, 0, 0.5);
+}
+
 #mute {
   background-position: 0px 0px;
+  background-size: contain;
   width: 32px;
   height: 32px;
   background: url(../images/mute.png);
-  display: inline-block;
+  display: block;
   cursor: pointer;
   position: absolute;
-  top: 0;
-  right: 0;
+  right: 1vw;
 }
 
 #mute.off {
