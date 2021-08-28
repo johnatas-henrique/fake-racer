@@ -55,7 +55,7 @@ const playMusic = () => {
   const music = document.getElementById('music');
   const mute = document.getElementById('mute');
   music.loop = true;
-  music.volume = 0.02;
+  music.volume = 0.05;
   music.muted = "true";
   mute.classList.toggle('off');
   mute.addEventListener('click', () => {
@@ -66,9 +66,11 @@ const playMusic = () => {
 }
 
 const formatTime = (dt) => {
-  var minutes = Math.floor(dt / 60);
-  var seconds = Math.floor(dt - (minutes * 60));
-  var tenths = dt.toString().substring(3);
+  const time = round(dt);
+  console.log('sec', Math.floor(time / 60000), 'sec', Math.floor(time / 1000), 'tenths', time);
+  var minutes = Math.floor(time / 60000);
+  var seconds = Math.floor(time / 1000) - (minutes * 60);
+  var tenths = time.toString().slice(-3);
   if (minutes > 0)
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + tenths;
   else
