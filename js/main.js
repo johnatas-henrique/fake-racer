@@ -84,7 +84,10 @@ const loop = (time, render, camera, player, road, width, height) => {
 
   // HUD
   addItens('#current_lap_time_value', formatTime(lastTime));
-  addItens('#speed_value', `${(camera.runningPower / 4).toFixed(0)}`);
+  let speedValue = `${(camera.runningPower / 4).toFixed(0)}`;
+  if (speedValue < 10) speedValue = `00${speedValue}`;
+  if (speedValue >= 10 && speedValue < 100) speedValue = `0${speedValue}`;
+  addItens('#speed_value', speedValue);
 
   // print to screen (a better console.log)
   addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
