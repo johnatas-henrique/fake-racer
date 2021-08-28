@@ -83,7 +83,7 @@ const loop = (time, render, camera, player, road, width, height) => {
   render.restore();
 
   // HUD
-  addItens('#current_lap_time_value', formatTime((lastTime / 1000).toFixed(3)));
+  addItens('#current_lap_time_value', formatTime(lastTime));
   addItens('#speed_value', `${(camera.runningPower / 4).toFixed(0)}`);
 
   // print to screen (a better console.log)
@@ -104,7 +104,7 @@ const init = (time) => {
   const road = new Road();
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
-  road.create();
+  road.create(4004);
   lastTime = window.performance.now();
   loop(time, render, camera, player, road, canvas.width, canvas.height);
   playMusic();
