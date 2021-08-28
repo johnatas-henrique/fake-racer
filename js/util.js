@@ -67,14 +67,10 @@ const playMusic = () => {
 
 const formatTime = (dt) => {
   const time = round(dt);
-  console.log('sec', Math.floor(time / 60000), 'sec', Math.floor(time / 1000), 'tenths', time);
   var minutes = Math.floor(time / 60000);
   var seconds = Math.floor(time / 1000) - (minutes * 60);
   var tenths = time.toString().slice(-3);
-  if (minutes > 0)
-    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + tenths;
-  else
-    return seconds + "." + tenths;
+  return `${minutes}:${(seconds < 10 ? "0" : "")}${seconds}.${tenths}`;
 }
 
 export {
