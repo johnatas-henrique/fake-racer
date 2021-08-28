@@ -138,7 +138,7 @@ class Road {
     const segmentsLength = this.segmentsLength;
     const baseSegment = this.getSegment(camera.cursor);
     const startPos = baseSegment.index;
-    const visibleSegments = 300;
+    const visibleSegments = 600;
     camera.y = camera.h + baseSegment.points.world.y;
     let maxY = camera.screen.height;
     let anx = 0;
