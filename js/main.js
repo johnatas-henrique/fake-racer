@@ -3,7 +3,7 @@ import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
 import {
-  canvas, keyboard, resource, addItens,
+  canvas, keyboard, resource, addItens, playMusic,
 } from './util.js';
 
 let lastTime = 0;
@@ -107,6 +107,7 @@ const init = (time) => {
   road.create();
   lastTime = window.performance.now();
   loop(time, render, camera, player, road, canvas.width, canvas.height);
+  playMusic();
 };
 
 resource
