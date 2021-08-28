@@ -65,6 +65,16 @@ const playMusic = () => {
   });
 }
 
+const formatTime = (dt) => {
+  var minutes = Math.floor(dt / 60);
+  var seconds = Math.floor(dt - (minutes * 60));
+  var tenths = dt.toString().substring(3);
+  if (minutes > 0)
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + tenths;
+  else
+    return seconds + "." + tenths;
+}
+
 export {
   tan, sin, cos, round, floor, ceil, max, random, PI,
   canvas,
@@ -73,5 +83,6 @@ export {
   keyboard,
   resource,
   addItens,
-  playMusic
+  playMusic,
+  formatTime
 };
