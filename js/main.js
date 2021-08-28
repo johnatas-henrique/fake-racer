@@ -3,7 +3,7 @@ import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
 import {
-  canvas, keyboard, resource, addItens, playMusic,
+  canvas, keyboard, resource, addItens, playMusic, formatTime,
 } from './util.js';
 
 let lastTime = 0;
@@ -82,13 +82,17 @@ const loop = (time, render, camera, player, road, width, height) => {
   player.render(render, camera, road.width);
   render.restore();
 
+  // HUD
+  addItens('#current_lap_time_value', formatTime((lastTime / 1000).toFixed(3)));
+  addItens('#speed_value', `${(camera.runningPower / 4).toFixed(0)}`);
+
   // print to screen (a better console.log)
   addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
   addItens('#line2', `PlayerX: ${player.x.toFixed(3)}`);
-  addItens('#line3', `Speed: ${(camera.runningPower / 4).toFixed(0)}`);
+  // addItens('#line3', `NoUse: ${(camera.runningPower / 4).toFixed(0)}`);
   addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
   addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
-  addItens('#line6', `Time: ${window.performance.now().toFixed(3)}`);
+  // addItens('#line6', `NoUse: ${window.performance.now().toFixed(3)}`);
 };
 
 const init = (time) => {
