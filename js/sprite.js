@@ -1,18 +1,19 @@
 class Sprite {
-
   /**
    * @type {HTMLImageElement}
    */
-  image;
-
-  offsetX = 0;
-  offsetY = 0;
-  scaleX = 1;
-  scaleY = 1;
+  constructor() {
+    this.image = {};
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.scaleX = 1;
+    this.scaleY = 1;
+  }
 
   get width() {
     return this.image.width;
   }
+
   get height() {
     return this.image.height;
   }

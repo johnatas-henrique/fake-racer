@@ -1,4 +1,4 @@
-import { canvas, tan, theta, keyboard, ceil } from './util.js';
+import { canvas, tan, theta } from './util.js';
 
 class Camera {
   x = 0;
