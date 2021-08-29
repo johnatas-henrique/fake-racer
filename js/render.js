@@ -28,17 +28,14 @@ class Render {
   }
 
   drawTrapezium(x1, y1, w1, x2, y2, w2, color = 'green') {
-    this.drawPolygon(color,
-      x1 - w1, y1,
-      x1 + w1, y1,
-      x2 + w2, y2,
-      x2 - w2, y2
+    this.drawPolygon(
+      color, x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2,
     );
   }
 
   drawPolygon(color, ...coords) {
     if (coords.length > 1) {
-      const renderingContext = this.renderingContext;
+      const { renderingContext } = this;
       renderingContext.save();
       renderingContext.fillStyle = color;
       renderingContext.beginPath();
@@ -53,39 +50,41 @@ class Render {
   }
 
   /**
-   * 
-   * @param {Sprite} sprite 
-   * @param {Camera} camera 
-   * @param {Player} player 
-   * @param {Number} roadWidth 
-   * @param {Number} scale 
-   * @param {Number} destX 
-   * @param {Number} destY 
-   * @param {Number} clip 
+   *
+   * @param {Sprite} sprite
+   * @param {Camera} camera
+   * @param {Player} player
+   * @param {Number} roadWidth
+   * @param {Number} scale
+   * @param {Number} destX
+   * @param {Number} destY
+   * @param {Number} clip
    */
   drawSprite(sprite, camera, player, roadWidth, scale, destX, destY, clip) {
-    const midpoint = camera.screen.midpoint;
+    let newDestX = destX;
+    let newDestY = destY;
+    const { midpoint } = camera.screen;
     const spriteWidth = sprite.width;
     const spriteHeight = sprite.height;
     const factor = 1 / 3;
     const offsetY = sprite.offsetY || 1;
-    const scaleX = sprite.scaleX;
-    const scaleY = sprite.scaleY;
-    const destWidth = (spriteWidth * scale * midpoint.x) *
-      ((roadWidth * scaleX / (player.width ?? 64)) * factor);
-    const destHeight = (spriteHeight * scale * midpoint.x) *
-      ((roadWidth * scaleX / (player.width ?? 64)) * factor);
-    destX += -destWidth * 0.5;
-    destY -= destHeight * offsetY;
-    const clipHeight = clip ? max(0, (destY + destHeight - clip)) : 0;
+    const { scaleX } = sprite;
+    // const { scaleY } = sprite;
+    const destWidth = (spriteWidth * scale * midpoint.x)
+      * (((roadWidth * scaleX) / (player.width ?? 64)) * factor);
+    const destHeight = (spriteHeight * scale * midpoint.x)
+      * (((roadWidth * scaleX) / (player.width ?? 64)) * factor);
+    newDestX += -destWidth * 0.5;
+    newDestY -= destHeight * offsetY;
+    const clipHeight = clip ? max(0, (newDestY + destHeight - clip)) : 0;
 
     if (clipHeight < destHeight) {
       this.renderingContext.drawImage(
         sprite.image,
         0, 0,
-        spriteWidth, spriteHeight - spriteHeight * clipHeight / destHeight,
-        destX, destY, destWidth, destHeight - clipHeight
-      )
+        spriteWidth, spriteHeight - (spriteHeight * clipHeight) / destHeight,
+        newDestX, newDestY, destWidth, destHeight - clipHeight,
+      );
     }
   }
 }

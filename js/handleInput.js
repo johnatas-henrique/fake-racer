@@ -1,4 +1,4 @@
-class Keyboard {
+class HandleInput {
   constructor() {
     window.addEventListener('keydown', (event) => this.handler(event));
     window.addEventListener('keyup', (event) => this.handler(event));
@@ -21,4 +21,4 @@ class Keyboard {
   }
 }
 
-export default Keyboard;
+export default HandleInput;

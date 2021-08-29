@@ -3,7 +3,7 @@ import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
 import {
-  canvas, keyboard, resource, addItens, playMusic, formatTime,
+  canvas, handleInput, addItens, playMusic, formatTime, resource,
 } from './util.js';
 
 let lastTime = 0;
@@ -20,7 +20,7 @@ const tyreAnimation = (player, direction, tyre, invertTyre, spriteNum, speed) =>
 };
 
 const findDirection = () => {
-  const { arrowleft, arrowright } = keyboard.map;
+  const { arrowleft, arrowright } = handleInput.map;
   if (arrowleft) return 'Left';
   if (arrowright) return 'Right';
   return 'Center';
@@ -28,7 +28,7 @@ const findDirection = () => {
 
 const curveAnim = (player, speed) => {
   const playerAnim = player;
-  const { arrowleft, arrowright } = keyboard.map;
+  const { arrowleft, arrowright } = handleInput.map;
   const actualImage = playerAnim.sprite.image;
   const actualArrow = actualImage.src.match(/player\w*\d/g, '')[0].slice(6, -2);
   const tyreDirection = actualImage.src.match(/player\w*\d/g, '')[0].slice(-2, -1);
@@ -103,7 +103,7 @@ const init = (time) => {
   const camera = new Camera();
   const player = new Player();
   player.sprite.image = resource.get('playerLeftD0');
-  player.sprite.scaleX = 2.85;
+  player.sprite.scaleX = 2.5;
   const road = new Road();
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
