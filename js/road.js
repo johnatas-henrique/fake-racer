@@ -58,7 +58,7 @@ class Road {
       const lightColors = { road: '#4A494A', grass: 'green', rumble: 'white', strip: '' };
       const darkColors = { road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff' };
       const darkestColors = { road: '#393839', grass: 'darkgreen', rumble: '#f00', strip: '#fff' };
-      const segmentLine = new SegmentLine;
+      const segmentLine = new SegmentLine();
       segmentLine.index = i;
 
       segmentLine.colors = floor(i / rumbleLength) % 4 === 0
@@ -82,7 +82,6 @@ class Road {
         segmentLine.curve = -3;
       }
 
-
       // adding hills
       if (i > 1000 && angleSegment < 720) {
         world.y = sin(angleSegment++ / 180 * PI) * 3000;
@@ -97,8 +96,6 @@ class Road {
       // if (i <=rumbleLength) {
       //   world.y = sin(i * 0.5) * 1000;
       // }
-
-
 
       // Road Sprites
 
@@ -121,8 +118,8 @@ class Road {
         segmentLine.sprites.push(startLine);
       }
     }
-    // marking finish line
 
+    // marking finish line
     for (let i = 0; i < rumbleLength; i += 1) {
       this.#segments[i].colors.road = '#888';
     }

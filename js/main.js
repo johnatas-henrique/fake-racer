@@ -74,7 +74,7 @@ const loop = (time, render, camera, player, road, width, height) => {
   lastTime = timeNow;
   timeSinceLastFrameSwap += elapsed;
   if (timeSinceLastFrameSwap > player.animationUpdateTime) {
-    curveAnim(player, camera.runningPower);
+    curveAnim(player, player.runningPower);
     timeSinceLastFrameSwap = 0;
   }
   player.update(camera, road);
@@ -84,7 +84,7 @@ const loop = (time, render, camera, player, road, width, height) => {
 
   // HUD
   addItens('#current_lap_time_value', formatTime(lastTime));
-  let speedValue = `${(camera.runningPower / 4).toFixed(0)}`;
+  let speedValue = `${(player.runningPower / 4).toFixed(0)}`;
   if (speedValue < 10) speedValue = `00${speedValue}`;
   if (speedValue >= 10 && speedValue < 100) speedValue = `0${speedValue}`;
   addItens('#speed_value', speedValue);
@@ -92,7 +92,7 @@ const loop = (time, render, camera, player, road, width, height) => {
   // print to screen (a better console.log)
   addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
   addItens('#line2', `PlayerX: ${player.x.toFixed(3)}`);
-  // addItens('#line3', `NoUse: ${(camera.runningPower / 4).toFixed(0)}`);
+  // addItens('#line3', `NoUse: ${(player.runningPower / 4).toFixed(0)}`);
   addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
   addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
   // addItens('#line6', `NoUse: ${window.performance.now().toFixed(3)}`);
@@ -107,6 +107,7 @@ const init = (time) => {
   const road = new Road();
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
+  player.x = -1;
   road.create(4004);
   lastTime = window.performance.now();
   loop(time, render, camera, player, road, canvas.width, canvas.height);
