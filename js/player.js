@@ -44,6 +44,11 @@ class Player {
       this.x = 0;
       this.runningPower = 600;
     }
+    if (handleInput.isKeyDown('t')) {
+      cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
+      this.x = 0;
+      this.runningPower = 1200;
+    }
 
     // making playerCar moves in Y axis
     const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300) + 0.4) * mult;
@@ -101,6 +106,7 @@ class Player {
       this.centrifugalForce /= 40;
       this.changeXToLeft(this.curvePower);
     } else if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0) {
+      this.curvePower *= 1.15;
       this.changeXToLeft(this.curvePower);
     } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0 && segment.curve > 0) {
       this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost;
@@ -110,6 +116,7 @@ class Player {
       this.centrifugalForce /= 40;
       this.changeXToRight(this.curvePower);
     } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0) {
+      this.curvePower *= 1.15;
       this.changeXToRight(this.curvePower);
     }
 
