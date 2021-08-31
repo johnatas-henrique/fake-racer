@@ -108,7 +108,7 @@ const init = (time) => {
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
   player.x = -1;
-  road.create(4004);
+  road.create(3250);
   lastTime = window.performance.now();
   loop(time, render, camera, player, road, canvas.width, canvas.height);
   playMusic();
