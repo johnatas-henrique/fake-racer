@@ -50,7 +50,7 @@ class Road {
     return this.#segments[index % this.segmentsLength];
   }
 
-  create(segmentsNumber = 2002) {
+  create(segmentsNumber = 1300) {
     const { rumbleLength } = this;
     // great tip: if you put more counter variables, they increment too!
     for (let i = 0, angleSegment = 0; i < segmentsNumber; i += 1) {
@@ -78,25 +78,28 @@ class Road {
       world.w = this.width;
       world.z = (i + 1) * this.segmentLength;
       this.#segments.push(segmentLine);
-
       // adding curves
       if (i > 50 && i < 300) {
         segmentLine.curve = -2;
       }
-      if (i > 500 && i < 700) {
-        segmentLine.curve = 5;
+      if (i > 500 && i < 750) {
+        segmentLine.curve = 3;
       }
-      if (i >= 700 && i < 900) {
-        segmentLine.curve = -3;
+      if (i >= 900 && i < 1150) {
+        segmentLine.curve = -4;
+      }
+      if (i >= 1300 && i < 1800) {
+        segmentLine.curve = 6;
       }
 
       // adding hills
-      if (i > 1000 && angleSegment < 720) {
-        world.y = sin(angleSegment++ / 180 * PI) * 3000;
-        if (i < 1280) {
+      if (i > 2000 && angleSegment < 720) {
+        console.log(i-2000)
+        world.y = sin(angleSegment++ / 240 * PI) * 3000;
+        if (i < 2300) {
           segmentLine.curve = 1;
-        } else if (i > 1440) {
-          segmentLine.curve = -1;
+        } else if (i > 2360 && i < 2640) {
+          segmentLine.curve = -2.5;
         }
       }
 
