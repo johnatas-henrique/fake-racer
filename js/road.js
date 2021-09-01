@@ -1,6 +1,6 @@
 import SegmentLine from './segmentLine.js';
 import Sprite from './sprite.js';
-import { sin, floor, PI, resource } from './util.js';
+import { sin, floor, PI, resource, tracks } from './util.js';
 
 class Road {
   /**
@@ -79,28 +79,14 @@ class Road {
       world.z = (i + 1) * this.segmentLength;
       this.#segments.push(segmentLine);
       // adding curves
-      if (i > 50 && i < 300) {
-        segmentLine.curve = -2;
+      const createCurve = (min, max, curve) => {
+        if (i >= min && i <= max) segmentLine.curve = curve;
       }
-      if (i > 500 && i < 750) {
-        segmentLine.curve = 3;
-      }
-      if (i >= 900 && i < 1150) {
-        segmentLine.curve = -4;
-      }
-      if (i >= 1300 && i < 1800) {
-        segmentLine.curve = 6;
-      }
+      tracks.testTrack.forEach(({ min, max, curve }) => createCurve(min, max, curve));
 
       // adding hills
       if (i > 2000 && angleSegment < 720) {
-        console.log(i-2000)
-        world.y = sin(angleSegment++ / 240 * PI) * 3000;
-        if (i < 2300) {
-          segmentLine.curve = 1;
-        } else if (i > 2360 && i < 2640) {
-          segmentLine.curve = -2.5;
-        }
+        world.y = sin(angleSegment++ / 180 * PI) * 3000;
       }
 
       // adding speed bump

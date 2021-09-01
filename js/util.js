@@ -39,8 +39,20 @@ const formatTime = (dt) => {
   return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}.${tenths}`;
 };
 
+const tracks = {
+  testTrack: [
+    { min: 50, max: 300, curve: -2 },
+    { min: 500, max: 750, curve: 3 },
+    { min: 900, max: 1150, curve: -4 },
+    { min: 1300, max: 1800, curve: 6 },
+    { min: 2000, max: 2300, curve: 1 },
+    { min: 2360, max: 2640, curve: -2.5 },
+  ],
+};
+
 export {
   handleInput, resource,
   tan, sin, cos, round, floor, ceil, max, random, PI,
   canvas, fieldOfView, theta, addItens, playMusic, formatTime,
+  tracks,
 };
