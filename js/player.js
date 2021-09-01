@@ -6,7 +6,7 @@ class Player {
     this.x = 0;
     this.y = 0;
     this.z = 0;
-    this.maxRange = 6;
+    this.maxRange = 4;
     this.animationUpdateTime = 3 / 60;
     this.curvePower = 0;
     this.centrifugalForce = 0;
@@ -53,6 +53,16 @@ class Player {
     // making playerCar moves in Y axis
     const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300) + 0.4) * mult;
     let decelerationCurveBoost = 1;
+
+    // deceleration on grass
+    let segment = road.getSegment(camera.cursor);
+    if (Math.abs(this.x) > 2.2 && segment.curve && this.runningPower > this.maxSpeed / 2) {
+      this.runningPower -= acceleration(this.runningPower, 3.6);
+    } else if (Math.abs(this.x) > 1.6 && !segment.curve && this.runningPower > this.maxSpeed / 2) {
+      this.runningPower -= acceleration(this.runningPower, 3.6);
+    }
+
+    // acceleration and braking control
     if (handleInput.isKeyDown('arrowUp')) {
       if (this.runningPower === 0) this.startPress = window.performance.now();
       this.runningPower = this.runningPower >= this.maxSpeed
@@ -77,7 +87,7 @@ class Player {
     }
 
     // making a centrifugal force to pull the car
-    const segment = road.getSegment(camera.cursor);
+    segment = road.getSegment(camera.cursor);
     const playerPosition = (Math.floor((camera.cursor / road.segmentLength)));
     const baseForce = 0.06;
     this.centrifugalForce = Math.abs(
