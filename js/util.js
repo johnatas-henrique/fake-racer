@@ -40,14 +40,38 @@ const formatTime = (dt) => {
 };
 
 const tracks = {
-  testTrack: [
-    { min: 50, max: 300, curve: -2 },
-    { min: 500, max: 750, curve: 3 },
-    { min: 900, max: 1150, curve: -4 },
-    { min: 1300, max: 1800, curve: 6 },
-    { min: 2000, max: 2300, curve: 1 },
-    { min: 2360, max: 2640, curve: -2.5 },
-  ],
+  testTrack: {
+    segmentLength: 3000,
+    curves: [
+      { min: 50, max: 300, curveInclination: -2 },
+      { min: 500, max: 750, curveInclination: 3 },
+      { min: 900, max: 1150, curveInclination: -4 },
+      { min: 1300, max: 1800, curveInclination: 6 },
+      { min: 2000, max: 2300, curveInclination: 1 },
+      { min: 2360, max: 2640, curveInclination: -2.5 },
+    ],
+  },
+  interlagos: {
+    segmentLength: 8700,
+    curves: [
+      { min: 200, max: 400, curveInclination: -4 },
+      { min: 600, max: 800, curveInclination: 4 },
+      { min: 900, max: 1500, curveInclination: -2 },
+      { min: 2500, max: 2700, curveInclination: -5 },
+      { min: 2850, max: 3050, curveInclination: -3 },
+      { min: 3600, max: 3725, curveInclination: 4 },
+      { min: 3850, max: 3975, curveInclination: 3 },
+      { min: 4225, max: 4475, curveInclination: 5 },
+      { min: 4600, max: 5100, curveInclination: -5 },
+      { min: 5300, max: 5350, curveInclination: 2 },
+      { min: 5475, max: 5675, curveInclination: 6 },
+      { min: 6050, max: 6300, curveInclination: -4 },
+      { min: 6800, max: 7000, curveInclination: -6 },
+      { min: 7125, max: 7200, curveInclination: -2 },
+      { min: 7575, max: 7700, curveInclination: -4 },
+      { min: 8075, max: 8200, curveInclination: -3 },
+    ],
+  },
 };
 
 export {
