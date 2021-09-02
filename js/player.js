@@ -40,8 +40,8 @@ class Player {
     // recover button
     const cameraClass = camera;
     if (handleInput.isKeyDown('r')) {
-      cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
-      this.x = 0;
+      // cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
+      // this.x = 0;
       this.runningPower = 600;
     }
     if (handleInput.isKeyDown('t')) {
@@ -51,7 +51,8 @@ class Player {
     }
 
     // making playerCar moves in Y axis
-    const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300) + 0.4) * mult;
+    const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
+    * mult * (1.5 - (speed / this.maxSpeed));
     let decelerationCurveBoost = 1;
 
     // deceleration on grass
