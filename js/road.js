@@ -107,6 +107,7 @@ class Road {
         const finishLine = new Sprite();
         finishLine.offsetX = curvePower > 0 ? -1.5 : 1.5;
         finishLine.scaleX = 12;
+        finishLine.scaleY = 12;
         finishLine.image = resource.get(curvePower > 0 ? 'leftSignal' : 'rightSignal');
         segmentLine.sprites.push(finishLine);
       }
@@ -116,6 +117,7 @@ class Road {
         const startLine = new Sprite();
         startLine.offsetX = 0;
         startLine.scaleX = 9;
+        startLine.scaleY = 12;
         startLine.image = resource.get('startLine');
         segmentLine.sprites.push(startLine);
       }
