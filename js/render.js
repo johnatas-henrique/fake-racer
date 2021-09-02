@@ -68,12 +68,11 @@ class Render {
     const spriteHeight = sprite.height;
     const factor = 1 / 3;
     const offsetY = sprite.offsetY || 1;
-    const { scaleX } = sprite;
-    // const { scaleY } = sprite;
+    const { scaleX, scaleY } = sprite;
     const destWidth = (spriteWidth * scale * midpoint.x)
       * (((roadWidth * scaleX) / (player.width ?? 64)) * factor);
     const destHeight = (spriteHeight * scale * midpoint.x)
-      * (((roadWidth * scaleX) / (player.width ?? 64)) * factor);
+      * (((roadWidth * scaleY) / (player.width ?? 64)) * factor);
     newDestX += -destWidth * 0.5;
     newDestY -= destHeight * offsetY;
     const clipHeight = clip ? max(0, (newDestY + destHeight - clip)) : 0;
