@@ -1,3 +1,4 @@
+import Background from './background.js';
 import Camera from './camera.js';
 import Player from './player.js';
 import Render from './render.js';
@@ -64,8 +65,8 @@ const curveAnim = (player, speed) => {
    * @param {Number} width
    * @param {Number} height
    */
-const loop = (time, render, camera, player, road, width, height) => {
-  requestAnimationFrame(() => loop(time, render, camera, player, road, width, height));
+const loop = (time, render, camera, player, road, background, width, height) => {
+  requestAnimationFrame(() => loop(time, render, camera, player, road, background, width, height));
   render.clear(0, 0, width, height);
   render.save();
   camera.update(road);
@@ -78,6 +79,8 @@ const loop = (time, render, camera, player, road, width, height) => {
     timeSinceLastFrameSwap = 0;
   }
   player.update(camera, road);
+  background.update(player, camera, road);
+  background.render(render, camera, road.width);
   road.render(render, camera, player);
   player.render(render, camera, road.width);
   render.restore();
@@ -104,17 +107,24 @@ const init = (time) => {
   const player = new Player();
   player.sprite.image = resource.get('playerLeftD0');
   player.sprite.scaleX = 2.5;
+  player.sprite.scaleY = 3;
   const road = new Road('interlagos');
+  const background = new Background();
+
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
   player.x = -1;
   road.create();
+  background.create();
   lastTime = window.performance.now();
-  loop(time, render, camera, player, road, canvas.width, canvas.height);
+  loop(time, render, camera, player, road, background, canvas.width, canvas.height);
   playMusic();
 };
 
 resource
+  .add('sky', './images/sprites/background/sky.png')
+  .add('hill', './images/sprites/background/hill.png')
+  .add('tree', './images/sprites/background/tree.png')
   .add('billboardSega', './images/sprites/other/billboard04.png')
   .add('startLine', './images/sprites/other/startLine.png')
   .add('leftSignal', './images/sprites/other/leftSignal.png')
