@@ -104,11 +104,11 @@ const init = (time) => {
   const player = new Player();
   player.sprite.image = resource.get('playerLeftD0');
   player.sprite.scaleX = 2.5;
-  const road = new Road();
+  const road = new Road('interlagos');
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
   player.x = -1;
-  road.create(3250);
+  road.create();
   lastTime = window.performance.now();
   loop(time, render, camera, player, road, canvas.width, canvas.height);
   playMusic();
