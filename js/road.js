@@ -10,6 +10,9 @@ class Road {
   #segmentLength = 200; // it could be named segmentHeight
   #rumbleLength = 13; // number of segments to change rumble color
   #width = 2000;
+  constructor(trackName) {
+    this.trackName = trackName;
+  }
 
   get rumbleLength() {
     return this.#rumbleLength;
@@ -50,10 +53,10 @@ class Road {
     return this.#segments[index % this.segmentsLength];
   }
 
-  create(segmentsNumber = 1300) {
+  create() {
     const { rumbleLength } = this;
     // great tip: if you put more counter variables, they increment too!
-    for (let i = 0, angleSegment = 0; i < segmentsNumber; i += 1) {
+    for (let i = 0, angleSegment = 0; i < tracks[this.trackName].segmentLength; i += 1) {
       const lightestColors = {
         road: '#525152', grass: 'green', rumble: 'white', strip: '',
       };
@@ -78,16 +81,18 @@ class Road {
       world.w = this.width;
       world.z = (i + 1) * this.segmentLength;
       this.#segments.push(segmentLine);
+
       // adding curves
       const createCurve = (min, max, curve) => {
         if (i >= min && i <= max) segmentLine.curve = curve;
       }
-      tracks.testTrack.forEach(({ min, max, curve }) => createCurve(min, max, curve));
+      tracks[this.trackName].curves
+        .forEach((curve) => createCurve(curve.min, curve.max, curve.curveInclination));
 
       // adding hills
-      if (i > 2000 && angleSegment < 720) {
-        world.y = sin(angleSegment++ / 180 * PI) * 3000;
-      }
+      // if (i >= 0 && angleSegment <= 360) {
+      //   world.y = sin(angleSegment++ / 180 * PI) * 3000;
+      // }
 
       // adding speed bump
       // if (i <=rumbleLength) {
