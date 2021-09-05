@@ -36,7 +36,7 @@ class Player {
       : this.x += curvePower;
   }
 
-  update(camera, road) {
+  update(camera, road, director) {
     // recover button
     const cameraClass = camera;
     if (handleInput.isKeyDown('r')) {
@@ -131,7 +131,7 @@ class Player {
       this.changeXToRight(this.curvePower);
     }
 
-    camera.update(road);
+    camera.update(road, director);
   }
 
   /**

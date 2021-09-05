@@ -1,4 +1,4 @@
-import { canvas, tan, theta } from './util.js';
+import { canvas, theta } from './util.js';
 
 class Camera {
   x = 0;
@@ -8,8 +8,8 @@ class Camera {
   cursor = 0;
   deltaZ = 0;
 
-  #distanceToProjectionPlane = 1 / tan(theta);
-  
+  #distanceToProjectionPlane = 1 / Math.tan(theta);
+
   screen = new class {
     midpoint = new class {
       #screen;
@@ -41,9 +41,16 @@ class Camera {
    * 
    * @param {Road} road 
    */
-  update(road) {
+  update(road, director) {
     const length = road.length;
     if (this.cursor >= length) {
+      director.totalLaptimes.push(window.performance.now());
+      director.lap += 1;
+      if (director.totalLaptimes.length >= 2) {
+        const lastLap = director.totalLaptimes[director.lap - 1] - director.totalLaptimes[director.lap - 2];
+        director.laptimes.push(lastLap);
+      }
+
       this.cursor -= length;
     } else if (this.cursor <= 0) {
       this.cursor += length;

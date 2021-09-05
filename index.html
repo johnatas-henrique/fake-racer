@@ -19,12 +19,12 @@
 <body>
   <div class="container">
     <div id="hud">
-      <span id="current_lap_time" class="hud">Time: <span id="current_lap_time_value" class="value">0.0</span></span> 
-      <span id="last_lap_time"    class="hud">Last Lap: <span id="last_lap_time_value" class="value">0.0</span></span>
-      <span id="fast_lap_time"    class="hud">Fastest Lap: <span id="fast_lap_time_value" class="value">0.0</span></span>
-      <span id="speed"            class="hud"><span id="speed_value" class="value">0</span> km/h</span>
-      <!-- <button type="button" id="btn-music" class="mute">Music</button> -->
-     <span id="mute"></span>
+      <span id="total_lap_time" class="hud">Time: <span id="total_lap_time_value" class="value">0:00.000</span></span>
+      <span id="current_lap_time" class="hud">Time: <span id="current_lap_time_value" class="value">0:00.000</span></span>
+      <span id="last_lap_time" class="hud">Last: <span id="last_lap_time_value" class="value">0:00.000</span></span>
+      <span id="fast_lap_time" class="hud">Fastest: <span id="fast_lap_time_value" class="value">0:00.000</span></span>
+      <span id="speed" class="hud"><span id="speed_value" class="value">0</span> km/h</span>
+      <span id="mute"></span>
     </div>
     <ul id="info">
       Debugger
@@ -40,7 +40,7 @@
   <audio id='music'>
     <source src="music/topgear-title.mp3">
   </audio>
-  
+
   <script type="module" src="./js/main.js"></script>
 
 </body>
