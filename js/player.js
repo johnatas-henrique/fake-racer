@@ -58,9 +58,9 @@ class Player {
     // deceleration on grass
     let segment = road.getSegment(camera.cursor);
     if (Math.abs(this.x) > 2.2 && segment.curve && this.runningPower > this.maxSpeed / 2) {
-      this.runningPower -= acceleration(this.runningPower, 3.6);
+      this.runningPower -= acceleration(this.runningPower, 5.4);
     } else if (Math.abs(this.x) > 1.6 && !segment.curve && this.runningPower > this.maxSpeed / 2) {
-      this.runningPower -= acceleration(this.runningPower, 3.6);
+      this.runningPower -= acceleration(this.runningPower, 5.4);
     }
 
     // acceleration and braking control
@@ -80,7 +80,7 @@ class Player {
       cameraClass.cursor += this.runningPower;
     } else if (!handleInput.isKeyDown('arrowUp') && this.runningPower > 0) {
       this.runningPower = this.runningPower % 1 === 0 ? this.runningPower : ceil(this.runningPower);
-      this.runningPower = this.runningPower <= 0 ? 0 : this.runningPower += -1;
+      this.runningPower = this.runningPower <= 0 ? 0 : this.runningPower += -2;
       cameraClass.cursor += this.runningPower;
       decelerationCurveBoost = this.runningPower >= 10
         ? (1.125 + (this.maxSpeed - this.runningPower) / this.maxSpeed)
