@@ -1,10 +1,11 @@
 import Background from './background.js';
 import Camera from './camera.js';
+import Director from './director.js';
 import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
 import {
-  canvas, handleInput, addItens, playMusic, formatTime, resource,
+  canvas, handleInput, addItens, playMusic, resource,
 } from './util.js';
 
 let lastTime = 0;
@@ -65,11 +66,13 @@ const curveAnim = (player, speed) => {
    * @param {Number} width
    * @param {Number} height
    */
-const loop = (time, render, camera, player, road, background, width, height) => {
-  requestAnimationFrame(() => loop(time, render, camera, player, road, background, width, height));
+const loop = (time, render, camera, player, road, background, director, width, height) => {
+  requestAnimationFrame(() => loop(
+    time, render, camera, player, road, background, director, width, height,
+  ));
   render.clear(0, 0, width, height);
   render.save();
-  camera.update(road);
+  camera.update(road, director);
   const timeNow = window.performance.now();
   const elapsed = (timeNow - lastTime) / 1000;
   lastTime = timeNow;
@@ -78,24 +81,18 @@ const loop = (time, render, camera, player, road, background, width, height) => 
     curveAnim(player, player.runningPower);
     timeSinceLastFrameSwap = 0;
   }
-  player.update(camera, road);
+  player.update(camera, road, director);
   background.update(player, camera, road);
   background.render(render, camera, road.width);
   road.render(render, camera, player);
   player.render(render, camera, road.width);
+  director.update(player);
   render.restore();
-
-  // HUD
-  addItens('#current_lap_time_value', formatTime(lastTime));
-  let speedValue = `${(player.runningPower / 4).toFixed(0)}`;
-  if (speedValue < 10) speedValue = `00${speedValue}`;
-  if (speedValue >= 10 && speedValue < 100) speedValue = `0${speedValue}`;
-  addItens('#speed_value', speedValue);
 
   // print to screen (a better console.log)
   addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
-  addItens('#line2', `PlayerX: ${player.x.toFixed(3)}`);
-  // addItens('#line3', `NoUse: ${(player.runningPower / 4).toFixed(0)}`);
+  addItens('#line2', `CameraY: ${camera.y.toFixed(3)}`);
+  // addItens('#line3', `NoUse: ${camera.z.toFixed(3)}`);
   addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
   addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
   // addItens('#line6', `NoUse: ${window.performance.now().toFixed(3)}`);
@@ -104,21 +101,23 @@ const loop = (time, render, camera, player, road, background, width, height) => 
 const init = (time) => {
   const render = new Render(canvas.getContext('2d'));
   const camera = new Camera();
+  const director = new Director();
   const player = new Player();
   player.sprite.image = resource.get('playerLeftD0');
   player.sprite.scaleX = 2.5;
   player.sprite.scaleY = 3;
   const road = new Road('interlagos');
   const background = new Background();
+  road.create();
+  background.create();
+  lastTime = window.performance.now();
+  playMusic();
 
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
   player.x = -1;
-  road.create();
-  background.create();
-  lastTime = window.performance.now();
-  loop(time, render, camera, player, road, background, canvas.width, canvas.height);
-  playMusic();
+
+  loop(time, render, camera, player, road, background, director, canvas.width, canvas.height);
 };
 
 resource

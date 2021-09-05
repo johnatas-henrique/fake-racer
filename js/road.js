@@ -1,6 +1,6 @@
 import SegmentLine from './segmentLine.js';
 import Sprite from './sprite.js';
-import { sin, floor, PI, resource, tracks } from './util.js';
+import { resource, tracks } from './util.js';
 
 class Road {
   /**
@@ -46,7 +46,7 @@ class Road {
    * @returns
    */
   getSegment(cursor) {
-    return this.#segments[floor(cursor / this.#segmentLength) % this.segmentsLength];
+    return this.#segments[Math.floor(cursor / this.#segmentLength) % this.segmentsLength];
   }
 
   getSegmentFromIndex(index) {
@@ -72,10 +72,10 @@ class Road {
       const segmentLine = new SegmentLine();
       segmentLine.index = i;
 
-      if (floor(i / rumbleLength) % 4 === 0) segmentLine.colors = lightestColors;
-      if (floor(i / rumbleLength) % 4 === 1) segmentLine.colors = darkestColors;
-      if (floor(i / rumbleLength) % 4 === 2) segmentLine.colors = lightColors;
-      if (floor(i / rumbleLength) % 4 === 3) segmentLine.colors = darkColors;
+      if (Math.floor(i / rumbleLength) % 4 === 0) segmentLine.colors = lightestColors;
+      if (Math.floor(i / rumbleLength) % 4 === 1) segmentLine.colors = darkestColors;
+      if (Math.floor(i / rumbleLength) % 4 === 2) segmentLine.colors = lightColors;
+      if (Math.floor(i / rumbleLength) % 4 === 3) segmentLine.colors = darkColors;
 
       const { world } = segmentLine.points;
       world.w = this.width;
@@ -91,8 +91,35 @@ class Road {
 
       // adding hills
       // if (i >= 0 && angleSegment <= 360) {
-      //   world.y = sin(angleSegment++ / 180 * PI) * 3000;
+      //   world.y = sin(angleSegment++ / 180 * PI) * 5000;
       // }
+      // if (i === 0) {
+      //   world.y = -35000;
+      // }
+      let lastY = 0;
+      if (i > 0) {
+        lastY = this.getSegmentFromIndex(i - 1).points.world.y;
+        world.y = lastY;
+      }
+
+      // console.log(i, world.y)
+
+      const easeIn = (a, b, percent) => a + (b - a) * Math.pow(percent, 2);
+      const easeInOut = (a, b, percent) => a + (b - a) * ((-Math.cos(percent * Math.PI) / 2) + 0.5);
+
+      if (i >= 0 && i < 900) {
+        // Util.easeInOut(startY, endY, n/total)
+        // var endY     = startY + (Util.toInt(y, 0) * segmentLength);
+        // if (i >= 0 && i < 100) world.y = easeInOut(lastY, lastY + -30, 900/900);
+        // if (i >= 100 && i < 800) world.y = easeInOut(lastY, lastY + -60, 900/900);
+        // if (i >= 800 && i < 900) world.y = easeInOut(lastY, lastY + -30, 900+800/900);
+        // if (i >= 300 && i < 600) world.y += easeInOut(300, -40, 1);
+        // if (i >= 600 && i < 900) world.y += easeInOut(600, -60, 1);
+      }
+
+      // if (i >= 900 && i < 1500) world.y = easeInOut(this.getSegmentFromIndex(i - 1).points.world.y, 40, 1);
+      // if (i >= 900 && world.y > 0) world.y += 60;
+
 
       // adding speed bump
       // if (i <=rumbleLength) {

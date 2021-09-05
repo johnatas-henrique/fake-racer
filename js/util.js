@@ -2,7 +2,7 @@ import HandleInput from './handleInput.js';
 import Resource from './resource.js';
 
 const {
-  tan, sin, cos, round, floor, ceil, max, random, PI,
+  tan, sin, cos, round, floor, ceil, min, max, random, PI,
 } = Math;
 
 const canvas = document.querySelector('canvas');
@@ -32,11 +32,11 @@ const playMusic = () => {
 };
 
 const formatTime = (dt) => {
-  const time = round(dt);
+  const time = Math.round(dt);
   const minutes = Math.floor(time / 60000);
   const seconds = Math.floor(time / 1000) - (minutes * 60);
   const tenths = time.toString().slice(-3);
-  return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}.${tenths}`;
+  return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}.${time < 100 ? '000' : tenths}`;
 };
 
 const tracks = {
@@ -76,7 +76,7 @@ const tracks = {
 
 export {
   handleInput, resource,
-  tan, sin, cos, round, floor, ceil, max, random, PI,
+  tan, sin, cos, round, floor, ceil, min, max, random, PI,
   canvas, fieldOfView, theta, addItens, playMusic, formatTime,
   tracks,
 };
