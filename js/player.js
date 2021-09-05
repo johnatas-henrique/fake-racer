@@ -80,7 +80,7 @@ class Player {
       cameraClass.cursor += this.runningPower;
     } else if (!handleInput.isKeyDown('arrowUp') && this.runningPower > 0) {
       this.runningPower = this.runningPower % 1 === 0 ? this.runningPower : ceil(this.runningPower);
-      this.runningPower = this.runningPower <= 0 ? 0 : this.runningPower += -2;
+      this.runningPower = this.runningPower < 2 ? 0 : this.runningPower += -2;
       cameraClass.cursor += this.runningPower;
       decelerationCurveBoost = this.runningPower >= 10
         ? (1.125 + (this.maxSpeed - this.runningPower) / this.maxSpeed)
