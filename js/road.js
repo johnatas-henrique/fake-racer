@@ -55,19 +55,18 @@ class Road {
 
   create() {
     const { rumbleLength } = this;
-    // great tip: if you put more counter variables, they increment too!
-    for (let i = 0, angleSegment = 0; i < tracks[this.trackName].segmentLength; i += 1) {
+    for (let i = 0; i < tracks[this.trackName].segmentLength; i += 1) {
       const lightestColors = {
-        road: '#525152', grass: 'green', rumble: 'white', strip: '',
+        road: '#424142', grass: 'green', rumble: 'white', strip: '',
       };
       const lightColors = {
-        road: '#4A494A', grass: 'green', rumble: 'white', strip: '',
+        road: '#393839', grass: 'darkgreen', rumble: 'white', strip: '',
       };
       const darkColors = {
-        road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff',
+        road: '#393839', grass: 'green', rumble: '#f00', strip: '#fff',
       };
       const darkestColors = {
-        road: '#393839', grass: 'darkgreen', rumble: '#f00', strip: '#fff',
+        road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff',
       };
       const segmentLine = new SegmentLine();
       segmentLine.index = i;
@@ -89,45 +88,12 @@ class Road {
       tracks[this.trackName].curves
         .forEach((curve) => createCurve(curve.min, curve.max, curve.curveInclination));
 
-      // adding hills
-      // if (i >= 0 && angleSegment <= 360) {
-      //   world.y = sin(angleSegment++ / 180 * PI) * 5000;
-      // }
-      // if (i === 0) {
-      //   world.y = -35000;
-      // }
-      let lastY = 0;
-      if (i > 0) {
-        lastY = this.getSegmentFromIndex(i - 1).points.world.y;
-        world.y = lastY;
-      }
-
-      // console.log(i, world.y)
-
-      const easeIn = (a, b, percent) => a + (b - a) * Math.pow(percent, 2);
-      const easeInOut = (a, b, percent) => a + (b - a) * ((-Math.cos(percent * Math.PI) / 2) + 0.5);
-
-      if (i >= 0 && i < 900) {
-        // Util.easeInOut(startY, endY, n/total)
-        // var endY     = startY + (Util.toInt(y, 0) * segmentLength);
-        // if (i >= 0 && i < 100) world.y = easeInOut(lastY, lastY + -30, 900/900);
-        // if (i >= 100 && i < 800) world.y = easeInOut(lastY, lastY + -60, 900/900);
-        // if (i >= 800 && i < 900) world.y = easeInOut(lastY, lastY + -30, 900+800/900);
-        // if (i >= 300 && i < 600) world.y += easeInOut(300, -40, 1);
-        // if (i >= 600 && i < 900) world.y += easeInOut(600, -60, 1);
-      }
-
-      // if (i >= 900 && i < 1500) world.y = easeInOut(this.getSegmentFromIndex(i - 1).points.world.y, 40, 1);
-      // if (i >= 900 && world.y > 0) world.y += 60;
-
-
       // adding speed bump
       // if (i <=rumbleLength) {
       //   world.y = sin(i * 0.5) * 1000;
       // }
 
       // Road Sprites
-
       // signalDirections
       const curvePower = this.getSegmentFromIndex(i).curve;
       if (i % (rumbleLength * 2) === 0 && curvePower !== 0) {
@@ -150,10 +116,37 @@ class Road {
       }
     }
 
-    // marking finish line
-    for (let i = 0; i < rumbleLength; i += 1) {
-      this.#segments[i].colors.road = '#888';
+    // adding hills
+    const createHills = (lastHillSegment, startHillSegment, hillSize, altimetry, position) => {
+      let lastWorld = { x: 0, y: 0, z: 200, w: 2000 };
+      let counterSegment = 0.5;
+      let counterAngle = hillSize / 4;
+      const finalSegment = startHillSegment + hillSize;
+
+      for (let i = lastHillSegment; i < finalSegment; i += 1) {
+        const baseSegment = this.getSegmentFromIndex(i);
+        const world = baseSegment.points.world;
+
+        lastWorld = this.getSegmentFromIndex(i - 1).points.world;
+        world.y = lastWorld.y;
+
+        if (i >= startHillSegment && counterSegment <= hillSize) {
+          const multiplier = altimetry * hillSize / -4;
+          const actualSin = Math.sin((counterAngle + 1) / (hillSize / 2) * Math.PI) * multiplier;
+          const lastSin = Math.sin(counterAngle / (hillSize / 2) * Math.PI) * multiplier;
+          world.y += (actualSin - lastSin);
+          counterSegment += 1;
+          counterAngle += 0.5;
+        }
+      }
+
+      if (tracks[this.trackName].hills[position + 1]) {
+        const { initialSegment, size, altimetry } = tracks[this.trackName].hills[position + 1];
+        createHills(finalSegment, initialSegment, size, altimetry, position + 1)
+      }
     }
+    const { initialSegment, size, altimetry } = tracks[this.trackName].hills[0];
+    createHills(1, initialSegment, size, altimetry, 0);
   }
 
   /**
