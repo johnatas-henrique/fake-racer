@@ -40,7 +40,7 @@ const formatTime = (dt) => {
 };
 
 const tracks = {
-  testTrack: {
+  test: {
     segmentLength: 3000,
     curves: [
       { min: 50, max: 300, curveInclination: -2 },
@@ -50,15 +50,21 @@ const tracks = {
       { min: 2000, max: 2300, curveInclination: 1 },
       { min: 2360, max: 2640, curveInclination: -2.5 },
     ],
+    hills: [
+      { initialSegment: 50, size: 300, altimetry: -40 },
+      { initialSegment: 450, size: 150, altimetry: 25 },
+      { initialSegment: 1000, size: 315, altimetry: 50 },
+      { initialSegment: 2990, size: 10, altimetry: 0 },
+    ],
   },
   interlagos: {
-    segmentLength: 8700,
+    segmentLength: 8632,
     curves: [
       { min: 200, max: 400, curveInclination: -4 },
       { min: 600, max: 800, curveInclination: 4 },
       { min: 900, max: 1500, curveInclination: -2 },
-      { min: 2500, max: 2700, curveInclination: -5 },
-      { min: 2850, max: 3050, curveInclination: -3 },
+      { min: 2500, max: 2750, curveInclination: -5 },
+      { min: 2950, max: 3200, curveInclination: -3 },
       { min: 3600, max: 3725, curveInclination: 4 },
       { min: 3850, max: 3975, curveInclination: 3 },
       { min: 4225, max: 4475, curveInclination: 5 },
@@ -67,9 +73,23 @@ const tracks = {
       { min: 5475, max: 5675, curveInclination: 6 },
       { min: 6050, max: 6300, curveInclination: -4 },
       { min: 6800, max: 7000, curveInclination: -6 },
-      { min: 7125, max: 7200, curveInclination: -2 },
+      { min: 7100, max: 7200, curveInclination: -3 },
       { min: 7575, max: 7700, curveInclination: -4 },
       { min: 8075, max: 8200, curveInclination: -3 },
+    ],
+    hills: [
+      { initialSegment: 1, size: 800, altimetry: -40 },
+      { initialSegment: 900, size: 600, altimetry: 15 },
+      { initialSegment: 2500, size: 750, altimetry: -35 },
+      { initialSegment: 3500, size: 500, altimetry: 20 },
+      { initialSegment: 4200, size: 650, altimetry: -30 },
+      { initialSegment: 5000, size: 650, altimetry: 35 },
+      { initialSegment: 5700, size: 600, altimetry: -25 },
+      { initialSegment: 6400, size: 400, altimetry: -15 },
+      { initialSegment: 7000, size: 700, altimetry: 80 },
+      { initialSegment: 7700, size: 300, altimetry: 20 },
+      { initialSegment: 8100, size: 500, altimetry: -10 },
+      { initialSegment: 8632, size: 0, altimetry: 0 },
     ],
   },
 };
