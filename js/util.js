@@ -41,7 +41,7 @@ const formatTime = (dt) => {
 
 const tracks = {
   test: {
-    segmentLength: 3000,
+    trackSize: 3000,
     curves: [
       { min: 50, max: 300, curveInclination: -2 },
       { min: 500, max: 750, curveInclination: 3 },
@@ -54,11 +54,11 @@ const tracks = {
       { initialSegment: 50, size: 300, altimetry: -40 },
       { initialSegment: 450, size: 150, altimetry: 25 },
       { initialSegment: 1000, size: 315, altimetry: 50 },
-      { initialSegment: 2990, size: 10, altimetry: 0 },
+      { initialSegment: 3000, size: 0, altimetry: 0 },
     ],
   },
-  interlagos: {
-    segmentLength: 8632,
+  brazil: {
+    trackSize: 8632,
     curves: [
       { min: 200, max: 400, curveInclination: -4 },
       { min: 600, max: 800, curveInclination: 4 },
@@ -90,6 +90,17 @@ const tracks = {
       { initialSegment: 7700, size: 300, altimetry: 20 },
       { initialSegment: 8100, size: 500, altimetry: -10 },
       { initialSegment: 8632, size: 0, altimetry: 0 },
+    ],
+  },
+  monaco: {
+    trackSize: 6656,
+    curves: [
+      { min: 2500, max: 1500, curveInclination: -4 },
+    ],
+    hills: [
+      { initialSegment: 1, size: 800, altimetry: -40 },
+      { initialSegment: 1001, size: 800, altimetry: 40 },
+      { initialSegment: 6656, size: 0, altimetry: 0 },
     ],
   },
 };
