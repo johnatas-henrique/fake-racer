@@ -106,7 +106,7 @@ const init = (time) => {
   player.sprite.image = resource.get('playerLeftD0');
   player.sprite.scaleX = 2.5;
   player.sprite.scaleY = 3;
-  const road = new Road('interlagos');
+  const road = new Road('brazil');
   const background = new Background();
   road.create();
   background.create();
