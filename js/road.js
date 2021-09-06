@@ -1,5 +1,6 @@
 import SegmentLine from './segmentLine.js';
 import Sprite from './sprite.js';
+import Tunnel from './tunnel.js';
 import { resource, tracks } from './util.js';
 
 class Road {
@@ -55,18 +56,18 @@ class Road {
 
   create() {
     const { rumbleLength } = this;
-    for (let i = 0; i < tracks[this.trackName].segmentLength; i += 1) {
+    for (let i = 0; i < tracks[this.trackName].trackSize; i += 1) {
       const lightestColors = {
-        road: '#424142', grass: 'green', rumble: 'white', strip: '',
+        road: '#424142', grass: 'green', rumble: 'white', strip: '', tunnel: 'darkblue',
       };
       const lightColors = {
-        road: '#393839', grass: 'darkgreen', rumble: 'white', strip: '',
+        road: '#393839', grass: 'darkgreen', rumble: 'white', strip: '', tunnel: 'blue',
       };
       const darkColors = {
-        road: '#393839', grass: 'green', rumble: '#f00', strip: '#fff',
+        road: '#393839', grass: 'green', rumble: '#f00', strip: '#fff', tunnel: 'blue',
       };
       const darkestColors = {
-        road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff',
+        road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff', tunnel: 'darkblue',
       };
       const segmentLine = new SegmentLine();
       segmentLine.index = i;
@@ -114,6 +115,17 @@ class Road {
         startLine.image = resource.get('startLine');
         segmentLine.sprites.push(startLine);
       }
+
+      // tunnels
+      if (i > 500 && i < 1500) {
+        const tunnel = new Tunnel();
+        segmentLine.tunnel = tunnel;
+        tunnel.offsetX = 2;
+        if (i === 501) {
+          segmentLine.colors.tunnel = '#fff';
+          tunnel.title = 'Tunel Racing 3D';
+        }
+      }
     }
 
     // adding hills
@@ -122,7 +134,6 @@ class Road {
       let counterSegment = 0.5;
       let counterAngle = hillSize / 4;
       const finalSegment = startHillSegment + hillSize;
-
       for (let i = lastHillSegment; i < finalSegment; i += 1) {
         const baseSegment = this.getSegmentFromIndex(i);
         const world = baseSegment.points.world;
@@ -285,7 +296,8 @@ class Road {
       maxY = currentScreenPoint.y;
     }
     for (let i = (visibleSegments + startPos) - 1; i >= startPos; i -= 1) {
-      this.getSegmentFromIndex(i).drawSprite(render, camera, player);
+      this.getSegmentFromIndex(i).drawSprite(render, camera, player)
+        .drawTunnel(render, camera, player);
     }
   }
 }
