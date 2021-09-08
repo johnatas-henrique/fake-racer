@@ -86,52 +86,118 @@ class SegmentLine {
   drawTunnel(render, camera, player) {
     if (this.tunnel) {
       const tunnel = this.tunnel;
-      const offsetX = tunnel.offsetX;
-      const { screen, world } = this.points;
+      const { screen } = this.points;
       const { clip, scale } = this;
-      const worldH = 5000 + Math.abs(world.y);
-      const py = round((1 - (worldH - camera.y) * scale) * camera.screen.midpoint.y);
+      const worldH = tunnel.worldH;
+      const py = tunnel.py = round((1 - worldH * scale) * camera.screen.midpoint.y);
       const h = round(worldH * 0.2 * scale * camera.screen.midpoint.y);
-      const clipH = clip ? max(0, screen.y - clip) : 0;
+      const clipH = tunnel.clipH = clip ? max(0, screen.y - clip) : 0;
       if (clipH < screen.y - (py + h)) {
+        const leftFace = tunnel.leftFace;
+        const rightFace = tunnel.rightFace;
         const color = this.colors.tunnel;
+        const visibleFaces = tunnel.visibleFaces;
 
-        // left part
-        render.drawPolygon(
-          color,
-          0, py,
-          screen.x - screen.w * offsetX, py,
-          screen.x - screen.w, screen.y - clipH,
-          0, screen.y - clipH,
-        );
+        if (visibleFaces.leftFront) {
+          render.drawPolygon(
+            color,
+            0, py,
+            screen.x - screen.w * leftFace.offsetX1, py,
+            screen.x - screen.w * leftFace.offsetX2, screen.y - clipH,
+            0, screen.y - clipH,
+          );
+        }
 
-        // center part
-        render.drawPolygon(
-          color,
-          0, py,
-          camera.screen.width, py,
-          camera.screen.width, py + h,
-          0, py + h,
-        );
+        if (visibleFaces.rightFront) {
+          render.drawPolygon(
+            color,
+            camera.screen.width, py,
+            screen.x + screen.w * rightFace.offsetX1, py,
+            screen.x + screen.w * rightFace.offsetX2, screen.y - clipH,
+            camera.screen.width, screen.y - clipH,
+          );
+        }
 
-        // right part
-        render.drawPolygon(
-          color,
-          camera.screen.width, py,
-          screen.x + screen.w * offsetX, py,
-          screen.x + screen.w, screen.y - clipH,
-          camera.screen.width, screen.y - clipH,
-        );
+        if (visibleFaces.centerFront) {
+          render.drawPolygon(
+            color,
+            0, py - h*3,
+            camera.screen.width, py - h*3,
+            camera.screen.width, py + h,
+            0, py + h,
+          );
 
-        if (tunnel.title) {
-          const renderingContext = render.renderingContext;
-          renderingContext.save();
-          renderingContext.font = `${h * 0.5}px monospace`;
-          renderingContext.fillStyle = 'blue';
-          renderingContext.textAlign = 'center';
-          renderingContext.textBaseline = 'middle';
-          renderingContext.fillText(tunnel.title, screen.x, py + h * 0.5);
-          renderingContext.restore();
+          if (tunnel.title) {
+            const renderingContext = render.renderingContext;
+            renderingContext.save();
+            renderingContext.font = `${h * 2}px fantasy`;
+            renderingContext.fillStyle = 'red';
+            renderingContext.textAlign = 'center';
+            renderingContext.textBaseline = 'middle';
+            renderingContext.fillText(tunnel.title, screen.x, py);
+            renderingContext.restore();
+          }
+        }
+
+        const previousSegment = tunnel.previousSegment;
+
+        if (previousSegment) {
+          const previousScreenPoint = previousSegment.points.screen;
+          const previousTunnel = previousSegment.tunnel;
+          const previousLeftFace = previousTunnel.leftFace;
+          const previousRightFace = previousTunnel.rightFace;
+
+          if (visibleFaces.leftTop) {
+            render.drawPolygon(
+              color,
+              0, previousTunnel.py,
+              previousScreenPoint.x - previousScreenPoint.w * previousLeftFace.offsetX1, previousTunnel.py,
+              screen.x - screen.w * leftFace.offsetX1, py,
+              0, py
+            );
+          }
+
+          if (visibleFaces.rightTop) {
+            render.drawPolygon(
+              color,
+              camera.screen.width, previousTunnel.py,
+              previousScreenPoint.x + previousScreenPoint.w * previousRightFace.offsetX1, previousTunnel.py,
+              screen.x + screen.w * rightFace.offsetX1, py,
+              camera.screen.width, py
+            );
+          }
+
+
+
+          if (visibleFaces.centerTop) {
+            render.drawPolygon(
+              color,
+              previousScreenPoint.x - previousScreenPoint.w * previousLeftFace.offsetX1, previousTunnel.py,
+              previousScreenPoint.x + previousScreenPoint.w * previousRightFace.offsetX1, previousTunnel.py,
+              screen.x + screen.w * rightFace.offsetX1, py,
+              screen.x - screen.w * leftFace.offsetX1, py,
+            );
+          }
+
+          if (visibleFaces.leftCover) {
+            render.drawPolygon(
+              color,
+              previousScreenPoint.x - previousScreenPoint.w * previousLeftFace.offsetX1, previousTunnel.py,
+              previousScreenPoint.x - previousScreenPoint.w * previousLeftFace.offsetX2, previousScreenPoint.y,
+              screen.x - screen.w * leftFace.offsetX2, screen.y - clipH,
+              screen.x - screen.w * leftFace.offsetX1, py,
+            );
+          }
+
+          if (visibleFaces.rightCover) {
+            render.drawPolygon(
+              color,
+              previousScreenPoint.x + previousScreenPoint.w * previousRightFace.offsetX1, previousTunnel.py,
+              previousScreenPoint.x + previousScreenPoint.w * previousRightFace.offsetX2, previousScreenPoint.y,
+              screen.x + screen.w * rightFace.offsetX2, screen.y - clipH,
+              screen.x + screen.w * rightFace.offsetX1, py,
+            );
+          }
         }
       }
     }

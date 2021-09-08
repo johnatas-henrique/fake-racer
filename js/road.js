@@ -58,13 +58,13 @@ class Road {
     const { rumbleLength } = this;
     for (let i = 0; i < tracks[this.trackName].trackSize; i += 1) {
       const lightestColors = {
-        road: '#424142', grass: 'green', rumble: 'white', strip: '', tunnel: 'darkblue',
+        road: '#424142', grass: 'green', rumble: 'white', strip: '', tunnel: 'blue',
       };
       const lightColors = {
         road: '#393839', grass: 'darkgreen', rumble: 'white', strip: '', tunnel: 'blue',
       };
       const darkColors = {
-        road: '#393839', grass: 'green', rumble: '#f00', strip: '#fff', tunnel: 'blue',
+        road: '#393839', grass: 'green', rumble: '#f00', strip: '#fff', tunnel: 'darkblue',
       };
       const darkestColors = {
         road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff', tunnel: 'darkblue',
@@ -115,17 +115,6 @@ class Road {
         startLine.image = resource.get('startLine');
         segmentLine.sprites.push(startLine);
       }
-
-      // tunnels
-      if (i > 500 && i < 1500) {
-        const tunnel = new Tunnel();
-        segmentLine.tunnel = tunnel;
-        tunnel.offsetX = 2;
-        if (i === 501) {
-          segmentLine.colors.tunnel = '#fff';
-          tunnel.title = 'Tunel Racing 3D';
-        }
-      }
     }
 
     // adding hills
@@ -134,7 +123,7 @@ class Road {
       let counterSegment = 0.5;
       let counterAngle = hillSize / 4;
       const finalSegment = startHillSegment + hillSize;
-      for (let i = lastHillSegment; i < finalSegment; i += 1) {
+      for (let i = lastHillSegment, previousSegment; i < finalSegment; i += 1) {
         const baseSegment = this.getSegmentFromIndex(i);
         const world = baseSegment.points.world;
 
@@ -148,6 +137,26 @@ class Road {
           world.y += (actualSin - lastSin);
           counterSegment += 1;
           counterAngle += 0.5;
+        }
+
+        // tunnels
+        if (i >= 208 && i <= 312) {
+          if (i === 208) {
+            previousSegment = baseSegment;
+            const tunnel = new Tunnel();
+            tunnel.worldH = 5000 + Math.abs(world.y);
+
+            baseSegment.tunnel = tunnel;
+            baseSegment.colors.tunnel = '#fff';
+            tunnel.title = 'Tunel Racing 3D';
+
+          } else if (i % (rumbleLength * 1) === 0) {
+            const tunnel = new Tunnel();
+            tunnel.worldH = 5000 + Math.abs(world.y);
+            tunnel.previousSegment = previousSegment;
+            previousSegment = baseSegment;
+            baseSegment.tunnel = tunnel;
+          }
         }
       }
 
@@ -296,7 +305,8 @@ class Road {
       maxY = currentScreenPoint.y;
     }
     for (let i = (visibleSegments + startPos) - 1; i >= startPos; i -= 1) {
-      this.getSegmentFromIndex(i).drawSprite(render, camera, player)
+      this.getSegmentFromIndex(i)
+        .drawSprite(render, camera, player)
         .drawTunnel(render, camera, player);
     }
   }
