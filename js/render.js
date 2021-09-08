@@ -60,7 +60,7 @@ class Render {
    * @param {Number} destY
    * @param {Number} clip
    */
-  drawSprite(sprite, camera, player, roadWidth, scale, destX, destY, clip) {
+  drawSprite(sprite, camera, player, roadWidth, scale, destX, destY, clip, spritesInX = 1, spritesInY = 1) {
     let newDestX = destX;
     let newDestY = destY;
     const { midpoint } = camera.screen;
@@ -68,21 +68,25 @@ class Render {
     const spriteHeight = sprite.height;
     const factor = 1 / 3;
     const offsetY = sprite.offsetY || 1;
+    const sheetPositionX = sprite.sheetPositionX;
+    const sheetPositionY = sprite.sheetPositionY;
     const { scaleX, scaleY } = sprite;
     const destWidth = (spriteWidth * scale * midpoint.x)
       * (((roadWidth * scaleX) / (player.width ?? 64)) * factor);
     const destHeight = (spriteHeight * scale * midpoint.x)
       * (((roadWidth * scaleY) / (player.width ?? 64)) * factor);
     newDestX += -destWidth * 0.5;
-    newDestY -= destHeight * offsetY;
+    newDestY -= destHeight * spritesInX * offsetY / spritesInY;
     const clipHeight = clip ? max(0, (newDestY + destHeight - clip)) : 0;
 
     if (clipHeight < destHeight) {
       this.renderingContext.drawImage(
         sprite.image,
-        0, 0,
-        spriteWidth, spriteHeight - (spriteHeight * clipHeight) / destHeight,
-        newDestX, newDestY, destWidth, destHeight - clipHeight,
+        (spriteWidth / spritesInX * sheetPositionX), spriteHeight / spritesInY * sheetPositionY,
+        spriteWidth / spritesInX,
+        (spriteHeight - (spriteHeight * clipHeight) / (destHeight * spritesInX)) / spritesInY,
+        newDestX, newDestY,
+        destWidth, (((destHeight * spritesInX) - clipHeight) / spritesInY),
       );
     }
   }

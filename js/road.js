@@ -100,8 +100,8 @@ class Road {
       if (i % (rumbleLength * 2) === 0 && curvePower !== 0) {
         const finishLine = new Sprite();
         finishLine.offsetX = curvePower > 0 ? -1.5 : 1.5;
-        finishLine.scaleX = 12;
-        finishLine.scaleY = 12;
+        finishLine.scaleX = 72;
+        finishLine.scaleY = 72;
         finishLine.image = resource.get(curvePower > 0 ? 'leftSignal' : 'rightSignal');
         segmentLine.sprites.push(finishLine);
       }
@@ -110,8 +110,8 @@ class Road {
       if (i === 0) {
         const startLine = new Sprite();
         startLine.offsetX = 0;
-        startLine.scaleX = 9;
-        startLine.scaleY = 12;
+        startLine.scaleX = 54;
+        startLine.scaleY = 72;
         startLine.image = resource.get('startLine');
         segmentLine.sprites.push(startLine);
       }
@@ -140,7 +140,7 @@ class Road {
         }
 
         // tunnels
-        if (i >= 208 && i <= 312) {
+        if (i >= 0 && i <= 0) {
           if (i === 208) {
             previousSegment = baseSegment;
             const tunnel = new Tunnel();

@@ -12,12 +12,13 @@ let lastTime = 0;
 let timeSinceLastFrameSwap = 0;
 let actualVal = 0;
 
-const tyreAnimation = (player, direction, tyre, invertTyre, spriteNum, speed) => {
+const tyreAnimation = (player, spriteNum, speed) => {
   const playerAnim = player;
   if (speed) {
-    playerAnim.sprite.image = resource.get(`player${direction}${invertTyre}${spriteNum}`);
+    playerAnim.sprite.sheetPositionX = spriteNum;
+    playerAnim.sprite.sheetPositionY = Number(!playerAnim.sprite.sheetPositionY);
   } else {
-    playerAnim.sprite.image = resource.get(`player${direction}${tyre}${spriteNum}`);
+    playerAnim.sprite.sheetPositionX = spriteNum;
   }
 };
 
@@ -32,26 +33,24 @@ const curveAnim = (player, speed) => {
   const playerAnim = player;
   const { arrowleft, arrowright } = handleInput.map;
   const actualImage = playerAnim.sprite.image;
-  const actualArrow = actualImage.src.match(/player\w*\d/g, '')[0].slice(6, -2);
-  const tyreDirection = actualImage.src.match(/player\w*\d/g, '')[0].slice(-2, -1);
-  const otherTyre = tyreDirection === 'D' ? 'U' : 'D';
+  const actualArrow = actualImage.src.match(/player\w+/g, '')[0].slice(6);
   const keyPress = findDirection();
-
   if ((!arrowleft && !arrowright) && actualVal >= 0) {
     actualVal = actualVal > 0 ? actualVal -= 1 : 0;
-    tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
+    tyreAnimation(player, actualVal, speed);
   }
 
   if (arrowleft || arrowright) {
     if (keyPress === actualArrow) {
       actualVal = actualVal < 5 ? actualVal += 1 : 5;
-      tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
+      tyreAnimation(player, actualVal, speed);
     } else if (keyPress !== actualArrow && actualVal > 0) {
-      tyreAnimation(player, actualArrow, tyreDirection, otherTyre, actualVal, speed);
+      tyreAnimation(player, actualVal, speed);
       actualVal = actualVal > 0 ? actualVal -= 1 : 0;
     } else if (keyPress !== actualArrow && actualVal === 0) {
       actualVal = 1;
-      tyreAnimation(player, keyPress, tyreDirection, otherTyre, actualVal, speed);
+      playerAnim.sprite.image = resource.get(`player${keyPress}`);
+      tyreAnimation(player, actualVal, speed);
     }
   }
 };
@@ -83,7 +82,7 @@ const loop = (time, render, camera, player, road, background, director, width, h
   }
   player.update(camera, road, director);
   background.update(player, camera, road);
-  background.render(render, camera, road.width);
+  background.render(render, camera, player, road.width);
   road.render(render, camera, player);
   player.render(render, camera, road.width);
   director.update(player);
@@ -103,7 +102,10 @@ const init = (time) => {
   const camera = new Camera();
   const director = new Director();
   const player = new Player();
-  player.sprite.image = resource.get('playerLeftD0');
+  player.sprite.image = resource.get('playerRight');
+  player.sprite.spritesInX = 6;
+  player.sprite.spritesInY = 2;
+  player.sprite.sheetPositionY = 1;
   player.sprite.scaleX = 2.5;
   player.sprite.scaleY = 3;
   const road = new Road('brazil');
@@ -115,7 +117,7 @@ const init = (time) => {
 
   // spawn point before startLine
   camera.cursor = -road.segmentLength * road.rumbleLength * 2;
-  player.x = -1;
+  player.x = 0;
 
   loop(time, render, camera, player, road, background, director, canvas.width, canvas.height);
 };
@@ -128,30 +130,9 @@ resource
   .add('startLine', './images/sprites/other/startLine.png')
   .add('leftSignal', './images/sprites/other/leftSignal.png')
   .add('rightSignal', './images/sprites/other/rightSignal.png')
-  .add('playerLeftD0', './images/sprites/player/playerLeftD0.png')
-  .add('playerLeftU0', './images/sprites/player/playerLeftU0.png')
-  .add('playerLeftD1', './images/sprites/player/playerLeftD1.png')
-  .add('playerLeftU1', './images/sprites/player/playerLeftU1.png')
-  .add('playerLeftD2', './images/sprites/player/playerLeftD2.png')
-  .add('playerLeftU2', './images/sprites/player/playerLeftU2.png')
-  .add('playerLeftD3', './images/sprites/player/playerLeftD3.png')
-  .add('playerLeftU3', './images/sprites/player/playerLeftU3.png')
-  .add('playerLeftD4', './images/sprites/player/playerLeftD4.png')
-  .add('playerLeftU4', './images/sprites/player/playerLeftU4.png')
-  .add('playerLeftD5', './images/sprites/player/playerLeftD5.png')
-  .add('playerLeftU5', './images/sprites/player/playerLeftU5.png')
-  .add('playerRightD0', './images/sprites/player/playerRightD0.png')
-  .add('playerRightU0', './images/sprites/player/playerRightU0.png')
-  .add('playerRightD1', './images/sprites/player/playerRightD1.png')
-  .add('playerRightU1', './images/sprites/player/playerRightU1.png')
-  .add('playerRightD2', './images/sprites/player/playerRightD2.png')
-  .add('playerRightU2', './images/sprites/player/playerRightU2.png')
-  .add('playerRightD3', './images/sprites/player/playerRightD3.png')
-  .add('playerRightU3', './images/sprites/player/playerRightU3.png')
-  .add('playerRightD4', './images/sprites/player/playerRightD4.png')
-  .add('playerRightU4', './images/sprites/player/playerRightU4.png')
-  .add('playerRightD5', './images/sprites/player/playerRightD5.png')
-  .add('playerRightU5', './images/sprites/player/playerRightU5.png')
+  .add('playerLeft', './images/sprites/player/playerLeft.png')
+  .add('playerRight', './images/sprites/player/playerRight.png')
+
   .load(() => {
     requestAnimationFrame((time) => init(time));
   });
