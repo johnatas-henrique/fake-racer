@@ -52,10 +52,10 @@ class Player {
 
     // making playerCar moves in Y axis
     const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
-    * mult * (1.5 - (speed / this.maxSpeed));
+      * mult * (1.5 - (speed / this.maxSpeed));
     let decelerationCurveBoost = 1;
 
-    // deceleration on grass
+    // offroad deceleration
     let segment = road.getSegment(camera.cursor);
     if (Math.abs(this.x) > 2.2 && segment.curve && this.runningPower > this.maxSpeed / 2) {
       this.runningPower -= acceleration(this.runningPower, 7.2);
@@ -143,9 +143,11 @@ class Player {
   render(render, camera, roadWidth) {
     const clip = 0;
     const scale = 1 / camera.h;
+
     render.drawSprite(
       this.sprite, camera, this, roadWidth, scale,
       camera.screen.midpoint.x, camera.screen.height, clip,
+      this.sprite.spritesInX, this.sprite.spritesInY,
     );
   }
 }
