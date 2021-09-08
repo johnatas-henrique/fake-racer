@@ -49,7 +49,7 @@ class Background {
    * @param {Camera} camera
    * @param {Number} roadWidth
    */
-  render(render, camera, roadWidth) {
+  render(render, camera, player, roadWidth) {
     const clip = 0;
     const scale = 1 / camera.h;
     const arrLayers = ['layer1', 'layer2', 'layer3'];
@@ -57,14 +57,15 @@ class Background {
       this[item].scaleX = 9;
       this[item].scaleY = 9;
       const positionW = camera.screen.midpoint.x * 2 * this[`${item}Offset`];
+      const correctedWidth = player.width / 64;
       render.drawSprite(
-        this[item], camera, this, roadWidth, scale * 0.05,
+        this[item], camera, player, roadWidth, scale * 0.05 * correctedWidth,
         positionW, this[item].height, clip,
       );
       if (Math.abs(this[`${item}Offset`]) > 1) {
         render.drawSprite(
-          this[item], camera, this, roadWidth, scale * 0.05,
-          positionW - this[item].width, this[item].height, clip,
+          this[item], camera, player, roadWidth,
+          scale * 0.05 * correctedWidth, positionW - this[item].width, this[item].height, clip,
         );
       }
     });
