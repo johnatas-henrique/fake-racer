@@ -11,7 +11,7 @@ html, body {
   font-family: Verdana, Geneva, sans-serif;
   height: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
   width: 100%;
 }
 
@@ -37,14 +37,11 @@ canvas {
   font-size: 2vw;
   text-align: justify;
   z-index: 2;
+  user-select: none;
 }
 
 #info {
   top: 60px;
-}
-
-#touchControls {
-  display: none;
 }
 
 .controlButtons {
@@ -54,7 +51,6 @@ canvas {
   height: 6vw;
   width: 6vw;
   margin: 0 0.8em 1em;
-  user-select: none;
   background: black;
   color: #fff9ef;
 }
@@ -121,10 +117,14 @@ canvas {
   background-position: -32px 0px;
 }
 
-@media (hover:none) and (pointer: coarse) {
+#touchControls {
+  bottom: 0em;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (hover: hover) and (pointer: fine) {
   #touchControls {
-    bottom: 0em;
-    display: flex;
-    justify-content: space-between;
+    display: none;
   }
 }
