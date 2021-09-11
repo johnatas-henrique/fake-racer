@@ -72,7 +72,14 @@ class SegmentLine {
       const roadWidth = world.w;
       const destX = screen.xUnrounded + screen.wUnrounded * sprite.offsetX;
       const destY = screen.yUnrounded;
-      render.drawSprite(sprite, camera, player, roadWidth, scale, destX, destY, this.clip);
+
+      render.drawSprite(
+        sprite, camera,
+        player, roadWidth,
+        scale, destX,
+        destY, this.clip,
+        sprite.spritesInX, sprite.spritesInY
+      );
     }
     return this;
   }
@@ -121,8 +128,8 @@ class SegmentLine {
         if (visibleFaces.centerFront) {
           render.drawPolygon(
             color,
-            0, py - h*3,
-            camera.screen.width, py - h*3,
+            0, py - h * 3,
+            camera.screen.width, py - h * 3,
             camera.screen.width, py + h,
             0, py + h,
           );
