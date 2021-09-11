@@ -50,6 +50,7 @@ class Player {
       this.runningPower = 1200;
     }
 
+    this.sprite.name = 'player';
     // making playerCar moves in Y axis
     const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
       * mult * (1.5 - (speed / this.maxSpeed));
