@@ -27,7 +27,7 @@ canvas {
   width: 100%;
 }
 
-#info, #hud {
+#info, #hud, #touchControls {
   color: white;
   text-shadow: 1px 1px 2px black;
   position: absolute;
@@ -41,6 +41,22 @@ canvas {
 
 #info {
   top: 60px;
+}
+
+#touchControls {
+  display: none;
+}
+
+.controlButtons {
+  border-radius: 50%;
+  display: block;
+  font-size: 4vw;
+  height: 6vw;
+  width: 6vw;
+  margin: 0 0.8em 1em;
+  user-select: none;
+  background: black;
+  color: #fff9ef;
 }
 
 #hud {
@@ -103,4 +119,12 @@ canvas {
 
 #mute.off {
   background-position: -32px 0px;
+}
+
+@media (hover:none) and (pointer: coarse) {
+  #touchControls {
+    bottom: 0em;
+    display: flex;
+    justify-content: space-between;
+  }
 }
