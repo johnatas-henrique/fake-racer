@@ -9,6 +9,11 @@ import {
   canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, drivers,
 } from './util.js';
 
+window.onload = () => {
+  const objDiv = document.querySelector('body');
+  objDiv.scrollTop = objDiv.scrollHeight;
+};
+
 let lastTime = 0;
 let timeSinceLastFrameSwap = 0;
 let actualVal = 0;
