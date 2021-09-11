@@ -1,16 +1,18 @@
 import Background from './background.js';
 import Camera from './camera.js';
 import Director from './director.js';
+import Opponent from './opponent.js';
 import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
 import {
-  canvas, handleInput, addItens, playMusic, resource,
+  canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, drivers,
 } from './util.js';
 
 let lastTime = 0;
 let timeSinceLastFrameSwap = 0;
 let actualVal = 0;
+const track = 'brazil';
 
 const tyreAnimation = (player, spriteNum, speed) => {
   const playerAnim = player;
@@ -65,9 +67,11 @@ const curveAnim = (player, speed) => {
    * @param {Number} width
    * @param {Number} height
    */
-const loop = (time, render, camera, player, road, background, director, width, height) => {
+const loop = (
+  time, render, camera, player, opponents, road, background, director, width, height,
+) => {
   requestAnimationFrame(() => loop(
-    time, render, camera, player, road, background, director, width, height,
+    time, render, camera, player, opponents, road, background, director, width, height,
   ));
   render.clear(0, 0, width, height);
   render.save();
@@ -81,6 +85,7 @@ const loop = (time, render, camera, player, road, background, director, width, h
     timeSinceLastFrameSwap = 0;
   }
   player.update(camera, road, director);
+  opponents.forEach((number) => number.update(camera, road, director));
   background.update(player, camera, road);
   background.render(render, camera, player, road.width);
   road.render(render, camera, player);
@@ -108,7 +113,17 @@ const init = (time) => {
   player.sprite.sheetPositionY = 1;
   player.sprite.scaleX = 2.5;
   player.sprite.scaleY = 3;
-  const road = new Road('brazil');
+
+  const opponents = [];
+  const { trackSize } = tracks[track];
+  drivers.forEach((driver) => opponents.push(new Opponent(
+    driver.power, startPosition(trackSize, driver.position),
+    driver.trackSide, driver.image, driver.name,
+  )));
+
+  opponents.forEach((opponentNumber) => opponentNumber.create());
+
+  const road = new Road(track);
   const background = new Background();
   road.create();
   background.create();
@@ -116,10 +131,10 @@ const init = (time) => {
   playMusic();
 
   // spawn point before startLine
-  camera.cursor = -road.segmentLength * road.rumbleLength * 2;
-  player.x = 0;
-
-  loop(time, render, camera, player, road, background, director, canvas.width, canvas.height);
+  camera.cursor = startPosition(trackSize, drivers.length + 1);
+  player.x = (drivers.length + 1) % 2 ? -1 : 1;
+  const { width, height } = canvas;
+  loop(time, render, camera, player, opponents, road, background, director, width, height);
 };
 
 resource
@@ -130,9 +145,9 @@ resource
   .add('startLine', './images/sprites/other/startLine.png')
   .add('leftSignal', './images/sprites/other/leftSignal.png')
   .add('rightSignal', './images/sprites/other/rightSignal.png')
+  .add('opponents', './images/sprites/other/opponents.png')
   .add('playerLeft', './images/sprites/player/playerLeft.png')
   .add('playerRight', './images/sprites/player/playerRight.png')
-
   .load(() => {
     requestAnimationFrame((time) => init(time));
   });

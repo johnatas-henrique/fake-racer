@@ -12,6 +12,7 @@ class Sprite {
     this.scaleY = 1;
     this.spritesInX = 1;
     this.spritesInY = 1;
+    this.name = 'sprite';
   }
 
   get width() {
