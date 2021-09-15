@@ -18,8 +18,8 @@ html, body {
 .container {
   position: relative;
   margin: 0 auto;
-  width: min(100vw, 150vh);
-  height: min(100vh, 66vw);
+  /* width: min(100vw, 177.777778vh); */
+  height: min(100vh, 56.25vw);
 }
 
 canvas {
