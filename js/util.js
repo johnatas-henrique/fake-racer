@@ -107,61 +107,61 @@ const tracks = {
 
 const drivers = [
   {
-    power: 1150, position: 1, trackSide: -1, image: 'opponents', name: 'Senna',
+    power: 1160, position: 1, trackSide: -1, image: 'opponents', name: 'Senna',
   },
   {
-    power: 1145, position: 2, trackSide: 1, image: 'opponents', name: 'Schumacher',
+    power: 1140, position: 2, trackSide: 1, image: 'opponents', name: 'Schumacher',
   },
   {
-    power: 1140, position: 3, trackSide: -1, image: 'opponents', name: 'Hamilton',
+    power: 1120, position: 3, trackSide: -1, image: 'opponents', name: 'Hamilton',
   },
   {
-    power: 1160, position: 4, trackSide: 1, image: 'opponents', name: 'Fangio',
+    power: 1100, position: 4, trackSide: 1, image: 'opponents', name: 'Fangio',
   },
   {
-    power: 1120, position: 5, trackSide: -1, image: 'opponents', name: 'Fangio2',
+    power: 1080, position: 5, trackSide: -1, image: 'opponents', name: 'Fangio2',
   },
   {
-    power: 1100, position: 6, trackSide: 1, image: 'opponents', name: 'Fangio3',
+    power: 1060, position: 6, trackSide: 1, image: 'opponents', name: 'Fangio3',
   },
   {
-    power: 1140, position: 7, trackSide: -1, image: 'opponents', name: 'Fangio4',
+    power: 1040, position: 7, trackSide: -1, image: 'opponents', name: 'Fangio4',
   },
   {
-    power: 1100, position: 8, trackSide: 1, image: 'opponents', name: 'Fangio5',
+    power: 1020, position: 8, trackSide: 1, image: 'opponents', name: 'Fangio5',
   },
   {
-    power: 1160, position: 9, trackSide: -1, image: 'opponents', name: 'Fangio6',
+    power: 1000, position: 9, trackSide: -1, image: 'opponents', name: 'Fangio6',
   },
   {
-    power: 1120, position: 10, trackSide: 1, image: 'opponents', name: 'Fangio7',
+    power: 980, position: 10, trackSide: 1, image: 'opponents', name: 'Fangio7',
   },
   {
-    power: 1180, position: 11, trackSide: -1, image: 'opponents', name: 'Fangio8',
+    power: 960, position: 11, trackSide: -1, image: 'opponents', name: 'Fangio8',
   },
   {
-    power: 1140, position: 12, trackSide: 1, image: 'opponents', name: 'Fangio9',
+    power: 940, position: 12, trackSide: 1, image: 'opponents', name: 'Fangio9',
   },
   {
-    power: 1100, position: 13, trackSide: -1, image: 'opponents', name: 'Fangio10',
+    power: 920, position: 13, trackSide: -1, image: 'opponents', name: 'Fangio10',
   },
   {
-    power: 1160, position: 14, trackSide: 1, image: 'opponents', name: 'Fangio11',
+    power: 900, position: 14, trackSide: 1, image: 'opponents', name: 'Fangio11',
   },
   {
-    power: 1120, position: 15, trackSide: -1, image: 'opponents', name: 'Fangio12',
+    power: 920, position: 15, trackSide: -1, image: 'opponents', name: 'Fangio12',
   },
   {
-    power: 1180, position: 16, trackSide: 1, image: 'opponents', name: 'Fangio13',
+    power: 940, position: 16, trackSide: 1, image: 'opponents', name: 'Fangio13',
   },
   {
-    power: 1140, position: 17, trackSide: -1, image: 'opponents', name: 'Fangio14',
+    power: 960, position: 17, trackSide: -1, image: 'opponents', name: 'Fangio14',
   },
   {
-    power: 1150, position: 18, trackSide: 1, image: 'opponents', name: 'Fangio15',
+    power: 980, position: 18, trackSide: 1, image: 'opponents', name: 'Fangio15',
   },
   {
-    power: 1160, position: 19, trackSide: -1, image: 'opponents', name: 'Fangio16',
+    power: 1100, position: 19, trackSide: -1, image: 'opponents', name: 'Fangio16',
   },
 ];
 
