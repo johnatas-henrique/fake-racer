@@ -48,6 +48,17 @@ class Render {
       renderingContext.restore();
     }
   }
+  
+  drawText(color, text, screenX = 300, screenY = 200, fontSize = '36', font = 'fantasy') {
+    const { renderingContext } = this;
+    renderingContext.fillStyle = color;
+    renderingContext.font = font
+    renderingContext.font = `${fontSize}px ${font}`;
+    renderingContext.textAlign = 'center';
+    renderingContext.textBaseline = 'middle';
+    renderingContext.fillText(text, screenX, screenY);
+    renderingContext.restore();
+  }
 
   /**
    *
