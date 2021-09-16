@@ -17,10 +17,11 @@ const addItens = (liId, text) => {
   li.textContent = text;
 };
 
-const toggleMusic = (e, toggle) => {
+const toggleMusic = (e, toggle, volume = '5') => {
   const music = document.getElementById('music');
   const mute = document.getElementById('mute');
 
+  music.volume = Number(volume) / 10;
   if (!toggle) {
     music.play();
     mute.classList.toggle('off');
@@ -41,7 +42,7 @@ const playMusic = () => {
   const music = document.getElementById('music');
   const mute = document.getElementById('mute');
   music.loop = true;
-  music.volume = 0.05;
+  music.volume = 0.3;
   music.muted = 'true';
   mute.classList.toggle('off');
   mute.addEventListener('click', toggleMusic);
