@@ -7,7 +7,7 @@ import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
 import {
-  canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, drivers,
+  canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, drivers, toggleMusic,
 } from './util.js';
 
 window.onload = () => {
@@ -109,9 +109,9 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
   if (menu.state === 'title') {
     menu.update();
     menu.render(render);
-    const { chosenTrack, chosenOpponents } = menu;
-    // console.log(chosenTrack, chosenOpponents);
-    road.trackName = chosenTrack;
+    const { selectedOptions } = menu;
+    road.trackName = selectedOptions['0'];
+    toggleMusic('event', selectedOptions[2]);
     road.create();
 
     // spawn point before startLine
