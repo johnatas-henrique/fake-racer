@@ -110,8 +110,8 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     menu.update();
     menu.render(render);
     const { selectedOptions } = menu;
-    road.trackName = selectedOptions['0'];
-    toggleMusic('event', selectedOptions[2]);
+    road.trackName = selectedOptions[0];
+    toggleMusic('event', selectedOptions[2], selectedOptions[3]);
     road.create();
 
     // spawn point before startLine
@@ -119,7 +119,9 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     camera.cursor = startPosition(trackSize, drivers.length + 1);
     player.x = (drivers.length + 1) % 2 ? -1 : 1;
   }
-  requestAnimationFrame(() => loop(time, render, camera, player, oppArr, road, bg, director, menu, width, height));
+  requestAnimationFrame(
+    () => loop(time, render, camera, player, oppArr, road, bg, director, menu, width, height),
+  );
 };
 
 const init = (time) => {
@@ -166,6 +168,4 @@ resource
   .add('opponents', './images/sprites/other/opponents.png')
   .add('playerLeft', './images/sprites/player/playerLeft.png')
   .add('playerRight', './images/sprites/player/playerRight.png')
-  .load(() => {
-    requestAnimationFrame((time) => init(time));
-  });
+  .load(() => requestAnimationFrame((time) => init(time)));
