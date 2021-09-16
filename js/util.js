@@ -17,6 +17,26 @@ const addItens = (liId, text) => {
   li.textContent = text;
 };
 
+const toggleMusic = (e, toggle) => {
+  const music = document.getElementById('music');
+  const mute = document.getElementById('mute');
+
+  if (!toggle) {
+    music.play();
+    mute.classList.toggle('off');
+    music.muted = !music.muted;
+  }
+
+  if (toggle === 'sim') {
+    music.play();
+    mute.classList.remove('off');
+    music.muted = false;
+  } else if (toggle === 'não') {
+    mute.classList.add('off');
+    music.muted = true;
+  }
+};
+
 const playMusic = () => {
   const music = document.getElementById('music');
   const mute = document.getElementById('mute');
@@ -24,11 +44,7 @@ const playMusic = () => {
   music.volume = 0.05;
   music.muted = 'true';
   mute.classList.toggle('off');
-  mute.addEventListener('click', () => {
-    music.play();
-    mute.classList.toggle('off');
-    music.muted = !music.muted;
-  });
+  mute.addEventListener('click', toggleMusic);
 };
 
 const formatTime = (dt) => {
@@ -40,23 +56,6 @@ const formatTime = (dt) => {
 };
 
 const tracks = {
-  test: {
-    trackSize: 3000,
-    curves: [
-      { min: 50, max: 300, curveInclination: -2 },
-      { min: 500, max: 750, curveInclination: 3 },
-      { min: 900, max: 1150, curveInclination: -4 },
-      { min: 1300, max: 1800, curveInclination: 6 },
-      { min: 2000, max: 2300, curveInclination: 1 },
-      { min: 2360, max: 2640, curveInclination: -2.5 },
-    ],
-    hills: [
-      { initialSegment: 50, size: 300, altimetry: -40 },
-      { initialSegment: 450, size: 150, altimetry: 25 },
-      { initialSegment: 1000, size: 315, altimetry: 50 },
-      { initialSegment: 3000, size: 0, altimetry: 0 },
-    ],
-  },
   brazil: {
     trackSize: 8632,
     curves: [
@@ -103,6 +102,23 @@ const tracks = {
       { initialSegment: 6656, size: 0, altimetry: 0 },
     ],
   },
+  // test: {
+  //   trackSize: 3000,
+  //   curves: [
+  //     { min: 50, max: 300, curveInclination: -2 },
+  //     { min: 500, max: 750, curveInclination: 3 },
+  //     { min: 900, max: 1150, curveInclination: -4 },
+  //     { min: 1300, max: 1800, curveInclination: 6 },
+  //     { min: 2000, max: 2300, curveInclination: 1 },
+  //     { min: 2360, max: 2640, curveInclination: -2.5 },
+  //   ],
+  //   hills: [
+  //     { initialSegment: 50, size: 300, altimetry: -40 },
+  //     { initialSegment: 450, size: 150, altimetry: 25 },
+  //     { initialSegment: 1000, size: 315, altimetry: 50 },
+  //     { initialSegment: 3000, size: 0, altimetry: 0 },
+  //   ],
+  // },
 };
 
 const drivers = [
@@ -170,7 +186,7 @@ const startPosition = (trackSize, position) => (trackSize - (position * 16)) * 2
 export {
   handleInput, resource,
   tan, sin, cos, round, floor, ceil, min, max, random, PI,
-  canvas, fieldOfView, theta, addItens, playMusic, formatTime,
+  canvas, fieldOfView, theta, addItens, toggleMusic, playMusic, formatTime,
   tracks, startPosition,
   drivers,
 };
