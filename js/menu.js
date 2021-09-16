@@ -9,16 +9,25 @@ class Menu {
     this.menuY = 0;
     this.menuX = 0;
     this.menuPhrase = {
-      0: 'Selecione a pista: ', 1: 'Número de oponentes: ', 2: 'Música: ', 3: 'Bora correr? ',
+      0: 'Selecione a pista: ',
+      1: 'Número de oponentes: ',
+      2: 'Música: ',
+      3: 'Volume da música: ',
+      4: 'Bora correr? ',
     };
     this.menu = {
       0: Object.keys(tracks),
       1: ['19', '1', '3', '5', '7', '9', '11', '13', '15', '17'],
       2: ['não', 'sim'],
-      3: ['race'],
+      3: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      4: ['race'],
     };
     this.selectedOptions = {
-      0: 'brazil', 1: '19', 2: 'não', 3: 'race',
+      0: 'brazil',
+      1: '19',
+      2: 'não',
+      3: '3',
+      4: 'race',
     };
   }
 
