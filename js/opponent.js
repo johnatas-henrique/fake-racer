@@ -25,7 +25,7 @@ class Opponent {
     this.sprite.name = this.opponentName;
     this.sprite.spritesInX = 6;
     this.sprite.spritesInY = 1;
-    this.sprite.sheetPositionX = Math.floor(Math.random() * 7);
+    this.sprite.sheetPositionX = Math.floor(Math.random() * 6.99);
     this.sprite.sheetPositionY = 0;
   }
 
