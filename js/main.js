@@ -1,6 +1,7 @@
 import Background from './background.js';
 import Camera from './camera.js';
 import Director from './director.js';
+import Menu from './menu.js';
 import Opponent from './opponent.js';
 import Player from './player.js';
 import Render from './render.js';
@@ -42,6 +43,7 @@ const curveAnim = (player, speed) => {
   const actualImage = playerAnim.sprite.image;
   const actualArrow = actualImage.src.match(/player\w+/g, '')[0].slice(6);
   const keyPress = findDirection();
+
   if ((!arrowleft && !arrowright) && actualVal >= 0) {
     actualVal = actualVal > 0 ? actualVal -= 1 : 0;
     tyreAnimation(player, actualVal, speed);
@@ -72,46 +74,61 @@ const curveAnim = (player, speed) => {
    * @param {Number} width
    * @param {Number} height
    */
-const loop = (
-  time, render, camera, player, opponents, road, background, director, width, height,
-) => {
-  requestAnimationFrame(() => loop(
-    time, render, camera, player, opponents, road, background, director, width, height,
-  ));
+const loop = (time, render, camera, player, oppArr, road, bg, director, menu, width, height) => {
   render.clear(0, 0, width, height);
   render.save();
-  camera.update(road, director);
-  const timeNow = window.performance.now();
-  const elapsed = (timeNow - lastTime) / 1000;
-  lastTime = timeNow;
-  timeSinceLastFrameSwap += elapsed;
-  if (timeSinceLastFrameSwap > player.animationUpdateTime) {
-    curveAnim(player, player.runningPower);
-    timeSinceLastFrameSwap = 0;
-  }
-  player.update(camera, road, director);
-  opponents.forEach((number) => number.update(camera, road, director));
-  background.update(player, camera, road);
-  background.render(render, camera, player, road.width);
-  road.render(render, camera, player);
-  player.render(render, camera, road.width);
-  director.update(player);
-  render.restore();
 
-  // print to screen (a better console.log)
-  addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
-  addItens('#line2', `CameraY: ${camera.y.toFixed(3)}`);
-  // addItens('#line3', `NoUse: ${camera.z.toFixed(3)}`);
-  addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
-  addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
-  // addItens('#line6', `NoUse: ${window.performance.now().toFixed(3)}`);
+  if (menu.state === 'race') {
+    camera.update(road, director);
+    const timeNow = window.performance.now();
+    const elapsed = (timeNow - lastTime) / 1000;
+    lastTime = timeNow;
+    timeSinceLastFrameSwap += elapsed;
+    if (timeSinceLastFrameSwap > player.animationUpdateTime) {
+      curveAnim(player, player.runningPower);
+      timeSinceLastFrameSwap = 0;
+    }
+    player.update(camera, road, director);
+    oppArr.forEach((number) => number.update(camera, road, director));
+    bg.update(player, camera, road);
+    bg.render(render, camera, player, road.width);
+    road.render(render, camera, player);
+    player.render(render, camera, road.width);
+    director.update(player);
+    render.restore();
+
+    // print to screen (a better console.log)
+    addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
+    addItens('#line2', `CameraY: ${camera.y.toFixed(3)}`);
+    // addItens('#line3', `NoUse: ${camera.z.toFixed(3)}`);
+    addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
+    addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
+    // addItens('#line6', `NoUse: ${window.performance.now().toFixed(3)}`);
+  }
+
+  if (menu.state === 'title') {
+    menu.update();
+    menu.render(render);
+    const { chosenTrack, chosenOpponents } = menu;
+    // console.log(chosenTrack, chosenOpponents);
+    road.trackName = chosenTrack;
+    road.create();
+
+    // spawn point before startLine
+    const { trackSize } = tracks[track];
+    camera.cursor = startPosition(trackSize, drivers.length + 1);
+    player.x = (drivers.length + 1) % 2 ? -1 : 1;
+  }
+  requestAnimationFrame(() => loop(time, render, camera, player, oppArr, road, bg, director, menu, width, height));
 };
 
 const init = (time) => {
+  const { width, height } = canvas;
   const render = new Render(canvas.getContext('2d'));
   const camera = new Camera();
   const director = new Director();
   const player = new Player();
+  const menu = new Menu(width, height);
   player.sprite.image = resource.get('playerRight');
   player.sprite.spritesInX = 6;
   player.sprite.spritesInY = 2;
@@ -135,11 +152,7 @@ const init = (time) => {
   lastTime = window.performance.now();
   playMusic();
 
-  // spawn point before startLine
-  camera.cursor = startPosition(trackSize, drivers.length + 1);
-  player.x = (drivers.length + 1) % 2 ? -1 : 1;
-  const { width, height } = canvas;
-  loop(time, render, camera, player, opponents, road, background, director, width, height);
+  loop(time, render, camera, player, opponents, road, background, director, menu, width, height);
 };
 
 resource
