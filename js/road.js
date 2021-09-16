@@ -55,6 +55,7 @@ class Road {
   }
 
   create() {
+    this.#segments = [];
     const { rumbleLength } = this;
     for (let i = 0; i < tracks[this.trackName].trackSize; i += 1) {
       const lightestColors = {

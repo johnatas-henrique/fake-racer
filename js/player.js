@@ -39,12 +39,12 @@ class Player {
   update(camera, road, director) {
     // recover button
     const cameraClass = camera;
-    if (handleInput.isKeyDown('r')) {
+    if (handleInput.isKeyDown('*')) {
       // cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
       // this.x = 0;
       this.runningPower = 600;
     }
-    if (handleInput.isKeyDown('t')) {
+    if (handleInput.isKeyDown('-')) {
       cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
       this.x = 0;
       this.runningPower = 1200;
