@@ -25,6 +25,7 @@ html, body {
 canvas {
   height: 100%;
   width: 100%;
+  background: white;
 }
 
 #info, #hud, #touchControls {
