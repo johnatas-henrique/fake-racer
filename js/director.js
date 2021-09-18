@@ -2,6 +2,8 @@ import { formatTime, addItens } from './util.js';
 
 class Director {
   constructor() {
+    this.oldTime = 0;
+    this.timeSinceLastFrameSwap = 0;
     this.lap = 0;
     this.fastestLap = 0;
     this.lastLap = 0;

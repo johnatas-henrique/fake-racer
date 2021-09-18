@@ -2,12 +2,11 @@ import Background from './background.js';
 import Camera from './camera.js';
 import Director from './director.js';
 import Menu from './menu.js';
-import Opponent from './opponent.js';
 import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
 import {
-  canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, drivers, toggleMusic,
+  canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, toggleMusic,
 } from './util.js';
 
 window.onload = () => {
@@ -15,10 +14,7 @@ window.onload = () => {
   objDiv.scrollTop = objDiv.scrollHeight;
 };
 
-let lastTime = 0;
-let timeSinceLastFrameSwap = 0;
 let actualVal = 0;
-const track = 'brazil';
 
 const tyreAnimation = (player, spriteNum, speed) => {
   const playerAnim = player;
@@ -81,15 +77,15 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
   if (menu.state === 'race') {
     camera.update(road, director);
     const timeNow = window.performance.now();
-    const elapsed = (timeNow - lastTime) / 1000;
-    lastTime = timeNow;
-    timeSinceLastFrameSwap += elapsed;
-    if (timeSinceLastFrameSwap > player.animationUpdateTime) {
+    const elapsed = (timeNow - director.oldTime) / 1000;
+    director.oldTime = timeNow;
+    director.timeSinceLastFrameSwap += elapsed;
+    if (director.timeSinceLastFrameSwap > player.animationUpdateTime) {
       curveAnim(player, player.runningPower);
-      timeSinceLastFrameSwap = 0;
+      director.timeSinceLastFrameSwap = 0;
     }
     player.update(camera, road, director);
-    oppArr.forEach((number) => number.update(camera, road, director));
+    oppArr.forEach((opponent) => opponent.update(road));
     bg.update(player, camera, road);
     bg.render(render, camera, player, road.width);
     road.render(render, camera, player);
@@ -107,18 +103,29 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
   }
 
   if (menu.state === 'title') {
-    menu.update();
-    menu.render(render);
     const { selectedOptions } = menu;
+
+    const timeNow = window.performance.now();
+    const elapsed = (timeNow - director.oldTime) / 1000;
+    director.oldTime = timeNow;
+    director.timeSinceLastFrameSwap += elapsed;
+
+    if (director.timeSinceLastFrameSwap > menu.updateTime) {
+      menu.update(road, oppArr);
+      toggleMusic('event', selectedOptions[2], selectedOptions[3]);
+      director.timeSinceLastFrameSwap = 0;
+    }
+
+    menu.render(render);
     road.trackName = selectedOptions[0];
-    toggleMusic('event', selectedOptions[2], selectedOptions[3]);
-    road.create();
 
     // spawn point before startLine
-    const { trackSize } = tracks[track];
-    camera.cursor = startPosition(trackSize, drivers.length + 1);
-    player.x = (drivers.length + 1) % 2 ? -1 : 1;
+    const { trackSize } = tracks[selectedOptions[0]];
+    const qualyPos = Number(selectedOptions[1]) + 1;
+    camera.cursor = startPosition(trackSize, qualyPos);
+    player.x = qualyPos % 2 ? -1 : 1;
   }
+
   requestAnimationFrame(
     () => loop(time, render, camera, player, oppArr, road, bg, director, menu, width, height),
   );
@@ -139,19 +146,10 @@ const init = (time) => {
   player.sprite.scaleY = 3;
 
   const opponents = [];
-  const { trackSize } = tracks[track];
-  drivers.forEach((driver) => opponents.push(new Opponent(
-    driver.power, startPosition(trackSize, driver.position),
-    driver.trackSide, driver.image, driver.name,
-  )));
-
-  opponents.forEach((opponentNumber) => opponentNumber.create());
-
-  const road = new Road(track);
+  const road = new Road();
   const background = new Background();
-  road.create();
+
   background.create();
-  lastTime = window.performance.now();
   playMusic();
 
   loop(time, render, camera, player, opponents, road, background, director, menu, width, height);
