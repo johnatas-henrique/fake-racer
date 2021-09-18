@@ -35,7 +35,7 @@ class Menu {
     };
   }
 
-  startRace(road, opponents) {
+  startRace(player, road, opponents) {
     drivers.forEach((driver) => opponents.push(new Opponent(
       driver.power, startPosition(tracks[this.selectedOptions[0]].trackSize, driver.position),
       driver.trackSide, driver.image, driver.name,
@@ -45,9 +45,10 @@ class Menu {
     opponents.splice(this.selectedOptions[1], opponents.length);
 
     road.create();
+    player.create(this, tracks[this.selectedOptions[0]].trackSize);
   }
 
-  update(road, opponents) {
+  update(player, road, opponents) {
     const {
       arrowup, arrowdown, arrowleft, arrowright, enter,
     } = handleInput.map;
@@ -92,7 +93,7 @@ class Menu {
       if (enter && this.menuX === lastMenuOption) {
         const hud = document.querySelector('#hud');
         hud.classList.remove('hidden');
-        this.startRace(road, opponents);
+        this.startRace(player, road, opponents);
         this.state = 'race';
       }
     }
