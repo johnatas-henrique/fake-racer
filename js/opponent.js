@@ -25,11 +25,11 @@ class Opponent {
     this.sprite.name = this.opponentName;
     this.sprite.spritesInX = 6;
     this.sprite.spritesInY = 1;
-    this.sprite.sheetPositionX = Math.floor(Math.random() * 6.99);
+    this.sprite.sheetPositionX = Math.floor(Math.random() * 5.99);
     this.sprite.sheetPositionY = 0;
   }
 
-  update(camera, road, director) {
+  update(road) {
     const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
       * mult * (1.5 - (speed / this.maxSpeed));
 
@@ -46,7 +46,7 @@ class Opponent {
     const oldSegment = road.getSegment(Math.round(this.trackPosition));
     this.trackPosition += this.runningPower;
     const actualSegment = road.getSegment(Math.round(this.trackPosition));
-    // console.log(oldSegment.index, oldSegment.sprites);
+
     oldSegment.sprites = oldSegment.sprites.filter(({ name }) => name !== this.sprite.name);
     actualSegment.sprites.push(this.sprite);
   }
