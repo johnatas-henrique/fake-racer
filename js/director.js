@@ -11,9 +11,19 @@ class Director {
     this.totalTime = 0;
     this.totalLaptimes = [];
     this.laptimes = [];
+    this.positions = [];
   }
 
-  update(player) {
+  refreshPositions(player, opponents) {
+    const arr = [];
+    arr.push({ name: player.name, pos: player.trackPosition });
+    opponents.forEach((opp) => arr
+      .push({ name: opp.opponentName, pos: opp.trackPosition }));
+    arr.sort((a, b) => b.pos - a.pos);
+    this.positions = arr;
+  }
+
+  update(player, opponent) {
     this.totalTime = window.performance.now();
 
     // HUD
@@ -32,6 +42,8 @@ class Director {
     if (speedValue < 10) speedValue = `00${speedValue}`;
     if (speedValue >= 10 && speedValue < 100) speedValue = `0${speedValue}`;
     addItens('#speed_value', speedValue);
+
+    this.refreshPositions(player, opponent);
   }
 }
 

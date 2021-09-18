@@ -15,6 +15,7 @@ class Player {
     this.startPress = 0;
     this.sprite = new Sprite();
     this.trackPosition = 0;
+    this.name = 'SpeedRacer';
   }
 
   get width() {
