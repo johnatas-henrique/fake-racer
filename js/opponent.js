@@ -11,7 +11,6 @@ class Opponent {
     this.runningPower = 0;
     this.scale = 0;
     this.trackPosition = trackPosition;
-    this.actualPosition = trackPosition;
     this.startPos = startPos;
     this.opponentName = opponentName;
     this.opponentX = 1;

@@ -1,5 +1,5 @@
 import Sprite from './sprite.js';
-import { handleInput, resource } from './util.js';
+import { handleInput, resource, startPosition } from './util.js';
 
 class Player {
   constructor() {
@@ -14,6 +14,7 @@ class Player {
     this.runningPower = 0;
     this.startPress = 0;
     this.sprite = new Sprite();
+    this.trackPosition = 0;
   }
 
   get width() {
@@ -36,13 +37,16 @@ class Player {
       : this.x += curvePower;
   }
 
-  create() {
+  create(menu, trackSize) {
     this.sprite.image = resource.get('playerRight');
     this.sprite.spritesInX = 6;
     this.sprite.spritesInY = 2;
     this.sprite.sheetPositionY = 1;
     this.sprite.scaleX = 2.5;
     this.sprite.scaleY = 3;
+
+    const qualyPos = Number(menu.selectedOptions[1]) + 1;
+    this.trackPosition = startPosition(trackSize, qualyPos);
   }
 
   update(camera, road, director) {
@@ -139,6 +143,7 @@ class Player {
       this.changeXToRight(this.curvePower);
     }
 
+    this.trackPosition += this.runningPower;
     camera.update(road, director);
   }
 

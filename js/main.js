@@ -111,7 +111,7 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     director.timeSinceLastFrameSwap += elapsed;
 
     if (director.timeSinceLastFrameSwap > menu.updateTime) {
-      menu.update(road, oppArr);
+      menu.update(player, road, oppArr);
       toggleMusic('event', selectedOptions[2], selectedOptions[3]);
       director.timeSinceLastFrameSwap = 0;
     }
@@ -142,8 +142,6 @@ const init = (time) => {
 
   const menu = new Menu(width, height);
   const opponents = [];
-
-  player.create();
 
   background.create();
   playMusic();
