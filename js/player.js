@@ -1,5 +1,5 @@
 import Sprite from './sprite.js';
-import { handleInput, ceil } from './util.js';
+import { handleInput, resource } from './util.js';
 
 class Player {
   constructor() {
@@ -34,6 +34,15 @@ class Player {
     this.x = this.x >= this.maxRange
       ? this.x = this.maxRange
       : this.x += curvePower;
+  }
+
+  create() {
+    this.sprite.image = resource.get('playerRight');
+    this.sprite.spritesInX = 6;
+    this.sprite.spritesInY = 2;
+    this.sprite.sheetPositionY = 1;
+    this.sprite.scaleX = 2.5;
+    this.sprite.scaleY = 3;
   }
 
   update(camera, road, director) {
@@ -73,14 +82,16 @@ class Player {
     } else if (handleInput.isKeyDown('arrowDown') && !handleInput.isKeyDown('arrowUp') && this.runningPower >= 0) {
       const brakePower = 6;
       this.runningPower = this.runningPower % brakePower === 0
-        ? this.runningPower : ceil(this.runningPower / brakePower) * brakePower;
+        ? this.runningPower : Math.ceil(this.runningPower / brakePower) * brakePower;
       this.runningPower = this.runningPower <= 0 ? 0 : this.runningPower += -brakePower;
       decelerationCurveBoost = this.runningPower >= 10
         ? (1.125 + (this.maxSpeed - this.runningPower) / this.maxSpeed)
         : 1;
       cameraClass.cursor += this.runningPower;
     } else if (!handleInput.isKeyDown('arrowUp') && this.runningPower > 0) {
-      this.runningPower = this.runningPower % 1 === 0 ? this.runningPower : ceil(this.runningPower);
+      this.runningPower = this.runningPower % 1 === 0
+        ? this.runningPower
+        : Math.ceil(this.runningPower);
       this.runningPower = this.runningPower < 2 ? 0 : this.runningPower += -2;
       cameraClass.cursor += this.runningPower;
       decelerationCurveBoost = this.runningPower >= 10
@@ -96,12 +107,8 @@ class Player {
       baseForce * (this.runningPower / this.maxSpeed) * segment.curve,
     );
     if (playerPosition === segment.index && segment.curve && this.runningPower) {
-      if (segment.curve < 0) {
-        this.changeXToRight(this.centrifugalForce);
-      }
-      if (segment.curve > 0) {
-        this.changeXToLeft(this.centrifugalForce);
-      }
+      if (segment.curve < 0) this.changeXToRight(this.centrifugalForce);
+      if (segment.curve > 0) this.changeXToLeft(this.centrifugalForce);
     }
 
     // making playerCar moves in X axis

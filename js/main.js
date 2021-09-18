@@ -137,17 +137,13 @@ const init = (time) => {
   const camera = new Camera();
   const director = new Director();
   const player = new Player();
-  const menu = new Menu(width, height);
-  player.sprite.image = resource.get('playerRight');
-  player.sprite.spritesInX = 6;
-  player.sprite.spritesInY = 2;
-  player.sprite.sheetPositionY = 1;
-  player.sprite.scaleX = 2.5;
-  player.sprite.scaleY = 3;
-
-  const opponents = [];
   const road = new Road();
   const background = new Background();
+
+  const menu = new Menu(width, height);
+  const opponents = [];
+
+  player.create();
 
   background.create();
   playMusic();
