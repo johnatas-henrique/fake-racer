@@ -90,15 +90,17 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     bg.render(render, camera, player, road.width);
     road.render(render, camera, player);
     player.render(render, camera, road.width);
-    director.update(player);
+    director.update(player, oppArr);
     render.restore();
 
     // print to screen (a better console.log)
-    addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
-    addItens('#line2', `CameraY: ${camera.y.toFixed(3)}`);
+    const position = director.positions.findIndex((elem) => elem.name === player.name) + 1;
+    addItens('#line1', `Position: ${position} / ${Number(menu.selectedOptions[1]) + 1}`);
+    // addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
+    // addItens('#line2', `CameraY: ${camera.y.toFixed(3)}`);
     // addItens('#line3', `NoUse: ${camera.z.toFixed(3)}`);
-    addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
-    addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
+    // addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
+    // addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
     // addItens('#line6', `NoUse: ${window.performance.now().toFixed(3)}`);
   }
 
