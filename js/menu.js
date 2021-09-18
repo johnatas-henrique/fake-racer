@@ -36,16 +36,18 @@ class Menu {
   }
 
   startRace(player, road, opponents) {
+    const roadParam = road;
+    const zero = 0;
     drivers.forEach((driver) => opponents.push(new Opponent(
-      driver.power, startPosition(tracks[this.selectedOptions[0]].trackSize, driver.position),
+      driver.power, startPosition(tracks[this.selectedOptions[zero]].trackSize, driver.position),
       driver.trackSide, driver.image, driver.name,
     )));
 
     opponents.forEach((opponentNumber) => opponentNumber.create());
     opponents.splice(this.selectedOptions[1], opponents.length);
-
-    road.create();
-    player.create(this, tracks[this.selectedOptions[0]].trackSize);
+    roadParam.trackName = this.selectedOptions[zero];
+    roadParam.create();
+    player.create(this, tracks[this.selectedOptions[zero]].trackSize);
   }
 
   update(player, road, opponents) {
