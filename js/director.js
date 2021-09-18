@@ -38,6 +38,9 @@ class Director {
     const fastLap = this.laptimes.length ? Math.min.apply(null, this.laptimes) : 0;
     addItens('#fast_lap_time_value', formatTime(fastLap));
 
+    const position = this.positions.findIndex((elem) => elem.name === player.name) + 1;
+    addItens('#position_value', `${position} / ${this.positions.length}`);
+
     let speedValue = `${(player.runningPower / 4).toFixed(0)}`;
     if (speedValue < 10) speedValue = `00${speedValue}`;
     if (speedValue >= 10 && speedValue < 100) speedValue = `0${speedValue}`;
