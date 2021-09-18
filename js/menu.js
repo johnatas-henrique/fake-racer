@@ -1,4 +1,7 @@
-import { handleInput, tracks } from './util.js';
+import {
+  handleInput, tracks, startPosition, drivers,
+} from './util.js';
+import Opponent from './opponent.js';
 
 class Menu {
   constructor(width, height) {
@@ -8,6 +11,7 @@ class Menu {
     this.width = width;
     this.menuY = 0;
     this.menuX = 0;
+    this.updateTime = 5 / 60;
     this.menuPhrase = {
       0: 'Selecione a pista: ',
       1: 'Número de oponentes: ',
@@ -17,7 +21,7 @@ class Menu {
     };
     this.menu = {
       0: Object.keys(tracks),
-      1: ['19', '1', '3', '5', '7', '9', '11', '13', '15', '17'],
+      1: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19'],
       2: ['não', 'sim'],
       3: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
       4: ['race'],
@@ -31,16 +35,26 @@ class Menu {
     };
   }
 
-  update() {
+  startRace(road, opponents) {
+    drivers.forEach((driver) => opponents.push(new Opponent(
+      driver.power, startPosition(tracks[this.selectedOptions[0]].trackSize, driver.position),
+      driver.trackSide, driver.image, driver.name,
+    )));
+
+    opponents.forEach((opponentNumber) => opponentNumber.create());
+    opponents.splice(this.selectedOptions[1], opponents.length);
+
+    road.create();
+  }
+
+  update(road, opponents) {
     const {
       arrowup, arrowdown, arrowleft, arrowright, enter,
     } = handleInput.map;
-    if (enter && !this.showMenu) {
-      this.showMenu = 1;
-    }
-
     const maxX = Object.keys(this.menu).length - 1;
     const maxY = this.menu[this.menuX].length - 1;
+
+    if (enter && !this.showMenu) this.showMenu = 1;
 
     if (this.showMenu) {
       if (this.menuX < maxX && arrowdown) {
@@ -76,15 +90,16 @@ class Menu {
       }
 
       if (enter && this.menuX === lastMenuOption) {
-        this.state = 'race';
         const hud = document.querySelector('#hud');
         hud.classList.remove('hidden');
+        this.startRace(road, opponents);
+        this.state = 'race';
       }
     }
   }
 
   render(render) {
-    render.drawText('red', 'FakeRacer', this.width / 2, this.height / 8);
+    render.drawText('red', 'FakeRacer', this.width / 2, this.height / 12, 48);
 
     if (!this.showMenu) {
       render.drawText('black', 'Aperte ENTER para iniciar', this.width / 2, this.height - 20);
@@ -97,10 +112,10 @@ class Menu {
       const lowText = `${this.menuPhrase[menuLow]} ${this.selectedOptions[menuLow].toLocaleUpperCase()}`;
       const highText = `${this.menuPhrase[menuHigh]} ${this.selectedOptions[menuHigh].toLocaleUpperCase()}`;
 
-      render.drawText('grey', lowText, this.width / 2, 180 - 90);
+      render.drawText('grey', lowText, this.width / 2, 180 - 75);
       render.drawText('black', this.menuPhrase[this.menuX], this.width / 2, 180 - 22.5);
       render.drawText('black', this.menu[this.menuX][this.menuY].toLocaleUpperCase(), this.width / 2, 180 + 22.5);
-      render.drawText('grey', highText, this.width / 2, 180 + 90);
+      render.drawText('grey', highText, this.width / 2, 180 + 75);
 
       render.drawText('black', 'Escolha com as setas do teclado. Confirme com ENTER.', this.width / 2, this.height - 20, 18);
     }
