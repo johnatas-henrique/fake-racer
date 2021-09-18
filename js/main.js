@@ -71,36 +71,39 @@ const curveAnim = (player, speed) => {
    * @param {Number} height
    */
 const loop = (time, render, camera, player, oppArr, road, bg, director, menu, width, height) => {
+  const directorParam = director;
+  const cameraParam = camera;
+  const playerParam = player;
+
   render.clear(0, 0, width, height);
   render.save();
 
   if (menu.state === 'race') {
-    camera.update(road, director);
+    cameraParam.update(road, directorParam);
     const timeNow = window.performance.now();
-    const elapsed = (timeNow - director.oldTime) / 1000;
-    director.oldTime = timeNow;
-    director.timeSinceLastFrameSwap += elapsed;
-    if (director.timeSinceLastFrameSwap > player.animationUpdateTime) {
-      curveAnim(player, player.runningPower);
-      director.timeSinceLastFrameSwap = 0;
+    const elapsed = (timeNow - directorParam.oldTime) / 1000;
+    directorParam.oldTime = timeNow;
+    directorParam.timeSinceLastFrameSwap += elapsed;
+    if (directorParam.timeSinceLastFrameSwap > playerParam.animationUpdateTime) {
+      curveAnim(playerParam, playerParam.runningPower);
+      directorParam.timeSinceLastFrameSwap = 0;
     }
-    player.update(camera, road, director);
+    playerParam.update(cameraParam, road, directorParam);
     oppArr.forEach((opponent) => opponent.update(road));
-    bg.update(player, camera, road);
-    bg.render(render, camera, player, road.width);
-    road.render(render, camera, player);
-    player.render(render, camera, road.width);
-    director.update(player, oppArr);
+    bg.update(playerParam, cameraParam, road);
+    bg.render(render, cameraParam, playerParam, road.width);
+    road.render(render, cameraParam, playerParam);
+    playerParam.render(render, cameraParam, road.width);
+    directorParam.update(playerParam, oppArr);
     render.restore();
 
     // print to screen (a better console.log)
-    const position = director.positions.findIndex((elem) => elem.name === player.name) + 1;
-    addItens('#line1', `Position: ${position} / ${Number(menu.selectedOptions[1]) + 1}`);
-    // addItens('#line1', `Segment: ${(camera.cursor / 200).toFixed(3)}`);
-    // addItens('#line2', `CameraY: ${camera.y.toFixed(3)}`);
-    // addItens('#line3', `NoUse: ${camera.z.toFixed(3)}`);
-    // addItens('#line4', `Centrifugal: ${player.centrifugalForce.toFixed(3)}`);
-    // addItens('#line5', `Curve: ${player.curvePower.toFixed(3)}`);
+    // addItens('#line1', `Position: ${position} / ${Number(menu.selectedOptions[1]) + 1}`);
+    // addItens('#line1', `Segment: ${(cameraParam.cursor / 200).toFixed(3)}`);
+    // addItens('#line2', `CameraY: ${cameraParam.y.toFixed(3)}`);
+    // addItens('#line3', `NoUse: ${cameraParam.z.toFixed(3)}`);
+    // addItens('#line4', `Centrifugal: ${playerParam.centrifugalForce.toFixed(3)}`);
+    // addItens('#line5', `Curve: ${playerParam.curvePower.toFixed(3)}`);
     // addItens('#line6', `NoUse: ${window.performance.now().toFixed(3)}`);
   }
 
@@ -108,29 +111,28 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     const { selectedOptions } = menu;
 
     const timeNow = window.performance.now();
-    const elapsed = (timeNow - director.oldTime) / 1000;
-    director.oldTime = timeNow;
-    director.timeSinceLastFrameSwap += elapsed;
+    const elapsed = (timeNow - directorParam.oldTime) / 1000;
+    directorParam.oldTime = timeNow;
+    directorParam.timeSinceLastFrameSwap += elapsed;
 
-    if (director.timeSinceLastFrameSwap > menu.updateTime) {
-      menu.update(player, road, oppArr);
+    if (directorParam.timeSinceLastFrameSwap > menu.updateTime) {
+      menu.update(playerParam, road, oppArr);
       toggleMusic('event', selectedOptions[2], selectedOptions[3]);
-      director.timeSinceLastFrameSwap = 0;
+      directorParam.timeSinceLastFrameSwap = 0;
     }
 
     menu.render(render);
-    road.trackName = selectedOptions[0];
 
     // spawn point before startLine
     const { trackSize } = tracks[selectedOptions[0]];
     const qualyPos = Number(selectedOptions[1]) + 1;
-    camera.cursor = startPosition(trackSize, qualyPos);
-    player.x = qualyPos % 2 ? -1 : 1;
+    cameraParam.cursor = startPosition(trackSize, qualyPos);
+    playerParam.x = qualyPos % 2 ? -1 : 1;
   }
 
-  requestAnimationFrame(
-    () => loop(time, render, camera, player, oppArr, road, bg, director, menu, width, height),
-  );
+  requestAnimationFrame(() => loop(
+    time, render, cameraParam, playerParam, oppArr, road, bg, directorParam, menu, width, height,
+  ));
 };
 
 const init = (time) => {
