@@ -6,6 +6,11 @@
   margin: 0;
 }
 
+@font-face {
+  font-family: Outrider;
+  src: url(../other/outrider.ttf);
+}
+
 html, body {
   background: #000000;
   font-family: Verdana, Geneva, sans-serif;
@@ -48,12 +53,12 @@ canvas {
 .controlButtons {
   border-radius: 50%;
   display: block;
-  font-size: 4vw;
-  height: 6vw;
-  width: 6vw;
-  margin: 0 0.8em 1em;
-  background: black;
-  color: #fff9ef;
+  font-size: 6vw;
+  height: 10vw;
+  width: 10vw;
+  margin: 0 0.3em 0.5em;
+  background: rgba(0, 0, 0, 0.05);
+  color: #444444;
 }
 
 .hud-container {
@@ -122,6 +127,8 @@ canvas {
   bottom: 0em;
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1em;
 }
 
 .hidden{

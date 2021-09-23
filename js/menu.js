@@ -13,8 +13,8 @@ class Menu {
     this.menuX = 0;
     this.updateTime = 5 / 60;
     this.menuPhrase = {
-      0: 'Selecione a pista: ',
-      1: 'Número de oponentes: ',
+      0: 'Circuito: ',
+      1: 'Oponentes: ',
       2: 'Música: ',
       3: 'Volume da música: ',
       4: 'Bora correr? ',
@@ -102,10 +102,14 @@ class Menu {
   }
 
   render(render) {
-    render.drawText('red', 'FakeRacer', this.width / 2, this.height / 12, 48);
+    render.drawText('red', 'Fake Racer', this.width / 2, this.height / 12, 4);
 
     if (!this.showMenu) {
-      render.drawText('black', 'Aperte ENTER para iniciar', this.width / 2, this.height - 20);
+      if (window.navigator.maxTouchPoints) {
+        render.drawText('black', 'Aperte OK para iniciar', this.width / 2, this.height - 20);
+      } else {
+        render.drawText('black', 'Aperte ENTER para iniciar', this.width / 2, this.height - 20);
+      }
     }
 
     if (this.showMenu) {
@@ -119,8 +123,13 @@ class Menu {
       render.drawText('black', this.menuPhrase[this.menuX], this.width / 2, 180 - 22.5);
       render.drawText('black', this.menu[this.menuX][this.menuY].toLocaleUpperCase(), this.width / 2, 180 + 22.5);
       render.drawText('grey', highText, this.width / 2, 180 + 75);
-
-      render.drawText('black', 'Escolha com as setas do teclado. Confirme com ENTER.', this.width / 2, this.height - 20, 18);
+      if (window.navigator.maxTouchPoints) {
+        render.drawText('black', 'Escolha com os botões da tela', this.width / 2, this.height - 40, 1.5);
+        render.drawText('black', 'Confirme com OK', this.width / 2, this.height - 20, 1.5);
+      } else {
+        render.drawText('black', 'Escolha com as setas do teclado', this.width / 2, this.height - 40, 1.5);
+        render.drawText('black', 'Confirme com ENTER', this.width / 2, this.height - 20, 1.5);
+      }
     }
   }
 }
