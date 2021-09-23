@@ -79,10 +79,9 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
   render.save();
 
   if (menu.state === 'race') {
-    cameraParam.update(road, directorParam);
     const timeNow = window.performance.now();
-    const elapsed = (timeNow - directorParam.oldTime) / 1000;
-    directorParam.oldTime = timeNow;
+    const elapsed = (timeNow - directorParam.realTime) / 1000;
+    directorParam.realTime = timeNow;
     directorParam.timeSinceLastFrameSwap += elapsed;
     if (directorParam.timeSinceLastFrameSwap > playerParam.animationUpdateTime) {
       curveAnim(playerParam, playerParam.runningPower);
@@ -95,6 +94,7 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     road.render(render, cameraParam, playerParam);
     playerParam.render(render, cameraParam, road.width);
     directorParam.update(playerParam, oppArr);
+    // cameraParam.update(road, directorParam);
     render.restore();
 
     // print to screen (a better console.log)
@@ -111,8 +111,8 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     const { selectedOptions } = menu;
 
     const timeNow = window.performance.now();
-    const elapsed = (timeNow - directorParam.oldTime) / 1000;
-    directorParam.oldTime = timeNow;
+    const elapsed = (timeNow - directorParam.realTime) / 1000;
+    directorParam.realTime = timeNow;
     directorParam.timeSinceLastFrameSwap += elapsed;
 
     if (directorParam.timeSinceLastFrameSwap > menu.updateTime) {
@@ -128,6 +128,12 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     const qualyPos = Number(selectedOptions[1]) + 1;
     cameraParam.cursor = startPosition(trackSize, qualyPos);
     playerParam.x = qualyPos % 2 ? -1 : 1;
+
+    // for test, enter race on page load
+    // const hud = document.querySelector('#hud');
+    // hud.classList.remove('hidden');
+    // menu.startRace(player, road, oppArr);
+    // menu.state = 'race';
   }
 
   requestAnimationFrame(() => loop(
@@ -137,15 +143,15 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
 
 const init = (time) => {
   const { width, height } = canvas;
+  const opponents = [];
+
   const render = new Render(canvas.getContext('2d'));
   const camera = new Camera();
   const director = new Director();
   const player = new Player();
   const road = new Road();
   const background = new Background();
-
   const menu = new Menu(width, height);
-  const opponents = [];
 
   background.create();
   playMusic();

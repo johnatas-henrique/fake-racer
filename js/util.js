@@ -57,8 +57,24 @@ const formatTime = (dt) => {
 };
 
 const tracks = {
+  monaco: {
+    trackSize: 6656,
+    laps: 78,
+    curves: [
+      { min: 1200, max: 1500, curveInclination: -4 },
+      { min: 2200, max: 2500, curveInclination: -4 },
+    ],
+    hills: [
+      { initialSegment: 1, size: 500, altimetry: -50 },
+      { initialSegment: 1001, size: 500, altimetry: 35 },
+      { initialSegment: 1701, size: 500, altimetry: 35 },
+      { initialSegment: 6150, size: 500, altimetry: -20 },
+      { initialSegment: 6656, size: 0, altimetry: 0 },
+    ],
+  },
   brazil: {
     trackSize: 8632,
+    laps: 71,
     curves: [
       { min: 200, max: 400, curveInclination: -4 },
       { min: 600, max: 800, curveInclination: 4 },
@@ -92,34 +108,6 @@ const tracks = {
       { initialSegment: 8632, size: 0, altimetry: 0 },
     ],
   },
-  monaco: {
-    trackSize: 6656,
-    curves: [
-      { min: 2500, max: 1500, curveInclination: -4 },
-    ],
-    hills: [
-      { initialSegment: 1, size: 800, altimetry: -40 },
-      { initialSegment: 1001, size: 800, altimetry: 40 },
-      { initialSegment: 6656, size: 0, altimetry: 0 },
-    ],
-  },
-  // test: {
-  //   trackSize: 3000,
-  //   curves: [
-  //     { min: 50, max: 300, curveInclination: -2 },
-  //     { min: 500, max: 750, curveInclination: 3 },
-  //     { min: 900, max: 1150, curveInclination: -4 },
-  //     { min: 1300, max: 1800, curveInclination: 6 },
-  //     { min: 2000, max: 2300, curveInclination: 1 },
-  //     { min: 2360, max: 2640, curveInclination: -2.5 },
-  //   ],
-  //   hills: [
-  //     { initialSegment: 50, size: 300, altimetry: -40 },
-  //     { initialSegment: 450, size: 150, altimetry: 25 },
-  //     { initialSegment: 1000, size: 315, altimetry: 50 },
-  //     { initialSegment: 3000, size: 0, altimetry: 0 },
-  //   ],
-  // },
 };
 
 const drivers = [

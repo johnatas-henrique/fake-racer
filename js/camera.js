@@ -43,11 +43,13 @@ class Camera {
    */
   update(road, director) {
     const length = road.length;
+    
     if (this.cursor >= length) {
-      director.totalLaptimes.push(window.performance.now());
+      director.totalLaptimes.push(director.animTime);
+      director.animTime = 0;
       director.lap += 1;
       if (director.totalLaptimes.length >= 2) {
-        const lastLap = director.totalLaptimes[director.lap - 1] - director.totalLaptimes[director.lap - 2];
+        const lastLap = director.totalLaptimes[director.lap - 1];
         director.laptimes.push(lastLap);
       }
 
