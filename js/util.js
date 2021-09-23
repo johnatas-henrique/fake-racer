@@ -75,8 +75,8 @@ const tracks = {
 
       { min: 2690, max: 2780, curveInclination: 4 },
       { min: 2990, max: 3120, curveInclination: 3 },
-      { min: 3310, max: 3640, curveInclination: 3 },
-      { min: 3770, max: 3930, curveInclination: 2 },
+      { min: 3310, max: 3640, curveInclination: 2 },
+      { min: 3770, max: 3930, curveInclination: 1 },
       { min: 4020, max: 4120, curveInclination: -3 },
       { min: 4170, max: 4210, curveInclination: 3 },
       { min: 4230, max: 4290, curveInclination: 3 },
@@ -104,6 +104,11 @@ const tracks = {
       { initialSegment: 5670, size: 340, altimetry: 50 },
       { initialSegment: 6050, size: 150, altimetry: -30 },
       { initialSegment: 6656, size: 0, altimetry: 0 },
+    ],
+    tunnels: [
+      {
+        min: 3250, max: 3900, name: '', height: 12500,
+      },
     ],
   },
   brazil: {
@@ -141,66 +146,71 @@ const tracks = {
       { initialSegment: 8100, size: 500, altimetry: -10 },
       { initialSegment: 8632, size: 0, altimetry: 0 },
     ],
+    tunnels: [
+      {
+        min: 0, max: 0, name: '', height: 1,
+      },
+    ],
   },
 };
 
 const drivers = [
   {
-    power: 1160, position: 1, trackSide: -1, image: 'opponents', name: 'Senna',
+    power: 1120, position: 1, trackSide: -1, image: 'opponents', name: 'Senna',
   },
   {
-    power: 1140, position: 2, trackSide: 1, image: 'opponents', name: 'Schumacher',
+    power: 1115, position: 2, trackSide: 1, image: 'opponents', name: 'Schumacher',
   },
   {
-    power: 1120, position: 3, trackSide: -1, image: 'opponents', name: 'Hamilton',
+    power: 1110, position: 3, trackSide: -1, image: 'opponents', name: 'Prost',
   },
   {
-    power: 1100, position: 4, trackSide: 1, image: 'opponents', name: 'Fangio',
+    power: 1105, position: 4, trackSide: 1, image: 'opponents', name: 'Piquet',
   },
   {
-    power: 1080, position: 5, trackSide: -1, image: 'opponents', name: 'Fangio2',
+    power: 1100, position: 5, trackSide: -1, image: 'opponents', name: 'Mansell',
   },
   {
-    power: 1060, position: 6, trackSide: 1, image: 'opponents', name: 'Fangio3',
+    power: 1090, position: 6, trackSide: 1, image: 'opponents', name: 'Berger',
   },
   {
-    power: 1040, position: 7, trackSide: -1, image: 'opponents', name: 'Fangio4',
+    power: 1080, position: 7, trackSide: -1, image: 'opponents', name: 'Alesi',
   },
   {
-    power: 1020, position: 8, trackSide: 1, image: 'opponents', name: 'Fangio5',
+    power: 1070, position: 8, trackSide: 1, image: 'opponents', name: 'Patrese',
   },
   {
-    power: 1000, position: 9, trackSide: -1, image: 'opponents', name: 'Fangio6',
+    power: 1060, position: 9, trackSide: -1, image: 'opponents', name: 'Boutsen',
   },
   {
-    power: 980, position: 10, trackSide: 1, image: 'opponents', name: 'Fangio7',
+    power: 1050, position: 10, trackSide: 1, image: 'opponents', name: 'Comas',
   },
   {
-    power: 960, position: 11, trackSide: -1, image: 'opponents', name: 'Fangio8',
+    power: 1025, position: 11, trackSide: -1, image: 'opponents', name: 'Nakajima',
   },
   {
-    power: 940, position: 12, trackSide: 1, image: 'opponents', name: 'Fangio9',
+    power: 1000, position: 12, trackSide: 1, image: 'opponents', name: 'Herbert',
   },
   {
-    power: 920, position: 13, trackSide: -1, image: 'opponents', name: 'Fangio10',
+    power: 975, position: 13, trackSide: -1, image: 'opponents', name: 'Lehto',
   },
   {
-    power: 900, position: 14, trackSide: 1, image: 'opponents', name: 'Fangio11',
+    power: 950, position: 14, trackSide: 1, image: 'opponents', name: 'Gugelmin',
   },
   {
-    power: 920, position: 15, trackSide: -1, image: 'opponents', name: 'Fangio12',
+    power: 925, position: 15, trackSide: -1, image: 'opponents', name: 'Modena',
   },
   {
-    power: 940, position: 16, trackSide: 1, image: 'opponents', name: 'Fangio13',
+    power: 900, position: 16, trackSide: 1, image: 'opponents', name: 'Capelli',
   },
   {
-    power: 960, position: 17, trackSide: -1, image: 'opponents', name: 'Fangio14',
+    power: 875, position: 17, trackSide: -1, image: 'opponents', name: 'De Cesaris',
   },
   {
-    power: 980, position: 18, trackSide: 1, image: 'opponents', name: 'Fangio15',
+    power: 850, position: 18, trackSide: 1, image: 'opponents', name: 'Pirro',
   },
   {
-    power: 1100, position: 19, trackSide: -1, image: 'opponents', name: 'Fangio16',
+    power: 825, position: 19, trackSide: -1, image: 'opponents', name: 'Gachot',
   },
 ];
 
