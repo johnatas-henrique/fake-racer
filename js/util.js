@@ -156,61 +156,61 @@ const tracks = {
 
 const drivers = [
   {
-    power: 1120, position: 1, trackSide: -1, image: 'opponents', name: 'Senna',
+    power: 1120, position: 1, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1115, position: 2, trackSide: 1, image: 'opponents', name: 'Schumacher',
+    power: 1115, position: 2, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1110, position: 3, trackSide: -1, image: 'opponents', name: 'Prost',
+    power: 1110, position: 3, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1105, position: 4, trackSide: 1, image: 'opponents', name: 'Piquet',
+    power: 1105, position: 4, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1100, position: 5, trackSide: -1, image: 'opponents', name: 'Mansell',
+    power: 1100, position: 5, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1090, position: 6, trackSide: 1, image: 'opponents', name: 'Berger',
+    power: 1090, position: 6, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1080, position: 7, trackSide: -1, image: 'opponents', name: 'Alesi',
+    power: 1080, position: 7, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1070, position: 8, trackSide: 1, image: 'opponents', name: 'Patrese',
+    power: 1070, position: 8, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1060, position: 9, trackSide: -1, image: 'opponents', name: 'Boutsen',
+    power: 1060, position: 9, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1050, position: 10, trackSide: 1, image: 'opponents', name: 'Comas',
+    power: 1050, position: 10, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1025, position: 11, trackSide: -1, image: 'opponents', name: 'Nakajima',
+    power: 1025, position: 11, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 1000, position: 12, trackSide: 1, image: 'opponents', name: 'Herbert',
+    power: 1000, position: 12, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 975, position: 13, trackSide: -1, image: 'opponents', name: 'Lehto',
+    power: 975, position: 13, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 950, position: 14, trackSide: 1, image: 'opponents', name: 'Gugelmin',
+    power: 950, position: 14, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 925, position: 15, trackSide: -1, image: 'opponents', name: 'Modena',
+    power: 925, position: 15, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 900, position: 16, trackSide: 1, image: 'opponents', name: 'Capelli',
+    power: 900, position: 16, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 875, position: 17, trackSide: -1, image: 'opponents', name: 'De Cesaris',
+    power: 875, position: 17, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 850, position: 18, trackSide: 1, image: 'opponents', name: 'Pirro',
+    power: 850, position: 18, trackSide: 1, image: 'opponents', name: 'jogador1',
   },
   {
-    power: 825, position: 19, trackSide: -1, image: 'opponents', name: 'Gachot',
+    power: 825, position: 19, trackSide: -1, image: 'opponents', name: 'jogador1',
   },
 ];
 
