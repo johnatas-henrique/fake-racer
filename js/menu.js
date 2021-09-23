@@ -94,7 +94,9 @@ class Menu {
 
       if (enter && this.menuX === lastMenuOption) {
         const hud = document.querySelector('#hud');
-        hud.classList.remove('hidden');
+        hud.classList.toggle('hidden');
+        const okBtn = document.querySelector('.rightControls').firstElementChild;
+        okBtn.classList.toggle('hidden');
         this.startRace(player, road, opponents);
         this.state = 'race';
       }
