@@ -97,7 +97,7 @@ class SegmentLine {
       const { clip, scale } = this;
       const worldH = tunnel.worldH;
       const py = tunnel.py = round((1 - worldH * scale) * camera.screen.midpoint.y);
-      const h = round(worldH * 0.2 * scale * camera.screen.midpoint.y);
+      const h = round(worldH * 0.1 * scale * camera.screen.midpoint.y);
       const clipH = tunnel.clipH = clip ? max(0, screen.y - clip) : 0;
       if (clipH < screen.y - (py + h)) {
         const leftFace = tunnel.leftFace;

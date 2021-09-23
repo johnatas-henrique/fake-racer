@@ -140,20 +140,21 @@ class Road {
           counterAngle += 0.5;
         }
 
+        const tunnelInfo = tracks[this.trackName].tunnels[0];
         // tunnels
-        if (i >= 0 && i <= 0) {
-          if (i === 208) {
+        if (i >= tunnelInfo.min && i <= tunnelInfo.max) {
+          if (i === tunnelInfo.min) {
             previousSegment = baseSegment;
             const tunnel = new Tunnel();
-            tunnel.worldH = 5000 + Math.abs(world.y);
+            tunnel.worldH = tunnelInfo.height;
 
             baseSegment.tunnel = tunnel;
             baseSegment.colors.tunnel = '#fff';
-            tunnel.title = 'Tunel Racing 3D';
+            tunnel.title = tunnelInfo.name;
 
           } else if (i % (rumbleLength * 1) === 0) {
             const tunnel = new Tunnel();
-            tunnel.worldH = 5000 + Math.abs(world.y);
+            tunnel.worldH = tunnelInfo.height;
             tunnel.previousSegment = previousSegment;
             previousSegment = baseSegment;
             baseSegment.tunnel = tunnel;
