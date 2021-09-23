@@ -54,11 +54,12 @@ canvas {
   border-radius: 50%;
   display: block;
   font-size: 6vw;
+  font-weight: 700;
   height: 10vw;
   width: 10vw;
   margin: 0 0.3em 0.5em;
   background: rgba(0, 0, 0, 0.05);
-  color: #444444;
+  color: #c0c0c0;
 }
 
 .hud-container {
