@@ -31,7 +31,7 @@ class Menu {
       0: 'monaco',
       1: '19',
       2: 'não',
-      3: '3',
+      3: '1',
       4: 'race',
     };
     this.arrowUpBlink = 0;
@@ -60,7 +60,10 @@ class Menu {
     const maxX = Object.keys(this.menu).length - 1;
     const maxY = this.menu[this.menuX].length - 1;
 
-    if (enter && !this.showMenu) this.showMenu = 1;
+    if (enter && !this.showMenu) {
+      this.selectedOptions[2] = 'sim';
+      this.showMenu = 1;
+    }
 
     if (this.showMenu) {
       if (!arrowdown) {
