@@ -1,7 +1,8 @@
 import {
-  handleInput, tracks, startPosition, drivers,
+  handleInput, tracks, startPosition, drivers, resource,
 } from './util.js';
 import Opponent from './opponent.js';
+import Sprite from './sprite.js';
 
 class Menu {
   constructor(width, height) {
@@ -104,13 +105,13 @@ class Menu {
   }
 
   render(render) {
-    render.drawText('red', 'Fake Racer', this.width / 2, this.height / 12, 4);
+    render.drawText('#EB4844', 'Fake Racer', this.width / 2, this.height / 12, 4, 'OutriderCondBold');
 
     if (!this.showMenu) {
       if (window.navigator.maxTouchPoints) {
-        render.drawText('black', 'Aperte OK para iniciar', this.width / 2, this.height - 20);
+        render.drawText('black', 'Aperte OK para iniciar', this.width / 2, this.height / 2);
       } else {
-        render.drawText('black', 'Aperte ENTER para iniciar', this.width / 2, this.height - 20);
+        render.drawText('black', 'Aperte ENTER para iniciar', this.width / 2, this.height / 2);
       }
     }
 
@@ -121,17 +122,27 @@ class Menu {
       const lowText = `${this.menuPhrase[menuLow]} ${this.selectedOptions[menuLow].toLocaleUpperCase()}`;
       const highText = `${this.menuPhrase[menuHigh]} ${this.selectedOptions[menuHigh].toLocaleUpperCase()}`;
 
-      render.drawText('grey', lowText, this.width / 2, 180 - 75);
-      render.drawText('black', this.menuPhrase[this.menuX], this.width / 2, 180 - 22.5);
-      render.drawText('black', this.menu[this.menuX][this.menuY].toLocaleUpperCase(), this.width / 2, 180 + 22.5);
-      render.drawText('grey', highText, this.width / 2, 180 + 75);
+      render.drawPolygon('#2C69EB', 100, 100, 540, 100, 540, 270, 100, 270);
+      render.drawText('#FFFAF4', lowText, this.width / 2, 180 - 45, 1.6);
+      const phrase = `${this.menuPhrase[this.menuX]} ${this.menu[this.menuX][this.menuY].toLocaleUpperCase()}`;
+      render.drawText('#050B1A', phrase, this.width / 2, 180, 1.6);
+      render.drawText('#FFFAF4', highText, this.width / 2, 180 + 45, 1.6);
       if (window.navigator.maxTouchPoints) {
-        render.drawText('black', 'Escolha com os botões da tela', this.width / 2, this.height - 40, 1.5);
-        render.drawText('black', 'Confirme com OK', this.width / 2, this.height - 20, 1.5);
+        render.drawText('black', 'Navegar', this.width / 2, this.height - 40, 1.5);
+        render.drawText('black', 'Confirmar', this.width / 2, this.height - 20, 1.5);
       } else {
-        render.drawText('black', 'Escolha com as setas do teclado', this.width / 2, this.height - 40, 1.5);
-        render.drawText('black', 'Confirme com ENTER', this.width / 2, this.height - 20, 1.5);
+        const arrowKeys = new Sprite();
+        arrowKeys.image = resource.get('arrowKeys');
+        const enterKey = new Sprite();
+        enterKey.image = resource.get('enterKey');
+        render.drawText('black', 'Navegar', 590, 320, 1.3, 'OutriderCond', 'right');
+        render.renderingContext.drawImage(arrowKeys.image, 595, 310, 28, 18);
+        render.drawText('black', 'Confirmar', 590, 345, 1.3, 'OutriderCond', 'right');
+        render.renderingContext.drawImage(enterKey.image, 597, 335, 23, 18);
       }
+
+      render.drawText('#050B1A', 'c', 520, 140, 2, 'Arrows');
+      render.drawText('#050B1A', 'd', 520, 240, 2, 'Arrows');
     }
   }
 }

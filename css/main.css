@@ -7,8 +7,18 @@
 }
 
 @font-face {
-  font-family: Outrider;
-  src: url(../other/outrider.ttf);
+  font-family: Arrows;
+  src: url(../other/arrows.ttf);
+}
+
+@font-face {
+  font-family: OutriderCond;
+  src: url(../other/outriderCond.ttf);
+}
+
+@font-face {
+  font-family: OutriderCondBold;
+  src: url(../other/outriderCondBold.ttf);
 }
 
 @font-face {
@@ -33,7 +43,7 @@ html, body {
 canvas {
   height: 100%;
   width: 100%;
-  background: white;
+  background: #FAF6F2;
 }
 
 #info, .hud-container, #touchControls {

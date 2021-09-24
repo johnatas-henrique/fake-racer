@@ -163,6 +163,8 @@ resource
   .add('sky', './images/sprites/background/sky.png')
   .add('hill', './images/sprites/background/hill.png')
   .add('tree', './images/sprites/background/tree.png')
+  .add('arrowKeys', './images/sprites/other/arrowKeys.png')
+  .add('enterKey', './images/sprites/other/enterKey.png')
   .add('billboardSega', './images/sprites/other/billboard04.png')
   .add('startLine', './images/sprites/other/startLine.png')
   .add('leftSignal', './images/sprites/other/leftSignal.png')
