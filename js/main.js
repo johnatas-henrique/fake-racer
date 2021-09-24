@@ -10,8 +10,8 @@ import {
 } from './util.js';
 
 window.onload = () => {
-  const objDiv = document.querySelector('body');
-  objDiv.scrollTop = objDiv.scrollHeight;
+  const containerCanvas = document.querySelector('.container');
+  containerCanvas.height = Math.min(window.innerHeight, (0.5625 * window.innerWidth));
 };
 
 let actualVal = 0;

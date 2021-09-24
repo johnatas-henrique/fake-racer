@@ -11,9 +11,14 @@
   src: url(../other/outrider.ttf);
 }
 
+@font-face {
+  font-family: Joystix;
+  src: url(../other/joystix.ttf);
+}
+
 html, body {
   background: #000000;
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: Joystix, Verdana, Geneva, sans-serif;
   height: 100%;
   position: relative;
   overflow: auto;
@@ -23,8 +28,6 @@ html, body {
 .container {
   position: relative;
   margin: 0 auto;
-  /* width: min(100vw, 177.777778vh); */
-  height: min(100vh, 56.25vw);
 }
 
 canvas {
@@ -85,20 +88,6 @@ canvas {
   -webkit-transition-duration: 2s;
 }
 
-.hud-container #last_lap_time {
-  /* display: none; */
-}
-
-.hud-container #fast_lap_time {
-  display: block;
-  width: 12em;
-  text-align: center;
-  transition-property: background-color;
-  transition-duration: 2s;
-  -webkit-transition-property: background-color;
-  -webkit-transition-duration: 2s;
-}
-
 .hud-container .value {
   color: white;
   font-weight: bold;
@@ -139,5 +128,9 @@ canvas {
 @media (hover: hover) and (pointer: fine) {
   #touchControls {
     display: none;
+  }
+
+  .container {
+    height: min(100vh, 56.25vw);
   }
 }
