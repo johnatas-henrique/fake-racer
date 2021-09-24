@@ -99,6 +99,42 @@ class Render {
       );
     }
   }
+
+  roundRect(color, x, y, width, height, radius = 5, fill, stroke = true) {
+    const { renderingContext } = this;
+
+    const radii = {
+      tl: 0, tr: 0, br: 0, bl: 0,
+    };
+    if (typeof radius === 'number') {
+      // radii = {
+      //   tl: radius, tr: radius, br: radius, bl: radius,
+      // };
+      radii.tl = radius;
+      radii.tr = radius;
+      radii.br = radius;
+      radii.bl = radius;
+    }
+    renderingContext.fillStyle = color;
+    renderingContext.beginPath();
+    renderingContext.moveTo(x + radii.tl, y);
+    renderingContext.lineTo(x + width - radii.tr, y);
+    renderingContext.quadraticCurveTo(x + width, y, x + width, y + radii.tr);
+    renderingContext.lineTo(x + width, y + height - radii.br);
+    renderingContext.quadraticCurveTo(x + width, y + height, x + width - radii.br, y + height);
+    renderingContext.lineTo(x + radii.bl, y + height);
+    renderingContext.quadraticCurveTo(x, y + height, x, y + height - radii.bl);
+    renderingContext.lineTo(x, y + radii.tl);
+    renderingContext.quadraticCurveTo(x, y, x + radii.tl, y);
+    renderingContext.closePath();
+
+    if (fill) {
+      renderingContext.fill();
+    }
+    if (stroke) {
+      renderingContext.stroke();
+    }
+  }
 }
 
 export default Render;
