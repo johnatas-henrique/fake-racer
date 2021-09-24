@@ -105,13 +105,13 @@ class Menu {
   }
 
   render(render) {
-    render.drawText('#EB4844', 'Fake Racer', this.width / 2, this.height / 12, 4, 'OutriderCondBold');
+    render.drawText('#EB4844', 'Fake Racer', 320, 30, 4, 'OutriderCondBold');
 
     if (!this.showMenu) {
       if (window.navigator.maxTouchPoints) {
-        render.drawText('black', 'Aperte OK para iniciar', this.width / 2, this.height / 2);
+        render.drawText('black', 'Aperte OK para iniciar', 320, 180);
       } else {
-        render.drawText('black', 'Aperte ENTER para iniciar', this.width / 2, this.height / 2);
+        render.drawText('black', 'Aperte ENTER para iniciar', 320, 180);
       }
     }
 
@@ -123,13 +123,13 @@ class Menu {
       const highText = `${this.menuPhrase[menuHigh]} ${this.selectedOptions[menuHigh].toLocaleUpperCase()}`;
 
       render.drawPolygon('#2C69EB', 100, 100, 540, 100, 540, 270, 100, 270);
-      render.drawText('#FFFAF4', lowText, this.width / 2, 180 - 45, 1.6);
+      render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
       const phrase = `${this.menuPhrase[this.menuX]} ${this.menu[this.menuX][this.menuY].toLocaleUpperCase()}`;
-      render.drawText('#050B1A', phrase, this.width / 2, 180, 1.6);
-      render.drawText('#FFFAF4', highText, this.width / 2, 180 + 45, 1.6);
+      render.drawText('#050B1A', phrase, 320, 180, 1.6);
+      render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);
       if (window.navigator.maxTouchPoints) {
-        render.drawText('black', 'Navegar', this.width / 2, this.height - 40, 1.5);
-        render.drawText('black', 'Confirmar', this.width / 2, this.height - 20, 1.5);
+        render.drawText('black', 'Navegar', 590, 320, 1.3, 'OutriderCond', 'right');
+        render.drawText('black', 'Confirmar', 590, 345, 1.3, 'OutriderCond', 'right');
       } else {
         const arrowKeys = new Sprite();
         arrowKeys.image = resource.get('arrowKeys');
