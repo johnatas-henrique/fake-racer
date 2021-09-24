@@ -12,7 +12,7 @@ class Menu {
     this.width = width;
     this.menuY = 0;
     this.menuX = 0;
-    this.updateTime = 5 / 60;
+    this.updateTime = 6 / 60;
     this.menuPhrase = {
       0: 'Circuito: ',
       1: 'Oponentes: ',
@@ -34,6 +34,8 @@ class Menu {
       3: '3',
       4: 'race',
     };
+    this.arrowUpBlink = 0;
+    this.arrowDownBlink = 0;
   }
 
   startRace(player, road, opponents) {
@@ -61,21 +63,32 @@ class Menu {
     if (enter && !this.showMenu) this.showMenu = 1;
 
     if (this.showMenu) {
+      if (!arrowdown) {
+        this.arrowDownBlink = false;
+      }
+      if (!arrowup) {
+        this.arrowUpBlink = false;
+      }
+
       if (this.menuX < maxX && arrowdown) {
+        this.arrowDownBlink = !this.arrowDownBlink;
         this.menuX += 1;
         this.menuY = this.menu[this.menuX]
           .findIndex((item) => item === this.selectedOptions[this.menuX]);
       } else if (this.menuX === maxX && arrowdown) {
+        this.arrowDownBlink = 1;
         this.menuX = 0;
         this.menuY = this.menu[this.menuX]
           .findIndex((item) => item === this.selectedOptions[this.menuX]);
       }
 
       if (this.menuX > 0 && arrowup) {
+        this.arrowUpBlink = 1;
         this.menuX -= 1;
         this.menuY = this.menu[this.menuX]
           .findIndex((item) => item === this.selectedOptions[this.menuX]);
       } else if (this.menuX === 0 && arrowup) {
+        this.arrowUpBlink = 1;
         this.menuX = maxX;
         this.menuY = this.menu[this.menuX]
           .findIndex((item) => item === this.selectedOptions[this.menuX]);
@@ -122,7 +135,8 @@ class Menu {
       const lowText = `${this.menuPhrase[menuLow]} ${this.selectedOptions[menuLow].toLocaleUpperCase()}`;
       const highText = `${this.menuPhrase[menuHigh]} ${this.selectedOptions[menuHigh].toLocaleUpperCase()}`;
 
-      render.drawPolygon('#2C69EB', 100, 100, 540, 100, 540, 270, 100, 270);
+      // render.drawPolygon('#2C69EB', 100, 100, 540, 100, 540, 270, 100, 270);
+      render.roundRect('#2C69EB', 100, 100, 440, 170, 20, true, false);
       render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
       const phrase = `${this.menuPhrase[this.menuX]} ${this.menu[this.menuX][this.menuY].toLocaleUpperCase()}`;
       render.drawText('#050B1A', phrase, 320, 180, 1.6);
@@ -141,8 +155,16 @@ class Menu {
         render.renderingContext.drawImage(enterKey.image, 597, 335, 23, 18);
       }
 
-      render.drawText('#050B1A', 'c', 520, 140, 2, 'Arrows');
-      render.drawText('#050B1A', 'd', 520, 240, 2, 'Arrows');
+      if (this.arrowUpBlink) {
+        render.drawText('#050B1A', 'c', 520, 140, 2, 'Arrows');
+      } else {
+        render.drawText('#FFFAF4', 'c', 520, 140, 2, 'Arrows');
+      }
+      if (this.arrowDownBlink) {
+        render.drawText('#050B1A', 'd', 520, 240, 2, 'Arrows');
+      } else {
+        render.drawText('#FFFAF4', 'd', 520, 240, 2, 'Arrows');
+      }
     }
   }
 }
