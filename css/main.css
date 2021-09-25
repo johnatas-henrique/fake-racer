@@ -112,7 +112,7 @@ canvas {
   background-size: contain;
   width: 32px;
   height: 32px;
-  background: url(../images/mute.png);
+  background: url(../images/sprites/other/mute.png);
   display: block;
   cursor: pointer;
   position: absolute;

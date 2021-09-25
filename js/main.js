@@ -88,13 +88,14 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
       directorParam.timeSinceLastFrameSwap = 0;
     }
     playerParam.update(cameraParam, road, directorParam);
-    oppArr.forEach((opponent) => opponent.update(road));
+    oppArr.forEach((opponent) => opponent.update(road, directorParam));
     bg.update(playerParam, cameraParam, road);
     bg.render(render, cameraParam, playerParam, road.width);
     road.render(render, cameraParam, playerParam);
-    playerParam.render(render, cameraParam, road.width);
+    playerParam.render(render, cameraParam, road.width, directorParam);
     directorParam.update(playerParam, oppArr);
-    // cameraParam.update(road, directorParam);
+    directorParam.render(render);
+
     render.restore();
 
     // print to screen (a better console.log)
@@ -116,7 +117,7 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     directorParam.timeSinceLastFrameSwap += elapsed;
 
     if (directorParam.timeSinceLastFrameSwap > menu.updateTime) {
-      menu.update(playerParam, road, oppArr);
+      menu.update(playerParam, road, oppArr, directorParam);
       toggleMusic('event', selectedOptions[2], selectedOptions[3]);
       directorParam.timeSinceLastFrameSwap = 0;
     }
@@ -132,7 +133,7 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     // for test, enter race on page load
     // const hud = document.querySelector('#hud');
     // hud.classList.remove('hidden');
-    // menu.startRace(player, road, oppArr);
+    // menu.startRace(player, road, oppArr, directorParam);
     // menu.state = 'race';
   }
 
@@ -166,7 +167,8 @@ resource
   .add('arrowKeys', './images/sprites/other/arrowKeys.png')
   .add('enterKey', './images/sprites/other/enterKey.png')
   .add('billboardSega', './images/sprites/other/billboard04.png')
-  .add('startLine', './images/sprites/other/startLine.png')
+  .add('startLights', './images/sprites/other/startLights.png')
+  .add('startLightsBar', './images/sprites/other/startLightsBar.png')
   .add('leftSignal', './images/sprites/other/leftSignal.png')
   .add('rightSignal', './images/sprites/other/rightSignal.png')
   .add('opponents', './images/sprites/other/opponents.png')

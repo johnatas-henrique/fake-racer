@@ -107,13 +107,13 @@ class Road {
         segmentLine.sprites.push(finishLine);
       }
 
-      // startLine
+      // startLine      
       if (i === 0) {
         const startLine = new Sprite();
-        startLine.offsetX = 0;
-        startLine.scaleX = 54;
-        startLine.scaleY = 72;
-        startLine.image = resource.get('startLine');
+        startLine.offsetX = 1.14;
+        startLine.scaleX = 216;
+        startLine.scaleY = 708;
+        startLine.image = resource.get('startLightsBar');
         segmentLine.sprites.push(startLine);
       }
     }
