@@ -1,4 +1,7 @@
-import { formatTime, addItens } from './util.js';
+import {
+  formatTime, addItens, resource, tracks,
+} from './util.js';
+import Sprite from './sprite.js';
 
 class Director {
   constructor() {
@@ -13,6 +16,39 @@ class Director {
     this.laptimes = [];
     this.position = '';
     this.positions = [];
+    this.running = true;
+    this.startLights = new Sprite();
+  }
+
+  create(road) {
+    const segmentLineFirst = road.getSegmentFromIndex(0);
+    const segmentLineTen = road.getSegmentFromIndex(tracks[road.trackName].trackSize - 160);
+    this.startLights.offsetX = 0;
+    this.startLights.offsetY = 2;
+    this.startLights.scaleX = 27;
+    this.startLights.scaleY = 27;
+    this.startLights.spritesInX = 6;
+    this.startLights.sheetPositionX = Math.ceil(this.animTime / 500);
+    this.startLights.image = resource.get('startLights');
+    segmentLineFirst.sprites.push(this.startLights);
+    segmentLineTen.sprites.push(this.startLights);
+
+    const startLineLeft = new Sprite();
+    startLineLeft.offsetX = -1.14;
+    startLineLeft.scaleX = 216;
+    startLineLeft.scaleY = 708;
+    startLineLeft.image = resource.get('startLightsBar');
+
+    const startLineRight = new Sprite();
+    startLineRight.offsetX = 1.14;
+    startLineRight.scaleX = 216;
+    startLineRight.scaleY = 708;
+    startLineRight.image = resource.get('startLightsBar');
+
+    segmentLineFirst.sprites.push(startLineLeft);
+    segmentLineFirst.sprites.push(startLineRight);
+    segmentLineTen.sprites.push(startLineLeft);
+    segmentLineTen.sprites.push(startLineRight);
   }
 
   refreshPositions(player, opponents) {
@@ -24,6 +60,14 @@ class Director {
   }
 
   update(player, opponent) {
+    const startTimer = 5000;
+
+    if (this.totalTime < startTimer) {
+      this.running = false;
+    } else if (this.totalTime >= startTimer) {
+      this.running = true;
+    }
+
     this.totalTime += (1 / 60) * 1000;
     this.animTime += (1 / 60) * 1000;
     this.lastLap = this.laptimes[this.lap - 2] ? this.laptimes[this.lap - 2] : 0;
@@ -46,6 +90,19 @@ class Director {
     addItens('#position_value', `${this.position} / ${numberOfCars}`);
 
     this.refreshPositions(player, opponent);
+    if (this.animTime > startTimer) this.startLights.sheetPositionX = 0;
+    else if (this.animTime > 2000 + 2500) this.startLights.sheetPositionX = 5;
+    else if (this.animTime > 2000 + 2000) this.startLights.sheetPositionX = 4;
+    else if (this.animTime > 2000 + 1500) this.startLights.sheetPositionX = 3;
+    else if (this.animTime > 2000 + 1000) this.startLights.sheetPositionX = 2;
+    else if (this.animTime > 2000 + 500) this.startLights.sheetPositionX = 1;
+  }
+
+  render(render) {
+    if (this.totalTime < 2500) {
+      render.drawText('#FFFAF4', 'Prepare-se...', 320, 180 - 45,
+        2, 'OutriderCond', 'center', true);
+    }
   }
 }
 

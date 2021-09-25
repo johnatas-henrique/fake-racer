@@ -38,7 +38,7 @@ class Menu {
     this.arrowDownBlink = 0;
   }
 
-  startRace(player, road, opponents) {
+  startRace(player, road, opponents, director) {
     const roadParam = road;
     const zero = 0;
     drivers.forEach((driver) => opponents.push(new Opponent(
@@ -51,9 +51,10 @@ class Menu {
     roadParam.trackName = this.selectedOptions[zero];
     roadParam.create();
     player.create(this, tracks[this.selectedOptions[zero]].trackSize);
+    director.create(road);
   }
 
-  update(player, road, opponents) {
+  update(player, road, opponents, director) {
     const {
       arrowup, arrowdown, arrowleft, arrowright, enter,
     } = handleInput.map;
@@ -114,7 +115,7 @@ class Menu {
         hud.classList.toggle('hidden');
         const okBtn = document.querySelector('.rightControls').firstElementChild;
         okBtn.classList.toggle('hidden');
-        this.startRace(player, road, opponents);
+        this.startRace(player, road, opponents, director);
         this.state = 'race';
       }
     }

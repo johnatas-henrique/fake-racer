@@ -45,7 +45,8 @@ class Render {
     }
   }
 
-  drawText(color, text, screenX = 300, screenY = 200, fontSize = '2', font = 'OutriderCond', align = 'center') {
+  drawText(color, text, screenX = 300, screenY = 200, fontSize = '2',
+    font = 'OutriderCond', align = 'center', stroke = false) {
     const { renderingContext } = this;
     renderingContext.fillStyle = color;
     renderingContext.font = font;
@@ -53,6 +54,10 @@ class Render {
     renderingContext.textAlign = align;
     renderingContext.textBaseline = 'middle';
     renderingContext.fillText(text, screenX, screenY);
+    renderingContext.strokeStyle = 'black';
+    if (stroke) {
+      renderingContext.strokeText(text, screenX, screenY);
+    }
     renderingContext.restore();
   }
 
@@ -67,9 +72,8 @@ class Render {
    * @param {Number} destY
    * @param {Number} clip
    */
-  drawSprite(
-    sprite, camera, player, roadWidth, scale, destX, destY, clip, spritesInX = 1, spritesInY = 1,
-  ) {
+  drawSprite(sprite, camera, player, roadWidth, scale,
+    destX, destY, clip, spritesInX = 1, spritesInY = 1) {
     let newDestX = destX;
     let newDestY = destY;
     const { midpoint } = camera.screen;
