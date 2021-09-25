@@ -28,26 +28,25 @@ class Opponent {
     this.sprite.sheetPositionY = 0;
   }
 
-  update(road) {
-    const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
-      * mult * (1.5 - (speed / this.maxSpeed));
+  update(road, director) {
+    if (director.running) {
+      const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
+        * mult * (1.5 - (speed / this.maxSpeed));
 
-    this.runningPower = this.runningPower >= this.maxSpeed
-      ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 0.9);
+      this.runningPower = this.runningPower >= this.maxSpeed
+        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 1.35);
 
-    if (this.sprite.offsetX <= -0.8) {
-      this.opponentX = 1;
+      if (this.sprite.offsetX <= -0.8) this.opponentX = 1;
+      if (this.sprite.offsetX >= 0.8) this.opponentX = -1;
+
+      this.sprite.offsetX += Math.random() * 0.01 * this.opponentX;
+      const oldSegment = road.getSegment(Math.round(this.trackPosition));
+      this.trackPosition += this.runningPower;
+      const actualSegment = road.getSegment(Math.round(this.trackPosition));
+
+      oldSegment.sprites = oldSegment.sprites.filter(({ name }) => name !== this.sprite.name);
+      actualSegment.sprites.push(this.sprite);
     }
-    if (this.sprite.offsetX >= 0.8) {
-      this.opponentX = -1;
-    }
-    this.sprite.offsetX += Math.random() * 0.01 * this.opponentX;
-    const oldSegment = road.getSegment(Math.round(this.trackPosition));
-    this.trackPosition += this.runningPower;
-    const actualSegment = road.getSegment(Math.round(this.trackPosition));
-
-    oldSegment.sprites = oldSegment.sprites.filter(({ name }) => name !== this.sprite.name);
-    actualSegment.sprites.push(this.sprite);
   }
 }
 

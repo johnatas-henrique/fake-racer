@@ -51,101 +51,103 @@ class Player {
   }
 
   update(camera, road, director) {
-    // recover button
     const cameraClass = camera;
-    if (handleInput.isKeyDown('*')) {
-      // cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
-      // this.x = 0;
-      this.runningPower = 600;
+    if (director.running) {
+      // recover button
+      if (handleInput.isKeyDown('*')) {
+        // cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
+        // this.x = 0;
+        this.runningPower = 600;
+      }
+      if (handleInput.isKeyDown('-')) {
+        cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
+        this.x = 0;
+        this.runningPower = 1200;
+      }
+
+      this.sprite.name = 'player';
+      // making playerCar moves in Y axis
+      const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
+        * mult * (1.5 - (speed / this.maxSpeed));
+      let decelerationCurveBoost = 1;
+
+      // offroad deceleration
+      let segment = road.getSegment(camera.cursor);
+      if (Math.abs(this.x) > 2.2 && segment.curve && this.runningPower > this.maxSpeed / 2) {
+        this.runningPower -= acceleration(this.runningPower, 7.2);
+      } else if (Math.abs(this.x) > 1.6 && !segment.curve && this.runningPower > this.maxSpeed / 2) {
+        this.runningPower -= acceleration(this.runningPower, 7.2);
+      }
+
+      // acceleration and braking control
+      if (handleInput.isKeyDown('arrowUp')) {
+        if (this.runningPower === 0) this.startPress = window.performance.now();
+        this.runningPower = this.runningPower >= this.maxSpeed
+          ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 0.9);
+        cameraClass.cursor += this.runningPower;
+      } else if (handleInput.isKeyDown('arrowDown') && !handleInput.isKeyDown('arrowUp') && this.runningPower >= 0) {
+        const brakePower = 6;
+        this.runningPower = this.runningPower % brakePower === 0
+          ? this.runningPower : Math.ceil(this.runningPower / brakePower) * brakePower;
+        this.runningPower = this.runningPower <= 0 ? 0 : this.runningPower += -brakePower;
+        decelerationCurveBoost = this.runningPower >= 10
+          ? (1.125 + (this.maxSpeed - this.runningPower) / this.maxSpeed)
+          : 1;
+        cameraClass.cursor += this.runningPower;
+      } else if (!handleInput.isKeyDown('arrowUp') && this.runningPower > 0) {
+        this.runningPower = this.runningPower % 1 === 0
+          ? this.runningPower
+          : Math.ceil(this.runningPower);
+        this.runningPower = this.runningPower < 2 ? 0 : this.runningPower += -2;
+        cameraClass.cursor += this.runningPower;
+        decelerationCurveBoost = this.runningPower >= 10
+          ? (1.125 + (this.maxSpeed - this.runningPower) / this.maxSpeed)
+          : 1;
+      }
+
+      // making a centrifugal force to pull the car
+      segment = road.getSegment(camera.cursor);
+      const playerPosition = (Math.floor((camera.cursor / road.segmentLength)));
+      const baseForce = 0.06;
+      this.centrifugalForce = Math.abs(
+        baseForce * (this.runningPower / this.maxSpeed) * segment.curve,
+      );
+      if (playerPosition === segment.index && segment.curve && this.runningPower) {
+        if (segment.curve < 0) this.changeXToRight(this.centrifugalForce);
+        if (segment.curve > 0) this.changeXToLeft(this.centrifugalForce);
+      }
+
+      // making playerCar moves in X axis
+      this.curvePower = baseForce * (this.runningPower / this.maxSpeed);
+      const curvePowerOnCentrifugalForce = (
+        baseForce + Math.abs(4 * (segment.curve / 100))) * (this.runningPower / this.maxSpeed
+      );
+
+      if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0 && segment.curve < 0) {
+        this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost;
+        this.changeXToLeft(this.curvePower);
+      } else if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0 && segment.curve > 0) {
+        this.curvePower = curvePowerOnCentrifugalForce / 40;
+        this.centrifugalForce /= 40;
+        this.changeXToLeft(this.curvePower);
+      } else if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0) {
+        this.curvePower *= 1.15;
+        this.changeXToLeft(this.curvePower);
+      } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0 && segment.curve > 0) {
+        this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost;
+        this.changeXToRight(this.curvePower);
+      } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0 && segment.curve < 0) {
+        this.curvePower = curvePowerOnCentrifugalForce / 40;
+        this.centrifugalForce /= 40;
+        this.changeXToRight(this.curvePower);
+      } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0) {
+        this.curvePower *= 1.15;
+        this.changeXToRight(this.curvePower);
+      }
+
+      this.trackPosition += this.runningPower;
+      camera.update(road, director);
     }
-    if (handleInput.isKeyDown('-')) {
-      cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
-      this.x = 0;
-      this.runningPower = 1200;
-    }
-
-    this.sprite.name = 'player';
-    // making playerCar moves in Y axis
-    const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
-      * mult * (1.5 - (speed / this.maxSpeed));
-    let decelerationCurveBoost = 1;
-
-    // offroad deceleration
-    let segment = road.getSegment(camera.cursor);
-    if (Math.abs(this.x) > 2.2 && segment.curve && this.runningPower > this.maxSpeed / 2) {
-      this.runningPower -= acceleration(this.runningPower, 7.2);
-    } else if (Math.abs(this.x) > 1.6 && !segment.curve && this.runningPower > this.maxSpeed / 2) {
-      this.runningPower -= acceleration(this.runningPower, 7.2);
-    }
-
-    // acceleration and braking control
-    if (handleInput.isKeyDown('arrowUp')) {
-      if (this.runningPower === 0) this.startPress = window.performance.now();
-      this.runningPower = this.runningPower >= this.maxSpeed
-        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 0.9);
-      cameraClass.cursor += this.runningPower;
-    } else if (handleInput.isKeyDown('arrowDown') && !handleInput.isKeyDown('arrowUp') && this.runningPower >= 0) {
-      const brakePower = 6;
-      this.runningPower = this.runningPower % brakePower === 0
-        ? this.runningPower : Math.ceil(this.runningPower / brakePower) * brakePower;
-      this.runningPower = this.runningPower <= 0 ? 0 : this.runningPower += -brakePower;
-      decelerationCurveBoost = this.runningPower >= 10
-        ? (1.125 + (this.maxSpeed - this.runningPower) / this.maxSpeed)
-        : 1;
-      cameraClass.cursor += this.runningPower;
-    } else if (!handleInput.isKeyDown('arrowUp') && this.runningPower > 0) {
-      this.runningPower = this.runningPower % 1 === 0
-        ? this.runningPower
-        : Math.ceil(this.runningPower);
-      this.runningPower = this.runningPower < 2 ? 0 : this.runningPower += -2;
-      cameraClass.cursor += this.runningPower;
-      decelerationCurveBoost = this.runningPower >= 10
-        ? (1.125 + (this.maxSpeed - this.runningPower) / this.maxSpeed)
-        : 1;
-    }
-
-    // making a centrifugal force to pull the car
-    segment = road.getSegment(camera.cursor);
-    const playerPosition = (Math.floor((camera.cursor / road.segmentLength)));
-    const baseForce = 0.06;
-    this.centrifugalForce = Math.abs(
-      baseForce * (this.runningPower / this.maxSpeed) * segment.curve,
-    );
-    if (playerPosition === segment.index && segment.curve && this.runningPower) {
-      if (segment.curve < 0) this.changeXToRight(this.centrifugalForce);
-      if (segment.curve > 0) this.changeXToLeft(this.centrifugalForce);
-    }
-
-    // making playerCar moves in X axis
-    this.curvePower = baseForce * (this.runningPower / this.maxSpeed);
-    const curvePowerOnCentrifugalForce = (
-      baseForce + Math.abs(4 * (segment.curve / 100))) * (this.runningPower / this.maxSpeed
-    );
-
-    if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0 && segment.curve < 0) {
-      this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost;
-      this.changeXToLeft(this.curvePower);
-    } else if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0 && segment.curve > 0) {
-      this.curvePower = curvePowerOnCentrifugalForce / 40;
-      this.centrifugalForce /= 40;
-      this.changeXToLeft(this.curvePower);
-    } else if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0) {
-      this.curvePower *= 1.15;
-      this.changeXToLeft(this.curvePower);
-    } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0 && segment.curve > 0) {
-      this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost;
-      this.changeXToRight(this.curvePower);
-    } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0 && segment.curve < 0) {
-      this.curvePower = curvePowerOnCentrifugalForce / 40;
-      this.centrifugalForce /= 40;
-      this.changeXToRight(this.curvePower);
-    } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0) {
-      this.curvePower *= 1.15;
-      this.changeXToRight(this.curvePower);
-    }
-
-    this.trackPosition += this.runningPower;
-    camera.update(road, director);
   }
 
   /**
