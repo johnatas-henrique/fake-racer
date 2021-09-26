@@ -121,6 +121,11 @@ class Menu {
     }
   }
 
+  static drawButtons(render, x, y, size, text) {
+    render.drawCircle(x, y + 3, size, 0, Math.PI * 2);
+    render.drawText('black', text, x, y, 1.3, 'OutriderCond', 'center');
+  }
+
   render(render) {
     render.drawText('#EB4844', 'Fake Racer', 320, 30, 4, 'OutriderCondBold');
 
@@ -146,8 +151,13 @@ class Menu {
       render.drawText('#050B1A', phrase, 320, 180, 1.6);
       render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);
       if (window.navigator.maxTouchPoints) {
-        render.drawText('black', 'Navegar', 590, 320, 1.3, 'OutriderCond', 'right');
-        render.drawText('black', 'Confirmar', 590, 345, 1.3, 'OutriderCond', 'right');
+        Menu.drawButtons(render, 145, 310, 15, 'U');
+        Menu.drawButtons(render, 185, 310, 15, 'D');
+        Menu.drawButtons(render, 225, 310, 15, 'L');
+        Menu.drawButtons(render, 265, 310, 15, 'R');
+        render.drawText('black', 'Navegar', 150, 345, 1.3, 'OutriderCond', 'left');
+        Menu.drawButtons(render, 418, 310, 18, 'OK');
+        render.drawText('black', 'Confirmar', 490, 345, 1.3, 'OutriderCond', 'right');
       } else {
         const arrowKeys = new Sprite();
         arrowKeys.image = resource.get('arrowKeys');
