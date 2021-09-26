@@ -45,6 +45,14 @@ class Render {
     }
   }
 
+  drawCircle(x, y, radius, startAngle, endAngle, anticlockwise) {
+    const { renderingContext } = this;
+    renderingContext.beginPath();
+    renderingContext.strokeStyle = 'black';
+    renderingContext.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+    renderingContext.stroke();
+  }
+
   drawText(color, text, screenX = 300, screenY = 200, fontSize = '2',
     font = 'OutriderCond', align = 'center', stroke = false) {
     const { renderingContext } = this;
