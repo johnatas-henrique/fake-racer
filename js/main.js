@@ -83,13 +83,13 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     const elapsed = (timeNow - directorParam.realTime) / 1000;
     directorParam.realTime = timeNow;
     directorParam.timeSinceLastFrameSwap += elapsed;
-    if (directorParam.timeSinceLastFrameSwap > playerParam.animationUpdateTime) {
+    if (directorParam.timeSinceLastFrameSwap > player.animationUpdateTime && directorParam.paused) {
       curveAnim(playerParam, playerParam.runningPower);
       directorParam.timeSinceLastFrameSwap = 0;
     }
     playerParam.update(cameraParam, road, directorParam);
     oppArr.forEach((opponent) => opponent.update(road, directorParam));
-    bg.update(playerParam, cameraParam, road);
+    bg.update(playerParam, cameraParam, road, directorParam);
     bg.render(render, cameraParam, playerParam, road.width);
     road.render(render, cameraParam, playerParam);
     playerParam.render(render, cameraParam, road.width, directorParam);

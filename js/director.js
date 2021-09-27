@@ -1,5 +1,5 @@
 import {
-  formatTime, addItens, resource, tracks,
+  handleInput, formatTime, addItens, resource, tracks,
 } from './util.js';
 import Sprite from './sprite.js';
 
@@ -18,9 +18,12 @@ class Director {
     this.positions = [];
     this.running = true;
     this.startLights = new Sprite();
+    this.paused = false;
   }
 
   create(road) {
+    handleInput.mapPress.p = true;
+
     const segmentLineFirst = road.getSegmentFromIndex(0);
     const segmentLineTen = road.getSegmentFromIndex(tracks[road.trackName].trackSize - 160);
     this.startLights.offsetX = 0;
@@ -61,15 +64,13 @@ class Director {
 
   update(player, opponent) {
     const startTimer = 5000;
+    this.paused = handleInput.mapPress.p;
 
-    if (this.totalTime < startTimer) {
-      this.running = false;
-    } else if (this.totalTime >= startTimer) {
-      this.running = true;
-    }
+    if (this.totalTime < startTimer || !this.paused) this.running = false;
+    else if (this.totalTime >= startTimer && this.paused) this.running = true;
 
-    this.totalTime += (1 / 60) * 1000;
-    this.animTime += (1 / 60) * 1000;
+    this.totalTime += (1 / 60) * 1000 * this.paused;
+    this.animTime += (1 / 60) * 1000 * this.paused;
     this.lastLap = this.laptimes[this.lap - 2] ? this.laptimes[this.lap - 2] : 0;
     this.fastestLap = this.laptimes.length ? Math.min.apply(null, this.laptimes) : 0;
 
@@ -99,9 +100,17 @@ class Director {
   }
 
   render(render) {
+    if (!this.paused) {
+      render.drawText('#050B1A', 'Jogo pausado!', 320, 100 - 45,
+        2, 'OutriderCond', 'center');
+    }
+    if (!this.paused) {
+      render.drawText('#050B1A', 'Aperte "P" para continuar', 320, 140 - 45,
+        2, 'OutriderCond', 'center');
+    }
     if (this.totalTime < 2500) {
       render.drawText('#FFFAF4', 'Prepare-se...', 320, 180 - 45,
-        2, 'OutriderCond', 'center', true);
+        2, 'OutriderCond', 'center', 'black', true);
     }
   }
 }
