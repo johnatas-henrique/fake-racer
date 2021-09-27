@@ -54,7 +54,7 @@ class Render {
   }
 
   drawText(color, text, screenX = 300, screenY = 200, fontSize = '2',
-    font = 'OutriderCond', align = 'center', stroke = false) {
+    font = 'OutriderCond', align = 'center', colorStroke = 'black', stroke = false) {
     const { renderingContext } = this;
     renderingContext.fillStyle = color;
     renderingContext.font = font;
@@ -62,7 +62,7 @@ class Render {
     renderingContext.textAlign = align;
     renderingContext.textBaseline = 'middle';
     renderingContext.fillText(text, screenX, screenY);
-    renderingContext.strokeStyle = 'black';
+    renderingContext.strokeStyle = colorStroke;
     if (stroke) {
       renderingContext.strokeText(text, screenX, screenY);
     }

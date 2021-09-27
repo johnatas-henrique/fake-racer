@@ -23,24 +23,26 @@ class Background {
     this.layer3.image = resource.get('tree');
   }
 
-  update(player, camera, road) {
-    const increase = (start, increment, max) => { // with looping
-      let result = start + increment;
-      while (result >= max) { result -= max; }
-      while (result < 0) { result += max; }
-      return result;
-    };
-    const segment = road.getSegment(camera.cursor);
-    const speedPercent = player.runningPower / player.maxSpeed;
-    this.layer1Offset = increase(
-      this.layer1Offset, this.layer1Speed * segment.curve * speedPercent, 2,
-    );
-    this.layer2Offset = increase(
-      this.layer2Offset, this.layer2Speed * segment.curve * speedPercent, 2,
-    );
-    this.layer3Offset = increase(
-      this.layer3Offset, this.layer3Speed * segment.curve * speedPercent, 2,
-    );
+  update(player, camera, road, director) {
+    if (director.paused) {
+      const increase = (start, increment, max) => { // with looping
+        let result = start + increment;
+        while (result >= max) { result -= max; }
+        while (result < 0) { result += max; }
+        return result;
+      };
+      const segment = road.getSegment(camera.cursor);
+      const speedPercent = player.runningPower / player.maxSpeed;
+      this.layer1Offset = increase(
+        this.layer1Offset, this.layer1Speed * segment.curve * speedPercent, 2,
+      );
+      this.layer2Offset = increase(
+        this.layer2Offset, this.layer2Speed * segment.curve * speedPercent, 2,
+      );
+      this.layer3Offset = increase(
+        this.layer3Offset, this.layer3Speed * segment.curve * speedPercent, 2,
+      );
+    }
   }
 
   /**
