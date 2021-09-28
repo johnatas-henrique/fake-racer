@@ -10,7 +10,7 @@ class HandleInput {
       button.addEventListener('touchend', (event) => this.handler(event));
     });
     this.map = {};
-    this.mapPress = { p: true };
+    this.mapPress = { p: true, enter: false };
   }
 
   /**

@@ -11,7 +11,7 @@ class Menu {
     this.state = 'title';
     this.width = width;
     this.menuY = 0;
-    this.menuX = 0;
+    this.menuX = 4;
     this.updateTime = 6 / 60;
     this.menuPhrase = {
       0: 'Circuito: ',
@@ -57,15 +57,15 @@ class Menu {
 
   update(player, road, opponents, director) {
     const {
-      arrowup, arrowdown, arrowleft, arrowright, enter,
+      arrowup, arrowdown, arrowleft, arrowright,
     } = handleInput.map;
     const maxX = Object.keys(this.menu).length - 1;
     const maxY = this.menu[this.menuX].length - 1;
-
-    if (enter && !this.showMenu) {
+    if (handleInput.mapPress.enter && !this.showMenu) {
       this.selectedOptions[2] = 'sim';
       this.showMenu = 1;
       this.menuTitle.pos = 0;
+      handleInput.mapPress.enter = false;
     }
 
     if (this.showMenu) {
@@ -108,17 +108,19 @@ class Menu {
 
       const lastMenuOption = Object.keys(this.menu).length - 1;
 
-      if (enter && this.menuX !== lastMenuOption) {
+      if (handleInput.mapPress.enter && this.menuX !== lastMenuOption) {
         this.selectedOptions[this.menuX] = this.menu[this.menuX][this.menuY];
+        handleInput.mapPress.enter = false;
       }
 
-      if (enter && this.menuX === lastMenuOption) {
+      if (handleInput.mapPress.enter && this.menuX === lastMenuOption) {
         const hud = document.querySelector('#hud');
         hud.classList.toggle('hidden');
         const okBtn = document.querySelector('.rightControls').firstElementChild;
         okBtn.classList.toggle('hidden');
         this.startRace(player, road, opponents, director);
         this.state = 'race';
+        handleInput.mapPress.enter = false;
       }
     }
   }
@@ -157,6 +159,7 @@ class Menu {
       const phrase = `${this.menuPhrase[this.menuX]} ${this.menu[this.menuX][this.menuY].toLocaleUpperCase()}`;
       render.drawText('#050B1A', phrase, 320, 180 + (this.menuTitle.pos / 4), 1.6);
       render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);
+
       if (window.navigator.maxTouchPoints) {
         Menu.drawButtons(render, 145, 310, 15, 'U');
         Menu.drawButtons(render, 185, 310, 15, 'D');
