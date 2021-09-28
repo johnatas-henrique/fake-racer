@@ -36,6 +36,7 @@ class Menu {
     };
     this.arrowUpBlink = 0;
     this.arrowDownBlink = 0;
+    this.menuTitle = { pos: 0, direction: 1 };
   }
 
   startRace(player, road, opponents, director) {
@@ -64,6 +65,7 @@ class Menu {
     if (enter && !this.showMenu) {
       this.selectedOptions[2] = 'sim';
       this.showMenu = 1;
+      this.menuTitle.pos = 0;
     }
 
     if (this.showMenu) {
@@ -130,25 +132,30 @@ class Menu {
     render.drawText('#EB4844', 'Fake Racer', 320, 30, 4, 'OutriderCondBold');
 
     if (!this.showMenu) {
+      if (this.menuTitle.pos >= 12) this.menuTitle.direction = -1;
+      if (this.menuTitle.pos <= -12) this.menuTitle.direction = 1;
+      this.menuTitle.pos += (this.menuTitle.direction / 2);
       if (window.navigator.maxTouchPoints) {
-        render.drawText('black', 'Aperte OK para iniciar', 320, 180);
+        render.drawText('black', 'Aperte OK para iniciar', 320, 180 + this.menuTitle.pos);
       } else {
-        render.drawText('black', 'Aperte ENTER para iniciar', 320, 180);
+        render.drawText('black', 'Aperte ENTER para iniciar', 320, 180 + this.menuTitle.pos);
       }
     }
 
     if (this.showMenu) {
+      if (this.menuTitle.pos >= 4) this.menuTitle.direction = -1;
+      if (this.menuTitle.pos <= -4) this.menuTitle.direction = 1;
+      this.menuTitle.pos += (this.menuTitle.direction / 2);
       const maxX = Object.keys(this.menu).length - 1;
       const menuLow = this.menuX - 1 >= 0 ? this.menuX - 1 : maxX;
       const menuHigh = this.menuX + 1 <= maxX ? this.menuX + 1 : 0;
       const lowText = `${this.menuPhrase[menuLow]} ${this.selectedOptions[menuLow].toLocaleUpperCase()}`;
       const highText = `${this.menuPhrase[menuHigh]} ${this.selectedOptions[menuHigh].toLocaleUpperCase()}`;
 
-      // render.drawPolygon('#2C69EB', 100, 100, 540, 100, 540, 270, 100, 270);
       render.roundRect('#2C69EB', 100, 100, 440, 170, 20, true, false);
       render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
       const phrase = `${this.menuPhrase[this.menuX]} ${this.menu[this.menuX][this.menuY].toLocaleUpperCase()}`;
-      render.drawText('#050B1A', phrase, 320, 180, 1.6);
+      render.drawText('#050B1A', phrase, 320, 180 + (this.menuTitle.pos / 4), 1.6);
       render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);
       if (window.navigator.maxTouchPoints) {
         Menu.drawButtons(render, 145, 310, 15, 'U');
