@@ -34,7 +34,7 @@ class Opponent {
         * mult * (1.5 - (speed / this.maxSpeed));
 
       this.runningPower = this.runningPower >= this.maxSpeed
-        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 1.35);
+        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 1.26);
 
       if (this.sprite.offsetX <= -0.8) this.opponentX = 1;
       if (this.sprite.offsetX >= 0.8) this.opponentX = -1;
