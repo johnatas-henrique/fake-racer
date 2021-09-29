@@ -131,10 +131,10 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     playerParam.x = qualyPos % 2 ? -1 : 1;
 
     // for test, enter race on page load
-    // const hud = document.querySelector('#hud');
-    // hud.classList.remove('hidden');
-    // menu.startRace(player, road, oppArr, directorParam);
-    // menu.state = 'race';
+    const hud = document.querySelector('#hud');
+    hud.classList.remove('hidden');
+    menu.startRace(player, road, oppArr, directorParam);
+    menu.state = 'race';
   }
 
   requestAnimationFrame(() => loop(
