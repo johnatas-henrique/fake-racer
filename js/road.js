@@ -57,7 +57,8 @@ class Road {
   create() {
     this.#segments = [];
     const { rumbleLength } = this;
-    for (let i = 0; i < tracks[this.trackName].trackSize; i += 1) {
+    const trackSize = tracks[this.trackName].trackSize;
+    for (let i = 0; i < trackSize; i += 1) {
       const lightestColors = {
         road: '#424142', grass: 'green', rumble: 'white', strip: '', tunnel: 'blue',
       };
@@ -77,6 +78,11 @@ class Road {
       if (Math.floor(i / rumbleLength) % 4 === 1) segmentLine.colors = darkestColors;
       if (Math.floor(i / rumbleLength) % 4 === 2) segmentLine.colors = lightColors;
       if (Math.floor(i / rumbleLength) % 4 === 3) segmentLine.colors = darkColors;
+
+      if (i <= 11) {
+        segmentLine.colors.road = '#fff'
+        i % 4 === 0 || i % 4 === 1 ? segmentLine.colors.checkers = 'one' : segmentLine.colors.checkers = 'two';
+      }
 
       const { world } = segmentLine.points;
       world.w = this.width;
@@ -301,6 +307,31 @@ class Road {
             currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
             colors.strip,
           );
+
+          //checkered road
+
+        }
+        if (colors.checkers === 'one') {
+          for (let i = -1; i < 0.9; i += 2/3) {
+            render.drawPolygon(
+              'black',
+              previousScreenPoint.x + previousScreenPoint.w * i, previousScreenPoint.y,
+              previousScreenPoint.x + previousScreenPoint.w * (i + 1 / 3), previousScreenPoint.y,
+              currentScreenPoint.x + currentScreenPoint.w * (i + 1 / 3), currentScreenPoint.y,
+              currentScreenPoint.x + currentScreenPoint.w * i, currentScreenPoint.y,
+            );
+          };
+        }
+        if (colors.checkers === 'two') {
+          for (let i = -2/3; i < 0.9; i += 2/3) {
+            render.drawPolygon(
+              'black',
+              previousScreenPoint.x + previousScreenPoint.w * i, previousScreenPoint.y,
+              previousScreenPoint.x + previousScreenPoint.w * (i + 1 / 3), previousScreenPoint.y,
+              currentScreenPoint.x + currentScreenPoint.w * (i + 1 / 3), currentScreenPoint.y,
+              currentScreenPoint.x + currentScreenPoint.w * i, currentScreenPoint.y,
+            );
+          };
         }
       }
 
