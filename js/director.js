@@ -19,13 +19,16 @@ class Director {
     this.running = true;
     this.startLights = new Sprite();
     this.paused = false;
+    this.hudPositions = [];
+    this.trackName = '';
   }
 
-  create(road) {
+  create(road, trackName) {
     handleInput.mapPress.p = true;
 
     const segmentLineFirst = road.getSegmentFromIndex(0);
     const segmentLineTen = road.getSegmentFromIndex(tracks[road.trackName].trackSize - 160);
+    this.trackName = trackName;
     this.startLights.offsetX = 0;
     this.startLights.offsetY = 2;
     this.startLights.scaleX = 27;
@@ -55,10 +58,13 @@ class Director {
   }
 
   refreshPositions(player, opponents) {
-    const arr = [];
-    arr.push({ name: player.name, pos: player.trackPosition });
-    opponents.forEach((opp) => arr.push({ name: opp.opponentName, pos: opp.trackPosition }));
+    let arr = [];
+    arr.push({ name: player.name, pos: player.trackPosition, raceTime: player.raceTime });
+    opponents.forEach((opp) => arr.push({
+      name: opp.opponentName, pos: opp.trackPosition, raceTime: opp.raceTime,
+    }));
     arr.sort((a, b) => b.pos - a.pos);
+    arr = arr.map((item, index) => ({ ...item, position: index + 1 }));
     this.positions = arr;
   }
 
@@ -88,7 +94,6 @@ class Director {
     addItens('#current_lap_time_value', formatTime(this.animTime));
     addItens('#last_lap_time_value', formatTime(this.lastLap));
     addItens('#fast_lap_time_value', formatTime(this.fastestLap));
-    addItens('#position_value', `${this.position} / ${numberOfCars}`);
 
     this.refreshPositions(player, opponent);
     if (this.animTime > startTimer) this.startLights.sheetPositionX = 0;
@@ -97,20 +102,62 @@ class Director {
     else if (this.animTime > 2000 + 1500) this.startLights.sheetPositionX = 3;
     else if (this.animTime > 2000 + 1000) this.startLights.sheetPositionX = 2;
     else if (this.animTime > 2000 + 500) this.startLights.sheetPositionX = 1;
+
+    const actualPos = Number(this.position);
+    this.hudPositions = this.positions.filter((_, index) => {
+      if (actualPos <= 2) {
+        return index <= 2 && index >= 0;
+      } if (actualPos === this.positions.length) {
+        return index === 0 || index >= actualPos - 2;
+      }
+      return (index === 0) || (index >= actualPos - 2 && index <= actualPos - 1);
+    }).map((item, index, array) => {
+      const result = {
+        pos: item.position,
+        name: item.name,
+        lap: item.raceTime.length,
+        relTime: 'Leader',
+        totalTime: (Math.round(item.raceTime.at(-1)) / 1000).toFixed(3),
+      };
+      const actualItem = item.raceTime.at(-1);
+      const actualLap = item.raceTime.length;
+
+      if (index) {
+        const prevItem = array[index - 1].raceTime.at(-1) || 0;
+        const prevLap = array[index - 1].raceTime.length || 0;
+        if (actualLap === prevLap) {
+          result.relTime = `+ ${(Math.round(actualItem - prevItem) / 1000).toFixed(3)}`;
+        } else if (actualLap !== prevLap) {
+          result.relTime = `- ${prevLap - actualLap} Lap`;
+        }
+      }
+      return result;
+    });
   }
 
   render(render) {
     if (!this.paused) {
-      render.drawText('#050B1A', 'Jogo pausado!', 320, 100 - 45,
-        2, 'OutriderCond', 'center');
+      render.drawText('#FFFAF4', 'Jogo pausado!', 320, 175,
+        2, 'OutriderCond', 'center', 'black', true);
     }
     if (!this.paused) {
-      render.drawText('#050B1A', 'Aperte "P" para continuar', 320, 140 - 45,
-        2, 'OutriderCond', 'center');
+      render.drawText('#FFFAF4', 'Aperte "P" para continuar', 320, 215,
+        2, 'OutriderCond', 'center', 'black', true);
     }
     if (this.totalTime < 2500) {
-      render.drawText('#FFFAF4', 'Prepare-se...', 320, 180 - 45,
+      render.drawText('#FFFAF4', 'Prepare-se...', 320, 135,
         2, 'OutriderCond', 'center', 'black', true);
+    }
+    if (this.paused) {
+      render.drawText('#050B1A', `Volta ${this.lap} de ${tracks[this.trackName].laps}`, 4, 30,
+        1.5, 'OutriderCond', 'left');
+      this.hudPositions.forEach(({ pos, name, relTime }, index) => {
+        const alignPos = pos < 10 ? `0${pos}` : pos;
+        render.drawText('#050B1A', `${alignPos}`, 16, `${50 + (index * 16)}`,
+          1, 'OutriderCond', 'center');
+        render.drawText('#050B1A', `${name} ${relTime}`, 32, `${50 + (index * 16)}`,
+          1, 'OutriderCond', 'left');
+      });
     }
   }
 }
