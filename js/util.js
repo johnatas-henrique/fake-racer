@@ -72,7 +72,6 @@ const tracks = {
       { min: 1850, max: 2090, curveInclination: 5 },
       { min: 2130, max: 2190, curveInclination: -4 },
       { min: 2270, max: 2550, curveInclination: -7 },
-
       { min: 2690, max: 2780, curveInclination: 4 },
       { min: 2990, max: 3120, curveInclination: 3 },
       { min: 3310, max: 3640, curveInclination: 2 },
@@ -90,7 +89,6 @@ const tracks = {
       { min: 5670, max: 5850, curveInclination: 6 },
       { min: 6060, max: 6150, curveInclination: 5 },
       { min: 6150, max: 6240, curveInclination: -3 },
-
       { min: 6280, max: 6656, curveInclination: 1 },
     ],
     hills: [
@@ -156,61 +154,61 @@ const tracks = {
 
 const drivers = [
   {
-    power: 1120, position: 1, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 1082, position: 1, trackSide: -1, name: 'Senna', carColor: 4,
   },
   {
-    power: 1115, position: 2, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 1075, position: 2, trackSide: 1, name: 'Mansell', carColor: 7,
   },
   {
-    power: 1110, position: 3, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 1070, position: 3, trackSide: -1, name: 'Prost', carColor: 3,
   },
   {
-    power: 1105, position: 4, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 1060, position: 4, trackSide: 1, name: 'Piquet', carColor: 2,
   },
   {
-    power: 1100, position: 5, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 1055, position: 5, trackSide: -1, name: 'Patrese', carColor: 7,
   },
   {
-    power: 1090, position: 6, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 1062, position: 6, trackSide: 1, name: 'Berger', carColor: 4,
   },
   {
-    power: 1080, position: 7, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 1060, position: 7, trackSide: -1, name: 'Alesi', carColor: 3,
   },
   {
-    power: 1070, position: 8, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 1055, position: 8, trackSide: 1, name: 'Schumacher', carColor: 2,
   },
   {
-    power: 1060, position: 9, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 1020, position: 9, trackSide: -1, name: 'Boutsen', carColor: 0,
   },
   {
-    power: 1050, position: 10, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 1015, position: 10, trackSide: 1, name: 'Comas', carColor: 0,
   },
   {
-    power: 1025, position: 11, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 1010, position: 11, trackSide: -1, name: 'Martini', carColor: 5,
   },
   {
-    power: 1000, position: 12, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 1005, position: 12, trackSide: 1, name: 'Herbert',
   },
   {
-    power: 975, position: 13, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 1000, position: 13, trackSide: -1, name: 'Lehto', carColor: 3,
   },
   {
-    power: 950, position: 14, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 990, position: 14, trackSide: 1, name: 'Gugelmin', carColor: 6,
   },
   {
-    power: 925, position: 15, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 985, position: 15, trackSide: -1, name: 'Morbidelli', carColor: 5,
   },
   {
-    power: 900, position: 16, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 995, position: 16, trackSide: 1, name: 'Capelli', carColor: 6,
   },
   {
-    power: 875, position: 17, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 975, position: 17, trackSide: -1, name: 'De Cesaris', carColor: 1,
   },
   {
-    power: 850, position: 18, trackSide: 1, image: 'opponents', name: 'jogador1',
+    power: 970, position: 18, trackSide: 1, name: 'Pirro', carColor: 3,
   },
   {
-    power: 825, position: 19, trackSide: -1, image: 'opponents', name: 'jogador1',
+    power: 975, position: 19, trackSide: -1, name: 'Gachot', carColor: 1,
   },
 ];
 

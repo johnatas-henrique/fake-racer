@@ -44,7 +44,7 @@ class Menu {
     const zero = 0;
     drivers.forEach((driver) => opponents.push(new Opponent(
       driver.power, startPosition(tracks[this.selectedOptions[zero]].trackSize, driver.position),
-      driver.trackSide, driver.image, driver.name,
+      driver.trackSide, 'opponents', driver.name, driver.carColor,
     )));
 
     opponents.forEach((opponentNumber) => opponentNumber.create());
@@ -52,7 +52,7 @@ class Menu {
     roadParam.trackName = this.selectedOptions[zero];
     roadParam.create();
     player.create(this, tracks[this.selectedOptions[zero]].trackSize);
-    director.create(road);
+    director.create(road, this.selectedOptions[0]);
   }
 
   update(player, road, opponents, director) {

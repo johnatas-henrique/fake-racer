@@ -1,5 +1,7 @@
 import Sprite from './sprite.js';
-import { handleInput, resource, startPosition } from './util.js';
+import {
+  handleInput, resource, startPosition, tracks,
+} from './util.js';
 
 class Player {
   constructor() {
@@ -15,7 +17,9 @@ class Player {
     this.startPress = 0;
     this.sprite = new Sprite();
     this.trackPosition = 0;
-    this.name = 'SpeedRacer';
+    this.name = 'Player X';
+    this.lap = 0;
+    this.raceTime = [0];
   }
 
   get width() {
@@ -146,6 +150,15 @@ class Player {
       }
 
       this.trackPosition += this.runningPower;
+      const { trackSize } = tracks[road.trackName];
+      const actualPosition = this.trackPosition / 200;
+      const actualLap = Math.floor(actualPosition / trackSize);
+
+      if (this.lap < actualLap) {
+        this.raceTime.push(director.totalTime);
+        this.lap += 1;
+      }
+
       camera.update(road, director);
     }
   }

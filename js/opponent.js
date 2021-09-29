@@ -1,9 +1,9 @@
 import Sprite from './sprite.js';
-import { resource } from './util.js';
+import { resource, tracks } from './util.js';
 
 class Opponent {
   constructor(
-    maxSpeed = 600, trackPosition = 0, startPos = -1, image, opponentName = 'John Doe',
+    maxSpeed = 600, trackPosition = 0, startPos = -1, image, opponentName = 'John Doe', carColor = 'random',
   ) {
     this.maxSpeed = maxSpeed;
     this.sprite = new Sprite();
@@ -14,6 +14,9 @@ class Opponent {
     this.startPos = startPos;
     this.opponentName = opponentName;
     this.opponentX = 1;
+    this.lap = 0;
+    this.raceTime = [0];
+    this.carColor = carColor;
   }
 
   create() {
@@ -22,10 +25,13 @@ class Opponent {
     this.sprite.scaleX = 3;
     this.sprite.scaleY = 3;
     this.sprite.name = this.opponentName;
-    this.sprite.spritesInX = 6;
+    this.sprite.spritesInX = 8;
     this.sprite.spritesInY = 1;
-    this.sprite.sheetPositionX = Math.floor(Math.random() * 5.99);
+    this.sprite.sheetPositionX = this.carColor !== 'random'
+      ? this.carColor
+      : Math.floor(Math.random() * 7.99);
     this.sprite.sheetPositionY = 0;
+    this.maxSpeed += Math.floor(Math.random() * 40);
   }
 
   update(road, director) {
@@ -34,7 +40,7 @@ class Opponent {
         * mult * (1.5 - (speed / this.maxSpeed));
 
       this.runningPower = this.runningPower >= this.maxSpeed
-        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 1.26);
+        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 1.1);
 
       if (this.sprite.offsetX <= -0.8) this.opponentX = 1;
       if (this.sprite.offsetX >= 0.8) this.opponentX = -1;
@@ -46,6 +52,15 @@ class Opponent {
 
       oldSegment.sprites = oldSegment.sprites.filter(({ name }) => name !== this.sprite.name);
       actualSegment.sprites.push(this.sprite);
+
+      const { trackSize } = tracks[road.trackName];
+      const actualPosition = this.trackPosition / 200;
+      const actualLap = Math.floor(actualPosition / trackSize);
+
+      if (this.lap < actualLap) {
+        this.raceTime.push(director.totalTime);
+        this.lap += 1;
+      }
     }
   }
 }
