@@ -13,6 +13,7 @@ class Sprite {
     this.spritesInX = 1;
     this.spritesInY = 1;
     this.name = 'sprite';
+    this.runningPower = { speed: 0, mult: 0 };
   }
 
   get width() {
