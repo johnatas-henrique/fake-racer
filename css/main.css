@@ -61,6 +61,7 @@ canvas {
 
 #info {
   top: 60px;
+  text-align: right;
 }
 
 .controlButtons {

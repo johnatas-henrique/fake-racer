@@ -21,6 +21,7 @@ class Director {
     this.paused = false;
     this.hudPositions = [];
     this.trackName = '';
+    this.startTimer = 5000;
   }
 
   create(road, trackName) {
@@ -36,20 +37,23 @@ class Director {
     this.startLights.spritesInX = 6;
     this.startLights.sheetPositionX = Math.ceil(this.animTime / 500);
     this.startLights.image = resource.get('startLights');
+    this.startLights.name = 'tsStartLights';
     segmentLineFirst.sprites.push(this.startLights);
     segmentLineTen.sprites.push(this.startLights);
 
     const startLineLeft = new Sprite();
-    startLineLeft.offsetX = -1.14;
+    startLineLeft.offsetX = -1.15;
     startLineLeft.scaleX = 216;
     startLineLeft.scaleY = 708;
     startLineLeft.image = resource.get('startLightsBar');
+    startLineLeft.name = 'tsStartLightsBar';
 
     const startLineRight = new Sprite();
-    startLineRight.offsetX = 1.14;
+    startLineRight.offsetX = 1.15;
     startLineRight.scaleX = 216;
     startLineRight.scaleY = 708;
     startLineRight.image = resource.get('startLightsBar');
+    startLineRight.name = 'tsStartLightsBar';
 
     segmentLineFirst.sprites.push(startLineLeft);
     segmentLineFirst.sprites.push(startLineRight);
@@ -69,11 +73,10 @@ class Director {
   }
 
   update(player, opponent) {
-    const startTimer = 5000;
     this.paused = handleInput.mapPress.p;
 
-    if (this.totalTime < startTimer || !this.paused) this.running = false;
-    else if (this.totalTime >= startTimer && this.paused) this.running = true;
+    if (this.totalTime < this.startTimer || !this.paused) this.running = false;
+    else if (this.totalTime >= this.startTimer && this.paused) this.running = true;
 
     this.totalTime += (1 / 60) * 1000 * this.paused;
     this.animTime += (1 / 60) * 1000 * this.paused;
@@ -96,7 +99,7 @@ class Director {
     addItens('#fast_lap_time_value', formatTime(this.fastestLap));
 
     this.refreshPositions(player, opponent);
-    if (this.animTime > startTimer) this.startLights.sheetPositionX = 0;
+    if (this.animTime > this.startTimer) this.startLights.sheetPositionX = 0;
     else if (this.animTime > 2000 + 2500) this.startLights.sheetPositionX = 5;
     else if (this.animTime > 2000 + 2000) this.startLights.sheetPositionX = 4;
     else if (this.animTime > 2000 + 1500) this.startLights.sheetPositionX = 3;
@@ -105,19 +108,12 @@ class Director {
 
     const actualPos = Number(this.position);
     this.hudPositions = this.positions.filter((_, index) => {
-      if (actualPos <= 2) {
-        return index <= 2 && index >= 0;
-      } if (actualPos === this.positions.length) {
-        return index === 0 || index >= actualPos - 2;
-      }
+      if (actualPos <= 2) return index <= 2 && index >= 0;
+      if (actualPos === this.positions.length) return index === 0 || index >= actualPos - 2;
       return (index === 0) || (index >= actualPos - 2 && index <= actualPos - 1);
     }).map((item, index, array) => {
       const result = {
-        pos: item.position,
-        name: item.name,
-        lap: item.raceTime.length,
-        relTime: 'Leader',
-        totalTime: (Math.round(item.raceTime.at(-1)) / 1000).toFixed(3),
+        pos: item.position, name: item.name, lap: item.raceTime.length, relTime: 'Leader', totalTime: (Math.round(item.raceTime.at(-1)) / 1000).toFixed(3),
       };
       const actualItem = item.raceTime.at(-1);
       const actualLap = item.raceTime.length;
