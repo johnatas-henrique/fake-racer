@@ -171,8 +171,12 @@ class Menu {
       } else {
         const arrowKeys = new Sprite();
         arrowKeys.image = resource.get('arrowKeys');
+        arrowKeys.name = 'mnArrowKeys';
+
         const enterKey = new Sprite();
         enterKey.image = resource.get('enterKey');
+        enterKey.name = 'mnEnterKey';
+
         render.drawText('black', 'Navegar', 590, 320, 1.3, 'OutriderCond', 'right');
         render.renderingContext.drawImage(arrowKeys.image, 595, 310, 28, 18);
         render.drawText('black', 'Confirmar', 590, 345, 1.3, 'OutriderCond', 'right');

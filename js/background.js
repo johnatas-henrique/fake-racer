@@ -21,6 +21,9 @@ class Background {
     this.layer1.image = resource.get('sky');
     this.layer2.image = resource.get('hill');
     this.layer3.image = resource.get('tree');
+    this.layer1.name = 'bgSky';
+    this.layer2.name = 'bgHill';
+    this.layer3.name = 'bgTree';
   }
 
   update(player, camera, road, director) {
