@@ -60,6 +60,11 @@ const curveAnim = (player, speed) => {
   }
 };
 
+const stats = new Stats();
+stats.showPanel(0);
+const fps = document.querySelector('#fps');
+fps.appendChild(stats.dom);
+
 /**
    *
    * @param {Number} time
@@ -71,6 +76,8 @@ const curveAnim = (player, speed) => {
    * @param {Number} height
    */
 const loop = (time, render, camera, player, oppArr, road, bg, director, menu, width, height) => {
+  stats.begin();
+
   const directorParam = director;
   const cameraParam = camera;
   const playerParam = player;
@@ -87,13 +94,13 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
       curveAnim(playerParam, playerParam.runningPower);
       directorParam.timeSinceLastFrameSwap = 0;
     }
-    oppArr.forEach((opponent) => opponent.update(road, directorParam));
     playerParam.update(cameraParam, road, directorParam, oppArr);
+    oppArr.forEach((opponent) => opponent.update(road, directorParam, playerParam));
     bg.update(playerParam, cameraParam, road, directorParam);
+    directorParam.update(playerParam, oppArr);
     bg.render(render, cameraParam, playerParam, road.width);
     road.render(render, cameraParam, playerParam);
     playerParam.render(render, cameraParam, road.width, directorParam);
-    directorParam.update(playerParam, oppArr);
     directorParam.render(render);
 
     render.restore();
@@ -137,6 +144,8 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     // directorParam.startTimer = 0;
     // menu.state = 'race';
   }
+
+  stats.end();
 
   requestAnimationFrame(() => loop(
     time, render, cameraParam, playerParam, oppArr, road, bg, directorParam, menu, width, height,
