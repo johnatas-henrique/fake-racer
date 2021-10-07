@@ -1,12 +1,8 @@
 import HandleInput from './handleInput.js';
 import Resource from './resource.js';
 
-const {
-  tan, sin, cos, round, floor, ceil, min, max, random, PI,
-} = Math;
-
 const canvas = document.querySelector('canvas');
-const fieldOfView = (120 / 180) * PI;
+const fieldOfView = (120 / 180) * Math.PI;
 const theta = fieldOfView * 0.5;
 
 const handleInput = new HandleInput();
@@ -17,7 +13,7 @@ const addItens = (liId, text) => {
   li.textContent = text;
 };
 
-const toggleMusic = (e, toggle, volume = '5') => {
+const toggleMusic = (_e, toggle, volume = '5') => {
   const music = document.getElementById('music');
   const mute = document.getElementById('mute');
 
@@ -56,7 +52,42 @@ const formatTime = (dt) => {
   return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}.${time < 100 ? '000' : tenths}`;
 };
 
+const startPosition = (trackSize, position) => (trackSize - (position * 16)) * 200;
+
+const overlap = (x1, w1, x2, w2, percent = 1) => {
+  const half = percent / 2;
+  const callerL = x1 - (w1 * half);
+  const callerR = x1 + (w1 * half);
+  const objL = x2 - (w2 * half);
+  const objR = x2 + (w2 * half);
+  return !((callerR < objL) || (callerL > objR));
+};
+
+const calcCrashSpeed = (callerSpd, objSpd, objMult) => {
+  if (!objMult) return 0;
+  if (!objSpd) return ((callerSpd + objSpd) * 0.5) * objMult;
+  if (callerSpd - objSpd <= 120) return callerSpd - 120;
+  return Math.max(callerSpd - ((callerSpd - objSpd) * 1.6), 20);
+};
+
 const tracks = {
+  // straight track used in development
+  // test: {
+  //   trackSize: 6656,
+  //   laps: 78,
+  //   curves: [
+
+  //     // { min: 628, max: 6656, curveInclination: 1 },
+  //   ],
+  //   hills: [
+  //     { initialSegment: 665, size: 0, altimetry: 0 },
+  //   ],
+  //   tunnels: [
+  //     {
+  //       min: 0, max: 0, name: '', height: 12500,
+  //     },
+  //   ],
+  // },
   monaco: {
     trackSize: 6656,
     laps: 78,
@@ -154,25 +185,25 @@ const tracks = {
 
 const drivers = [
   {
-    power: 1082, position: 1, trackSide: -1, name: 'Senna', carColor: 4,
+    power: 1072, position: 1, trackSide: -1, name: 'Senna', carColor: 4,
   },
   {
-    power: 1075, position: 2, trackSide: 1, name: 'Mansell', carColor: 7,
+    power: 1065, position: 2, trackSide: 1, name: 'Mansell', carColor: 7,
   },
   {
-    power: 1070, position: 3, trackSide: -1, name: 'Prost', carColor: 3,
+    power: 1060, position: 3, trackSide: -1, name: 'Prost', carColor: 3,
   },
   {
-    power: 1060, position: 4, trackSide: 1, name: 'Piquet', carColor: 2,
+    power: 1050, position: 4, trackSide: 1, name: 'Piquet', carColor: 2,
   },
   {
-    power: 1055, position: 5, trackSide: -1, name: 'Patrese', carColor: 7,
+    power: 1057, position: 5, trackSide: -1, name: 'Patrese', carColor: 7,
   },
   {
-    power: 1062, position: 6, trackSide: 1, name: 'Berger', carColor: 4,
+    power: 1052, position: 6, trackSide: 1, name: 'Berger', carColor: 4,
   },
   {
-    power: 1060, position: 7, trackSide: -1, name: 'Alesi', carColor: 3,
+    power: 1050, position: 7, trackSide: -1, name: 'Alesi', carColor: 3,
   },
   {
     power: 1055, position: 8, trackSide: 1, name: 'Schumacher', carColor: 2,
@@ -187,7 +218,7 @@ const drivers = [
     power: 1010, position: 11, trackSide: -1, name: 'Martini', carColor: 5,
   },
   {
-    power: 1005, position: 12, trackSide: 1, name: 'Herbert',
+    power: 1005, position: 12, trackSide: 1, name: 'Herbert', carColor: 5,
   },
   {
     power: 1000, position: 13, trackSide: -1, name: 'Lehto', carColor: 3,
@@ -212,12 +243,55 @@ const drivers = [
   },
 ];
 
-const startPosition = (trackSize, position) => (trackSize - (position * 16)) * 200;
+const updateOpponentsCarOffset = (road, car, player, director, oppArr) => {
+  const carParam = car;
+  const playerParam = player;
+  const oppArrParam = oppArr;
+  const lookAhead = 40;
+  const crash = 6;
+  const callerSegment = (director.carSegments
+    .find(({ name }) => name === carParam.opponentName));
+  const objSegment = director.carSegments
+    .find(({ pos }) => pos < callerSegment.pos + lookAhead && pos > callerSegment.pos);
+  const objCrash = director.carSegments
+    .find(({ pos }) => pos < callerSegment.pos + crash && pos > callerSegment.pos);
+
+  let dir = carParam.opponentX;
+
+  if (callerSegment && callerSegment.x <= -1.65) dir = 0.5;
+  if (callerSegment && callerSegment.x >= 1.65) dir = -0.5;
+
+  if (objSegment && objSegment.name !== playerParam.name) {
+    const isOverlapped = overlap(callerSegment.x, 0.663125, objSegment.x, 0.663125, 1);
+    if (isOverlapped) {
+      const changeX = 1;
+      const diffCarsX = Math.abs(objSegment.x - callerSegment.x);
+      if (objSegment.x > 1 || (objSegment.x > 0 && diffCarsX < 0.3)) dir = -changeX;
+      if (objSegment.x < -1 || (objSegment.x < 0 && diffCarsX < 0.3)) dir = changeX;
+      if (objCrash) {
+        const opp = oppArrParam.findIndex(({ opponentName }) => opponentName === objCrash.name);
+        oppArrParam[opp].runningPower *= 1.02;
+        carParam.runningPower *= 0.98;
+      }
+    }
+  } else if (objSegment && objSegment.name === playerParam.name && !car.isCrashed) {
+    const isOverlapped = overlap(callerSegment.x, 0.663125, objSegment.x, 0.8, 1);
+    if (carParam.runningPower > playerParam.runningPower && isOverlapped) {
+      const changeX = 5;
+      const diffCarsX = Math.abs(objSegment.x - callerSegment.x);
+      if (objSegment.x > 0.95 || (objSegment.x > 0 && diffCarsX < 0.4)) dir = changeX * -1;
+      else if (objSegment.x < -0.95 || (objSegment.x < 0 && diffCarsX < 0.4)) dir = changeX;
+      if (objCrash) {
+        const x = (carParam.runningPower - playerParam.runningPower) / 2;
+        playerParam.runningPower += x * 1.2;
+        carParam.runningPower += x * -1.5;
+      }
+    }
+  }
+  return dir;
+};
 
 export {
-  handleInput, resource,
-  tan, sin, cos, round, floor, ceil, min, max, random, PI,
-  canvas, fieldOfView, theta, addItens, toggleMusic, playMusic, formatTime,
-  tracks, startPosition,
-  drivers,
+  handleInput, resource, canvas, fieldOfView, theta, addItens, toggleMusic, playMusic, formatTime,
+  startPosition, overlap, calcCrashSpeed, updateOpponentsCarOffset, tracks, drivers,
 };

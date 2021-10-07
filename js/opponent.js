@@ -1,5 +1,7 @@
 import Sprite from './sprite.js';
-import { resource, tracks } from './util.js';
+import {
+  resource, tracks, updateOpponentsCarOffset,
+} from './util.js';
 
 class Opponent {
   constructor(
@@ -17,39 +19,60 @@ class Opponent {
     this.lap = 0;
     this.raceTime = [0];
     this.carColor = carColor;
+    this.isCrashed = 0;
   }
 
   create() {
     this.sprite.image = resource.get(this.image);
+    this.sprite.name = `op${this.opponentName}`;
     this.sprite.offsetX = 0.5 * this.startPos;
-    this.sprite.scaleX = 3;
-    this.sprite.scaleY = 3;
-    this.sprite.name = this.opponentName;
+    this.sprite.scaleX = 2;
+    this.sprite.scaleY = 2;
     this.sprite.spritesInX = 8;
     this.sprite.spritesInY = 1;
     this.sprite.sheetPositionX = this.carColor !== 'random'
       ? this.carColor
       : Math.floor(Math.random() * 7.99);
     this.sprite.sheetPositionY = 0;
+    this.sprite.runningPower.mult = 1;
     this.maxSpeed += Math.floor(Math.random() * 40);
+    this.baseSpeed = this.maxSpeed;
   }
 
-  update(road, director) {
+  * carSpeedCorrection() {
+    while (this.maxSpeed >= this.baseSpeed) {
+      this.maxSpeed -= 0.1;
+      if (this.maxSpeed > this.baseSpeed * 1.6 || this.maxSpeed > 1260) {
+        this.maxSpeed = Math.min(this.baseSpeed * 1.6, 1260);
+      }
+      yield this.maxSpeed;
+    }
+  }
+
+  update(road, director, player, oppArr) {
     if (director.running) {
+      // crash corrector
+      const newMaxSpeed = this.carSpeedCorrection();
+      newMaxSpeed.next();
+      if (this.runningPower < 0) this.runningPower = 0;
+
       const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
         * mult * (1.5 - (speed / this.maxSpeed));
 
       this.runningPower = this.runningPower >= this.maxSpeed
-        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 1.1);
+        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 0.9);
 
-      if (this.sprite.offsetX <= -0.8) this.opponentX = 1;
-      if (this.sprite.offsetX >= 0.8) this.opponentX = -1;
+      // helper to stop opponent speeds
+      // this.runningPower = 0;
 
-      this.sprite.offsetX += Math.random() * 0.01 * this.opponentX;
+      this.sprite.runningPower.speed = this.runningPower;
       const oldSegment = road.getSegment(Math.round(this.trackPosition));
-      this.trackPosition += this.runningPower;
-      const actualSegment = road.getSegment(Math.round(this.trackPosition));
+      this.opponentX = updateOpponentsCarOffset(road, this, player, director, oppArr);
 
+      this.sprite.offsetX += 0.008 * this.opponentX;
+      this.trackPosition += this.runningPower;
+      this.isCrashed = this.isCrashed > 0 ? this.isCrashed -= 0.1 : 0;
+      const actualSegment = road.getSegment(Math.round(this.trackPosition));
       oldSegment.sprites = oldSegment.sprites.filter(({ name }) => name !== this.sprite.name);
       actualSegment.sprites.push(this.sprite);
 
