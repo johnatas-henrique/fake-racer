@@ -115,12 +115,14 @@ class Menu {
 
       if (handleInput.mapPress.enter && this.menuX === lastMenuOption) {
         const hud = document.querySelector('#hud');
+        const fps = document.querySelector('#fps');
         hud.classList.toggle('hidden');
         const okBtn = document.querySelector('.rightControls').firstElementChild;
         okBtn.classList.toggle('hidden');
         this.startRace(player, road, opponents, director);
         this.state = 'race';
         handleInput.mapPress.enter = false;
+        fps.firstElementChild.classList.remove('hidden');
       }
     }
   }
