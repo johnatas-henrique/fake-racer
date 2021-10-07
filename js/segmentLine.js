@@ -1,5 +1,4 @@
 import Player from './player.js';
-import { max, round } from './util.js';
 
 class SegmentLine {
   scale = 0;
@@ -52,9 +51,9 @@ class SegmentLine {
     screen.xUnrounded = (1 + (world.x - camera.x) * scale) * midpoint.x;
     screen.yUnrounded = (1 - (world.y - camera.y) * scale) * midpoint.y;
     screen.wUnrounded = world.w * scale * camera.screen.width;
-    screen.x = round(screen.xUnrounded);
-    screen.y = round(screen.yUnrounded);
-    screen.w = round(screen.wUnrounded);
+    screen.x = Math.round(screen.xUnrounded);
+    screen.y = Math.round(screen.yUnrounded);
+    screen.w = Math.round(screen.wUnrounded);
   }
 
   /**
@@ -73,7 +72,7 @@ class SegmentLine {
       const destX = screen.xUnrounded + screen.wUnrounded * sprite.offsetX;
       const destY = screen.yUnrounded;
       const destYUp = (1 - (world.y - camera.y + 1550) * scale) * 180;
-      if(sprite.name.includes('op') && scale * 10000 > 1.2) {
+      if(sprite.name.includes('op') && (scale * 10000 < 5 && scale * 10000 > 1.2)) {
         render.drawText('#FFFAF4', `${sprite.name.replace('op', '')}`, destX, destYUp,
         scale * 10000, 'OutriderCond', 'center', 'black', true)
       }
@@ -101,9 +100,9 @@ class SegmentLine {
       const { screen } = this.points;
       const { clip, scale } = this;
       const worldH = tunnel.worldH;
-      const py = tunnel.py = round((1 - worldH * scale) * camera.screen.midpoint.y);
-      const h = round(worldH * 0.1 * scale * camera.screen.midpoint.y);
-      const clipH = tunnel.clipH = clip ? max(0, screen.y - clip) : 0;
+      const py = tunnel.py = Math.round((1 - worldH * scale) * camera.screen.midpoint.y);
+      const h = Math.round(worldH * 0.1 * scale * camera.screen.midpoint.y);
+      const clipH = tunnel.clipH = clip ? Math.max(0, screen.y - clip) : 0;
       if (clipH < screen.y - (py + h)) {
         const leftFace = tunnel.leftFace;
         const rightFace = tunnel.rightFace;

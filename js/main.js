@@ -95,7 +95,7 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
       directorParam.timeSinceLastFrameSwap = 0;
     }
     playerParam.update(cameraParam, road, directorParam, oppArr);
-    oppArr.forEach((opponent) => opponent.update(road, directorParam, playerParam));
+    oppArr.forEach((opponent) => opponent.update(road, directorParam, playerParam, oppArr));
     bg.update(playerParam, cameraParam, road, directorParam);
     directorParam.update(playerParam, oppArr);
     bg.render(render, cameraParam, playerParam, road.width);
@@ -142,6 +142,7 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     // hud.classList.remove('hidden');
     // menu.startRace(player, road, oppArr, directorParam);
     // directorParam.startTimer = 0;
+    // fps.firstElementChild.classList.remove('hidden');
     // menu.state = 'race';
   }
 
