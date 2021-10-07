@@ -13,6 +13,7 @@
     const container = document.createElement('div');
     // container.style.cssText = 'position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000';
     container.classList.add('fpsCanvas');
+    container.classList.add('hidden');
 
     function showPanel(id) {
       for (let i = 0; i < container.children.length; i += 1) {
