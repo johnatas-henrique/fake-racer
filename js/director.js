@@ -22,6 +22,7 @@ class Director {
     this.hudPositions = [];
     this.trackName = '';
     this.startTimer = 5000;
+    this.carSegments = [];
   }
 
   create(road, trackName) {
@@ -63,10 +64,22 @@ class Director {
 
   refreshPositions(player, opponents) {
     let arr = [];
-    arr.push({ name: player.name, pos: player.trackPosition, raceTime: player.raceTime });
-    opponents.forEach((opp) => arr.push({
-      name: opp.opponentName, pos: opp.trackPosition, raceTime: opp.raceTime,
-    }));
+    const {
+      name, trackPosition, raceTime, x,
+    } = player;
+    arr.push({
+      name, pos: trackPosition, raceTime, x: Number(x.toFixed(3)),
+    });
+
+    opponents.forEach((opp) => {
+      const { opponentName, sprite } = opp;
+      arr.push({
+        name: opponentName,
+        pos: opp.trackPosition,
+        raceTime: opp.raceTime,
+        x: Number((sprite.offsetX * 2).toFixed(3)),
+      });
+    });
     arr.sort((a, b) => b.pos - a.pos);
     arr = arr.map((item, index) => ({ ...item, position: index + 1 }));
     this.positions = arr;
@@ -74,7 +87,6 @@ class Director {
 
   update(player, opponent) {
     this.paused = handleInput.mapPress.p;
-
     if (this.totalTime < this.startTimer || !this.paused) this.running = false;
     else if (this.totalTime >= this.startTimer && this.paused) this.running = true;
 
@@ -129,6 +141,12 @@ class Director {
       }
       return result;
     });
+
+    this.carSegments = this.positions.map((driver) => ({
+      name: driver.name,
+      pos: Math.floor(driver.pos / 200) % tracks[this.trackName].trackSize,
+      x: driver.x,
+    })).sort((a, b) => a.pos - b.pos);
   }
 
   render(render) {
