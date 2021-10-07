@@ -9,6 +9,7 @@ class Road {
    */
   #segments = [];
   #segmentLength = 200; // it could be named segmentHeight
+  visibleSegments = 600;
   #rumbleLength = 13; // number of segments to change rumble color
   #width = 2000;
   constructor(trackName) {
@@ -179,13 +180,12 @@ class Road {
     const { segmentsLength } = this;
     const baseSegment = this.getSegment(camera.cursor);
     const startPos = baseSegment.index;
-    const visibleSegments = 600;
     cameraClass.y = camera.h + baseSegment.points.world.y;
     let maxY = camera.screen.height;
     let anx = 0;
     let snx = 0;
 
-    for (let i = startPos; i < startPos + visibleSegments; i += 1) {
+    for (let i = startPos; i < startPos + this.visibleSegments; i += 1) {
       const currentSegment = this.getSegmentFromIndex(i);
       cameraClass.z = camera.cursor - (i >= segmentsLength ? this.length : 0);
       cameraClass.x = player.x * currentSegment.points.world.w - snx;
@@ -328,7 +328,7 @@ class Road {
 
       maxY = currentScreenPoint.y;
     }
-    for (let i = (visibleSegments + startPos) - 1; i >= startPos; i -= 1) {
+    for (let i = (this.visibleSegments + startPos) - 1; i >= startPos; i -= 1) {
       this.getSegmentFromIndex(i)
         .drawSprite(render, camera, player)
         .drawTunnel(render, camera, player);
