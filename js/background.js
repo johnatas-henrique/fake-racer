@@ -37,13 +37,13 @@ class Background {
       const segment = road.getSegment(camera.cursor);
       const speedPercent = player.runningPower / player.maxSpeed;
       this.layer1Offset = increase(
-        this.layer1Offset, this.layer1Speed * segment.curve * speedPercent, 2,
+        this.layer1Offset, this.layer1Speed * segment.curve * speedPercent * -1, 2,
       );
       this.layer2Offset = increase(
-        this.layer2Offset, this.layer2Speed * segment.curve * speedPercent, 2,
+        this.layer2Offset, this.layer2Speed * segment.curve * speedPercent * -1, 2,
       );
       this.layer3Offset = increase(
-        this.layer3Offset, this.layer3Speed * segment.curve * speedPercent, 2,
+        this.layer3Offset, this.layer3Speed * segment.curve * speedPercent * -1, 2,
       );
     }
   }
