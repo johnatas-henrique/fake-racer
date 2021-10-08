@@ -1,6 +1,6 @@
 import Sprite from './sprite.js';
 import {
-  handleInput, resource, startPosition, tracks,
+  handleInput, overlap, calcCrashSpeed, resource, startPosition, tracks,
 } from './util.js';
 
 class Player {
@@ -20,6 +20,8 @@ class Player {
     this.name = 'Player X';
     this.lap = 0;
     this.raceTime = [0];
+    this.crashXCorrection = 0;
+    this.cursor = 0;
   }
 
   get width() {
@@ -44,6 +46,7 @@ class Player {
 
   create(menu, trackSize) {
     this.sprite.image = resource.get('playerRight');
+    this.sprite.name = 'Player';
     this.sprite.spritesInX = 6;
     this.sprite.spritesInY = 2;
     this.sprite.sheetPositionY = 1;
@@ -52,24 +55,48 @@ class Player {
 
     const qualyPos = Number(menu.selectedOptions[1]) + 1;
     this.trackPosition = startPosition(trackSize, qualyPos);
+    this.runningPower = 0;
   }
 
-  update(camera, road, director) {
+  reforceCurvePowerLowSpeed() {
+    if (this.runningPower < 300) return 2;
+    return 1;
+  }
+
+  * carXCrashState() {
+    while (this.crashXCorrection) {
+      this.crashXCorrection = this.crashXCorrection > 0 ? this.crashXCorrection -= 30 : 0;
+      yield this.crashXCorrection;
+    }
+  }
+
+  update(camera, road, director, oppArr) {
     const cameraClass = camera;
+    const oppArrClass = oppArr;
     if (director.running) {
+      this.sprite.name = 'Player';
+
+      // crash corrector
+      const alignAfterCrash = this.carXCrashState();
+      if (alignAfterCrash.next().value) {
+        let direction = Math.sign(this.x);
+        if (handleInput.isKeyDown('arrowLeft')) direction = 1;
+        if (handleInput.isKeyDown('arrowRight')) direction = -1;
+        this.changeXToLeft(direction * 0.10);
+      }
+
       // recover button
       if (handleInput.isKeyDown('*')) {
         // cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
         // this.x = 0;
-        this.runningPower = 600;
+        // this.runningPower = 1160;
       }
       if (handleInput.isKeyDown('-')) {
-        cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
-        this.x = 0;
-        this.runningPower = 1200;
+        // cameraClass.cursor = (road.length) - 200 * 200;
+        // this.x = 0;
+        // this.runningPower = 1200;
       }
 
-      this.sprite.name = 'player';
       // making playerCar moves in Y axis
       const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
         * mult * (1.5 - (speed / this.maxSpeed));
@@ -77,9 +104,10 @@ class Player {
 
       // offroad deceleration
       let segment = road.getSegment(camera.cursor);
-      if (Math.abs(this.x) > 2.2 && segment.curve && this.runningPower > this.maxSpeed / 2) {
+      const midSpd = this.maxSpeed / 2;
+      if (Math.abs(this.x) > 2.2 && segment.curve && this.runningPower > midSpd) {
         this.runningPower -= acceleration(this.runningPower, 7.2);
-      } else if (Math.abs(this.x) > 1.6 && !segment.curve && this.runningPower > this.maxSpeed / 2) {
+      } else if (Math.abs(this.x) > 1.6 && !segment.curve && this.runningPower > midSpd) {
         this.runningPower -= acceleration(this.runningPower, 7.2);
       }
 
@@ -122,13 +150,15 @@ class Player {
       }
 
       // making playerCar moves in X axis
-      this.curvePower = baseForce * (this.runningPower / this.maxSpeed);
+      this.curvePower = baseForce * (this.runningPower / this.maxSpeed)
+        * this.reforceCurvePowerLowSpeed();
       const curvePowerOnCentrifugalForce = (
         baseForce + Math.abs(4 * (segment.curve / 100))) * (this.runningPower / this.maxSpeed
       );
 
       if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0 && segment.curve < 0) {
-        this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost;
+        this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost
+          * this.reforceCurvePowerLowSpeed();
         this.changeXToLeft(this.curvePower);
       } else if (handleInput.isKeyDown('arrowleft') && this.runningPower !== 0 && segment.curve > 0) {
         this.curvePower = curvePowerOnCentrifugalForce / 40;
@@ -138,7 +168,8 @@ class Player {
         this.curvePower *= 1.15;
         this.changeXToLeft(this.curvePower);
       } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0 && segment.curve > 0) {
-        this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost;
+        this.curvePower = curvePowerOnCentrifugalForce * decelerationCurveBoost
+          * this.reforceCurvePowerLowSpeed();
         this.changeXToRight(this.curvePower);
       } else if (handleInput.isKeyDown('arrowright') && this.runningPower !== 0 && segment.curve < 0) {
         this.curvePower = curvePowerOnCentrifugalForce / 40;
@@ -159,6 +190,44 @@ class Player {
         this.lap += 1;
       }
 
+      // making player crash
+      const baseSegment = segment.index;
+      const lookupTrackside = 4;
+      let crashLookup = 0;
+      if (this.runningPower / this.maxSpeed < 0.5) crashLookup = 1;
+      const minHit = baseSegment + lookupTrackside;
+      for (let i = baseSegment; i <= minHit; i += 1) {
+        const crashSegment = road.getSegmentFromIndex(i);
+        for (let j = 0; j < crashSegment.sprites.length; j += 1) {
+          const sprite = crashSegment.sprites[j];
+          const { scale } = crashSegment;
+          const ignoredSprites = ['tsStartLights'];
+          const regexDrivers = /^op\w*/g;
+          const isDriverSprite = regexDrivers.test(sprite.name);
+          const callerW = this.sprite.scaleX * 320 * 0.001;
+          const otherX = sprite.offsetX * 2;
+          const otherSize = (sprite.width / sprite.spritesInX);
+          const otherW = Math.min(scale * sprite.scaleX * otherSize, otherSize * 0.001);
+          const overLapResponse = overlap(this.x, callerW, otherX, otherW, 1.1);
+
+          if (overLapResponse && !ignoredSprites.includes(sprite.name)
+            && (i <= baseSegment + crashLookup || (i > baseSegment && !isDriverSprite))) {
+            const { speed, mult } = sprite.runningPower;
+            const differentialSpeedPercent = (this.runningPower - speed) / 1200;
+            this.runningPower = calcCrashSpeed(this.runningPower, speed, mult);
+            this.crashXCorrection += 300 * differentialSpeedPercent;
+            cameraClass.cursor -= 300;
+            const oppIndex = oppArrClass.findIndex((driver) => driver.sprite.name === sprite.name);
+            if (oppIndex !== -1) {
+              oppArrClass[oppIndex].maxSpeed *= (1 + Math.abs(differentialSpeedPercent / 6));
+              oppArrClass[oppIndex].runningPower *= (1 + Math.abs(differentialSpeedPercent / 3));
+              oppArrClass[oppIndex].isCrashed = 1;
+            }
+          }
+        }
+      }
+      if (this.runningPower < 0) this.runningPower = 0;
+      this.cursor = camera.cursor;
       camera.update(road, director);
     }
   }
