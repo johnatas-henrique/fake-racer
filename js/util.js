@@ -243,44 +243,44 @@ const drivers = [
   },
 ];
 
-const updateOpponentsCarOffset = (road, car, player, director, oppArr) => {
+const updateOpponentsCarOffset = (car, player, director, oppArr) => {
   const carParam = car;
   const playerParam = player;
   const oppArrParam = oppArr;
   const lookAhead = 40;
   const crash = 6;
-  const callerSegment = (director.carSegments
-    .find(({ name }) => name === carParam.opponentName));
-  const objSegment = director.carSegments
-    .find(({ pos }) => pos < callerSegment.pos + lookAhead && pos > callerSegment.pos);
-  const objCrash = director.carSegments
-    .find(({ pos }) => pos < callerSegment.pos + crash && pos > callerSegment.pos);
-
+  const { carSegments: carSeg } = director;
+  const cSeg = (carSeg.find(({ name }) => name === carParam.opponentName));
+  const objSeg = carSeg.find(({ pos }) => pos < cSeg.pos + lookAhead && pos > cSeg.pos);
+  const objCrash = carSeg.find(({ pos }) => pos < cSeg.pos + crash && pos > cSeg.pos);
   let dir = carParam.opponentX;
 
-  if (callerSegment && callerSegment.x <= -1.65) dir = 0.5;
-  if (callerSegment && callerSegment.x >= 1.65) dir = -0.5;
+  if (cSeg && cSeg.x <= -1.65) dir = 0.5;
+  if (cSeg && cSeg.x >= 1.65) dir = -0.5;
+  if (objSeg && objSeg.name !== playerParam.name) {
+    const isOverlapped = overlap(cSeg.x, 0.663125, objSeg.x, 0.663125, 1);
 
-  if (objSegment && objSegment.name !== playerParam.name) {
-    const isOverlapped = overlap(callerSegment.x, 0.663125, objSegment.x, 0.663125, 1);
     if (isOverlapped) {
       const changeX = 1;
-      const diffCarsX = Math.abs(objSegment.x - callerSegment.x);
-      if (objSegment.x > 1 || (objSegment.x > 0 && diffCarsX < 0.3)) dir = -changeX;
-      if (objSegment.x < -1 || (objSegment.x < 0 && diffCarsX < 0.3)) dir = changeX;
+      const diffCarsX = Math.abs(objSeg.x - cSeg.x);
+
+      if (objSeg.x > 1 || (objSeg.x > 0 && diffCarsX < 0.3)) dir = -changeX;
+      if (objSeg.x < -1 || (objSeg.x < 0 && diffCarsX < 0.3)) dir = changeX;
       if (objCrash) {
         const opp = oppArrParam.findIndex(({ opponentName }) => opponentName === objCrash.name);
         oppArrParam[opp].runningPower *= 1.02;
         carParam.runningPower *= 0.98;
       }
     }
-  } else if (objSegment && objSegment.name === playerParam.name && !car.isCrashed) {
-    const isOverlapped = overlap(callerSegment.x, 0.663125, objSegment.x, 0.8, 1);
+  } else if (objSeg && objSeg.name === playerParam.name && !car.isCrashed) {
+    const isOverlapped = overlap(cSeg.x, 0.663125, objSeg.x, 0.8, 1);
+
     if (carParam.runningPower > playerParam.runningPower && isOverlapped) {
       const changeX = 5;
-      const diffCarsX = Math.abs(objSegment.x - callerSegment.x);
-      if (objSegment.x > 0.95 || (objSegment.x > 0 && diffCarsX < 0.4)) dir = changeX * -1;
-      else if (objSegment.x < -0.95 || (objSegment.x < 0 && diffCarsX < 0.4)) dir = changeX;
+      const diffCarsX = Math.abs(objSeg.x - cSeg.x);
+      if (objSeg.x > 0.95 || (objSeg.x > 0 && diffCarsX < 0.4)) dir = changeX * -1;
+      else if (objSeg.x < -0.95 || (objSeg.x < 0 && diffCarsX < 0.4)) dir = changeX;
+
       if (objCrash) {
         const x = (carParam.runningPower - playerParam.runningPower) / 2;
         playerParam.runningPower += x * 1.2;
