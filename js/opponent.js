@@ -67,7 +67,7 @@ class Opponent {
 
       this.sprite.runningPower.speed = this.runningPower;
       const oldSegment = road.getSegment(Math.round(this.trackPosition));
-      this.opponentX = updateOpponentsCarOffset(road, this, player, director, oppArr);
+      this.opponentX = updateOpponentsCarOffset(this, player, director, oppArr);
 
       this.sprite.offsetX += 0.008 * this.opponentX;
       this.trackPosition += this.runningPower;
