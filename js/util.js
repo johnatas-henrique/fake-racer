@@ -1,7 +1,7 @@
 import HandleInput from './handleInput.js';
 import Resource from './resource.js';
 
-const canvas = document.querySelector('canvas');
+const canvas = document.querySelector('#gameCanvas');
 const fieldOfView = (120 / 180) * Math.PI;
 const theta = fieldOfView * 0.5;
 
