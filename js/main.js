@@ -5,6 +5,7 @@ import Menu from './menu.js';
 import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
+import animations from './animations.js';
 import {
   canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, toggleMusic,
 } from './util.js';
@@ -123,6 +124,8 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     directorParam.realTime = timeNow;
     directorParam.timeSinceLastFrameSwap += elapsed;
 
+    if (menu.updateAnimationsTime) menu.animations.forEach((item) => item.update());
+
     if (directorParam.timeSinceLastFrameSwap > menu.updateTime) {
       menu.update(playerParam, road, oppArr, directorParam);
       toggleMusic('event', selectedOptions[2], selectedOptions[3]);
@@ -163,7 +166,7 @@ const init = (time) => {
   const player = new Player();
   const road = new Road();
   const background = new Background();
-  const menu = new Menu(width, height);
+  const menu = new Menu(width, height, animations);
 
   background.create();
   playMusic();

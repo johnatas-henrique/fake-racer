@@ -5,7 +5,7 @@ import Opponent from './opponent.js';
 import Sprite from './sprite.js';
 
 class Menu {
-  constructor(width, height) {
+  constructor(width, height, animations) {
     this.showMenu = 0;
     this.height = height;
     this.state = 'title';
@@ -13,6 +13,7 @@ class Menu {
     this.menuY = 0;
     this.menuX = 4;
     this.updateTime = 6 / 60;
+    this.updateAnimationsTime = 1 / 60;
     this.menuPhrase = {
       0: 'Circuito: ',
       1: 'Oponentes: ',
@@ -37,6 +38,7 @@ class Menu {
     this.arrowUpBlink = 0;
     this.arrowDownBlink = 0;
     this.menuTitle = { pos: 0, direction: 1 };
+    this.animations = animations;
   }
 
   startRace(player, road, opponents, director) {
@@ -69,12 +71,8 @@ class Menu {
     }
 
     if (this.showMenu) {
-      if (!arrowdown) {
-        this.arrowDownBlink = false;
-      }
-      if (!arrowup) {
-        this.arrowUpBlink = false;
-      }
+      if (!arrowdown) this.arrowDownBlink = false;
+      if (!arrowup) this.arrowUpBlink = false;
 
       if (this.menuX < maxX && arrowdown) {
         this.arrowDownBlink = !this.arrowDownBlink;
@@ -133,6 +131,7 @@ class Menu {
   }
 
   render(render) {
+    this.animations.forEach((item) => item.render(render));
     render.drawText('#EB4844', 'Fake Racer', 320, 30, 4, 'OutriderCondBold');
 
     if (!this.showMenu) {
