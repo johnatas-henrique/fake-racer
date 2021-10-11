@@ -60,7 +60,7 @@ const init = () => {
     const y = (Math.random() * ((height - size * 2) - (size * 2)) + size * 2);
     const directionX = (Math.random() * 2);
     const directionY = (Math.random() * 2);
-    const color = 'gray';
+    const color = '#EB4844';
     arrPart.push(new Particle(x, y, directionX, directionY, size, color));
   }
   return arrPart;
