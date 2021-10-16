@@ -145,6 +145,10 @@ canvas {
   display: none;
 }
 
+.filter {
+  filter: brightness(75%);
+}
+
 @media (hover: hover) and (pointer: fine) {
   #touchControls {
     display: none;

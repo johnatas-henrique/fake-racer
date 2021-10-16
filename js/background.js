@@ -18,7 +18,7 @@ class Background {
   }
 
   create() {
-    this.layer1.image = resource.get('sky');
+    this.layer1.image = resource.get('skyClear');
     this.layer2.image = resource.get('hill');
     this.layer3.image = resource.get('tree');
     this.layer1.name = 'bgSky';

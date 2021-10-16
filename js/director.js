@@ -1,5 +1,5 @@
 import {
-  handleInput, formatTime, addItens, resource, tracks,
+  handleInput, formatTime, addItens, resource, tracks, canvas,
 } from './util.js';
 import Sprite from './sprite.js';
 import rain from './animations/rain.js';
@@ -66,6 +66,7 @@ class Director {
     const rainDrops = Math.random() * 500 + 100;
     this.rain = rain(rainDrops);
     this.raining = Math.round(Math.random() * 7) % 4 === 0;
+    if (this.raining) canvas.classList.add('filter');
   }
 
   refreshPositions(player, opponents) {
@@ -124,37 +125,39 @@ class Director {
     else if (this.animTime > 2000 + 1000) this.startLights.sheetPositionX = 2;
     else if (this.animTime > 2000 + 500) this.startLights.sheetPositionX = 1;
 
-    const actualPos = Number(this.position);
-    this.hudPositions = this.positions.filter((_, index) => {
-      if (actualPos <= 2) return index <= 2 && index >= 0;
-      if (actualPos === this.positions.length) return index === 0 || index >= actualPos - 2;
-      return (index === 0) || (index >= actualPos - 2 && index <= actualPos - 1);
-    }).map((item, index, array) => {
-      const result = {
-        pos: item.position, name: item.name, lap: item.raceTime.length, relTime: 'Leader', totalTime: (Math.round(item.raceTime.at(-1)) / 1000).toFixed(3),
-      };
-      const actualItem = item.raceTime.at(-1);
-      const actualLap = item.raceTime.length;
+    if (this.paused) {
+      const actualPos = Number(this.position);
+      this.hudPositions = this.positions.filter((_, index) => {
+        if (actualPos <= 2) return index <= 2 && index >= 0;
+        if (actualPos === this.positions.length) return index === 0 || index >= actualPos - 2;
+        return (index === 0) || (index >= actualPos - 2 && index <= actualPos - 1);
+      }).map((item, index, array) => {
+        const result = {
+          pos: item.position, name: item.name, lap: item.raceTime.length, relTime: 'Leader', totalTime: (Math.round(item.raceTime.at(-1)) / 1000).toFixed(3),
+        };
+        const actualItem = item.raceTime.at(-1);
+        const actualLap = item.raceTime.length;
 
-      if (index) {
-        const prevItem = array[index - 1].raceTime.at(-1) || 0;
-        const prevLap = array[index - 1].raceTime.length || 0;
-        if (actualLap === prevLap) {
-          result.relTime = `+ ${(Math.round(actualItem - prevItem) / 1000).toFixed(3)}`;
-        } else if (actualLap !== prevLap) {
-          result.relTime = `- ${prevLap - actualLap} Lap`;
+        if (index) {
+          const prevItem = array[index - 1].raceTime.at(-1) || 0;
+          const prevLap = array[index - 1].raceTime.length || 0;
+          if (actualLap === prevLap) {
+            result.relTime = `+ ${(Math.round(actualItem - prevItem) / 1000).toFixed(3)}`;
+          } else if (actualLap !== prevLap) {
+            result.relTime = `- ${prevLap - actualLap} Lap`;
+          }
         }
-      }
-      return result;
-    });
+        return result;
+      });
 
-    this.carSegments = this.positions.map((driver) => ({
-      name: driver.name,
-      pos: Math.floor(driver.pos / 200) % tracks[this.trackName].trackSize,
-      x: driver.x,
-    })).sort((a, b) => a.pos - b.pos);
+      this.carSegments = this.positions.map((driver) => ({
+        name: driver.name,
+        pos: Math.floor(driver.pos / 200) % tracks[this.trackName].trackSize,
+        x: driver.x,
+      })).sort((a, b) => a.pos - b.pos);
 
-    if (this.raining) this.rain.forEach((item) => item.update());
+      if (this.raining) this.rain.forEach((item) => item.update());
+    }
   }
 
   render(render, player) {
