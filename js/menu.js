@@ -29,7 +29,7 @@ class Menu {
       4: ['race'],
     };
     this.selectedOptions = {
-      0: 'brazil',
+      0: 'brasil',
       1: '19',
       2: 'não',
       3: '1',
