@@ -146,7 +146,7 @@ canvas {
 }
 
 .filter {
-  filter: brightness(65%);
+  filter: brightness(75%);
 }
 
 @media (hover: hover) and (pointer: fine) {
