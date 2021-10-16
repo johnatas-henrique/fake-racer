@@ -2,6 +2,7 @@ import {
   handleInput, formatTime, addItens, resource, tracks,
 } from './util.js';
 import Sprite from './sprite.js';
+import rain from './animations/rain.js';
 
 class Director {
   constructor() {
@@ -23,6 +24,8 @@ class Director {
     this.trackName = '';
     this.startTimer = 5000;
     this.carSegments = [];
+    this.raining = false;
+    this.rain = [];
   }
 
   create(road, trackName) {
@@ -60,6 +63,9 @@ class Director {
     segmentLineFirst.sprites.push(startLineRight);
     segmentLineTen.sprites.push(startLineLeft);
     segmentLineTen.sprites.push(startLineRight);
+    const rainDrops = Math.random() * 500 + 100;
+    this.rain = rain(rainDrops);
+    this.raining = Math.round(Math.random() * 7) % 4 === 0;
   }
 
   refreshPositions(player, opponents) {
@@ -147,9 +153,11 @@ class Director {
       pos: Math.floor(driver.pos / 200) % tracks[this.trackName].trackSize,
       x: driver.x,
     })).sort((a, b) => a.pos - b.pos);
+
+    if (this.raining) this.rain.forEach((item) => item.update());
   }
 
-  render(render) {
+  render(render, player) {
     if (!this.paused) {
       render.drawText('#FFFAF4', 'Jogo pausado!', 320, 175,
         2, 'OutriderCond', 'center', 'black', true);
@@ -162,17 +170,18 @@ class Director {
       render.drawText('#FFFAF4', 'Prepare-se...', 320, 135,
         2, 'OutriderCond', 'center', 'black', true);
     }
-    if (this.paused) {
-      render.drawText('#050B1A', `Volta ${this.lap} de ${tracks[this.trackName].laps}`, 4, 30,
-        1.5, 'OutriderCond', 'left');
-      this.hudPositions.forEach(({ pos, name, relTime }, index) => {
-        const alignPos = pos < 10 ? `0${pos}` : pos;
-        render.drawText('#050B1A', `${alignPos}`, 16, `${50 + (index * 16)}`,
-          1, 'OutriderCond', 'center');
-        render.drawText('#050B1A', `${name} ${relTime}`, 32, `${50 + (index * 16)}`,
-          1, 'OutriderCond', 'left');
-      });
-    }
+    // if (this.paused) {
+    render.drawText('#050B1A', `Volta ${this.lap} de ${tracks[this.trackName].laps}`, 4, 30,
+      1.5, 'OutriderCond', 'left');
+    this.hudPositions.forEach(({ pos, name, relTime }, index) => {
+      const alignPos = pos < 10 ? `0${pos}` : pos;
+      render.drawText('#050B1A', `${alignPos}`, 16, `${50 + (index * 16)}`,
+        1, 'OutriderCond', 'center');
+      render.drawText('#050B1A', `${name} ${relTime}`, 32, `${50 + (index * 16)}`,
+        1, 'OutriderCond', 'left');
+    });
+    if (this.raining) this.rain.forEach((item) => item.render(render, player));
+    // }
   }
 }
 
