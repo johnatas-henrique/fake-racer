@@ -1,4 +1,4 @@
-import { canvas } from './util.js';
+import { canvas } from '../util.js';
 
 const arrPart = [];
 
@@ -53,9 +53,9 @@ class Particle {
 
 const init = () => {
   const { height, width } = canvas;
-  const numberOfParticles = 30;
+  const numberOfParticles = 32;
   for (let i = 0; i < numberOfParticles; i += 1) {
-    const size = (Math.random() * 2) + 1;
+    const size = (Math.random() * 1.5) + 1.5;
     const x = (Math.random() * ((width - size * 2) - (size * 2)) + size * 2);
     const y = (Math.random() * ((height - size * 2) - (size * 2)) + size * 2);
     const directionX = (Math.random() * 2);
@@ -66,6 +66,6 @@ const init = () => {
   return arrPart;
 };
 
-const animations = init();
+const particles = init();
 
-export default animations;
+export default particles;

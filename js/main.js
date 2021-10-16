@@ -5,7 +5,7 @@ import Menu from './menu.js';
 import Player from './player.js';
 import Render from './render.js';
 import Road from './road.js';
-import animations from './animations.js';
+import particles from './animations/particles.js';
 import {
   canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, toggleMusic,
 } from './util.js';
@@ -102,7 +102,7 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     bg.render(render, cameraParam, playerParam, road.width);
     road.render(render, cameraParam, playerParam);
     playerParam.render(render, cameraParam, road.width, directorParam);
-    directorParam.render(render);
+    directorParam.render(render, playerParam);
 
     render.restore();
 
@@ -166,7 +166,7 @@ const init = (time) => {
   const player = new Player();
   const road = new Road();
   const background = new Background();
-  const menu = new Menu(width, height, animations);
+  const menu = new Menu(width, height, particles);
 
   background.create();
   playMusic();
@@ -175,7 +175,7 @@ const init = (time) => {
 };
 
 resource
-  .add('sky', './images/sprites/background/sky.png')
+  .add('sky', './images/sprites/background/skyClear.png')
   .add('hill', './images/sprites/background/hill.png')
   .add('tree', './images/sprites/background/tree.png')
   .add('arrowKeys', './images/sprites/other/arrowKeys.png')
