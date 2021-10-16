@@ -1,6 +1,4 @@
 class Render {
-  // #renderingContext;
-
   /**
    *
    * @param {CanvasRenderingContext2D} renderingContext
@@ -8,10 +6,6 @@ class Render {
   constructor(renderingContext) {
     this.renderingContext = renderingContext;
   }
-
-  // get renderingContext() {
-  //   return this.#renderingContext;
-  // }
 
   clear(x, y, w, h) {
     this.renderingContext.clearRect(x, y, w, h);
@@ -45,10 +39,10 @@ class Render {
     }
   }
 
-  drawCircle(x, y, radius, startAngle, endAngle, anticlockwise) {
+  drawCircle(x, y, radius, startAngle, endAngle, anticlockwise, color = 'black') {
     const { renderingContext } = this;
     renderingContext.beginPath();
-    renderingContext.strokeStyle = 'black';
+    renderingContext.strokeStyle = color;
     renderingContext.arc(x, y, radius, startAngle, endAngle, anticlockwise);
     renderingContext.stroke();
   }

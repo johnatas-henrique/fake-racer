@@ -140,7 +140,7 @@ const tracks = {
       },
     ],
   },
-  brazil: {
+  brasil: {
     trackSize: 8632,
     laps: 71,
     curves: [
@@ -275,7 +275,7 @@ const updateOpponentsCarOffset = (car, player, director, oppArr) => {
       }
     }
     if (objSeg && objSeg.name === playerParam.name && !car.isCrashed) {
-      const isOverlapped = overlap(cSeg.x, 0.663125, objSeg.x, 0.8, 1);
+      const isOverlapped = overlap(cSeg.x, 0.663125, objSeg.x, 0.8, 1.2);
 
       if (carParam.runningPower > playerParam.runningPower && isOverlapped) {
         const changeX = 5;
@@ -294,7 +294,16 @@ const updateOpponentsCarOffset = (car, player, director, oppArr) => {
   return dir;
 };
 
+const degToRad = (angle) => ((angle * Math.PI) / 180);
+
+const speedToDeg = (speed, maxSpeed, startAngle, finalAngle) => {
+  const angle = finalAngle - startAngle;
+  const ratioSpeed = speed / maxSpeed;
+  return -30 + ratioSpeed * angle;
+};
+
 export {
   handleInput, resource, canvas, fieldOfView, theta, addItens, toggleMusic, playMusic, formatTime,
   startPosition, overlap, calcCrashSpeed, updateOpponentsCarOffset, tracks, drivers,
+  speedToDeg, degToRad,
 };
