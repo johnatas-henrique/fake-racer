@@ -65,7 +65,7 @@ class Director {
     segmentLineTen.sprites.push(startLineRight);
     const rainDrops = Math.random() * 500 + 100;
     this.rain = rain(rainDrops);
-    this.raining = Math.round(Math.random() * 7) % 4 === 0;
+    this.raining = Math.round(Math.random() * 5) % 3 === 0;
     if (this.raining) canvas.classList.add('filter');
   }
 
@@ -108,10 +108,10 @@ class Director {
     if (numberOfCars < 10) numberOfCars = `0${numberOfCars}`;
 
     // HUD
-    let speedValue = `${(player.runningPower / 4).toFixed(0)}`;
-    if (speedValue < 10) speedValue = `00${speedValue}`;
-    if (speedValue >= 10 && speedValue < 100) speedValue = `0${speedValue}`;
-    addItens('#speed_value', speedValue);
+    // let speedValue = `${(player.runningPower / 4).toFixed(0)}`;
+    // if (speedValue < 10) speedValue = `00${speedValue}`;
+    // if (speedValue >= 10 && speedValue < 100) speedValue = `0${speedValue}`;
+    // addItens('#speed_value', speedValue);
     addItens('#total_lap_time_value', formatTime(this.totalTime));
     addItens('#current_lap_time_value', formatTime(this.animTime));
     addItens('#last_lap_time_value', formatTime(this.lastLap));
