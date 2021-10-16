@@ -9,6 +9,7 @@ import particles from './animations/particles.js';
 import {
   canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, toggleMusic,
 } from './util.js';
+import Tachometer from './tachometer.js';
 
 window.onload = () => {
   const containerCanvas = document.querySelector('.container');
@@ -76,7 +77,8 @@ fps.appendChild(stats.dom);
    * @param {Number} width
    * @param {Number} height
    */
-const loop = (time, render, camera, player, oppArr, road, bg, director, menu, width, height) => {
+const loop = (time, render, camera, player, oppArr, road,
+  bg, director, menu, tachometer, width, height) => {
   stats.begin();
 
   const directorParam = director;
@@ -99,10 +101,14 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     oppArr.forEach((opponent) => opponent.update(road, directorParam, playerParam, oppArr));
     bg.update(playerParam, cameraParam, road, directorParam);
     directorParam.update(playerParam, oppArr);
+    tachometer.update(playerParam, directorParam);
     bg.render(render, cameraParam, playerParam, road.width);
     road.render(render, cameraParam, playerParam);
     playerParam.render(render, cameraParam, road.width, directorParam);
     directorParam.render(render, playerParam);
+    tachometer.render(render);
+
+    if (director.raining) bg.layer1.image = resource.get('skyDark');
 
     render.restore();
 
@@ -152,7 +158,8 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
   stats.end();
 
   requestAnimationFrame(() => loop(
-    time, render, cameraParam, playerParam, oppArr, road, bg, directorParam, menu, width, height,
+    time, render, cameraParam, playerParam, oppArr, road,
+    bg, directorParam, menu, tachometer, width, height,
   ));
 };
 
@@ -167,15 +174,18 @@ const init = (time) => {
   const road = new Road();
   const background = new Background();
   const menu = new Menu(width, height, particles);
+  const tachometer = new Tachometer();
 
   background.create();
   playMusic();
 
-  loop(time, render, camera, player, opponents, road, background, director, menu, width, height);
+  loop(time, render, camera, player, opponents, road,
+    background, director, menu, tachometer, width, height);
 };
 
 resource
-  .add('sky', './images/sprites/background/skyClear.png')
+  .add('skyClear', './images/sprites/background/skyClear.png')
+  .add('skyDark', './images/sprites/background/skyDark.png')
   .add('hill', './images/sprites/background/hill.png')
   .add('tree', './images/sprites/background/tree.png')
   .add('arrowKeys', './images/sprites/other/arrowKeys.png')
