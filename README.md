@@ -19,6 +19,14 @@ Em construção: Feito apenas com propósitos educacionais, feito com base em um
 
 ---
 
+## Sprites reutilizadas de jogos antigos como:
+
+Super Monaco GP (Mega Drive)<br>
+Nigel Mansell's World Championship Racing (Super Nintendo)<br>
+Top Gear (Super Nintendo)<br>
+
+---
+
 ## Instalação do projeto localmente
 
 Após cada um dos passos, haverá um exemplo do comando a ser digitado para fazer o que está sendo pedido, caso tenha dificuldades e o exemplo não seja suficiente, não hesite em me contatar em _johnatas.henrique@gmail.com_.
@@ -38,11 +46,14 @@ Após cada um dos passos, haverá um exemplo do comando a ser digitado para faze
 
 ---
 
-## Sprites usadas de jogos antigos como:
+## Requisitos do projeto
 
-Super Monaco GP (Mega Drive)<br>
-Nigel Mansell's World Championship Racing (Super Nintendo)<br>
-Top Gear (Super Nintendo)<br>
+Você deve criar um jogo que possa ser carregado a partir do browser, utilizando como controles o teclado. A ideia é que o jogo passe certa profundidade, como os jogos de corrida pseudo-3D da era 16-bit. Abaixo seguem os requisitos:
+
+### 1 - Utilize no máximo 3 bibliotecas, a ideia é tentar fazer o máximo de código por si mesmo, criando as abstrações necessárias.
+### 2 - Trabalhe com o HTML Canvas para fazer o visual do jogo, você não deverá utilizar alguma biblioteca aqui, como por exemplo o Phaser ou o Three.js, pois essas bibliotecas fazem a abstração de toda a parte visual.
+### 3 - O canvas deve utilizar 100% da área do navegador, então nada de elementos externos a área do jogo.
+### 4 - Crie código de forma que seja possível manter a fluidez de quadros na aplicação, diferentemente de uma página estática, aqui a fluidez de quadros é importante.
 
 ---
 
