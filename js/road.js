@@ -29,6 +29,10 @@ class Road {
     return this.segmentsLength * this.segmentLength;
   }
 
+  get width() {
+    return this.#width;
+  }
+
   /**
    * 
    * @param {Number} cursor : ;
@@ -86,12 +90,12 @@ class Road {
         if (i === segmentNumber) {
           const spriteLeft = new Sprite;
           spriteLeft.offsetX = -1.6;
-          spriteLeft.image = billboardSega;
+          spriteLeft.image = resource.get('billboardSega');
           segmentLine.sprites.push(spriteLeft);
 
           const spriteRight = new Sprite;
           spriteRight.offsetX = 1.6;
-          spriteRight.image = billboardSega;
+          spriteRight.image = resource.get('billboardSega');
           segmentLine.sprites.push(spriteRight);
         }
       })
@@ -228,7 +232,7 @@ class Road {
 
       maxY = currentScreenPoint.y;
     };
-    for (let i = visibleSegments + startPos; i >= startPos; i -= 1) {
+    for (let i = (visibleSegments + startPos) - 1; i >= startPos; i -= 1) {
       this.getSegmentFromIndex(i).drawSprite(render, camera, player);
     }
   };
