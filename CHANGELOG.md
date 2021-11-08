@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.3.0...v1.4.0) (2021-11-08)
+
+
+### Features
+
+* adds a way to inject multiple sprites ([9ab7b18](https://github.com/johnatas-henrique/fake-racer/commit/9ab7b18a654e998a96f8282bfb633d33fce60e02))
+* creates illusion of tyres moving and changes scale of sprites ([e81cd95](https://github.com/johnatas-henrique/fake-racer/commit/e81cd956af3a19ac2c0a57f93c10d1b32b704680))
+* maximizes canvas on viewport ([cbe76e0](https://github.com/johnatas-henrique/fake-racer/commit/cbe76e0855fbf7040f15de4421cf6b8d9d2fdebe))
+* renders player car on canvas ([e0acbea](https://github.com/johnatas-henrique/fake-racer/commit/e0acbeadc10d2ad41d5466fea175771147462bcb))
+* sets a scale for each sprite ([7ca66df](https://github.com/johnatas-henrique/fake-racer/commit/7ca66dfe61b06b2bd61e63c1430448a31ef70a25))
+
 ## [1.3.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.2.0...v1.3.0) (2021-11-08)
 
 
