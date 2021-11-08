@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.2.0...v1.3.0) (2021-11-08)
+
+
+### Features
+
+* adds a way to render sprites on canvas ([af619e3](https://github.com/johnatas-henrique/fake-racer/commit/af619e3f0e8fc4404f934be646d4e3f2faf48c93))
+* adds sprite PNG file ([b3c1c88](https://github.com/johnatas-henrique/fake-racer/commit/b3c1c8848834f6739d52de3313d42e60dc139c4b))
+* improves immersion and visuals on track ([bf0c70a](https://github.com/johnatas-henrique/fake-racer/commit/bf0c70a20be84d5d3520ea0d95d48dc9ea4aa710))
+* renders a sprite on trackside ([97fe5d8](https://github.com/johnatas-henrique/fake-racer/commit/97fe5d8e68d7621a8c28b8258e3536a81e96ca01))
+
+
+### Bug Fixes
+
+* typo on drawSprite function ([c2432f8](https://github.com/johnatas-henrique/fake-racer/commit/c2432f8ff3ad67441c95aca6009a655a21000008))
+* typo on sprite relative path ([71a78af](https://github.com/johnatas-henrique/fake-racer/commit/71a78afb3a9f89054f381b25b8510e01c0134cff))
+
 ## [1.2.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.1.0...v1.2.0) (2021-11-08)
 
 
