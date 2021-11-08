@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.4.0...v1.5.0) (2021-11-08)
+
+
+### Features
+
+* adds buttons to test app on phone ([65a24d9](https://github.com/johnatas-henrique/fake-racer/commit/65a24d9fd019404827652179eaf071dd64721207))
+* adds color on canvas to make a sky ([69c57a8](https://github.com/johnatas-henrique/fake-racer/commit/69c57a873e2cc94bd2254db0ad8ab134a96dc6c8))
+* adds media query to make app work on mobile screens ([e80a851](https://github.com/johnatas-henrique/fake-racer/commit/e80a85166533801f681c772ef9b9e8b840d7ecc8))
+* player moving left/right on track ([9d32380](https://github.com/johnatas-henrique/fake-racer/commit/9d32380e4c9ed7bbf805b99f2a517a4c8d84f217))
+
 ## [1.4.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.3.0...v1.4.0) (2021-11-08)
 
 
