@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.6.0...v1.7.0) (2021-11-09)
+
+
+### Features
+
+* adds a new track layout ([34afd5b](https://github.com/johnatas-henrique/fake-racer/commit/34afd5b12f8446c1ffdb2d476e4c48da3a8b9852))
+* creates function to add text on canvas ([10568b4](https://github.com/johnatas-henrique/fake-racer/commit/10568b4a99a5d234bab9da8a39ac34920039c5f8))
+* inserts animation of player sprite ([db21553](https://github.com/johnatas-henrique/fake-racer/commit/db21553c590dbb0b3043912a987034087fbe6af4))
+
 ## [1.6.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.5.0...v1.6.0) (2021-11-09)
 
 
