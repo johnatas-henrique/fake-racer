@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.5.0...v1.6.0) (2021-11-09)
+
+
+### Features
+
+* adds a centrifugal force to curves ([6065ee0](https://github.com/johnatas-henrique/fake-racer/commit/6065ee05c1acae8551515e8c7cc1bf86571896fe))
+* adds a left/right limit for player on track ([2079e0d](https://github.com/johnatas-henrique/fake-racer/commit/2079e0dd048c0ccb9fd19385497dcc816f2b43bd))
+* adds a start line sprite ([ada42a6](https://github.com/johnatas-henrique/fake-racer/commit/ada42a62273e80809532bad1531a28a603b1c93b))
+* refines player sprite animation ([cb535f5](https://github.com/johnatas-henrique/fake-racer/commit/cb535f5d17d97d84ffc9e591902cce901f56bfab))
+
 ## [1.5.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.4.0...v1.5.0) (2021-11-08)
 
 
