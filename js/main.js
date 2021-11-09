@@ -1,3 +1,9 @@
+import Camera from './camera.js';
+import Player from './player.js';
+import Render from './render.js';
+import Road from './road.js';
+import { keyboard, resource, addItens } from './util.js';
+
 const canvas = document.querySelector('canvas');
 let lastTime = 0;
 let timeSinceLastFrameSwap = 0;
@@ -37,7 +43,9 @@ const curveAnim = (player) => {
   }
 
   if ((!arrowleft && !arrowright) && actualVal === 0) {
-    flickerAnim(player, 'playerLeftD0', 'playerLeftU0');
+    flickerAnim(player,
+      `player${actualArrow}${tyreDirection}${actualVal}`,
+      `player${actualArrow}${otherTyre}${actualVal}`);
   }
 
   if (arrowleft || arrowright) {
@@ -58,6 +66,7 @@ const curveAnim = (player) => {
         `player${actualArrow}${tyreDirection}${actualVal}`,
         `player${actualArrow}${otherTyre}${actualVal}`);
     } else if (keyPress !== actualArrow && actualVal === 0) {
+      actualVal = 1;
       flickerAnim(player,
         `player${keyPress}${tyreDirection}${actualVal}`,
         `player${keyPress}${otherTyre}${actualVal}`);

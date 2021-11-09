@@ -1,3 +1,5 @@
+import { round } from './util.js';
+
 class SegmentLine {
   scale = 0;
   index = 0;
@@ -70,3 +72,5 @@ class SegmentLine {
     }
   }
 }
+
+export default SegmentLine;

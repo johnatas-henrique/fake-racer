@@ -20,3 +20,5 @@ class Keyboard {
     return Boolean(this.map[key.toLowerCase()]);
   }
 }
+
+export default Keyboard;

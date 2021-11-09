@@ -15,13 +15,11 @@ html, body {
 canvas {
   height: 100vh;
   position: absolute;
-  /* left: 50%;
-  bottom: -50%; */
   transform: translate(-50%, 0%);
   background: #87ceeb;
 }
 
-.container{
+.container {
   position: relative;
   text-align: center;
 }
@@ -33,10 +31,3 @@ canvas {
   font-size: 2em;
   z-index: 2;
 }
-
-/* @media screen and (max-width: 768px) {
-  canvas {
-    height: 80vh;
-    bottom: -40%;
-  }
-} */

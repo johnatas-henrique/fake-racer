@@ -1,3 +1,7 @@
+import { tan, theta, keyboard } from './util.js';
+
+const canvas = document.querySelector('canvas');
+
 class Camera {
   x = 0;
   y = 1500;
@@ -53,3 +57,5 @@ class Camera {
     }
   }
 }
+
+export default Camera;
