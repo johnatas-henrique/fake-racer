@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.1.0...v2.2.0) (2021-11-09)
+
+
+### Features
+
+* adds favicon and html descriptions ([321c40d](https://github.com/johnatas-henrique/fake-racer/commit/321c40dac2485afe81f28be7c43cc1a3ba92f526))
+
 ## [2.1.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.0.0...v2.1.0) (2021-11-09)
 
 
