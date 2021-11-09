@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.0.0...v2.1.0) (2021-11-09)
+
+
+### Features
+
+* adds new sprites and track improvements ([4ea7685](https://github.com/johnatas-henrique/fake-racer/commit/4ea7685796a93c555c0933caf70ad40002083c82))
+* adds physics on axis X/Y ([65a4a74](https://github.com/johnatas-henrique/fake-racer/commit/65a4a74c90dcef9c2bed1f2702f17e29d4a6d752))
+* changes player sprites ([1ef1524](https://github.com/johnatas-henrique/fake-racer/commit/1ef1524592d3be467512ef0186b6bd8fd711f438))
+
 ## [2.0.0](https://github.com/johnatas-henrique/fake-racer/compare/v1.6.0...v2.0.0) (2021-11-09)
 
 
