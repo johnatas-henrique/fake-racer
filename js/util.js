@@ -51,6 +51,20 @@ const addItens = (liId, text) => {
   li.textContent = text;
 };
 
+const playMusic = () => {
+  const music = document.getElementById('music');
+  const mute = document.getElementById('mute');
+  music.loop = true;
+  music.volume = 0.02;
+  music.muted = "true";
+  mute.classList.toggle('off');
+  mute.addEventListener('click', () => {
+    music.play();
+    mute.classList.toggle('off');
+    music.muted = !music.muted;
+  });
+}
+
 export {
   tan, sin, cos, round, floor, ceil, max, random, PI,
   canvas,
@@ -58,5 +72,6 @@ export {
   theta,
   keyboard,
   resource,
-  addItens
+  addItens,
+  playMusic
 };
