@@ -44,16 +44,20 @@ class Camera {
    */
   update(road) {
     const length = road.length;
+<<<<<<< HEAD
     // console.log(keyboard.isKeyDown('arrowUp'))
     const accel = (speed, constant) => ((this.maxSpeed + 100) / (speed + 100) -0.275) * constant
+=======
+    const accel = (speed, constant) => ((this.maxSpeed + 300) / (speed + 300) + 0.4) * constant
+>>>>>>> 4ec2566 (Feat: Melhorias na curva de aceleração)
     if (keyboard.isKeyDown('arrowUp')) {
       if (this.runningPower === 0) this.startPress = window.performance.now()
       if (ceil(this.runningPower) > 200 && ceil(this.runningPower) < 206) console.log('51/0.74', Math.round(window.performance.now() - this.startPress))
       if (ceil(this.runningPower) > 280 && ceil(this.runningPower) < 284) console.log('71/1.05', Math.round(window.performance.now() - this.startPress))
-      if (ceil(this.runningPower) > 398 && ceil(this.runningPower) < 402) console.log('100/1.05', Math.round(window.performance.now() - this.startPress))
-      if (ceil(this.runningPower) > 560 && ceil(this.runningPower) < 564) console.log('142/2.92', Math.round(window.performance.now() - this.startPress))
-      if (ceil(this.runningPower) > 844 && ceil(this.runningPower) < 846) console.log('214/5.20', Math.round(window.performance.now() - this.startPress))
-      if (ceil(this.runningPower) === 1200) console.log('300/15.00', Math.round(window.performance.now() - this.startPress))
+      if (ceil(this.runningPower) > 398 && ceil(this.runningPower) < 402) console.log('100/1.80', Math.round(window.performance.now() - this.startPress))
+      if (ceil(this.runningPower) > 566 && ceil(this.runningPower) < 569) console.log('142/2.92', Math.round(window.performance.now() - this.startPress))
+      if (ceil(this.runningPower) > 854 && ceil(this.runningPower) < 857) console.log('214/5.20', Math.round(window.performance.now() - this.startPress))
+      if (ceil(this.runningPower) > 1197 && ceil(this.runningPower) < 1200) console.log('300/15.00', Math.round(window.performance.now() - this.startPress))
       this.runningPower = this.runningPower >= this.maxSpeed ? this.maxSpeed : this.runningPower += accel(this.runningPower, 0.9); //0.9
       this.cursor += this.runningPower;
     }
