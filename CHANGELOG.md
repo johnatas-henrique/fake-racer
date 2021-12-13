@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.3.0...v2.4.0) (2021-12-13)
+
+
+### Features
+
+* adds music button ([c079693](https://github.com/johnatas-henrique/fake-racer/commit/c079693ca80d29a6c339e2c559754182c2720315))
+* enhances the player HUD ([dbc9a53](https://github.com/johnatas-henrique/fake-racer/commit/dbc9a530605c4f54fd9ae164364ec5f127db8ce9))
+* starts a HUD for player info ([f38434d](https://github.com/johnatas-henrique/fake-racer/commit/f38434d14a2fdd46f65231c5e81271d2dd6e21ad))
+
+
+### Bug Fixes
+
+* adds forgotten music file ([49bf839](https://github.com/johnatas-henrique/fake-racer/commit/49bf839b0dafd6238f360661862b46d034af1538))
+* player animations code ([7f744e6](https://github.com/johnatas-henrique/fake-racer/commit/7f744e6c131f83ac1a89920512beec8314cd87fb))
+* rounds timeFormat function returns ([ce636b4](https://github.com/johnatas-henrique/fake-racer/commit/ce636b40829272fce755dc350d3c747dc8b4851e))
+
 ## [2.3.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.2.0...v2.3.0) (2021-12-13)
 
 
