@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.4.0...v2.5.0) (2021-12-19)
+
+
+### Features
+
+* adds a new track (Interlagos revisited) ([abce6d8](https://github.com/johnatas-henrique/fake-racer/commit/abce6d837cfc300bc4df9e44cf15171ad4cfd330))
+* adds loss of speed on grass ([fee8e05](https://github.com/johnatas-henrique/fake-racer/commit/fee8e0556f40625f1b9e19336c5d9c71b6185f8b))
+* enhances player torque curve ([4ff71bf](https://github.com/johnatas-henrique/fake-racer/commit/4ff71bf260dee2adb6feb31940ba9745dc82a857))
+* improves curves implementation ([8929319](https://github.com/johnatas-henrique/fake-racer/commit/8929319d8a8ba345e664ea3cfb83363a6c7bfae8))
+* improves the player's centrifugal force ([31cdda2](https://github.com/johnatas-henrique/fake-racer/commit/31cdda20c4234aae0cd94edbc4704bbf9dc19ffb))
+
 ## [2.4.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.3.0...v2.4.0) (2021-12-13)
 
 
