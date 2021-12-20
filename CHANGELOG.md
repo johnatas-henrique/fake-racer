@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.5.0...v2.6.0) (2021-12-20)
+
+
+### Features
+
+* adds background sky ([6f3b485](https://github.com/johnatas-henrique/fake-racer/commit/6f3b4855f720cd0f68c0e658813cd3c5990c7900))
+* adds laptimes saving system ([22574b4](https://github.com/johnatas-henrique/fake-racer/commit/22574b47b6f0bce1c18e5baf055dfdd9f8c8e24a))
+* adds way to create hills ([b1e7c8d](https://github.com/johnatas-henrique/fake-racer/commit/b1e7c8deb0aeefbbe69c3893b7a1f1051b0e62c9))
+
+
+### Bug Fixes
+
+* fixes on speedometer ([2b8d3b2](https://github.com/johnatas-henrique/fake-racer/commit/2b8d3b2f832c0143a7ad24d8d9b041861f697dd4))
+* fixes sprites Y-axis scaling ([7807c4a](https://github.com/johnatas-henrique/fake-racer/commit/7807c4a5c77d0f77c4301e1e7b0845bb3a1b7b24))
+
 ## [2.5.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.4.0...v2.5.0) (2021-12-19)
 
 
