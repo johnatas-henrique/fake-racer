@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.6.0...v2.7.0) (2021-12-21)
+
+
+### Features
+
+* adds tunnel on trackside ([58854f7](https://github.com/johnatas-henrique/fake-racer/commit/58854f78de7897efd3886d23be7935c83c9a0472))
+* adds use of spritesheets ([5fcdeca](https://github.com/johnatas-henrique/fake-racer/commit/5fcdeca39b3aaf91dfb68883826c10d433c219ae))
+
+
+### Bug Fixes
+
+* fixes background render scale ([b00c2b0](https://github.com/johnatas-henrique/fake-racer/commit/b00c2b060ccc509ad3eb9629777bef0c2044af70))
+* fixes player's windshield transparency ([c39b6f2](https://github.com/johnatas-henrique/fake-racer/commit/c39b6f2b31edca5b97e2ccce72cf3112f32fbdfe))
+
 ## [2.6.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.5.0...v2.6.0) (2021-12-20)
 
 
