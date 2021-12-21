@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.7.0...v2.8.0) (2021-12-21)
+
+
+### Features
+
+* adds buttons for touchscreens ([2da9c18](https://github.com/johnatas-henrique/fake-racer/commit/2da9c186af2798167ee42c827414271c9998e53f))
+* adds opponent's cars ([2599ec8](https://github.com/johnatas-henrique/fake-racer/commit/2599ec8fe483b700f47e8b7553580e713b625ac2))
+* balances computer's cars power ([2ede00a](https://github.com/johnatas-henrique/fake-racer/commit/2ede00a750d1996b01ef3a02cd1fe85319b257c7))
+
+
+### Bug Fixes
+
+* fixes computer's cars not showing in specific edge case ([16a0e44](https://github.com/johnatas-henrique/fake-racer/commit/16a0e44e763679b3e8e987990c34119872deb375))
+
 ## [2.7.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.6.0...v2.7.0) (2021-12-21)
 
 
