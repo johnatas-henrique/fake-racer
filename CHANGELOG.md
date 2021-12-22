@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.8.0...v2.9.0) (2021-12-22)
+
+
+### Features
+
+* adds menu screen ([2af28b6](https://github.com/johnatas-henrique/fake-racer/commit/2af28b69ed6fb9549031c18615c198c5eae2f75b))
+* adds method to render text ([a2aa290](https://github.com/johnatas-henrique/fake-racer/commit/a2aa290bed90882ace862fdf78a978d557e6a5f4))
+* adds music option on menu ([4f522e4](https://github.com/johnatas-henrique/fake-racer/commit/4f522e42b3967d66ffb00e4f173534b25967456f))
+* adds volume control option on menu ([0205c09](https://github.com/johnatas-henrique/fake-racer/commit/0205c09caeaed3acb989c6d03ce3b737548b2fe0))
+
+
+### Bug Fixes
+
+* fixes input lag on menu ([2d2cb7a](https://github.com/johnatas-henrique/fake-racer/commit/2d2cb7a44e75a525700b14de7485482694ed2436))
+
 ## [2.8.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.7.0...v2.8.0) (2021-12-21)
 
 
