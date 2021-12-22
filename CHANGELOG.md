@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.9.0...v2.10.0) (2021-12-22)
+
+
+### Features
+
+* adds player's position on screen ([41bee7c](https://github.com/johnatas-henrique/fake-racer/commit/41bee7ccfb2a67082c63686b168b35738f7c49ad))
+* adds track position method to all cars ([a63dfbe](https://github.com/johnatas-henrique/fake-racer/commit/a63dfbe555a44bb4d0b7cd085dc66f1ff31b2f43))
+
+
+### Bug Fixes
+
+* fixes laptime bug ([ed0996c](https://github.com/johnatas-henrique/fake-racer/commit/ed0996caa555fa457340d370e158f23a63d45230))
+
 ## [2.9.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.8.0...v2.9.0) (2021-12-22)
 
 
