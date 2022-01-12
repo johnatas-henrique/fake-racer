@@ -49,11 +49,11 @@ class Render {
     }
   }
   
-  drawText(color, text, screenX = 300, screenY = 200, fontSize = '36', font = 'fantasy') {
+  drawText(color, text, screenX = 300, screenY = 200, fontSize = '2', font = 'Outrider') {
     const { renderingContext } = this;
     renderingContext.fillStyle = color;
     renderingContext.font = font
-    renderingContext.font = `${fontSize}px ${font}`;
+    renderingContext.font = `${fontSize}em ${font}`;
     renderingContext.textAlign = 'center';
     renderingContext.textBaseline = 'middle';
     renderingContext.fillText(text, screenX, screenY);
