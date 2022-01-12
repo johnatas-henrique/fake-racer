@@ -98,7 +98,7 @@ class Road {
       // Road Sprites
       // signalDirections
       const curvePower = this.getSegmentFromIndex(i).curve;
-      if (i % (rumbleLength * 2) === 0 && curvePower !== 0) {
+      if (i % (rumbleLength * 2) === 0 && Math.abs(curvePower) > 1) {
         const finishLine = new Sprite();
         finishLine.offsetX = curvePower > 0 ? -1.5 : 1.5;
         finishLine.scaleX = 72;
@@ -237,7 +237,7 @@ class Road {
           currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y,
         );
 
-        if (currentSegment.curve) {
+        if (Math.abs(currentSegment.curve) > 1) {
           // left rumble
           render.drawPolygon(
             colors.rumble,
