@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.12.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.11.0...v2.12.0) (2022-01-12)
+
+
+### Features
+
+* adds music on exiting title screen ([9f9c530](https://github.com/johnatas-henrique/fake-racer/commit/9f9c530042d017ec94c3f430e1774d67e7493cd3))
+* creates rectangle with rounded corners method ([603174c](https://github.com/johnatas-henrique/fake-racer/commit/603174ca5ff4c2070f2bad2e4db5838c1d701c51))
+* improves title and menu screen ([aeb4f53](https://github.com/johnatas-henrique/fake-racer/commit/aeb4f5380542d5a25eb43ffd96098d380984924a))
+
 ## [2.11.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.10.0...v2.11.0) (2022-01-12)
 
 
