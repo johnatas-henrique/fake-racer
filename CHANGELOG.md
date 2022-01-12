@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.10.0...v2.11.0) (2022-01-12)
+
+
+### Features
+
+* adds Monaco track ([c6df22f](https://github.com/johnatas-henrique/fake-racer/commit/c6df22fdba5c4b146ff777051b913c321e54ffa2))
+* adds tunnel creation method ([770c340](https://github.com/johnatas-henrique/fake-racer/commit/770c340ba1e020b55449c39b90de4aa4836d1fe0))
+
 ## [2.10.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.9.0...v2.10.0) (2021-12-22)
 
 
