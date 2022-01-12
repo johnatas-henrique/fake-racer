@@ -27,7 +27,7 @@ class Menu {
       4: ['race'],
     };
     this.selectedOptions = {
-      0: 'brazil',
+      0: 'monaco',
       1: '19',
       2: 'não',
       3: '3',
