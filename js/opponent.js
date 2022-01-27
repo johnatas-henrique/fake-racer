@@ -24,7 +24,7 @@ class Opponent {
     this.sprite.offsetX = 0.5 * this.startPos;
     this.sprite.scaleX = 3;
     this.sprite.scaleY = 3;
-    this.sprite.name = this.opponentName;
+    this.sprite.name = `op${this.opponentName}`;
     this.sprite.spritesInX = 8;
     this.sprite.spritesInY = 1;
     this.sprite.sheetPositionX = this.carColor !== 'random'

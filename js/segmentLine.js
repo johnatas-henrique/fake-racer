@@ -72,10 +72,8 @@ class SegmentLine {
       const roadWidth = world.w;
       const destX = screen.xUnrounded + screen.wUnrounded * sprite.offsetX;
       const destY = screen.yUnrounded;
-
-      const destYUp = (1 - (world.y - 50) * scale) * 180;
-
-      if(sprite.name.includes('op') && destY > 200) {
+      const destYUp = (1 - (world.y - camera.y + 1550) * scale) * 180;
+      if(sprite.name.includes('op') && scale * 10000 > 1.2) {
         render.drawText('#FFFAF4', `${sprite.name.replace('op', '')}`, destX, destYUp,
         scale * 10000, 'OutriderCond', 'center', 'black', true)
       }
