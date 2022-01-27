@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.13.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.12.0...v2.13.0) (2022-01-27)
+
+
+### Features
+
+* adds pause function on race screen ([94d2ab7](https://github.com/johnatas-henrique/fake-racer/commit/94d2ab77490f159ef09125e26a713d41e50e36fa))
+* adds race start phase ([9ed06ce](https://github.com/johnatas-henrique/fake-racer/commit/9ed06cef3e914a79b7d2c54754bb34c3ba84472d))
+
 ## [2.12.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.11.0...v2.12.0) (2022-01-12)
 
 
