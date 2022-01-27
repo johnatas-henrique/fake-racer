@@ -105,22 +105,13 @@ class Road {
       // signalDirections
       const curvePower = this.getSegmentFromIndex(i).curve;
       if (i % (rumbleLength * 2) === 0 && Math.abs(curvePower) > 1) {
-        const finishLine = new Sprite();
-        finishLine.offsetX = curvePower > 0 ? -1.5 : 1.5;
-        finishLine.scaleX = 72;
-        finishLine.scaleY = 72;
-        finishLine.image = resource.get(curvePower > 0 ? 'leftSignal' : 'rightSignal');
-        segmentLine.sprites.push(finishLine);
-      }
-
-      // startLine      
-      if (i === 0) {
-        const startLine = new Sprite();
-        startLine.offsetX = 1.14;
-        startLine.scaleX = 216;
-        startLine.scaleY = 708;
-        startLine.image = resource.get('startLightsBar');
-        segmentLine.sprites.push(startLine);
+        const curveSignal = new Sprite();
+        curveSignal.offsetX = curvePower > 0 ? -1.5 : 1.5;
+        curveSignal.scaleX = 72;
+        curveSignal.scaleY = 72;
+        curveSignal.image = resource.get(curvePower > 0 ? 'leftSignal' : 'rightSignal');
+        curveSignal.name = 'tsCurveSignal';
+        segmentLine.sprites.push(curveSignal);
       }
     }
 

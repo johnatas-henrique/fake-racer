@@ -87,8 +87,8 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
       curveAnim(playerParam, playerParam.runningPower);
       directorParam.timeSinceLastFrameSwap = 0;
     }
-    playerParam.update(cameraParam, road, directorParam);
     oppArr.forEach((opponent) => opponent.update(road, directorParam));
+    playerParam.update(cameraParam, road, directorParam, oppArr);
     bg.update(playerParam, cameraParam, road, directorParam);
     bg.render(render, cameraParam, playerParam, road.width);
     road.render(render, cameraParam, playerParam);
@@ -102,10 +102,10 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     // addItens('#line1', `Position: ${position} / ${Number(menu.selectedOptions[1]) + 1}`);
     // addItens('#line1', `Segment: ${(cameraParam.cursor / 200).toFixed(3)}`);
     // addItens('#line2', `CameraY: ${cameraParam.y.toFixed(3)}`);
-    // addItens('#line3', `NoUse: ${cameraParam.z.toFixed(3)}`);
+    // addItens('#line3', `NoUse: ${playerParam.z.toFixed(3)}`);
     // addItens('#line4', `Centrifugal: ${playerParam.centrifugalForce.toFixed(3)}`);
     // addItens('#line5', `Curve: ${playerParam.curvePower.toFixed(3)}`);
-    // addItens('#line6', `NoUse: ${window.performance.now().toFixed(3)}`);
+    // addItens('#line6', `PlayerX: ${playerParam.x.toFixed(3)}`);
   }
 
   if (menu.state === 'title') {
@@ -134,6 +134,7 @@ const loop = (time, render, camera, player, oppArr, road, bg, director, menu, wi
     // const hud = document.querySelector('#hud');
     // hud.classList.remove('hidden');
     // menu.startRace(player, road, oppArr, directorParam);
+    // directorParam.startTimer = 0;
     // menu.state = 'race';
   }
 
