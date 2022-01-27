@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.14.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.13.0...v2.14.0) (2022-01-27)
+
+
+### Features
+
+* adds checkered flag on track start ([7f75984](https://github.com/johnatas-henrique/fake-racer/commit/7f75984aed24a8347cb0048a52829b39b7351f97))
+* adds opponent name over the opponent car ([989e270](https://github.com/johnatas-henrique/fake-racer/commit/989e270b73e9a03de046cff0f17ad011316d36af))
+* adds speed on Sprite class ([663ba94](https://github.com/johnatas-henrique/fake-racer/commit/663ba94a53965fb82e2704523caa770c12981c06))
+
+
+### Bug Fixes
+
+* fixes double confirmation on menu screen ([3a91b11](https://github.com/johnatas-henrique/fake-racer/commit/3a91b111bea6d8d25b674f749c5276a64fc0d5e1))
+
 ## [2.13.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.12.0...v2.13.0) (2022-01-27)
 
 
