@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.15.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.14.0...v2.15.0) (2022-01-30)
+
+
+### Features
+
+* adds car's segment list ([ed79749](https://github.com/johnatas-henrique/fake-racer/commit/ed797499e8cdb5bfb4a12ea989490e98575c126c))
+* adds collision between opponents ([7283270](https://github.com/johnatas-henrique/fake-racer/commit/7283270cfd6b8d66ce5ab46405d52e619a4a19f7))
+* adds mrdoob's FPS counter ([17345e8](https://github.com/johnatas-henrique/fake-racer/commit/17345e8ed6bc8d4723310309ffcc9a26cc8d1d6d))
+* adds player collision detection ([e7cf117](https://github.com/johnatas-henrique/fake-racer/commit/e7cf117e4dc73a046e1c6b2e61d6680b87fb7110))
+
+
+### Bug Fixes
+
+* fixes parallax background side scrolling - thanks @ThiagoCarreiraVallim ([e0dc91d](https://github.com/johnatas-henrique/fake-racer/commit/e0dc91da7472908da1443538cc622b775b2c1b5e))
+* reposition opponent names and shows FPS only in race screen ([b5c5615](https://github.com/johnatas-henrique/fake-racer/commit/b5c5615a0b58165e4d11538b2c0c450813ecaac8))
+
 ## [2.14.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.13.0...v2.14.0) (2022-01-27)
 
 
