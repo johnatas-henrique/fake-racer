@@ -19,6 +19,14 @@ Em construção: Feito apenas com propósitos educacionais, feito com base em um
 
 ---
 
+## Sprites reutilizadas de jogos antigos como:
+
+Super Monaco GP (Mega Drive)<br>
+Nigel Mansell's World Championship Racing (Super Nintendo)<br>
+Top Gear (Super Nintendo)<br>
+
+---
+
 ## Instalação do projeto localmente
 
 Após cada um dos passos, haverá um exemplo do comando a ser digitado para fazer o que está sendo pedido, caso tenha dificuldades e o exemplo não seja suficiente, não hesite em me contatar em _johnatas.henrique@gmail.com_.
@@ -35,14 +43,6 @@ Após cada um dos passos, haverá um exemplo do comando a ser digitado para faze
 ```
 
 3. Abra o diretório do projeto clonado e dê duplo clique no arquivo **index.html** e o projeto vai abrir em seu navegador, não é necessário instalar nada mais.
-
----
-
-## Sprites usadas de jogos antigos como:
-
-Super Monaco GP (Mega Drive)<br>
-Nigel Mansell's World Championship Racing (Super Nintendo)<br>
-Top Gear (Super Nintendo)<br>
 
 ---
 

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.16.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.15.0...v2.16.0) (2022-01-30)
+
+
+### Features
+
+* adds analogic speedometer ([10ed5ad](https://github.com/johnatas-henrique/fake-racer/commit/10ed5adb51253f910095ceaf6177afcca4be60b9))
+* adds menu particles effect ([b3b51c7](https://github.com/johnatas-henrique/fake-racer/commit/b3b51c7bd0aa5fa7714bb14a235864ca3cc27d9d))
+* adds random rain on races ([014ae78](https://github.com/johnatas-henrique/fake-racer/commit/014ae7862bc5409f57773e6e82c6850e5a53c17c))
+
 ## [2.15.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.14.0...v2.15.0) (2022-01-30)
 
 
