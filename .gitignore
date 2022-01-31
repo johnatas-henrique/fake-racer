@@ -1,3 +1,4 @@
 nouse/
 node_modules/
 zips/
+.env

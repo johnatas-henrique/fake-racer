@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "standard-version",
+    "release:github": "conventional-github-releaser -p angular -t",
+    "release:githuball": "conventional-github-releaser -p angular -r 0 -t",
+    "release:tags": "git push --follow-tags origin main",
+    "postrelease": "npm run release:tags && npm run release:github"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +17,7 @@
   "devDependencies": {
     "@commitlint/cli": "^14.1.0",
     "@commitlint/config-conventional": "^14.1.0",
+    "conventional-github-releaser": "^3.1.5",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
