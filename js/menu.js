@@ -19,21 +19,21 @@ class Menu {
       1: 'Oponentes: ',
       2: 'Música: ',
       3: 'Volume da música: ',
-      4: 'Bora correr? ',
+      4: 'Iniciar ',
     };
     this.menu = {
       0: Object.keys(tracks),
       1: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19'],
       2: ['não', 'sim'],
       3: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-      4: ['race'],
+      4: ['corrida'],
     };
     this.selectedOptions = {
       0: 'brasil',
       1: '19',
       2: 'não',
       3: '1',
-      4: 'race',
+      4: 'corrida',
     };
     this.arrowUpBlink = 0;
     this.arrowDownBlink = 0;
