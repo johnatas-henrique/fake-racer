@@ -1,5 +1,3 @@
-import { canvas } from './util.js';
-
 class HandleInput {
   constructor() {
     const fullScreenBtn = document.getElementById('fullScreenBtn');
@@ -35,7 +33,6 @@ class HandleInput {
     }
     if (event.type === 'touchstart' || event.type === 'touchend') {
       const key = event.target.name;
-      console.log(key);
       this.map[key] = event.type === 'touchstart';
     }
   }
@@ -45,13 +42,13 @@ class HandleInput {
   }
 
   static toggleFullScreen() {
-    console.log(document.fullscreenElement);
+    const gameContainer = document.querySelector('.container');
     if (!document.fullscreenElement) {
-      canvas.requestFullscreen().catch((err) => {
+      gameContainer.requestFullscreen().catch((err) => {
         alert(`Error, can't enable full-screen ${err.message}`);
       });
     } else {
-      document.exitFullScreen();
+      document.exitFullscreen();
     }
   }
 }
