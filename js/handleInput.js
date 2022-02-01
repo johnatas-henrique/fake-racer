@@ -1,13 +1,19 @@
+import { canvas } from './util.js';
+
 class HandleInput {
   constructor() {
-    const buttons = document.querySelectorAll('button');
+    const fullScreenBtn = document.getElementById('fullScreenBtn');
+    fullScreenBtn.addEventListener('click', (event) => HandleInput.toggleFullScreen(event));
+    const moveButtons = document.querySelectorAll('button');
     window.addEventListener('keydown', (event) => this.handler(event));
     window.addEventListener('keyup', (event) => this.handler(event));
     window.addEventListener('keypress', (event) => this.handler(event));
-    buttons.forEach((button) => {
-      button.addEventListener('contextmenu', (event) => event.preventDefault());
-      button.addEventListener('touchstart', (event) => this.handler(event));
-      button.addEventListener('touchend', (event) => this.handler(event));
+    moveButtons.forEach((button) => {
+      if (button.name !== 'fullscreenbtn') {
+        button.addEventListener('contextmenu', (event) => event.preventDefault());
+        button.addEventListener('touchstart', (event) => this.handler(event));
+        button.addEventListener('touchend', (event) => this.handler(event));
+      }
     });
     this.map = {};
     this.mapPress = { p: true, enter: false };
@@ -29,12 +35,24 @@ class HandleInput {
     }
     if (event.type === 'touchstart' || event.type === 'touchend') {
       const key = event.target.name;
+      console.log(key);
       this.map[key] = event.type === 'touchstart';
     }
   }
 
   isKeyDown(key) {
     return Boolean(this.map[key.toLowerCase()]);
+  }
+
+  static toggleFullScreen() {
+    console.log(document.fullscreenElement);
+    if (!document.fullscreenElement) {
+      canvas.requestFullscreen().catch((err) => {
+        alert(`Error, can't enable full-screen ${err.message}`);
+      });
+    } else {
+      document.exitFullScreen();
+    }
   }
 }
 

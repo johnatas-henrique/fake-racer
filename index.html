@@ -18,7 +18,7 @@
   <title>Fake Racer</title>
 </head>
 
-<body>
+<body translate="no">
   <div class="container">
     <div id="hud" class="hud-container hidden">
       <span id="total_lap_time" class="hud">Total: <span id="total_lap_time_value" class="value">0:00.000</span></span>
@@ -51,6 +51,9 @@
     </div>
     <canvas id="gameCanvas" width="640" height="360"></canvas>
   </div>
+
+  <button id="fullScreenBtn" name="fullscreenbtn">Toggle fullscreen</button>
+
   <audio id='music'>
     <source src="music/topgear-title.mp3">
   </audio>
