@@ -106,7 +106,7 @@ class Menu {
 
       const lastMenuOption = Object.keys(this.menu).length - 1;
 
-      if (handleInput.mapPress.enter && this.menuX !== lastMenuOption) {
+      if (this.menuX !== lastMenuOption) {
         this.selectedOptions[this.menuX] = this.menu[this.menuX][this.menuY];
         handleInput.mapPress.enter = false;
       }
