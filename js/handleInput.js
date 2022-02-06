@@ -34,6 +34,7 @@ class HandleInput {
     if (event.type === 'touchstart' || event.type === 'touchend') {
       const key = event.target.name;
       this.map[key] = event.type === 'touchstart';
+      this.mapPress[key] = event.type === 'touchend';
     }
   }
 
