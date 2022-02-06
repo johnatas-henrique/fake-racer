@@ -7,7 +7,7 @@ import Render from './render.js';
 import Road from './road.js';
 import particles from './animations/particles.js';
 import {
-  canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, toggleMusic,
+  canvas, handleInput, playMusic, resource, startPosition, tracks, toggleMusic,
 } from './util.js';
 import Tachometer from './tachometer.js';
 
@@ -178,6 +178,8 @@ const init = (time) => {
 
   background.create();
   playMusic();
+  // const pauseButton = document.querySelector('#pauseBtn');
+  // pauseButton.addEventListener('click', handleInput.pause);
 
   loop(time, render, camera, player, opponents, road,
     background, director, menu, tachometer, width, height);

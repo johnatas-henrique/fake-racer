@@ -113,8 +113,12 @@ class Menu {
 
       if (handleInput.mapPress.enter && this.menuX === lastMenuOption) {
         const hud = document.querySelector('#hud');
+        const pauseBtn = document.querySelector('#pauseBtn');
         const fps = document.querySelector('#fps');
+        const mute = document.querySelector('#mute');
         hud.classList.toggle('hidden');
+        pauseBtn.classList.toggle('hidden');
+        mute.classList.toggle('hidden');
         const okBtn = document.querySelector('.rightControls').firstElementChild;
         okBtn.classList.toggle('hidden');
         this.startRace(player, road, opponents, director);
