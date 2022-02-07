@@ -13,7 +13,7 @@ const addItens = (liId, text) => {
   li.textContent = text;
 };
 
-const toggleMusic = (_e, toggle, volume = '5') => {
+const toggleMusic = (_e, toggle, volume = '2') => {
   const music = document.getElementById('music');
   const mute = document.getElementById('mute');
 
@@ -69,6 +69,15 @@ const calcCrashSpeed = (callerSpd, objSpd, objMult) => {
   if (callerSpd - objSpd <= 120) return callerSpd - 120;
   return Math.max(callerSpd - ((callerSpd - objSpd) * 1.6), 20);
 };
+
+// const pause = (e, state) => {
+//   const pauseState = state;
+//   const pauseBtn = document.querySelector('#pauseBtn');
+//   pauseBtn.classList.toggle('off');
+//   if (!window.navigator.maxTouchPoints && e.type !== 'keypress') {
+//     pauseState.p = !pauseState.p;
+//   }
+// };
 
 const tracks = {
   // straight track used in development

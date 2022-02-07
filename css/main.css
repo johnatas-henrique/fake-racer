@@ -26,6 +26,11 @@
   src: url(../other/joystix.ttf);
 }
 
+@font-face {
+  font-family: Computo;
+  src: url(../other/computo.ttf);
+}
+
 html, body {
   background: #000000;
   font-family: Joystix, Verdana, Geneva, sans-serif;
@@ -60,8 +65,14 @@ canvas {
 }
 
 #info {
-  text-align: right;
-  top: 3.2vw;
+  align-content: end;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 3vw;
+  padding-right: 0.5vw;
+  top: 0vw;
+  width: 100%;
 }
 
 .fpsCanvas {
@@ -70,7 +81,7 @@ canvas {
   margin-left: auto;
   margin-right: 0.2vw;
   opacity: 0.85;
-  width: 5vw;
+  width: 4vw;
 }
 
 .controlButtons {
@@ -117,20 +128,17 @@ canvas {
   background-color: rgba(255, 215, 0, 0.5);
 }
 
-#mute {
-  background-position: 0px 0px;
-  background-size: contain;
-  width: 32px;
-  height: 32px;
+.mute {
   background: url(../images/sprites/other/mute.png);
-  display: block;
+  background-size: cover;
   cursor: pointer;
-  position: absolute;
-  right: 1vw;
+  display: block;
+  height: 3vw;
+  width: 3vw;
 }
 
 #mute.off {
-  background-position: -32px 0px;
+  background-position: 3vw 0;
 }
 
 #touchControls {
@@ -141,7 +149,7 @@ canvas {
   margin-bottom: 1em;
 }
 
-.hidden{
+.hidden {
   display: none;
 }
 
@@ -157,4 +165,26 @@ canvas {
   .container {
     height: min(100vh, 56.25vw);
   }
+}
+
+.interfaceBtn {
+  background: transparent;
+  border: 0;
+  height: 3vw;
+  width: 3vw;
+}
+
+.img100 {
+  max-height: 96%;
+  max-width: 96%;
+}
+
+.pause {
+  background: url(../images/sprites/other/pause-play.png);
+  background-size: 200%;
+  margin-right: 0.2vw;
+}
+
+#pauseBtn.off {
+  background-position: 3vw 0;
 }

@@ -11,7 +11,6 @@
     let mode = 0;
 
     const container = document.createElement('div');
-    // container.style.cssText = 'position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000';
     container.classList.add('fpsCanvas');
     container.classList.add('hidden');
 
@@ -27,14 +26,10 @@
       showPanel((mode + 1) % container.children.length);
     }, false);
 
-    //
-
     function addPanel(panel) {
       container.appendChild(panel.dom);
       return panel;
     }
-
-    //
 
     let beginTime = (performance || Date).now(); let prevTime = beginTime; let
       frames = 0;
@@ -109,10 +104,9 @@
     const canvas = document.createElement('canvas');
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
-    // canvas.style.cssText = 'width:80px;height:48px';
 
     const context = canvas.getContext('2d');
-    context.font = `${10 * PR}px Joystix`;
+    context.font = `${10 * PR}px Computo`;
     context.textBaseline = 'top';
 
     context.fillStyle = bg;
