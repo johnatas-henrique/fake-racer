@@ -107,16 +107,6 @@ class Director {
     let numberOfCars = this.positions.length;
     if (numberOfCars < 10) numberOfCars = `0${numberOfCars}`;
 
-    // HUD
-    // let speedValue = `${(player.runningPower / 4).toFixed(0)}`;
-    // if (speedValue < 10) speedValue = `00${speedValue}`;
-    // if (speedValue >= 10 && speedValue < 100) speedValue = `0${speedValue}`;
-    // addItens('#speed_value', speedValue);
-    addItens('#total_lap_time_value', formatTime(this.totalTime));
-    addItens('#current_lap_time_value', formatTime(this.animTime));
-    addItens('#last_lap_time_value', formatTime(this.lastLap));
-    addItens('#fast_lap_time_value', formatTime(this.fastestLap));
-
     this.refreshPositions(player, opponent);
     if (this.animTime > this.startTimer) this.startLights.sheetPositionX = 0;
     else if (this.animTime > 2000 + 2500) this.startLights.sheetPositionX = 5;
@@ -133,7 +123,7 @@ class Director {
         return (index === 0) || (index >= actualPos - 2 && index <= actualPos - 1);
       }).map((item, index, array) => {
         const result = {
-          pos: item.position, name: item.name, lap: item.raceTime.length, relTime: 'Leader', totalTime: (Math.round(item.raceTime.at(-1)) / 1000).toFixed(3),
+          pos: item.position, name: item.name, lap: item.raceTime.length, relTime: '- Líder', totalTime: (Math.round(item.raceTime.at(-1)) / 1000).toFixed(3),
         };
         const actualItem = item.raceTime.at(-1);
         const actualLap = item.raceTime.length;
@@ -174,15 +164,17 @@ class Director {
         2, 'OutriderCond', 'center', 'black', true);
     }
     // if (this.paused) {
-    render.drawText('#050B1A', `Volta ${this.lap} de ${tracks[this.trackName].laps}`, 4, 30,
-      1.5, 'OutriderCond', 'left');
+    render.drawText('#050B1A', `Volta ${this.lap} de ${tracks[this.trackName].laps}`, 4, 44, 0.8, 'Computo', 'left');
     this.hudPositions.forEach(({ pos, name, relTime }, index) => {
       const alignPos = pos < 10 ? `0${pos}` : pos;
-      render.drawText('#050B1A', `${alignPos}`, 16, `${50 + (index * 16)}`,
-        1, 'OutriderCond', 'center');
-      render.drawText('#050B1A', `${name} ${relTime}`, 32, `${50 + (index * 16)}`,
-        1, 'OutriderCond', 'left');
+      render.drawText('#050B1A', `${alignPos}`, 4, `${60 + (index * 16)}`, 0.8, 'Computo', 'left');
+      render.drawText('#050B1A', `${name} ${relTime}`, 32, `${60 + (index * 16)}`, 0.8, 'Computo', 'left');
     });
+    render.drawText('#050B1A', `Total: ${formatTime(this.totalTime)}`, 636, 44, 0.8, 'Computo', 'right');
+    render.drawText('#050B1A', `Lap: ${formatTime(this.animTime)}`, 636, 60, 0.8, 'Computo', 'right');
+    render.drawText('#050B1A', `Last: ${formatTime(this.lastLap)}`, 636, 76, 0.8, 'Computo', 'right');
+    render.drawText('#050B1A', `Fast: ${formatTime(this.fastestLap)}`, 636, 92, 0.8, 'Computo', 'right');
+
     if (this.raining) this.rain.forEach((item) => item.render(render, player));
     // }
   }

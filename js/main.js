@@ -7,7 +7,7 @@ import Render from './render.js';
 import Road from './road.js';
 import particles from './animations/particles.js';
 import {
-  canvas, handleInput, addItens, playMusic, resource, startPosition, tracks, toggleMusic,
+  canvas, handleInput, playMusic, resource, startPosition, tracks, toggleMusic,
 } from './util.js';
 import Tachometer from './tachometer.js';
 
@@ -147,11 +147,13 @@ const loop = (time, render, camera, player, oppArr, road,
     playerParam.x = qualyPos % 2 ? -1 : 1;
 
     // for test, enter race on page load
-    // const hud = document.querySelector('#hud');
-    // hud.classList.remove('hidden');
     // menu.startRace(player, road, oppArr, directorParam);
     // directorParam.startTimer = 0;
     // fps.firstElementChild.classList.remove('hidden');
+    // const pauseBtn = document.querySelector('#pauseBtn');
+    // const mute = document.querySelector('#mute');
+    // pauseBtn.classList.toggle('hidden');
+    // mute.classList.toggle('hidden');
     // menu.state = 'race';
   }
 
