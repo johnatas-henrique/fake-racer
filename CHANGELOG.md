@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.17.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.15.0...v2.17.0) (2022-02-07)
+
+
+### Features
+
+* adds analogic speedometer ([10ed5ad](https://github.com/johnatas-henrique/fake-racer/commit/10ed5adb51253f910095ceaf6177afcca4be60b9))
+* adds control buttons on race screen ([0a74beb](https://github.com/johnatas-henrique/fake-racer/commit/0a74beb2397b92164f452b2ebe4dcb50ffe0de4b))
+* adds fullscreen button ([83b69d6](https://github.com/johnatas-henrique/fake-racer/commit/83b69d6e61340c2c00cc8f2b75a703c5ab2fc09e))
+* adds menu particles effect ([b3b51c7](https://github.com/johnatas-henrique/fake-racer/commit/b3b51c7bd0aa5fa7714bb14a235864ca3cc27d9d))
+* adds random rain on races ([014ae78](https://github.com/johnatas-henrique/fake-racer/commit/014ae7862bc5409f57773e6e82c6850e5a53c17c))
+
+
+### Bug Fixes
+
+* fixes OK button malfunctioning ([a1f2910](https://github.com/johnatas-henrique/fake-racer/commit/a1f2910cb23a34de0c6618a0a079c2536631a82f))
+
 ## [2.16.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.15.0...v2.16.0) (2022-01-30)
 
 
