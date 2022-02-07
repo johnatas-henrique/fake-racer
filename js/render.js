@@ -113,9 +113,6 @@ class Render {
       tl: 0, tr: 0, br: 0, bl: 0,
     };
     if (typeof radius === 'number') {
-      // radii = {
-      //   tl: radius, tr: radius, br: radius, bl: radius,
-      // };
       radii.tl = radius;
       radii.tr = radius;
       radii.br = radius;

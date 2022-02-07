@@ -26,6 +26,11 @@
   src: url(../other/joystix.ttf);
 }
 
+@font-face {
+  font-family: Computo;
+  src: url(../other/computo.ttf);
+}
+
 html, body {
   background: #000000;
   font-family: Joystix, Verdana, Geneva, sans-serif;
@@ -66,7 +71,7 @@ canvas {
   flex-direction: column;
   height: 3vw;
   padding-right: 0.5vw;
-  top: 3.2vw;
+  top: 0vw;
   width: 100%;
 }
 
