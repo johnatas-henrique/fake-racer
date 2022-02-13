@@ -13,7 +13,7 @@ class SegmentLine {
    */
   sprites = [];
   clip = 0;
-  #colors = { road: '', grass: '', rumble: '', strip: '', tunnel: '' };
+  #colors = { road: '', grass: '', kerb: '', strip: '', tunnel: '' };
   points = new class {
     world = new class {
       x = 0;
