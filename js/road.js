@@ -10,14 +10,14 @@ class Road {
   #segments = [];
   #segmentLength = 200; // it could be named segmentHeight
   visibleSegments = 600;
-  #rumbleLength = 13; // number of segments to change rumble color
+  #k = 13; // number of segments to change kerb color
   #width = 2000;
   constructor(trackName) {
     this.trackName = trackName;
   }
 
-  get rumbleLength() {
-    return this.#rumbleLength;
+  get k() {
+    return this.#k;
   }
 
   /**
@@ -57,28 +57,45 @@ class Road {
 
   create() {
     this.#segments = [];
-    const { rumbleLength } = this;
-    const trackSize = tracks[this.trackName].trackSize;
+    const { k } = this;
+    const { trackSize, colors } = tracks[this.trackName];
     for (let i = 0; i < trackSize; i += 1) {
       const lightestColors = {
-        road: '#424142', grass: 'green', rumble: 'white', strip: '', tunnel: 'blue',
+        road: colors.lightRoad,
+        grass: colors.lightGrass,
+        kerb: colors.lightKerb, 
+        strip: '', 
+        tunnel: colors.lightTunnel,
       };
       const lightColors = {
-        road: '#393839', grass: 'darkgreen', rumble: 'white', strip: '', tunnel: 'blue',
+        road: '#393839', 
+        grass: colors.darkGrass, 
+        kerb: colors.lightKerb, 
+        strip: '', 
+        tunnel: colors.lightTunnel,
       };
       const darkColors = {
-        road: '#393839', grass: 'green', rumble: '#f00', strip: '#fff', tunnel: 'darkblue',
+        road: '#393839', 
+        grass: colors.lightGrass,
+        kerb: colors.darkKerb, 
+        strip: '#fff', 
+        tunnel: colors.darkTunnel,
       };
       const darkestColors = {
-        road: '#424142', grass: 'darkgreen', rumble: '#f00', strip: '#fff', tunnel: 'darkblue',
+        road: colors.lightRoad,
+        grass: colors.darkGrass, 
+        kerb: colors.darkKerb, 
+        strip: '#fff', 
+        tunnel: colors.darkTunnel,
       };
+
       const segmentLine = new SegmentLine();
       segmentLine.index = i;
 
-      if (Math.floor(i / rumbleLength) % 4 === 0) segmentLine.colors = lightestColors;
-      if (Math.floor(i / rumbleLength) % 4 === 1) segmentLine.colors = darkestColors;
-      if (Math.floor(i / rumbleLength) % 4 === 2) segmentLine.colors = lightColors;
-      if (Math.floor(i / rumbleLength) % 4 === 3) segmentLine.colors = darkColors;
+      if (Math.floor(i / k) % 4 === 0) segmentLine.colors = lightestColors;
+      if (Math.floor(i / k) % 4 === 1) segmentLine.colors = darkestColors;
+      if (Math.floor(i / k) % 4 === 2) segmentLine.colors = lightColors;
+      if (Math.floor(i / k) % 4 === 3) segmentLine.colors = darkColors;
 
       if (i <= 11) {
         segmentLine.colors.road = '#fff'
@@ -98,14 +115,14 @@ class Road {
         .forEach((curve) => createCurve(curve.min, curve.max, curve.curveInclination));
 
       // adding speed bump
-      // if (i <=rumbleLength) {
+      // if (i <=k) {
       //   world.y = sin(i * 0.5) * 1000;
       // }
 
       // Road Sprites
       // signalDirections
       const curvePower = this.getSegmentFromIndex(i).curve;
-      if (i % (rumbleLength * 2) === 0 && Math.abs(curvePower) > 1) {
+      if (i % (k * 2) === 0 && Math.abs(curvePower) > 1) {
         const curveSignal = new Sprite();
         curveSignal.offsetX = curvePower > 0 ? -1.5 : 1.5;
         curveSignal.scaleX = 72;
@@ -150,7 +167,7 @@ class Road {
             baseSegment.colors.tunnel = '#fff';
             tunnel.title = tunnelInfo.name;
 
-          } else if (i % (rumbleLength * 1) === 0) {
+          } else if (i % (k * 1) === 0) {
             const tunnel = new Tunnel();
             tunnel.worldH = tunnelInfo.height;
             tunnel.previousSegment = previousSegment;
@@ -236,18 +253,18 @@ class Road {
         );
 
         if (Math.abs(currentSegment.curve) > 1) {
-          // left rumble
+          // left kerb
           render.drawPolygon(
-            colors.rumble,
+            colors.kerb,
             previousScreenPoint.x - previousScreenPoint.w * 1.3, previousScreenPoint.y,
             previousScreenPoint.x - previousScreenPoint.w, previousScreenPoint.y,
             currentScreenPoint.x - currentScreenPoint.w, currentScreenPoint.y,
             currentScreenPoint.x - currentScreenPoint.w * 1.3, currentScreenPoint.y,
           );
 
-          // right rumble
+          // right kerb
           render.drawPolygon(
-            colors.rumble,
+            colors.kerb,
             previousScreenPoint.x + previousScreenPoint.w * 1.3, previousScreenPoint.y,
             previousScreenPoint.x + previousScreenPoint.w, previousScreenPoint.y,
             currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y,
@@ -298,12 +315,11 @@ class Road {
             currentScreenPoint.x, currentScreenPoint.y, currentScreenPoint.w * value,
             colors.strip,
           );
-
-          //checkered road
-
         }
+
+        //checkered road
         if (colors.checkers === 'one') {
-          for (let i = -1; i < 0.9; i += 2/3) {
+          for (let i = -1; i < 0.9; i += 2 / 3) {
             render.drawPolygon(
               'black',
               previousScreenPoint.x + previousScreenPoint.w * i, previousScreenPoint.y,
@@ -314,7 +330,7 @@ class Road {
           };
         }
         if (colors.checkers === 'two') {
-          for (let i = -2/3; i < 0.9; i += 2/3) {
+          for (let i = -2 / 3; i < 0.9; i += 2 / 3) {
             render.drawPolygon(
               'black',
               previousScreenPoint.x + previousScreenPoint.w * i, previousScreenPoint.y,
