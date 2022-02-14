@@ -108,11 +108,14 @@ class Road {
       this.#segments.push(segmentLine);
 
       // adding curves
-      const createCurve = (min, max, curve) => {
-        if (i >= min && i <= max) segmentLine.curve = curve;
+      const createCurve = (min, max, curve, kerb) => {
+        if (i >= min && i <= max) {
+          segmentLine.curve = curve;
+          segmentLine.kerb = kerb;
+        }
       }
       tracks[this.trackName].curves
-        .forEach((curve) => createCurve(curve.min, curve.max, curve.curveInclination));
+        .forEach((curve) => createCurve(curve.min, curve.max, curve.curveInclination, curve.kerb));
 
       // adding speed bump
       // if (i <=k) {
@@ -252,7 +255,7 @@ class Road {
           currentScreenPoint.x + currentScreenPoint.w, currentScreenPoint.y,
         );
 
-        if (Math.abs(currentSegment.curve) > 1) {
+        if (currentSegment.kerb) {
           // left kerb
           render.drawPolygon(
             colors.kerb,
