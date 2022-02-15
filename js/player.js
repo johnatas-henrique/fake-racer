@@ -87,7 +87,7 @@ class Player {
 
       // recover button
       if (handleInput.isKeyDown('*')) {
-        // cameraClass.cursor = road.length - (road.segmentLength * road.rumbleLength * 2);
+        // cameraClass.cursor = road.length - (road.segmentLength * road.kerbLength * 2);
         // this.x = 0;
         // this.runningPower = 1160;
       }

@@ -4,6 +4,7 @@ class SegmentLine {
   scale = 0;
   index = 0;
   curve = 0;
+  kerb = 0;
   /**
    * @type {Tunnel}
    */
@@ -13,7 +14,7 @@ class SegmentLine {
    */
   sprites = [];
   clip = 0;
-  #colors = { road: '', grass: '', rumble: '', strip: '', tunnel: '' };
+  #colors = { road: '', grass: '', kerb: '', strip: '', tunnel: '' };
   points = new class {
     world = new class {
       x = 0;
