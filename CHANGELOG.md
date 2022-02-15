@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.18.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.17.0...v2.18.0) (2022-02-15)
+
+
+### Features
+
+* adds new track - Canada ([a93af8e](https://github.com/johnatas-henrique/fake-racer/commit/a93af8eda59f0e11ef43e2515381f5e626c79426))
+
+
+### Bug Fixes
+
+* fixes old variable names ([fa20523](https://github.com/johnatas-henrique/fake-racer/commit/fa205237b4d3967922fa2b4eaabfc00f293f6328))
+
 ## [2.17.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.15.0...v2.17.0) (2022-02-07)
 
 
