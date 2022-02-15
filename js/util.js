@@ -302,6 +302,110 @@ const tracks = {
       },
     ],
   },
+  canada: {
+    trackName: 'Montreal',
+    trackSize: 8736,
+    laps: 69,
+    colors: {
+      lightRoad: '#424142',
+      darkRoad: '#393839',
+      lightGrass: '#008800',
+      darkGrass: '#006600',
+      lightKerb: '#ffffff',
+      darkKerb: '#ff0000',
+      lightTunnel: '#0000ff',
+      darkTunnel: '#00008b',
+    },
+    curves: [
+      {
+        min: 50, max: 174, curveInclination: 1, kerb: 0,
+      },
+      {
+        min: 373, max: 510, curveInclination: -4, kerb: 1,
+      },
+      {
+        min: 560, max: 995, curveInclination: 4, kerb: 1,
+      },
+      {
+        min: 1244, max: 1368, curveInclination: 1, kerb: 0,
+      },
+      {
+        min: 1629, max: 1716, curveInclination: 4, kerb: 1,
+      },
+      {
+        min: 1816, max: 1927, curveInclination: -4, kerb: 1,
+      },
+      {
+        min: 2114, max: 2164, curveInclination: -2, kerb: 1,
+      },
+      {
+        min: 2214, max: 2438, curveInclination: 3, kerb: 0,
+      },
+      {
+        min: 2686, max: 2886, curveInclination: -4, kerb: 1,
+      },
+      {
+        min: 2961, max: 3110, curveInclination: 3, kerb: 1,
+      },
+      {
+        min: 3110, max: 3310, curveInclination: 3, kerb: 0,
+      },
+      {
+        min: 3545, max: 3968, curveInclination: 0.5, kerb: 0,
+      },
+      {
+        min: 4180, max: 4328, curveInclination: 5, kerb: 1,
+      },
+      {
+        min: 4428, max: 4577, curveInclination: -5, kerb: 1,
+      },
+      {
+        min: 4975, max: 5286, curveInclination: -1, kerb: 0,
+      },
+      {
+        min: 5597, max: 6007, curveInclination: 5, kerb: 1,
+      },
+      {
+        min: 6119, max: 6306, curveInclination: -2, kerb: 1,
+      },
+      {
+        min: 6654, max: 6765, curveInclination: 2, kerb: 1,
+      },
+      {
+        min: 6827, max: 6926, curveInclination: -2, kerb: 1,
+      },
+      {
+        min: 6950, max: 7075, curveInclination: 2, kerb: 1,
+      },
+      {
+        min: 7761, max: 7923, curveInclination: 6, kerb: 1,
+      },
+      {
+        min: 7947, max: 8109, curveInclination: -6, kerb: 1,
+      },
+
+    ],
+    hills: [
+      { initialSegment: 1, size: 500, altimetry: -10 },
+      { initialSegment: 750, size: 500, altimetry: 15 },
+      { initialSegment: 1575, size: 300, altimetry: -20 },
+      { initialSegment: 2050, size: 375, altimetry: 15 },
+      { initialSegment: 2600, size: 500, altimetry: 25 },
+      { initialSegment: 3350, size: 800, altimetry: -10 },
+      { initialSegment: 4600, size: 600, altimetry: -25 },
+      { initialSegment: 6275, size: 250, altimetry: 30 },
+      { initialSegment: 6600, size: 175, altimetry: -15 },
+      { initialSegment: 6800, size: 100, altimetry: 15 },
+      { initialSegment: 6925, size: 150, altimetry: -15 },
+      { initialSegment: 7200, size: 425, altimetry: 10 },
+      { initialSegment: 8632, size: 0, altimetry: 0 },
+    ],
+    tunnels: [
+      {
+        min: 0, max: 0, name: '', height: 1,
+      },
+    ],
+  },
 };
 
 const drivers = [

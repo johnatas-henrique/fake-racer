@@ -29,7 +29,7 @@ class Menu {
       4: ['corrida'],
     };
     this.selectedOptions = {
-      0: 'brasil',
+      0: 'canada',
       1: '19',
       2: 'não',
       3: '1',
