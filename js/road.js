@@ -124,8 +124,8 @@ class Road {
 
       // Road Sprites
       // signalDirections
-      const curvePower = this.getSegmentFromIndex(i).curve;
-      if (i % (k * 2) === 0 && Math.abs(curvePower) > 1) {
+      const {curve: curvePower, kerb} = this.getSegmentFromIndex(i);
+      if (i % (k * 2) === 0 && Math.abs(curvePower) > 1 && kerb) {
         const curveSignal = new Sprite();
         curveSignal.offsetX = curvePower > 0 ? -1.5 : 1.5;
         curveSignal.scaleX = 72;
