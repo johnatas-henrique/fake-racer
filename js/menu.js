@@ -11,29 +11,32 @@ class Menu {
     this.state = 'title';
     this.width = width;
     this.menuY = 0;
-    this.menuX = 4;
+    this.menuX = 5;
     this.updateTime = 6 / 60;
     this.updateAnimationsTime = 1 / 60;
     this.menuPhrase = {
       0: 'Circuito: ',
       1: 'Oponentes: ',
-      2: 'Música: ',
-      3: 'Volume da música: ',
-      4: 'Iniciar ',
+      2: 'Dificuldade: ',
+      3: 'Música: ',
+      4: 'Volume da música: ',
+      5: 'Iniciar ',
     };
     this.menu = {
       0: Object.keys(tracks),
       1: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19'],
-      2: ['não', 'sim'],
-      3: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-      4: ['corrida'],
+      2: ['novato', 'corredor', 'campeão'],
+      3: ['não', 'sim'],
+      4: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      5: ['corrida'],
     };
     this.selectedOptions = {
       0: 'canada',
       1: '19',
-      2: 'não',
-      3: '1',
-      4: 'corrida',
+      2: 'novato',
+      3: 'não',
+      4: '1',
+      5: 'corrida',
     };
     this.arrowUpBlink = 0;
     this.arrowDownBlink = 0;
@@ -41,11 +44,18 @@ class Menu {
     this.animations = animations;
   }
 
+  adjustDifficulty() {
+    if (this.selectedOptions[2] === 'novato') return 0.87;
+    if (this.selectedOptions[2] === 'corredor') return 0.935;
+    return 1;
+  }
+
   startRace(player, road, opponents, director) {
     const roadParam = road;
     const zero = 0;
     drivers.forEach((driver) => opponents.push(new Opponent(
-      driver.power, startPosition(tracks[this.selectedOptions[zero]].trackSize, driver.position),
+      driver.power * this.adjustDifficulty(),
+      startPosition(tracks[this.selectedOptions[zero]].trackSize, driver.position),
       driver.trackSide, 'opponents', driver.name, driver.carColor,
     )));
 
@@ -64,7 +74,7 @@ class Menu {
     const maxX = Object.keys(this.menu).length - 1;
     const maxY = this.menu[this.menuX].length - 1;
     if (handleInput.mapPress.enter && !this.showMenu) {
-      this.selectedOptions[2] = 'sim';
+      this.selectedOptions[3] = 'sim';
       this.showMenu = 1;
       this.menuTitle.pos = 0;
       handleInput.mapPress.enter = false;
@@ -159,6 +169,7 @@ class Menu {
 
       render.roundRect('#2C69EB', 100, 100, 440, 170, 20, true, false);
       render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
+      console.log('1', this.menuPhrase[this.menuX], '2', this.menu[this.menuX][this.menuY]);
       const phrase = `${this.menuPhrase[this.menuX]} ${this.menu[this.menuX][this.menuY].toLocaleUpperCase()}`;
       render.drawText('#050B1A', phrase, 320, 180 + (this.menuTitle.pos / 4), 1.6);
       render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);

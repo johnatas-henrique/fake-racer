@@ -134,7 +134,7 @@ const loop = (time, render, camera, player, oppArr, road,
 
     if (directorParam.timeSinceLastFrameSwap > menu.updateTime) {
       menu.update(playerParam, road, oppArr, directorParam);
-      toggleMusic('event', selectedOptions[2], selectedOptions[3]);
+      toggleMusic('event', selectedOptions[3], selectedOptions[4]);
       directorParam.timeSinceLastFrameSwap = 0;
     }
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.19.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.18.0...v2.19.0) (2022-03-12)
+
+
+### Features
+
+* add difficulty settings - thanks [@saraivais](https://github.com/saraivais) ([65433a1](https://github.com/johnatas-henrique/fake-racer/commit/65433a193304393fad2c483284abf5ea68949624))
+
 ## [2.18.0](https://github.com/johnatas-henrique/fake-racer/compare/v2.17.0...v2.18.0) (2022-02-15)
 
 
