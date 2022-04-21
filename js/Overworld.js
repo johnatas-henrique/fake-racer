@@ -11,9 +11,14 @@ class Overworld {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
       this.map.drawLowerImage(this.ctx);
+
       Object.values(this.map.gameObjects).forEach(item => {
+        item.update({
+          arrow: this.directionInput.direction
+        })
         item.sprite.draw(this.ctx);
       })
+
       this.map.drawUpperImage(this.ctx);
       
       requestAnimationFrame(() => {
@@ -24,7 +29,11 @@ class Overworld {
   }
 
   init() {
-    this.map = new OverworldMap(window.OverworldMaps.Kitchen);
+    this.map = new OverworldMap(window.OverworldMaps.DemoRoom);
+
+    this.directionInput = new DirectionInput();
+    this.directionInput.init();
+
     this.startGameLoop();
   }
 }
