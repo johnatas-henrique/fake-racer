@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #333;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.game-container {
+  position: relative;
+  width: 640px;
+  height: 360px;
+  outline: 1px solid #fff;
+  margin: 0 auto;
+  transform: scale(2) translateY(50%);
+}
+
+.game-canvas canvas {
+  image-rendering: pixelated;
+}
+
+.game-canvas {
+  background-color: aqua;
+}
