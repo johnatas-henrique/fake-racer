@@ -4,23 +4,27 @@ class Overworld {
     this.canvas = this.element.querySelector('.game-canvas');
     this.ctx = this.canvas.getContext('2d');
     this.map = null;
+    this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 }
   }
 
   startGameLoop() {
     const step = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-      this.map.drawLowerImage(this.ctx);
+      const cameraPerson = { ...this.map.gameObjects.hero, canvasMidpoint: this.canvasMidpoint };
 
       Object.values(this.map.gameObjects).forEach(item => {
-        item.update({
-          arrow: this.directionInput.direction
-        })
-        item.sprite.draw(this.ctx);
+        item.update({ arrow: this.directionInput.direction });
+      });
+
+      this.map.drawLowerImage(this.ctx, cameraPerson);
+
+      Object.values(this.map.gameObjects).forEach(item => {
+        item.sprite.draw(this.ctx, cameraPerson);
       })
 
-      this.map.drawUpperImage(this.ctx);
-      
+      this.map.drawUpperImage(this.ctx, cameraPerson);
+
       requestAnimationFrame(() => {
         step();
       })

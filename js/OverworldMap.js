@@ -9,11 +9,19 @@ class OverworldMap {
     this.upperImage.src = config.upperSrc;
   }
 
-  drawLowerImage(ctx) {
-    ctx.drawImage(this.lowerImage, 0, 0);
+  drawLowerImage(ctx, cameraPerson) {
+    ctx.drawImage(
+      this.lowerImage,
+      utils.withGrid(cameraPerson.canvasMidpoint.x / 16 - 1) - cameraPerson.x,
+      utils.withGrid(cameraPerson.canvasMidpoint.y / 16 - 1) - cameraPerson.y,
+    );
   }
-  drawUpperImage(ctx) {
-    ctx.drawImage(this.upperImage, 0, 0);
+  drawUpperImage(ctx, cameraPerson) {
+    ctx.drawImage(
+      this.upperImage,
+      utils.withGrid(cameraPerson.canvasMidpoint.x / 16 - 1) - cameraPerson.x,
+      utils.withGrid(cameraPerson.canvasMidpoint.y / 16 - 1) - cameraPerson.y,
+    );
   }
 }
 
@@ -23,11 +31,12 @@ window.OverworldMaps = {
     upperSrc: '../assets/images/maps/DemoUpper.png',
     gameObjects: {
       hero: new Person({
-        isPlayerControlled: true, 
+        isPlayerControlled: true,
         x: utils.withGrid(5), y: utils.withGrid(6),
       }),
       npc1: new Person({
-        x: utils.withGrid(7), y: utils.withGrid(9), src: '../assets/images/characters/people/npc1.png'
+        x: utils.withGrid(7), y: utils.withGrid(9),
+        src: '../assets/images/characters/people/npc1.png',
       })
     }
   },
@@ -35,14 +44,17 @@ window.OverworldMaps = {
     lowerSrc: '../assets/images/maps/KitchenLower.png',
     upperSrc: '../assets/images/maps/KitchenUpper.png',
     gameObjects: {
-      hero: new GameObject({
-        x: 3, y: 5,
+      hero: new Person({
+        isPlayerControlled: true,
+        x: utils.withGrid(3), y: utils.withGrid(5),
       }),
-      npcA: new GameObject({
-        x: 9, y: 6, src: '../assets/images/characters/people/npc2.png'
+      npcA: new Person({
+        x: utils.withGrid(9), y: utils.withGrid(6),
+        src: '../assets/images/characters/people/npc2.png',
       }),
-      npcB: new GameObject({
-        x: 10, y: 8, src: '../assets/images/characters/people/npc3.png'
+      npcB: new Person({
+        x: utils.withGrid(10), y: utils.withGrid(8),
+        src: '../assets/images/characters/people/npc3.png',
       }),
     }
   },
