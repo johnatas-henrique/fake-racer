@@ -2,7 +2,7 @@ class OverworldEvent {
   constructor(config) {
     this.map = config.map;
     this.event = config.event;
-  }
+  };
 
   stand(resolve) {
     const who = this.map.gameObjects[this.event.who];
@@ -13,14 +13,14 @@ class OverworldEvent {
 
     // Handler to complete when correct person has walked and resolve the promise
     const completeHandler = (e) => {
-      if(e.detail.whoId === this.event.who) {
+      if (e.detail.whoId === this.event.who) {
         document.removeEventListener('PersonStandingComplete', completeHandler);
         resolve();
       }
     }
 
     document.addEventListener('PersonStandingComplete', completeHandler);
-  }
+  };
 
   walk(resolve) {
     const who = this.map.gameObjects[this.event.who];
@@ -40,9 +40,23 @@ class OverworldEvent {
     document.addEventListener('PersonWalkingComplete', completeHandler);
   };
 
+  textMessage(resolve) {
+
+    if(this.event.faceHero) {
+      const obj = this.map.gameObjects[this.event.faceHero];
+      obj.direction = utils.oppositeDirection(this.map.gameObjects['hero'].direction);
+    }
+    const message = new TextMessage({
+      text: this.event.text,
+      onComplete: () => resolve(),
+    });
+
+    message.init(document.querySelector('.game-container'));
+  };
+
   async init() {
     return new Promise(resolve => {
       this[this.event.type](resolve);
     })
-  }
+  };
 };

@@ -58,6 +58,18 @@ class OverworldMap {
     Object.values(this.gameObjects).forEach(item => item.doBehaviorEvent(this));
   };
 
+  checkForActionCutscene() {
+    const hero = this.gameObjects['hero'];
+    const nextCoords = utils.nextPosition(hero.x, hero.y, hero.direction);
+    const match = Object.values(this.gameObjects).find(item => {
+      return `${item.x},${item.y}` === `${nextCoords.x},${nextCoords.y}`;
+    });
+
+    if (!this.isCutscenePlaying && match && match.talking.length) {
+      this.startCutscene(match.talking[0].events);
+    };
+  };
+
   addWall(x, y) {
     this.walls[`${x},${y}`] = true;
   };
@@ -93,7 +105,16 @@ window.OverworldMaps = {
           { type: 'stand', direction: 'up', time: 800 },
           { type: 'stand', direction: 'right', time: 1200 },
           { type: 'stand', direction: 'up', time: 300 },
-        ]
+        ],
+        talking: [
+          {
+            events: [
+              { faceHero: 'npcA', type: 'textMessage', text: 'Estou ocupado!' },
+              { type: 'textMessage', text: 'Vá logo entregar as pizzas menino!' },
+              { who: 'hero', type: 'walk', direction: 'up' },
+            ],
+          }
+        ],
       }),
       npcB: new Person({
         x: utils.withGrid(3),
@@ -104,7 +125,18 @@ window.OverworldMaps = {
           { type: 'stand', direction: 'up', time: 800 },
           { type: 'walk', direction: 'up' },
           { type: 'walk', direction: 'right' },
+          { type: 'stand', direction: 'right', time: 800 },
           { type: 'walk', direction: 'down' },
+        ],
+        talking: [
+          {
+            events: [
+              { faceHero: 'npcB', type: 'textMessage', text: 'Não consigo achar a saída.' },
+              { type: 'textMessage', text: 'Saia da frente!' },
+              { who: 'hero', type: 'walk', direction: 'right' },
+              { who: 'hero', type: 'walk', direction: 'down' },
+            ],
+          }
         ],
       }),
     },
