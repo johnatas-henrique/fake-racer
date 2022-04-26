@@ -1,5 +1,6 @@
 class OverworldMap {
   constructor(config) {
+    this.overworld = null;
     this.gameObjects = config.gameObjects;
     this.cutsceneSpaces = config.cutsceneSpaces || {};
     this.walls = config.walls || {};
@@ -57,6 +58,11 @@ class OverworldMap {
     this.isCutscenePlaying = false;
 
     Object.values(this.gameObjects).forEach(item => item.doBehaviorEvent(this));
+  };
+
+  helperCheckHeroMapPosition() {
+    const hero = this.gameObjects['hero'];
+    console.log({ x: hero.x / 16, y: hero.y / 16 });
   };
 
   checkForActionCutscene() {
@@ -161,7 +167,14 @@ window.OverworldMaps = {
             { who: 'npcB', type: 'stand', direction: 'down', time: 300 },
           ],
         },
-      ]
+      ],
+      [utils.asGridCoord(5, 10)]: [
+        {
+          events: [
+            {type: 'changeMap', map: 'Kitchen'},
+          ],
+        },
+      ],
     },
     walls: {
       //up
@@ -218,16 +231,35 @@ window.OverworldMaps = {
     gameObjects: {
       hero: new Person({
         isPlayerControlled: true,
-        x: utils.withGrid(5), y: utils.withGrid(7),
+        x: utils.withGrid(3), 
+        y: utils.withGrid(9),
       }),
       npcA: new Person({
-        x: utils.withGrid(9), y: utils.withGrid(6),
+        x: utils.withGrid(9), 
+        y: utils.withGrid(6),
         src: '../assets/images/characters/people/npc2.png',
       }),
       npcB: new Person({
-        x: utils.withGrid(10), y: utils.withGrid(8),
+        x: utils.withGrid(10), 
+        y: utils.withGrid(8),
         src: '../assets/images/characters/people/npc3.png',
+        talking: [
+          {
+            events: [
+              { faceHero: 'npcB', type: 'textMessage', text: 'Como você entrou aqui?' },
+            ],
+          }
+        ],
       }),
+    },
+    cutsceneSpaces: {
+      [utils.asGridCoord(5, 10)]: [
+        {
+          events: [
+            {type: 'changeMap', map: 'DemoRoom'},
+          ],
+        },
+      ],
     }
   },
   PizzaShop: {

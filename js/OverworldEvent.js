@@ -36,12 +36,10 @@ class OverworldEvent {
         resolve();
       }
     }
-
     document.addEventListener('PersonWalkingComplete', completeHandler);
   };
 
   textMessage(resolve) {
-
     if(this.event.faceHero) {
       const obj = this.map.gameObjects[this.event.faceHero];
       obj.direction = utils.oppositeDirection(this.map.gameObjects['hero'].direction);
@@ -52,6 +50,11 @@ class OverworldEvent {
     });
 
     message.init(document.querySelector('.game-container'));
+  };
+
+  changeMap(resolve) {
+    if(this.map.overworld.startMap(window.OverworldMaps[this.event.map]));
+    resolve();
   };
 
   async init() {

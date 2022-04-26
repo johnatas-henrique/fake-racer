@@ -37,6 +37,13 @@ class Overworld {
     step();
   };
 
+  helperHeroPositionMapCheck() {
+    new KeyPressListener({
+      keyCode: 'KeyH',
+      callback: () => (this.map.helperCheckHeroMapPosition()),
+    });
+  };
+
   bindActionInput() {
     new KeyPressListener({
       keyCode: 'Enter',
@@ -52,9 +59,16 @@ class Overworld {
     })
   };
 
-  init() {
-    this.map = new OverworldMap(window.OverworldMaps.DemoRoom);
+  startMap(mapConfig) {
+    this.map = new OverworldMap(mapConfig);
+    this.map.overworld = this;
     this.map.mountObjects();
+  }
+
+  init() {
+    this.startMap(window.OverworldMaps.DemoRoom);
+
+    this.helperHeroPositionMapCheck();
 
     this.bindActionInput();
     this.bindHeroPositionCheck();
@@ -64,14 +78,14 @@ class Overworld {
 
     this.startGameLoop();
 
-    this.map.startCutscene([
-      { who: 'hero', type: 'walk', direction: 'down' },
-      { who: 'hero', type: 'walk', direction: 'down' },
-      { who: 'npcA', type: 'walk', direction: 'left' },
-      { who: 'npcA', type: 'walk', direction: 'up' },
-      { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
-      { who: 'hero', type: 'stand', direction: 'right', time: 200 },
-      { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
-    ]);
+    // this.map.startCutscene([
+    //   { who: 'hero', type: 'walk', direction: 'down' },
+    //   { who: 'hero', type: 'walk', direction: 'down' },
+    //   { who: 'npcA', type: 'walk', direction: 'left' },
+    //   { who: 'npcA', type: 'walk', direction: 'up' },
+    //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
+    //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
+    //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
+    // ]);
   };
 };
