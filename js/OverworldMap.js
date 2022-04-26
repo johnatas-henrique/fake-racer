@@ -1,6 +1,7 @@
 class OverworldMap {
   constructor(config) {
     this.gameObjects = config.gameObjects;
+    this.cutsceneSpaces = config.cutsceneSpaces || {};
     this.walls = config.walls || {};
 
     this.lowerImage = new Image();
@@ -70,6 +71,15 @@ class OverworldMap {
     };
   };
 
+  checkForFootstepCutscene() {
+    const hero = this.gameObjects['hero'];
+    const match = this.cutsceneSpaces[`${hero.x},${hero.y}`];
+
+    if (!this.isCutscenePlaying && match && match.length) {
+      this.startCutscene(match[0].events);
+    };
+  };
+
   addWall(x, y) {
     this.walls[`${x},${y}`] = true;
   };
@@ -117,28 +127,41 @@ window.OverworldMaps = {
         ],
       }),
       npcB: new Person({
-        x: utils.withGrid(3),
-        y: utils.withGrid(7),
+        x: utils.withGrid(8),
+        y: utils.withGrid(5),
         src: '../assets/images/characters/people/npc2.png',
-        behaviorLoop: [
-          { type: 'walk', direction: 'left' },
-          { type: 'stand', direction: 'up', time: 800 },
-          { type: 'walk', direction: 'up' },
-          { type: 'walk', direction: 'right' },
-          { type: 'stand', direction: 'right', time: 800 },
-          { type: 'walk', direction: 'down' },
-        ],
+        // behaviorLoop: [
+        //   { type: 'walk', direction: 'left' },
+        //   { type: 'stand', direction: 'up', time: 800 },
+        //   { type: 'walk', direction: 'up' },
+        //   { type: 'walk', direction: 'right' },
+        //   { type: 'stand', direction: 'right', time: 800 },
+        //   { type: 'walk', direction: 'down' },
+        // ],
         talking: [
           {
             events: [
               { faceHero: 'npcB', type: 'textMessage', text: 'Não consigo achar a saída.' },
               { type: 'textMessage', text: 'Saia da frente!' },
-              { who: 'hero', type: 'walk', direction: 'right' },
-              { who: 'hero', type: 'walk', direction: 'down' },
             ],
           }
         ],
       }),
+    },
+    cutsceneSpaces: {
+      [utils.asGridCoord(7, 4)]: [
+        {
+          events: [
+            { who: 'npcB', type: 'walk', direction: 'left' },
+            { who: 'npcB', type: 'stand', direction: 'up', time: 300 },
+            { type: 'textMessage', text: 'Você não pode entrar aí!' },
+            { who: 'npcB', type: 'walk', direction: 'right' },
+            { who: 'hero', type: 'walk', direction: 'down' },
+            { who: 'hero', type: 'walk', direction: 'left' },
+            { who: 'npcB', type: 'stand', direction: 'down', time: 300 },
+          ],
+        },
+      ]
     },
     walls: {
       //up

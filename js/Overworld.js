@@ -5,7 +5,7 @@ class Overworld {
     this.ctx = this.canvas.getContext('2d');
     this.map = null;
     this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 }
-  }
+  };
 
   startGameLoop() {
     const step = () => {
@@ -35,20 +35,29 @@ class Overworld {
       })
     }
     step();
-  }
+  };
 
   bindActionInput() {
     new KeyPressListener({
       keyCode: 'Enter',
       callback: () => (this.map.checkForActionCutscene()),
     });
-  }
+  };
+
+  bindHeroPositionCheck() {
+    document.addEventListener('PersonWalkingComplete', (e) => {
+      if (e.detail.whoId === 'hero') {
+        this.map.checkForFootstepCutscene();
+      }
+    })
+  };
 
   init() {
     this.map = new OverworldMap(window.OverworldMaps.DemoRoom);
     this.map.mountObjects();
 
     this.bindActionInput();
+    this.bindHeroPositionCheck();
 
     this.directionInput = new DirectionInput();
     this.directionInput.init();
@@ -64,5 +73,5 @@ class Overworld {
       { who: 'hero', type: 'stand', direction: 'right', time: 200 },
       { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
     ]);
-  }
-}
+  };
+};
