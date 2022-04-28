@@ -61,6 +61,11 @@ class OverworldEvent {
     });
   };
 
+  race(resolve) {
+    console.log('corrida agora');
+    resolve();
+  };
+
   async init() {
     return new Promise(resolve => {
       this[this.event.type](resolve);

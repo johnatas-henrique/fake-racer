@@ -127,7 +127,6 @@ window.OverworldMaps = {
             events: [
               { faceHero: 'npcA', type: 'textMessage', text: 'Estou ocupado!' },
               { type: 'textMessage', text: 'Vá logo entregar as pizzas menino!' },
-              { who: 'hero', type: 'walk', direction: 'up' },
             ],
           }
         ],
@@ -147,8 +146,8 @@ window.OverworldMaps = {
         talking: [
           {
             events: [
-              { faceHero: 'npcB', type: 'textMessage', text: 'Não consigo achar a saída.' },
-              { type: 'textMessage', text: 'Saia da frente!' },
+              { faceHero: 'npcB', type: 'textMessage', text: 'Então bora correr!' },
+              { type: 'race', text: 'Saia da frente!' },
             ],
           }
         ],
@@ -237,7 +236,7 @@ window.OverworldMaps = {
       npcA: new Person({
         x: utils.withGrid(9), 
         y: utils.withGrid(6),
-        src: '../assets/images/characters/people/npc2.png',
+        src: '../assets/images/characters/people/npc4.png',
       }),
       npcB: new Person({
         x: utils.withGrid(10), 

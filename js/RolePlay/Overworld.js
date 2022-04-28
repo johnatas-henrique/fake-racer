@@ -8,7 +8,7 @@ class Overworld {
   };
 
   startGameLoop() {
-    const step = () => {
+    const frame = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
       const cameraPerson = { ...this.map.gameObjects.hero, canvasMidpoint: this.canvasMidpoint };
@@ -31,10 +31,10 @@ class Overworld {
       this.map.drawUpperImage(this.ctx, cameraPerson);
 
       requestAnimationFrame(() => {
-        step();
+        frame();
       })
     }
-    step();
+    frame();
   };
 
   helperHeroPositionMapCheck() {
@@ -78,14 +78,15 @@ class Overworld {
 
     this.startGameLoop();
 
-    // this.map.startCutscene([
-    //   { who: 'hero', type: 'walk', direction: 'down' },
-    //   { who: 'hero', type: 'walk', direction: 'down' },
-    //   { who: 'npcA', type: 'walk', direction: 'left' },
-    //   { who: 'npcA', type: 'walk', direction: 'up' },
-    //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
-    //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
-    //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
-    // ]);
+    this.map.startCutscene([
+      { type: 'race' },
+      //   { who: 'hero', type: 'walk', direction: 'down' },
+      //   { who: 'hero', type: 'walk', direction: 'down' },
+      //   { who: 'npcA', type: 'walk', direction: 'left' },
+      //   { who: 'npcA', type: 'walk', direction: 'up' },
+      //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
+      //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
+      //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
+    ]);
   };
 };
