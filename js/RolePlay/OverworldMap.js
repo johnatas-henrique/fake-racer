@@ -108,8 +108,8 @@ window.OverworldMaps = {
     gameObjects: {
       hero: new Person({
         isPlayerControlled: true,
-        x: utils.withGrid(5),
-        y: utils.withGrid(6),
+        x: utils.withGrid(7),
+        y: utils.withGrid(5),
         src: '../assets/images/characters/people/hero.png',
       }),
       npcA: new Person({
@@ -147,7 +147,8 @@ window.OverworldMaps = {
           {
             events: [
               { faceHero: 'npcB', type: 'textMessage', text: 'Então bora correr!' },
-              { type: 'race', text: 'Saia da frente!' },
+              { who: 'npcB', type: 'race' },
+              { type: 'textMessage', text: '{depends on}' }
             ],
           }
         ],
@@ -170,7 +171,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(5, 10)]: [
         {
           events: [
-            {type: 'changeMap', map: 'Kitchen'},
+            { type: 'changeMap', map: 'Kitchen' },
           ],
         },
       ],
@@ -230,16 +231,16 @@ window.OverworldMaps = {
     gameObjects: {
       hero: new Person({
         isPlayerControlled: true,
-        x: utils.withGrid(3), 
+        x: utils.withGrid(3),
         y: utils.withGrid(9),
       }),
       npcA: new Person({
-        x: utils.withGrid(9), 
+        x: utils.withGrid(9),
         y: utils.withGrid(6),
         src: '../assets/images/characters/people/npc4.png',
       }),
       npcB: new Person({
-        x: utils.withGrid(10), 
+        x: utils.withGrid(10),
         y: utils.withGrid(8),
         src: '../assets/images/characters/people/npc3.png',
         talking: [
@@ -255,7 +256,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(5, 10)]: [
         {
           events: [
-            {type: 'changeMap', map: 'DemoRoom'},
+            { type: 'changeMap', map: 'DemoRoom' },
           ],
         },
       ],

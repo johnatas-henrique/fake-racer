@@ -26,4 +26,18 @@ const utils = {
     if (direction === 'up') return 'down';
     return 'up';
   },
+  chooseTalk: (win, lose, result) => {
+    if (result) return win;
+    return lose;
+  },
+  changeTalk: (newMessage, eventsArr, oldMessage) => {
+    const eventItem = eventsArr.find(item => {
+      const [depends, loseAlready] = oldMessage;
+      return item.text === depends || item.text === loseAlready;
+    })
+    eventItem.text = newMessage;
+  },
+  hasEventTextWin: (winMessage, eventsArr) => (
+    eventsArr.find(item => (item.text === winMessage))
+  ),
 };

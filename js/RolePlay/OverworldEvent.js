@@ -40,7 +40,7 @@ class OverworldEvent {
   };
 
   textMessage(resolve) {
-    if(this.event.faceHero) {
+    if (this.event.faceHero) {
       const obj = this.map.gameObjects[this.event.faceHero];
       obj.direction = utils.oppositeDirection(this.map.gameObjects['hero'].direction);
     }
@@ -62,8 +62,13 @@ class OverworldEvent {
   };
 
   race(resolve) {
-    console.log('corrida agora');
-    resolve();
+    const race = new RaceScene({
+      map: this.map,
+      event: this.event,
+      onComplete: () => resolve(),
+    });
+
+    race.init();
   };
 
   async init() {

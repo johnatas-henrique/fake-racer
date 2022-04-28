@@ -78,8 +78,8 @@ class Overworld {
 
     this.startGameLoop();
 
-    this.map.startCutscene([
-      { type: 'race' },
+    // this.map.startCutscene([
+      //   { type: 'race' },
       //   { who: 'hero', type: 'walk', direction: 'down' },
       //   { who: 'hero', type: 'walk', direction: 'down' },
       //   { who: 'npcA', type: 'walk', direction: 'left' },
@@ -87,6 +87,6 @@ class Overworld {
       //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
       //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
       //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
-    ]);
+    // ]);
   };
 };
