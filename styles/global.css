@@ -22,7 +22,7 @@ body {
   position: relative;
   width: 100vw;
   height: min(56.25vw, 100vh);
-  outline: 1px solid #fff;
+  outline: 0.1vw solid #fff;
   margin: 0 auto;
 }
 
