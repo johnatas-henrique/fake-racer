@@ -6,10 +6,13 @@ class OverworldMap {
     this.walls = config.walls || {};
 
     this.lowerImage = new Image();
-    this.lowerImage.src = config.lowerSrc;
+    this.lowerImage.src = config.lowerSrc || '../assets/images/maps/clean.png';
+
+    this.middleImage = new Image();
+    this.middleImage.src = config.middleSrc || '../assets/images/maps/clean.png';
 
     this.upperImage = new Image();
-    this.upperImage.src = config.upperSrc;
+    this.upperImage.src = config.upperSrc || '../assets/images/maps/clean.png';
 
     this.isCutscenePlaying = false;
   };
@@ -17,6 +20,14 @@ class OverworldMap {
   drawLowerImage(ctx, cameraPerson) {
     ctx.drawImage(
       this.lowerImage,
+      utils.withGrid(cameraPerson.canvasMidpoint.x / 16 - 1) - cameraPerson.x,
+      utils.withGrid(cameraPerson.canvasMidpoint.y / 16 - 1) - cameraPerson.y,
+    );
+  };
+
+  drawMiddleImage(ctx, cameraPerson) {
+    ctx.drawImage(
+      this.middleImage,
       utils.withGrid(cameraPerson.canvasMidpoint.x / 16 - 1) - cameraPerson.x,
       utils.withGrid(cameraPerson.canvasMidpoint.y / 16 - 1) - cameraPerson.y,
     );

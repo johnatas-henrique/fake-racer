@@ -25,11 +25,18 @@ class Overworld {
 
       this.map.drawLowerImage(this.ctx, cameraPerson);
 
-      Object.values(this.map.gameObjects)
+      const [hero, ...gameObj] = Object.values(this.map.gameObjects)
+
+      gameObj
         .sort((a, b) => a.y - b.y)
         .forEach(item => {
           item.sprite.draw(this.ctx, cameraPerson);
         });
+
+      this.map.drawMiddleImage(this.ctx, cameraPerson);
+
+      // hero render after middle-image only
+      hero.sprite.draw(this.ctx, cameraPerson);
 
       this.map.drawUpperImage(this.ctx, cameraPerson);
 
