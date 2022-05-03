@@ -49,7 +49,7 @@ window.OverworldMaps = {
           {
             events: [
               { faceHero: 'npcC', type: 'textMessage', text: 'Então bora correr!' },
-              { who: 'npcC', type: 'race' },
+              { who: 'npcC', type: 'race', textWin: 'teste ganho', textLose: 'teste perdido'},
               { type: 'textMessage', text: '{depends on}' }
             ],
           },

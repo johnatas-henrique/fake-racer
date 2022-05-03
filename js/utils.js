@@ -1,4 +1,7 @@
 const utils = {
+  gameContainer: () => document.querySelector('.game-container'),
+  pauseMenu: () => document.querySelector('.keyboard-menu'),
+  descriptionPauseMenu: () => document.querySelector('.description-box'),
   withGrid: (n) => (n * 16),
   asGridCoord: (x, y) => `${x * 16},${y * 16}`,
   nextPosition: (initialX, initialY, direction) => {

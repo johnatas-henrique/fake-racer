@@ -6,7 +6,7 @@
   height: 12vw;
   padding: 2vw;
   background: var(--menu-background);
-  border-top: 1px solid var(--menu-border-color);
+  border-top: 0.1vw solid var(--menu-border-color);
   color: var(--menu-font-color);
 }
 
