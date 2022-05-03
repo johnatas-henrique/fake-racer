@@ -12,9 +12,9 @@ class RaceEvent {
       },
     });
     this.menu.init(this.race.element);
-  };
+  }
 
   init(resolve) {
     this[this.event.type](resolve);
-  };
-};
+  }
+}

@@ -1,4 +1,3 @@
-
 window.OverworldMaps = {
   DemoRoom: {
     lowerSrc: '../assets/images/maps/DemoLower.png',
@@ -49,8 +48,8 @@ window.OverworldMaps = {
           {
             events: [
               { faceHero: 'npcC', type: 'textMessage', text: 'Então bora correr!' },
-              { who: 'npcC', type: 'race', textWin: 'teste ganho', textLose: 'teste perdido'},
-              { type: 'textMessage', text: '{depends on}' }
+              { who: 'npcC', type: 'race', textWin: 'teste ganho', textLose: 'teste perdido' },
+              { type: 'textMessage', text: '{depends on}' },
             ],
           },
         ],
@@ -79,7 +78,7 @@ window.OverworldMaps = {
       ],
     },
     walls: {
-      //up
+      // up
       [utils.asGridCoord(1, 3)]: true,
       [utils.asGridCoord(2, 3)]: true,
       [utils.asGridCoord(3, 3)]: true,
@@ -93,7 +92,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(9, 3)]: true,
       [utils.asGridCoord(10, 3)]: true,
 
-      //down
+      // down
       [utils.asGridCoord(1, 10)]: true,
       [utils.asGridCoord(2, 10)]: true,
       [utils.asGridCoord(3, 10)]: true,
@@ -105,7 +104,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(9, 10)]: true,
       [utils.asGridCoord(10, 10)]: true,
 
-      //left
+      // left
       [utils.asGridCoord(0, 4)]: true,
       [utils.asGridCoord(0, 5)]: true,
       [utils.asGridCoord(0, 6)]: true,
@@ -113,7 +112,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(0, 8)]: true,
       [utils.asGridCoord(0, 9)]: true,
 
-      //right
+      // right
       [utils.asGridCoord(11, 4)]: true,
       [utils.asGridCoord(11, 5)]: true,
       [utils.asGridCoord(11, 6)]: true,
@@ -121,7 +120,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(11, 8)]: true,
       [utils.asGridCoord(11, 9)]: true,
 
-      //fakeGameObjects
+      // fakeGameObjects
       [utils.asGridCoord(7, 6)]: true,
       [utils.asGridCoord(8, 6)]: true,
       [utils.asGridCoord(7, 7)]: true,
@@ -180,19 +179,19 @@ window.OverworldMaps = {
       ],
     },
     walls: {
-      //up
+      // up
       [utils.asGridCoord(1, 4)]: true,
       [utils.asGridCoord(2, 3)]: true,
       [utils.asGridCoord(11, 4)]: true,
 
-      //objects
+      // objects
       [utils.asGridCoord(6, 7)]: true,
       [utils.asGridCoord(7, 7)]: true,
       [utils.asGridCoord(9, 7)]: true,
       [utils.asGridCoord(10, 7)]: true,
       [utils.asGridCoord(9, 9)]: true,
       [utils.asGridCoord(10, 9)]: true,
-    }
+    },
   },
   PizzaShop: {
     lowerSrc: '../assets/images/maps/PizzaShopLower.png',
@@ -200,14 +199,17 @@ window.OverworldMaps = {
     gameObjects: {
       hero: new Person({
         isPlayerControlled: true,
-        x: utils.withGrid(1), y: utils.withGrid(7),
+        x: utils.withGrid(1),
+        y: utils.withGrid(7),
       }),
       npcA: new Person({
-        x: utils.withGrid(4), y: utils.withGrid(11),
+        x: utils.withGrid(4),
+        y: utils.withGrid(11),
         src: '../assets/images/characters/people/man1.png',
       }),
       npcB: new Person({
-        x: utils.withGrid(9), y: utils.withGrid(10),
+        x: utils.withGrid(9),
+        y: utils.withGrid(10),
         src: '../assets/images/characters/people/man2.png',
       }),
     },
@@ -237,7 +239,7 @@ window.OverworldMaps = {
       }),
     },
     walls: {
-      //up
+      // up
       [utils.asGridCoord(1, 2)]: true,
       [utils.asGridCoord(2, 2)]: true,
       [utils.asGridCoord(3, 2)]: true,
@@ -248,7 +250,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(8, 2)]: true,
       [utils.asGridCoord(9, 2)]: true,
 
-      //down
+      // down
       [utils.asGridCoord(1, 9)]: true,
       [utils.asGridCoord(2, 9)]: true,
       [utils.asGridCoord(3, 9)]: true,
@@ -258,7 +260,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(9, 9)]: true,
       [utils.asGridCoord(10, 9)]: true,
 
-      //left
+      // left
       [utils.asGridCoord(2, 3)]: true,
       [utils.asGridCoord(1, 4)]: true,
       [utils.asGridCoord(0, 5)]: true,
@@ -266,7 +268,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(0, 7)]: true,
       [utils.asGridCoord(0, 8)]: true,
 
-      //right
+      // right
       [utils.asGridCoord(8, 3)]: true,
       [utils.asGridCoord(9, 4)]: true,
       [utils.asGridCoord(10, 5)]: true,
@@ -274,7 +276,7 @@ window.OverworldMaps = {
       [utils.asGridCoord(10, 7)]: true,
       [utils.asGridCoord(10, 8)]: true,
 
-      //fakeGameObjects
+      // fakeGameObjects
       [utils.asGridCoord(1, 7)]: true,
       [utils.asGridCoord(1, 8)]: true,
       [utils.asGridCoord(2, 8)]: true,

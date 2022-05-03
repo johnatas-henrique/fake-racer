@@ -10,7 +10,7 @@ class RaceScene {
     this.hasPlayerWin = false;
     this.bindPauseListener = null;
     this.eventClass = undefined;
-  };
+  }
 
   showPauseMenu() {
     if (utils.pauseMenu()) {
@@ -22,20 +22,20 @@ class RaceScene {
         race: { element: utils.gameContainer() },
       });
       this.eventClass.init();
-    };
-  };
+    }
+  }
 
   bindPauseInput() {
     this.bindPauseListener = new KeyPressListener('KeyP', () => this.showPauseMenu());
-  };
+  }
 
   init() {
-    const talkToChange = this.map.gameObjects[this.event.who].talking[0].events;
+    const talkToChange = this.map.gameObjects[this.event.who]?.talking[0].events;
 
     this.bindPauseInput();
 
     if (!utils.hasEventTextWin(this.textWin, talkToChange)) {
-      //setTimeout here below just to simulate a race, will not be here on final code
+      // setTimeout here below just to simulate a race, will not be here on final code
       this.timeout = setTimeout(() => {
         this.isFinished = true;
         clearTimeout(this.timeout);
@@ -55,5 +55,5 @@ class RaceScene {
     } else {
       this.onComplete();
     }
-  };
-};
+  }
+}

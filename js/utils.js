@@ -34,13 +34,13 @@ const utils = {
     return lose;
   },
   changeTalk: (newMessage, eventsArr, oldMessage) => {
-    const eventItem = eventsArr.find(item => {
+    const eventItem = eventsArr.find((item) => {
       const [depends, loseAlready] = oldMessage;
       return item.text === depends || item.text === loseAlready;
-    })
+    });
     eventItem.text = newMessage;
   },
   hasEventTextWin: (winMessage, eventsArr) => (
-    eventsArr.find(item => (item.text === winMessage))
+    eventsArr.find((item) => (item.text === winMessage))
   ),
 };

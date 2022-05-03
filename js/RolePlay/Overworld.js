@@ -4,8 +4,8 @@ class Overworld {
     this.canvas = this.element.querySelector('.game-canvas');
     this.ctx = this.canvas.getContext('2d');
     this.map = null;
-    this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 }
-  };
+    this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
+  }
 
   startGameLoop() {
     const frame = () => {
@@ -16,7 +16,7 @@ class Overworld {
         canvasMidpoint: this.canvasMidpoint,
       };
 
-      Object.values(this.map.gameObjects).forEach(item => {
+      Object.values(this.map.gameObjects).forEach((item) => {
         item.update({
           arrow: this.directionInput.direction,
           map: this.map,
@@ -25,18 +25,15 @@ class Overworld {
 
       this.map.drawLowerImage(this.ctx, cameraPerson);
 
-      const [hero, ...gameObj] = Object.values(this.map.gameObjects)
+      const gameObj = Object.values(this.map.gameObjects);
 
       gameObj
         .sort((a, b) => a.y - b.y)
-        .forEach(item => {
+        .forEach((item) => {
           item.sprite.draw(this.ctx, cameraPerson);
         });
 
       this.map.drawMiddleImage(this.ctx, cameraPerson);
-
-      // hero render after middle-image only
-      hero.sprite.draw(this.ctx, cameraPerson);
 
       this.map.drawUpperImage(this.ctx, cameraPerson);
 
@@ -45,23 +42,23 @@ class Overworld {
       });
     };
     frame();
-  };
+  }
 
   helperHeroPositionMapCheck() {
     new KeyPressListener('KeyH', () => this.map.helperCheckHeroMapPosition());
-  };
+  }
 
   bindActionInput() {
     new KeyPressListener('Enter', () => this.map.checkForActionCutscene());
-  };
+  }
 
   bindHeroPositionCheck() {
     document.addEventListener('PersonWalkingComplete', (e) => {
       if (e.detail.whoId === 'hero') {
         this.map.checkForFootstepCutscene();
-      };
+      }
     });
-  };
+  }
 
   startMap(mapConfig) {
     this.map = new OverworldMap(mapConfig);
@@ -82,15 +79,15 @@ class Overworld {
 
     this.startGameLoop();
 
-    // this.map.startCutscene([
-    //   { type: 'race' },
-    //   { who: 'hero', type: 'walk', direction: 'down' },
-    //   { who: 'hero', type: 'walk', direction: 'down' },
-    //   { who: 'npcA', type: 'walk', direction: 'left' },
-    //   { who: 'npcA', type: 'walk', direction: 'up' },
-    //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
-    //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
-    //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
-    // ]);
-  };
-};
+    this.map.startCutscene([
+      // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'teste ganho', textLose: 'teste perdido' },
+      //   { who: 'hero', type: 'walk', direction: 'down' },
+      //   { who: 'hero', type: 'walk', direction: 'down' },
+      //   { who: 'npcA', type: 'walk', direction: 'left' },
+      //   { who: 'npcA', type: 'walk', direction: 'up' },
+      //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
+      //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
+      //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
+    ]);
+  }
+}

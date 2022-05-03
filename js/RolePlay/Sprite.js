@@ -7,17 +7,17 @@ class Sprite {
     this.offsetY = config.offsetY || -4;
     this.image.onload = () => {
       this.isLoaded = true;
-    }
+    };
 
     // Shadow
     this.shadow = new Image();
     this.useShadow = true;
     if (this.useShadow) {
-      this.shadow.src = '../assets/images/characters/shadow.png'
+      this.shadow.src = '../assets/images/characters/shadow.png';
     }
     this.shadow.onload = () => {
       this.isShadowLoaded = true;
-    }
+    };
 
     // Animation and Initial Animation State
     this.animations = config.animations || {
@@ -30,7 +30,7 @@ class Sprite {
       'walk-left': [[12, 2], [13, 2], [14, 2], [15, 2], [16, 2], [17, 2]],
       'walk-down': [[18, 2], [19, 2], [20, 2], [21, 2], [22, 2], [23, 2]],
 
-    }
+    };
     this.currentAnimation = config.currentAnimation || 'walk-down';
     this.currentAnimationFrame = 0;
 
@@ -67,20 +67,22 @@ class Sprite {
   }
 
   draw(ctx, cameraPerson) {
-    const x = this.gameObject.x + this.offsetX + utils.withGrid(cameraPerson.canvasMidpoint.x / 16 - 1) - cameraPerson.x;
-    const y = this.gameObject.y + this.offsetY + utils.withGrid(cameraPerson.canvasMidpoint.y / 16 - 2) - cameraPerson.y;
+    const { x: cameraX, y: cameraY, canvasMidpoint } = cameraPerson;
+    const gridX = canvasMidpoint.x / 16 - 1;
+    const gridY = canvasMidpoint.y / 16 - 2;
 
-    this.isShadowLoaded && ctx.drawImage(this.shadow, x - 8, y + 2);
+    const x = this.gameObject.x + this.offsetX + utils.withGrid(gridX) - cameraX;
+    const y = this.gameObject.y + this.offsetY + utils.withGrid(gridY) - cameraY;
+
+    if (this.isShadowLoaded) {
+      ctx.drawImage(this.shadow, x - 8, y + 2);
+    }
 
     const [frameX, frameY] = this.frame;
 
-    this.isLoaded && ctx.drawImage(
-      this.image,
-      frameX * 16, frameY * 32,
-      16, 32,
-      x, y,
-      16, 32
-    );
+    if (this.isLoaded) {
+      ctx.drawImage(this.image, frameX * 16, frameY * 32, 16, 32, x, y, 16, 32);
+    }
 
     this.updateAnimationProgress();
   }

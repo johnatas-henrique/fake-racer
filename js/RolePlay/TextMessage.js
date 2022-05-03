@@ -24,7 +24,7 @@ class TextMessage {
     this.actionListener = new KeyPressListener('Enter', () => {
       this.done();
     });
-  };
+  }
 
   done() {
     if (this.revealingText.isDone) {
@@ -34,11 +34,11 @@ class TextMessage {
     } else {
       this.revealingText.warpToDone();
     }
-  };
+  }
 
   init(container) {
     this.createElement();
     container.appendChild(this.element);
     this.revealingText.init();
-  };
-};
+  }
+}

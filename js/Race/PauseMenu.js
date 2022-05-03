@@ -9,28 +9,28 @@ class PauseMenu {
       description: 'Volta a página anterior',
       handler: () => {
         this.keyboardMenu.setOptions(this.getPages().root);
-      }
+      },
     };
 
     return {
       root: [
         {
           label: 'Ataque',
-          description: "Escolha um ataque",
+          description: 'Escolha um ataque',
           handler: () => {
             this.keyboardMenu.setOptions(this.getPages().attacks);
           },
         },
         {
           label: 'Items',
-          description: "Escolha um item",
+          description: 'Escolha um item',
           handler: () => {
             console.log('página de items');
           },
         },
         {
           label: 'Troca',
-          description: "Escolha outro pokémon",
+          description: 'Escolha outro pokémon',
           handler: () => {
             console.log('página de troca');
           },
@@ -41,8 +41,8 @@ class PauseMenu {
           label: 'My first atk',
           description: 'Does something',
           handler: () => {
-            console.log('attack!')
-          }
+            console.log('attack!');
+          },
         },
         backOption,
       ],
@@ -50,15 +50,15 @@ class PauseMenu {
         backOption,
       ],
     };
-  };
+  }
 
   showMenu(container) {
     this.keyboardMenu = new KeyboardMenu();
     this.keyboardMenu.init(container, 'pause-menu');
     this.keyboardMenu.setOptions(this.getPages().root);
-  };
+  }
 
   init(container) {
-    this.showMenu(container)
-  };
-};
+    this.showMenu(container);
+  }
+}

@@ -4,7 +4,7 @@ class KeyboardMenu {
     this.up = null;
     this.down = null;
     this.prevFocus = null;
-  };
+  }
 
   setOptions(options) {
     this.options = options;
@@ -24,7 +24,7 @@ class KeyboardMenu {
       `);
     }).join('');
 
-    this.element.querySelectorAll('button').forEach(button => {
+    this.element.querySelectorAll('button').forEach((button) => {
       button.addEventListener('click', () => {
         const chosenOption = this.options[button.dataset.button];
         chosenOption.handler();
@@ -43,7 +43,7 @@ class KeyboardMenu {
     setTimeout(() => {
       this.element.querySelector('button[data-button]:not([disabled])').focus();
     }, 10);
-  };
+  }
 
   createElement(menuType) {
     this.element = document.createElement('div');
@@ -52,9 +52,9 @@ class KeyboardMenu {
     // Description box
     this.descriptionElement = document.createElement('div');
     this.descriptionElement.classList.add('description-box');
-    this.descriptionElement.innerHTML = (`<p>Descrição das opções...</p>`);
+    this.descriptionElement.innerHTML = ('<p>Descrição das opções...</p>');
     this.descriptionElementText = this.descriptionElement.querySelector('p');
-  };
+  }
 
   end() {
     this.element.remove();
@@ -74,7 +74,7 @@ class KeyboardMenu {
       const prevButton = Array
         .from(this.element.querySelectorAll('button[data-button]'))
         .reverse()
-        .find(item => item.dataset.button < current && !item.disabled);
+        .find((item) => item.dataset.button < current && !item.disabled);
 
       prevButton?.focus();
     });
@@ -82,9 +82,9 @@ class KeyboardMenu {
       const current = Number(this.prevFocus.getAttribute('data-button'));
       const nextButton = Array
         .from(this.element.querySelectorAll('button[data-button]'))
-        .find(item => item.dataset.button > current && !item.disabled);
+        .find((item) => item.dataset.button > current && !item.disabled);
 
       nextButton?.focus();
     });
-  };
-};
+  }
+}

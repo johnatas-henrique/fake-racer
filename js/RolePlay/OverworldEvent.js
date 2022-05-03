@@ -2,7 +2,7 @@ class OverworldEvent {
   constructor(config) {
     this.map = config.map;
     this.event = config.event;
-  };
+  }
 
   stand(resolve) {
     const who = this.map.gameObjects[this.event.who];
@@ -17,10 +17,10 @@ class OverworldEvent {
         document.removeEventListener('PersonStandingComplete', completeHandler);
         resolve();
       }
-    }
+    };
 
     document.addEventListener('PersonStandingComplete', completeHandler);
-  };
+  }
 
   walk(resolve) {
     const who = this.map.gameObjects[this.event.who];
@@ -35,14 +35,14 @@ class OverworldEvent {
         document.removeEventListener('PersonWalkingComplete', completeHandler);
         resolve();
       }
-    }
+    };
     document.addEventListener('PersonWalkingComplete', completeHandler);
-  };
+  }
 
   textMessage(resolve) {
     if (this.event.faceHero) {
       const obj = this.map.gameObjects[this.event.faceHero];
-      obj.direction = utils.oppositeDirection(this.map.gameObjects['hero'].direction);
+      obj.direction = utils.oppositeDirection(this.map.gameObjects.hero.direction);
     }
     const message = new TextMessage({
       text: this.event.text,
@@ -50,7 +50,7 @@ class OverworldEvent {
     });
 
     message.init(document.querySelector('.game-container'));
-  };
+  }
 
   changeMap(resolve) {
     const sceneTransition = new SceneTransition();
@@ -59,7 +59,7 @@ class OverworldEvent {
       resolve();
       sceneTransition.fadeOut();
     });
-  };
+  }
 
   race(resolve) {
     const race = new RaceScene({
@@ -69,11 +69,11 @@ class OverworldEvent {
     });
 
     race.init();
-  };
+  }
 
   async init() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this[this.event.type](resolve);
-    })
-  };
-};
+    });
+  }
+}
