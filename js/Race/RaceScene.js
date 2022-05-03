@@ -5,6 +5,7 @@ class RaceScene {
     this.onComplete = config.onComplete;
     this.isFinished = false;
     this.timeout = null;
+    this.raceId = config.event.raceId;
     this.textWin = config.event.textWin || 'Win (need a text here)';
     this.textLose = config.event.textLose || 'Lose (need a text here)';
     this.hasPlayerWin = false;
@@ -51,7 +52,7 @@ class RaceScene {
         }
         this.bindPauseListener.unbind();
         this.onComplete();
-      }, 20000);
+      }, 2000);
     } else {
       this.onComplete();
     }

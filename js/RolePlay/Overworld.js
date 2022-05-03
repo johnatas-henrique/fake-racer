@@ -5,6 +5,7 @@ class Overworld {
     this.ctx = this.canvas.getContext('2d');
     this.map = null;
     this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
+    this.keyPressListeners = [];
   }
 
   startGameLoop() {
@@ -45,11 +46,17 @@ class Overworld {
   }
 
   helperHeroPositionMapCheck() {
-    new KeyPressListener('KeyH', () => this.map.helperCheckHeroMapPosition());
+    this.keyPressListeners.push(new KeyPressListener(
+      'KeyH',
+      () => this.map.helperCheckHeroMapPosition(),
+    ));
   }
 
   bindActionInput() {
-    new KeyPressListener('Enter', () => this.map.checkForActionCutscene());
+    this.keyPressListeners.push(new KeyPressListener(
+      'Enter',
+      () => this.map.checkForActionCutscene(),
+    ));
   }
 
   bindHeroPositionCheck() {
