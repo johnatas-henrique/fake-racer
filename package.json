@@ -1,11 +1,15 @@
 {
-  "name": "race-rpg",
-  "version": "1.0.0",
+  "name": "fake-racer",
+  "version": "2.19.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "standard-version",
+    "release:github": "conventional-github-releaser -p angular -t",
+    "release:githuball": "conventional-github-releaser -p angular -r 0 -t",
+    "release:tags": "git push --follow-tags origin main",
+    "afterrelease": "npm run release:tags && npm run release:github"
   },
   "keywords": [],
   "author": "",
