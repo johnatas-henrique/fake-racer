@@ -19,29 +19,37 @@ class Menu {
     this.arrowDownBlink = false;
     this.menuTitle = { pos: 0, direction: 1 };
     this.menuPhrase = {
-      0: 'Circuito: ',
-      1: 'Oponentes: ',
-      2: 'Dificuldade: ',
-      3: 'Música: ',
-      4: 'Volume da música: ',
-      5: 'Iniciar ',
+      track: 'Circuito: ',
+      opponents: 'Oponentes: ',
+      difficulty: 'Dificuldade: ',
+      isMusicActive: 'Música: ',
+      musicVolume: 'Volume da música: ',
+      isRaceOn: 'Iniciar ',
     };
     this.menu = {
-      0: Object.keys(utils.tracks),
-      1: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19'],
-      2: ['novato', 'corredor', 'campeão'],
-      3: ['não', 'sim'],
-      4: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-      5: ['corrida'],
+      track: Object.keys(utils.tracks),
+      opponents: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19'],
+      difficulty: ['novato', 'corredor', 'campeão'],
+      isMusicActive: ['não', 'sim'],
+      musicVolume: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      isRaceOn: ['corrida'],
     };
-    this.selectedOptions = {
-      0: 'canada',
-      1: '19',
-      2: 'novato',
-      3: 'não',
-      4: '1',
-      5: 'corrida',
+    this.menuOptions = {
+      0: 'track',
+      1: 'opponents',
+      2: 'difficulty',
+      3: 'isMusicActive',
+      4: 'musicVolume',
+      5: 'isRaceOn',
     };
+    // window.gameState.menuSelectedOptions = {
+    //   0: 'canada',
+    //   1: '19',
+    //   2: 'novato',
+    //   3: 'não',
+    //   4: '1',
+    //   5: 'corrida',
+    // };
   }
 
   directionPressed() {
@@ -57,9 +65,9 @@ class Menu {
     this.keyPressListeners.push(new KeyPressListener('Enter', () => this.acceptOption()));
   }
 
-  adjustDifficulty() {
-    if (this.selectedOptions[2] === 'novato') return 0.87;
-    if (this.selectedOptions[2] === 'corredor') return 0.935;
+  static adjustDifficulty() {
+    if (window.gameState.menuSelectedOptions[2] === 'novato') return 0.87;
+    if (window.gameState.menuSelectedOptions[2] === 'corredor') return 0.935;
     return 1;
   }
 
@@ -67,32 +75,35 @@ class Menu {
     const roadParam = road;
     const zero = 0;
     utils.drivers.forEach((driver) => opponents.push(new Opponent(
-      driver.power * this.adjustDifficulty(),
-      utils.startPosition(utils.tracks[this.selectedOptions[zero]].trackSize, driver.position),
+      driver.power * Menu.adjustDifficulty(),
+
+      utils.startPosition(
+        utils.tracks[window.gameState.menuSelectedOptions[zero]].trackSize,
+        driver.position,
+      ),
+
       driver.trackSide,
-
       'opponents',
-
       driver.name,
-
       driver.carColor,
     )));
 
     opponents.forEach((opponentNumber) => opponentNumber.create());
-    opponents.splice(this.selectedOptions[1], opponents.length);
-    roadParam.trackName = this.selectedOptions[zero];
+    opponents.splice(window.gameState.menuSelectedOptions[1], opponents.length);
+    roadParam.trackName = window.gameState.menuSelectedOptions[zero];
     roadParam.create();
-    player.create(this, utils.tracks[this.selectedOptions[zero]].trackSize);
-    director.create(road, this.selectedOptions[0]);
+    player.create(this, utils.tracks[window.gameState.menuSelectedOptions[zero]].trackSize);
+    director.create(road, window.gameState.menuSelectedOptions[0]);
   }
 
   update(deltaTime, player, road, opponents, director) {
+    const { menuSelectedOptions } = window.gameState;
     this.deltaTime += deltaTime;
     const maxX = Object.keys(this.menu).length - 1;
-    const maxY = this.menu[this.menuX].length - 1;
+    const maxY = this.menu[this.menuOptions[this.menuX]].length - 1;
 
     if (this.isConfirmButtonPressed && !this.showMenu) {
-      this.selectedOptions[3] = 'sim';
+      menuSelectedOptions.isMusicActive = 'sim';
       this.showMenu = 1;
       this.menuTitle.pos = 0;
       this.isConfirmButtonPressed = false;
@@ -107,25 +118,25 @@ class Menu {
       if (this.menuX < maxX && this.directionPressed() === 'down') {
         this.arrowDownBlink = !this.arrowDownBlink;
         this.menuX += 1;
-        this.menuY = this.menu[this.menuX]
-          .findIndex((item) => item === this.selectedOptions[this.menuX]);
+        this.menuY = this.menu[this.menuOptions[this.menuX]]
+          .findIndex((item) => item === menuSelectedOptions[this.menuOptions[this.menuX]]);
       } else if (this.menuX === maxX && this.directionPressed() === 'down') {
         this.arrowDownBlink = 1;
         this.menuX = 0;
-        this.menuY = this.menu[this.menuX]
-          .findIndex((item) => item === this.selectedOptions[this.menuX]);
+        this.menuY = this.menu[this.menuOptions[this.menuX]]
+          .findIndex((item) => item === menuSelectedOptions[this.menuOptions[this.menuX]]);
       }
 
       if (this.menuX > 0 && this.directionPressed() === 'up') {
         this.arrowUpBlink = 1;
         this.menuX -= 1;
-        this.menuY = this.menu[this.menuX]
-          .findIndex((item) => item === this.selectedOptions[this.menuX]);
+        this.menuY = this.menu[this.menuOptions[this.menuX]]
+          .findIndex((item) => item === menuSelectedOptions[this.menuOptions[this.menuX]]);
       } else if (this.menuX === 0 && this.directionPressed() === 'up') {
         this.arrowUpBlink = 1;
         this.menuX = maxX;
-        this.menuY = this.menu[this.menuX]
-          .findIndex((item) => item === this.selectedOptions[this.menuX]);
+        this.menuY = this.menu[this.menuOptions[this.menuX]]
+          .findIndex((item) => item === menuSelectedOptions[this.menuOptions[this.menuX]]);
       }
 
       if (this.menuY < maxY && this.directionPressed() === 'right') this.menuY += 1;
@@ -137,7 +148,8 @@ class Menu {
       const lastMenuOption = Object.keys(this.menu).length - 1;
 
       if (this.menuX !== lastMenuOption) {
-        this.selectedOptions[this.menuX] = this.menu[this.menuX][this.menuY];
+        const changeOption = this.menu[this.menuOptions[this.menuX]][this.menuY];
+        menuSelectedOptions[this.menuOptions[this.menuX]] = changeOption;
         this.isConfirmButtonPressed = false;
       }
 
@@ -187,12 +199,12 @@ class Menu {
       const maxX = Object.keys(this.menu).length - 1;
       const menuLow = this.menuX - 1 >= 0 ? this.menuX - 1 : maxX;
       const menuHigh = this.menuX + 1 <= maxX ? this.menuX + 1 : 0;
-      const lowText = `${this.menuPhrase[menuLow]} ${this.selectedOptions[menuLow].toLocaleUpperCase()}`;
-      const highText = `${this.menuPhrase[menuHigh]} ${this.selectedOptions[menuHigh].toLocaleUpperCase()}`;
+      const lowText = `${this.menuPhrase[this.menuOptions[menuLow]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuLow]].toLocaleUpperCase()}`;
+      const highText = `${this.menuPhrase[this.menuOptions[menuHigh]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuHigh]].toLocaleUpperCase()}`;
 
       this.render.roundRect('#2C69EB', 100, 100, 440, 170, 20, true, false);
       this.render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
-      const phrase = `${this.menuPhrase[this.menuX]} ${this.menu[this.menuX][this.menuY].toLocaleUpperCase()}`;
+      const phrase = `${this.menuPhrase[this.menuOptions[this.menuX]]} ${this.menu[this.menuOptions[this.menuX]][this.menuY].toLocaleUpperCase()}`;
       this.render.drawText('#050B1A', phrase, 320, 180 + (this.menuTitle.pos / 4), 1.6);
       this.render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);
 

@@ -58,17 +58,4 @@ class HandleInput {
   isKeyDown(key) {
     return Boolean(this.map[key.toLowerCase()]);
   }
-
-  static toggleFullScreen() {
-    const gameContainer = document.querySelector('.container');
-    if (!document.fullscreenElement) {
-      gameContainer.requestFullscreen().catch((err) => {
-        alert(`Error, can't enable full-screen ${err.message}`);
-      });
-    } else {
-      document.exitFullscreen();
-    }
-  }
 }
-
-export default HandleInput;

@@ -1,22 +1,21 @@
-import { canvas } from '../util.js';
-
 const arrPart = [];
+const { width: canvasWidth, height: canvasHeight } = utils.htmlElements.canvas();
 
 const connect = (render) => {
-  const { renderingContext } = render;
+  const { ctx } = render;
   for (let a = 0; a < arrPart.length; a += 1) {
     for (let b = a; b < arrPart.length; b += 1) {
       const distance = ((arrPart[a].x - arrPart[b].x) * (arrPart[a].x - arrPart[b].x))
         + ((arrPart[a].y - arrPart[b].y) * (arrPart[a].y - arrPart[b].y));
-      if (distance < (canvas.width / 4) * (canvas.height / 4)) {
-        const max = (canvas.width / 4) * (canvas.height / 4);
+      if (distance < (canvasWidth / 4) * (canvasHeight / 4)) {
+        const max = (canvasWidth / 4) * (canvasHeight / 4);
         const opacity = 1 - (distance / max);
-        renderingContext.strokeStyle = `rgba(128, 128, 128, ${opacity})`;
-        renderingContext.lineWidth = 0.1;
-        renderingContext.beginPath();
-        renderingContext.moveTo(arrPart[a].x, arrPart[a].y);
-        renderingContext.lineTo(arrPart[b].x, arrPart[b].y);
-        renderingContext.stroke();
+        ctx.strokeStyle = `rgba(128, 128, 128, ${opacity})`;
+        ctx.lineWidth = 0.1;
+        ctx.beginPath();
+        ctx.moveTo(arrPart[a].x, arrPart[a].y);
+        ctx.lineTo(arrPart[b].x, arrPart[b].y);
+        ctx.stroke();
       }
     }
   }
@@ -35,24 +34,24 @@ class Particle {
   }
 
   update() {
-    if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-    if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+    if (this.x > canvasWidth || this.x < 0) this.directionX = -this.directionX;
+    if (this.y > canvasHeight || this.y < 0) this.directionY = -this.directionY;
     this.x += this.directionX;
     this.y += this.directionY;
   }
 
   render(render) {
-    const { renderingContext } = render;
-    renderingContext.beginPath();
-    renderingContext.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-    renderingContext.fillStyle = this.color;
-    renderingContext.fill();
+    const { ctx } = render;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+    ctx.fillStyle = this.color;
+    ctx.fill();
     connect(render);
   }
 }
 
-const init = () => {
-  const { height, width } = canvas;
+const initParticles = () => {
+  const { height, width } = utils.htmlElements.canvas();
   const numberOfParticles = 32;
   for (let i = 0; i < numberOfParticles; i += 1) {
     const size = (Math.random() * 1.5) + 1.5;
@@ -66,6 +65,4 @@ const init = () => {
   return arrPart;
 };
 
-const particles = init();
-
-export default particles;
+window.particles = initParticles();

@@ -1,7 +1,5 @@
-import { canvas } from '../util.js';
-
 const arrRain = [];
-const { width, height } = canvas;
+const { width, height } = utils.htmlElements.canvas();
 
 class RainDrop {
   constructor() {
@@ -36,9 +34,7 @@ class RainDrop {
   }
 }
 
-const rain = (rainDrops) => {
+window.rain = (rainDrops) => {
   for (let i = 0; i < rainDrops; i += 1) arrRain.push(new RainDrop());
   return arrRain;
 };
-
-export default rain;

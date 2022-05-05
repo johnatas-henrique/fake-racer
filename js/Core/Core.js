@@ -21,6 +21,11 @@ class Core {
         this.render.clear(0, 0, this.canvas.width, this.canvas.height);
 
         if (window.gameState.mode === 'menu') {
+          const fpsClassList = Array.from(utils.htmlElements.fps().firstElementChild.classList);
+          if (fpsClassList.includes('hidden')) {
+            utils.htmlElements.fps().firstElementChild.classList.remove('hidden');
+          }
+
           this.menu.drawMenu();
           this.menu.update(this.deltaTime);
         }
@@ -32,6 +37,16 @@ class Core {
       requestAnimationFrame((timeCounter) => frame(timeCounter));
     };
     frame();
+  }
+
+  static toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      utils.htmlElements.gameContainer().requestFullscreen().catch((err) => {
+        alert(`Error, can't enable full-screen ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
   }
 
   init() {
@@ -46,9 +61,10 @@ class Core {
     this.menu.init();
 
     this.stats = new Stats();
-    const fps = utils.htmlElements.fps();
-    fps.appendChild(this.stats.dom);
-    fps.firstElementChild.classList.remove('hidden');
+    utils.htmlElements.fps().appendChild(this.stats.dom);
+
+    utils.htmlElements.fullScreenBtn()
+      .addEventListener('click', Core.toggleFullScreen);
 
     this.startGameLoop();
   }
