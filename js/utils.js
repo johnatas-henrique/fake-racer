@@ -7,6 +7,9 @@ const utils = {
     fps: () => document.querySelector('#fps'),
     fullScreenBtn: () => document.getElementById('fullScreenBtn'),
   },
+  unbinder: (keyToUnbind, coreClass) => coreClass.inputs.keyPressListeners
+    .find(({ keyCode }) => keyCode === keyToUnbind),
+
   // RPG Functions
   withGrid: (n) => (n * 16),
   asGridCoord: (x, y) => `${x * 16},${y * 16}`,

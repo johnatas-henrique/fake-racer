@@ -4,6 +4,11 @@ class Core {
     this.canvas = this.element.querySelector('.game-canvas');
     this.ctx = this.canvas.getContext('2d');
     this.render = new Render(this.ctx);
+    this.inputs = {
+      oneDirection: null,
+      multiDirections: null,
+      keyPressListeners: [],
+    };
     this.menu = null;
     this.stats = null;
     this.fps = 61;
@@ -20,7 +25,7 @@ class Core {
       if (this.deltaTime > utils.secondInMS / this.fps) {
         this.render.clear(0, 0, this.canvas.width, this.canvas.height);
 
-        if (window.gameState.mode === 'menu') {
+        if (window.gameState.mode === 'menuScene') {
           const fpsClassList = Array.from(utils.htmlElements.fps().firstElementChild.classList);
           if (fpsClassList.includes('hidden')) {
             utils.htmlElements.fps().firstElementChild.classList.remove('hidden');
@@ -28,6 +33,12 @@ class Core {
 
           this.menu.drawMenu();
           this.menu.update(this.deltaTime);
+        }
+
+        if (window.gameState.mode === 'singleRaceScene') {
+          // console.log('raceScene');
+          // console.log(this.inputs.oneDirection);
+          // console.log(this.inputs.oneDirection);
         }
 
         this.stats.end();
@@ -50,13 +61,12 @@ class Core {
   }
 
   init() {
-    this.directionInput = new DirectionInput();
-    this.directionInput.init();
+    this.inputs.oneDirection = new DirectionInput();
 
     this.menu = new Menu({
       animations: window.particles,
       render: this.render,
-      controls: this.directionInput,
+      core: this,
     });
     this.menu.init();
 

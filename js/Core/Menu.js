@@ -1,8 +1,8 @@
 class Menu {
   constructor(config) {
+    this.core = config.core;
     this.render = config.render;
     this.animations = config.animations;
-    this.controls = config.controls;
     this.menuArrowKeys = new Image();
     this.menuArrowKeys.src = '../images/sprites/other/arrowKeys.png';
     this.menuEnterKey = new Image();
@@ -42,19 +42,11 @@ class Menu {
       4: 'musicVolume',
       5: 'isRaceOn',
     };
-    // window.gameState.menuSelectedOptions = {
-    //   0: 'canada',
-    //   1: '19',
-    //   2: 'novato',
-    //   3: 'não',
-    //   4: '1',
-    //   5: 'corrida',
-    // };
   }
 
   directionPressed() {
-    if (!this.controls.heldDirections.length) return null;
-    return this.controls.heldDirections[0];
+    if (!this.core.inputs.oneDirection.heldDirections.length) return null;
+    return this.core.inputs.oneDirection.heldDirections[0];
   }
 
   acceptOption() {
@@ -62,41 +54,17 @@ class Menu {
   }
 
   init() {
-    this.keyPressListeners.push(new KeyPressListener('Enter', () => this.acceptOption()));
+    this.core.inputs.keyPressListeners.push(new KeyPressListener('Enter', () => this.acceptOption()));
+    this.core.inputs.oneDirection.init();
   }
 
-  static adjustDifficulty() {
-    if (window.gameState.menuSelectedOptions[2] === 'novato') return 0.87;
-    if (window.gameState.menuSelectedOptions[2] === 'corredor') return 0.935;
-    return 1;
+  enterSingleRaceScene() {
+    this.core.inputs.oneDirection.unbind();
+    utils.unbinder('Enter', this.core).unbind();
+    window.gameState.mode = 'singleRaceScene';
   }
 
-  startRace(player, road, opponents, director) {
-    const roadParam = road;
-    const zero = 0;
-    utils.drivers.forEach((driver) => opponents.push(new Opponent(
-      driver.power * Menu.adjustDifficulty(),
-
-      utils.startPosition(
-        utils.tracks[window.gameState.menuSelectedOptions[zero]].trackSize,
-        driver.position,
-      ),
-
-      driver.trackSide,
-      'opponents',
-      driver.name,
-      driver.carColor,
-    )));
-
-    opponents.forEach((opponentNumber) => opponentNumber.create());
-    opponents.splice(window.gameState.menuSelectedOptions[1], opponents.length);
-    roadParam.trackName = window.gameState.menuSelectedOptions[zero];
-    roadParam.create();
-    player.create(this, utils.tracks[window.gameState.menuSelectedOptions[zero]].trackSize);
-    director.create(road, window.gameState.menuSelectedOptions[0]);
-  }
-
-  update(deltaTime, player, road, opponents, director) {
+  update(deltaTime) {
     const { menuSelectedOptions } = window.gameState;
     this.deltaTime += deltaTime;
     const maxX = Object.keys(this.menu).length - 1;
@@ -162,9 +130,9 @@ class Menu {
         const okBtn = document.querySelector('.rightControls').firstElementChild;
         okBtn.classList.toggle('hidden');
         // this.startRace(player, road, opponents, director);
-        window.gameState.mode = 'singleRace';
         this.isConfirmButtonPressed = false;
         fps.firstElementChild.classList.remove('hidden');
+        this.enterSingleRaceScene();
       }
     }
   }
