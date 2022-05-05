@@ -51,7 +51,7 @@ canvas {
   background: #FAF6F2;
 }
 
-#info, .hud-container, #touchControls {
+#info, .hud-container, .touch-controls {
   color: white;
   text-shadow: 1px 1px 2px black;
   position: absolute;
@@ -71,11 +71,12 @@ canvas {
   flex-direction: column;
   height: 3vw;
   padding-right: 0.5vw;
+  
   top: 0vw;
   width: 100%;
 }
 
-.fpsCanvas {
+.fps-canvas {
   cursor: pointer;
   height: 3vw;
   margin-left: auto;
@@ -84,7 +85,7 @@ canvas {
   width: 4vw;
 }
 
-.controlButtons {
+.control-buttons {
   border-radius: 50%;
   display: block;
   font-size: 6vw;
@@ -128,20 +129,8 @@ canvas {
   background-color: rgba(255, 215, 0, 0.5);
 }
 
-.mute {
-  background: url(../images/sprites/other/mute.png);
-  background-size: cover;
-  cursor: pointer;
-  display: block;
-  height: 3vw;
-  width: 3vw;
-}
 
-#mute.off {
-  background-position: 3vw 0;
-}
-
-#touchControls {
+.touch-controls {
   bottom: 0em;
   display: flex;
   justify-content: space-between;
@@ -149,16 +138,12 @@ canvas {
   margin-bottom: 1em;
 }
 
-.hidden {
-  display: none;
-}
-
 .filter {
   filter: brightness(75%);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  #touchControls {
+  .touch-controls {
     display: none;
   }
 
@@ -167,9 +152,10 @@ canvas {
   }
 }
 
-.interfaceBtn {
+.interface-btn {
   background: transparent;
   border: 0;
+  cursor: pointer;
   height: 3vw;
   width: 3vw;
 }
@@ -179,12 +165,30 @@ canvas {
   max-width: 96%;
 }
 
-.pause {
+.pause-btn {
   background: url(../images/sprites/other/pause-play.png);
   background-size: 200%;
   margin-right: 0.2vw;
 }
 
-#pauseBtn.off {
+.pause-btn.off {
   background-position: 3vw 0;
+}
+
+
+.mute-btn {
+  background: url(../images/sprites/other/mute.png);
+  background-size: cover;
+  cursor: pointer;
+  display: block;
+  height: 3vw;
+  width: 3vw;
+}
+
+.mute-btn.off {
+  background-position: 3vw 0;
+}
+
+.hidden {
+  display: none;
 }
