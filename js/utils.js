@@ -4,11 +4,25 @@ const utils = {
     canvas: () => document.querySelector('.game-canvas'),
     pauseMenu: () => document.querySelector('.keyboard-menu'),
     descriptionPauseMenu: () => document.querySelector('.description-box'),
-    fps: () => document.querySelector('#fps'),
-    fullScreenBtn: () => document.getElementById('fullScreenBtn'),
+    fps: () => document.querySelector('.fps'),
+    fullScreenBtn: () => document.querySelector('.fullscreen-btn'),
+    pauseBtn: () => document.querySelector('.pause-btn'),
+    muteBtn: () => document.querySelector('.mute-btn'),
   },
-  unbinder: (keyToUnbind, coreClass) => coreClass.inputs.keyPressListeners
-    .find(({ keyCode }) => keyCode === keyToUnbind),
+  keyUnbinder: (keyToUnbind, coreClass) => (
+    coreClass.inputs.keyPressListeners
+      .find(({ keyCode }) => keyCode === keyToUnbind).unbind()
+  ),
+  keyInitializer: (keyToUnbind, coreClass) => (
+    coreClass.inputs.keyPressListeners
+      .find(({ keyCode }) => keyCode === keyToUnbind).init()
+  ),
+  classToggler: (htmlEl, cssClass) => {
+    utils.htmlElements[htmlEl]().classList.toggle(cssClass);
+  },
+  classRemover: (htmlEl, cssClass) => {
+    utils.htmlElements[htmlEl]().classList.remove(cssClass);
+  },
 
   // RPG Functions
   withGrid: (n) => (n * 16),
@@ -534,24 +548,24 @@ const utils = {
           if (objSeg.x < -1 || (objSeg.x < 0 && diffCarsX < 0.3)) dir = changeX;
           if (objCrash && objCrash.name !== playerParam.name) {
             const opp = oppArrParam.findIndex(({ opponentName }) => opponentName === objCrash.name);
-            oppArrParam[opp].runningPower *= 1.02;
-            carParam.runningPower *= 0.98;
+            oppArrParam[opp].actualSpeed *= 1.02;
+            carParam.actualSpeed *= 0.98;
           }
         }
       }
       if (objSeg && objSeg.name === playerParam.name && !car.isCrashed) {
         const isOverlapped = utils.overlap(cSeg.x, 0.663125, objSeg.x, 0.8, 1.2);
 
-        if (carParam.runningPower > playerParam.runningPower && isOverlapped) {
+        if (carParam.actualSpeed > playerParam.actualSpeed && isOverlapped) {
           const changeX = 5;
           const diffCarsX = Math.abs(objSeg.x - cSeg.x);
           if (objSeg.x > 0.95 || (objSeg.x > 0 && diffCarsX < 0.4)) dir = changeX * -1;
           else if (objSeg.x < -0.95 || (objSeg.x < 0 && diffCarsX < 0.4)) dir = changeX;
 
           if (objCrash) {
-            const x = (carParam.runningPower - playerParam.runningPower) / 2;
-            playerParam.runningPower += x * 1.8;
-            carParam.runningPower += x * -1.5;
+            const x = (carParam.actualSpeed - playerParam.actualSpeed) / 2;
+            playerParam.actualSpeed += x * 1.8;
+            carParam.actualSpeed += x * -1.5;
           }
         }
       }
@@ -564,4 +578,5 @@ const utils = {
     const ratioSpeed = speed / maxSpeed;
     return -30 + ratioSpeed * angle;
   },
+  playerFPS: (speed) => (Math.min((speed / 32 + 10), 40)),
 };
