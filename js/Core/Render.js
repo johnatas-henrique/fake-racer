@@ -65,29 +65,8 @@ class Render {
     this.ctx.restore();
   }
 
-  /**
-   *
-   * @param {Sprite} sprite
-   * @param {Camera} camera
-   * @param {Player} player
-   * @param {Number} roadWidth
-   * @param {Number} scale
-   * @param {Number} destX
-   * @param {Number} destY
-   * @param {Number} clip
-   */
-  drawSprite(
-    sprite,
-    camera,
-    player,
-    roadWidth,
-    scale,
-    destX,
-    destY,
-    clip,
-    spritesInX = 1,
-    spritesInY = 1,
-  ) {
+  drawRaceSprite(sprite, camera, player, roadWidth, scale, destX, destY, clip) {
+    const { spritesInX, spritesInY } = sprite;
     let newDestX = destX;
     let newDestY = destY;
     const { midpoint } = camera.screen;
@@ -110,20 +89,18 @@ class Render {
       this.ctx.drawImage(
         sprite.image,
         (spriteWidth / spritesInX) * sheetPositionX,
-
         (spriteHeight / spritesInY) * sheetPositionY,
         spriteWidth / spritesInX,
         (spriteHeight - (spriteHeight * clipHeight) / (destHeight * spritesInX)) / spritesInY,
         newDestX,
-
         newDestY,
-        destWidth, (
-          ((destHeight * spritesInX) - clipHeight) / spritesInY),
+        destWidth,
+        (((destHeight * spritesInX) - clipHeight) / spritesInY),
       );
     }
   }
 
-  roundRect(color, x, y, width, height, radius = 5, fill, stroke = true) {
+  roundRect(color, x, y, width, height, fill, radius = 5, stroke = true) {
     const radii = {
       tl: 0, tr: 0, br: 0, bl: 0,
     };

@@ -55,12 +55,6 @@ class SegmentLine {
     screen.w = Math.round(screen.wUnrounded);
   }
 
-  /**
-   * 
-   * @param {Render} render 
-   * @param {Camera} camera 
-   * @param {Player} player 
-   */
   drawSprite(render, camera, player) {
     const sprites = this.sprites;
     for (let i = sprites.length - 1; i >= 0; i -= 1) {
@@ -71,28 +65,16 @@ class SegmentLine {
       const destX = screen.xUnrounded + screen.wUnrounded * sprite.offsetX;
       const destY = screen.yUnrounded;
       const destYUp = (1 - (world.y - camera.y + 1550) * scale) * 180;
-      if(sprite.name.includes('op') && (scale * 10000 < 5 && scale * 10000 > 1.2)) {
+      if (sprite.name.includes('op') && (scale * 10000 < 5 && scale * 10000 > 1.2)) {
         render.drawText('#FFFAF4', `${sprite.name.replace('op', '')}`, destX, destYUp,
-        scale * 10000, 'OutriderCond', 'center', 'black', true)
+          scale * 10000, 'OutriderCond', 'center', 'black', true)
       }
 
-      render.drawSprite(
-        sprite, camera,
-        player, roadWidth,
-        scale, destX,
-        destY, this.clip,
-        sprite.spritesInX, sprite.spritesInY
-      );
+      render.drawRaceSprite(sprite, camera, player, roadWidth, scale, destX, destY, this.clip);
     }
     return this;
   }
 
-  /**
-   * 
-   * @param {Render} render 
-   * @param {Camera} camera 
-   * @param {Player} player 
-   */
   drawTunnel(render, camera, player) {
     if (this.tunnel) {
       const tunnel = this.tunnel;

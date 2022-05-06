@@ -54,7 +54,7 @@ class Background {
       this[item].scaleY = 9;
       const positionW = camera.screen.midpoint.x * 2 * this[`${item}Offset`];
       const correctedWidth = player.width / 64;
-      render.drawSprite(
+      render.drawRaceSprite(
         this[item],
         camera,
         player,
@@ -65,7 +65,7 @@ class Background {
         clip,
       );
       if (Math.abs(this[`${item}Offset`]) > 1) {
-        render.drawSprite(
+        render.drawRaceSprite(
           this[item],
           camera,
           player,

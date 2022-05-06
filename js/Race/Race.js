@@ -5,25 +5,28 @@ class Race {
     this.camera = null;
     this.player = null;
     this.director = null;
-    this.trackName = window.gameState.menuSelectedOptions.track;
+    this.trackName = null;
   }
 
   update() {
-    this.camera.update(this.road, this.director);
-    this.player.update(this.camera, this.road, this.director, []);
+    this.camera.update();
+    this.player.update();
   }
 
   draw() {
-    this.road.draw(this.camera, this.player);
-    this.player.draw(this.camera, this.road.width);
+    this.road.draw();
+    this.player.draw();
   }
 
   init() {
     if (window.gameState.mode === 'singleRaceScene' && !this.isInitOnce) {
+      this.trackName = window.gameState.menuSelectedOptions.track;
+
       utils.classRemover('pauseBtn', 'hidden');
       utils.classRemover('muteBtn', 'hidden');
       const okBtn = document.querySelector('.right-controls').firstElementChild;
       okBtn.classList.toggle('hidden');
+
       this.road = new Road({ race: this });
       this.camera = new Camera({ race: this });
       this.player = new Player({ race: this });

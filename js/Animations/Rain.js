@@ -21,8 +21,8 @@ class RainDrop {
 
   render(render, player) {
     const { renderingContext } = render;
-    const { maxSpeed, runningPower } = player;
-    const accel = runningPower / maxSpeed;
+    const { maxSpeed, actualSpeed } = player;
+    const accel = actualSpeed / maxSpeed;
     renderingContext.strokeStyle = 'rgba(174,194,224,0.9)';
     renderingContext.lineWidth = 0.5;
     renderingContext.lineCap = 'round';

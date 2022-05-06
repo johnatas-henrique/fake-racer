@@ -65,7 +65,8 @@ class Road {
 
     this.#segments = [];
     const { k } = this;
-    const { trackSize, colors } = utils.tracks[this.trackName];
+    const actualTrack = utils.tracks[this.trackName];
+    const { trackSize, colors } = actualTrack;
     for (let i = 0; i < trackSize; i += 1) {
       const lightestColors = {
         road: colors.lightRoad,
@@ -82,10 +83,18 @@ class Road {
         tunnel: colors.lightTunnel,
       };
       const darkColors = {
-        road: '#393839', grass: colors.lightGrass, kerb: colors.darkKerb, strip: '#fff', tunnel: colors.darkTunnel,
+        road: '#393839',
+        grass: colors.lightGrass,
+        kerb: colors.darkKerb,
+        strip: '#fff',
+        tunnel: colors.darkTunnel,
       };
       const darkestColors = {
-        road: colors.lightRoad, grass: colors.darkGrass, kerb: colors.darkKerb, strip: '#fff', tunnel: colors.darkTunnel,
+        road: colors.lightRoad,
+        grass: colors.darkGrass,
+        kerb: colors.darkKerb,
+        strip: '#fff',
+        tunnel: colors.darkTunnel,
       };
 
       const segmentLine = new SegmentLine();
@@ -98,7 +107,11 @@ class Road {
 
       if (i <= 11) {
         segmentLine.colors.road = '#fff';
-        i % 4 === 0 || i % 4 === 1 ? segmentLine.colors.checkers = 'one' : segmentLine.colors.checkers = 'two';
+        if (i % 4 === 0 || i % 4 === 1) {
+          segmentLine.colors.checkers = 'one';
+        } else {
+          segmentLine.colors.checkers = 'two';
+        }
       }
 
       const { world } = segmentLine.points;
@@ -113,7 +126,7 @@ class Road {
           segmentLine.kerb = kerb;
         }
       };
-      utils.tracks[this.trackName].curves
+      actualTrack.curves
         .forEach((curve) => createCurve(curve.min, curve.max, curve.curveInclination, curve.kerb));
 
       // adding speed bump
@@ -130,8 +143,8 @@ class Road {
         curveSignal.scaleX = 72;
         curveSignal.scaleY = 72;
         curveSignal.image = new Image();
-        const leftSignal = './images/sprites/other/leftSignal.png';
-        const rightSignal = './images/sprites/other/rightSignal.png';
+        const leftSignal = '../images/sprites/other/leftSignal.png';
+        const rightSignal = '../images/sprites/other/rightSignal.png';
         curveSignal.image.src = curvePower > 0 ? leftSignal : rightSignal;
         curveSignal.name = 'tsCurveSignal';
         segmentLine.sprites.push(curveSignal);
@@ -139,7 +152,7 @@ class Road {
     }
 
     // adding hills
-    const createHills = (lastHillSegment, startHillSegment, hillSize, altimetry, position) => {
+    const createHills = (lastHillSegment, startHillSegment, hillSize, alt, position) => {
       let lastWorld = { x: 0, y: 0, z: 200, w: 2000 };
       let counterSegment = 0.5;
       let counterAngle = hillSize / 4;
@@ -152,7 +165,7 @@ class Road {
         world.y = lastWorld.y;
 
         if (i >= startHillSegment && counterSegment <= hillSize) {
-          const multiplier = (altimetry * hillSize) / -4;
+          const multiplier = (alt * hillSize) / -4;
           const actualSin = Math.sin(((counterAngle + 1) / (hillSize / 2)) * Math.PI) * multiplier;
           const lastSin = Math.sin((counterAngle / (hillSize / 2)) * Math.PI) * multiplier;
           world.y += (actualSin - lastSin);
@@ -160,7 +173,7 @@ class Road {
           counterAngle += 0.5;
         }
 
-        const tunnelInfo = utils.tracks[this.trackName].tunnels[0];
+        const tunnelInfo = actualTrack.tunnels[0];
         // tunnels
         if (i >= tunnelInfo.min && i <= tunnelInfo.max) {
           if (i === tunnelInfo.min) {
@@ -181,12 +194,12 @@ class Road {
         }
       }
 
-      if (utils.tracks[this.trackName].hills[position + 1]) {
-        const { initialSegment, size, altimetry } = utils.tracks[this.trackName].hills[position + 1];
+      if (actualTrack.hills[position + 1]) {
+        const { initialSegment, size, altimetry } = actualTrack.hills[position + 1];
         createHills(finalSegment, initialSegment, size, altimetry, position + 1);
       }
     };
-    const { initialSegment, size, altimetry } = utils.tracks[this.trackName].hills[0];
+    const { initialSegment, size, altimetry } = actualTrack.hills[0];
     createHills(1, initialSegment, size, altimetry, 0);
   }
 
@@ -207,82 +220,79 @@ class Road {
       anx += currentSegment.curve;
       snx += anx;
 
-      const currentScreenPoint = currentSegment.points.screen;
+      const currScrnPoint = currentSegment.points.screen;
       currentSegment.clip = maxY;
-      if (currentScreenPoint.y >= maxY || this.camera.deltaZ <= this.camera.distanceToProjectionPlane) {
+      if (currScrnPoint.y >= maxY || this.camera.deltaZ <= this.camera.distanceToProjectionPlane) {
         continue;
       }
 
       if (i > 0) {
         const previousSegment = this.getSegmentFromIndex(i - 1);
-        const previousScreenPoint = previousSegment.points.screen;
+        const prevScrnPoint = previousSegment.points.screen;
         const { colors } = currentSegment;
 
-        if (currentScreenPoint.y >= previousScreenPoint.y) {
+        const { x: prevScrX, y: prevScrY, w: prevScrW } = prevScrnPoint;
+        const { x: currScrX, y: currScrY, w: currScrW } = currScrnPoint;
+
+        if (currScrY >= prevScrY) {
           continue;
         }
 
-        this.render.drawTrapezium(
-          previousScreenPoint.x,
-          previousScreenPoint.y,
-          previousScreenPoint.w,
-          currentScreenPoint.x,
-          currentScreenPoint.y,
-          currentScreenPoint.w,
-          colors.road,
-        );
+        this.render
+          .drawTrapezium(prevScrX, prevScrY, prevScrW, currScrX, currScrY, currScrW, colors.road);
 
         // left grass
-        this.render.drawPolygon(
-          colors.grass,
-          0,
-          previousScreenPoint.y,
-          previousScreenPoint.x - previousScreenPoint.w,
-          previousScreenPoint.y,
-          currentScreenPoint.x - currentScreenPoint.w,
-          currentScreenPoint.y,
-          0,
-          currentScreenPoint.y,
-        );
+        this.render
+          .drawPolygon(
+            colors.grass,
+            0,
+            prevScrY,
+            prevScrX - prevScrW,
+            prevScrY,
+            currScrX - currScrW,
+            currScrY,
+            0,
+            currScrY,
+          );
 
         // right grass
         this.render.drawPolygon(
           colors.grass,
-          previousScreenPoint.x + previousScreenPoint.w * 1,
-          previousScreenPoint.y,
+          prevScrX + prevScrW * 1,
+          prevScrY,
           this.camera.screen.width,
-          previousScreenPoint.y,
+          prevScrY,
           this.camera.screen.width,
-          currentScreenPoint.y,
-          currentScreenPoint.x + currentScreenPoint.w,
-          currentScreenPoint.y,
+          currScrY,
+          currScrX + currScrW,
+          currScrY,
         );
 
         if (currentSegment.kerb) {
           // left kerb
           this.render.drawPolygon(
             colors.kerb,
-            previousScreenPoint.x - previousScreenPoint.w * 1.3,
-            previousScreenPoint.y,
-            previousScreenPoint.x - previousScreenPoint.w,
-            previousScreenPoint.y,
-            currentScreenPoint.x - currentScreenPoint.w,
-            currentScreenPoint.y,
-            currentScreenPoint.x - currentScreenPoint.w * 1.3,
-            currentScreenPoint.y,
+            prevScrX - prevScrW * 1.3,
+            prevScrY,
+            prevScrX - prevScrW,
+            prevScrY,
+            currScrX - currScrW,
+            currScrY,
+            currScrX - currScrW * 1.3,
+            currScrY,
           );
 
           // right kerb
           this.render.drawPolygon(
             colors.kerb,
-            previousScreenPoint.x + previousScreenPoint.w * 1.3,
-            previousScreenPoint.y,
-            previousScreenPoint.x + previousScreenPoint.w,
-            previousScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w,
-            currentScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * 1.3,
-            currentScreenPoint.y,
+            prevScrX + prevScrW * 1.3,
+            prevScrY,
+            prevScrX + prevScrW,
+            prevScrY,
+            currScrX + currScrW,
+            currScrY,
+            currScrX + currScrW * 1.3,
+            currScrY,
           );
         }
 
@@ -291,100 +301,100 @@ class Road {
           // left stripe
           this.render.drawPolygon(
             colors.strip,
-            previousScreenPoint.x + previousScreenPoint.w * -0.97,
-            previousScreenPoint.y,
-            previousScreenPoint.x + previousScreenPoint.w * -0.94,
-            previousScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * -0.94,
-            currentScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * -0.97,
-            currentScreenPoint.y,
+            prevScrX + prevScrW * -0.97,
+            prevScrY,
+            prevScrX + prevScrW * -0.94,
+            prevScrY,
+            currScrX + currScrW * -0.94,
+            currScrY,
+            currScrX + currScrW * -0.97,
+            currScrY,
           );
 
           this.render.drawPolygon(
             colors.strip,
-            previousScreenPoint.x + previousScreenPoint.w * -0.91,
-            previousScreenPoint.y,
-            previousScreenPoint.x + previousScreenPoint.w * -0.88,
-            previousScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * -0.88,
-            currentScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * -0.91,
-            currentScreenPoint.y,
+            prevScrX + prevScrW * -0.91,
+            prevScrY,
+            prevScrX + prevScrW * -0.88,
+            prevScrY,
+            currScrX + currScrW * -0.88,
+            currScrY,
+            currScrX + currScrW * -0.91,
+            currScrY,
           );
 
           // right stripe
           this.render.drawPolygon(
             colors.strip,
-            previousScreenPoint.x + previousScreenPoint.w * 0.97,
-            previousScreenPoint.y,
-            previousScreenPoint.x + previousScreenPoint.w * 0.94,
-            previousScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * 0.94,
-            currentScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * 0.97,
-            currentScreenPoint.y,
+            prevScrX + prevScrW * 0.97,
+            prevScrY,
+            prevScrX + prevScrW * 0.94,
+            prevScrY,
+            currScrX + currScrW * 0.94,
+            currScrY,
+            currScrX + currScrW * 0.97,
+            currScrY,
           );
 
           this.render.drawPolygon(
             colors.strip,
-            previousScreenPoint.x + previousScreenPoint.w * 0.91,
-            previousScreenPoint.y,
-            previousScreenPoint.x + previousScreenPoint.w * 0.88,
-            previousScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * 0.88,
-            currentScreenPoint.y,
-            currentScreenPoint.x + currentScreenPoint.w * 0.91,
-            currentScreenPoint.y,
+            prevScrX + prevScrW * 0.91,
+            prevScrY,
+            prevScrX + prevScrW * 0.88,
+            prevScrY,
+            currScrX + currScrW * 0.88,
+            currScrY,
+            currScrX + currScrW * 0.91,
+            currScrY,
           );
 
           // center strip
           const value = 0.02;
           this.render.drawTrapezium(
-            previousScreenPoint.x,
-            previousScreenPoint.y,
-            previousScreenPoint.w * value,
-            currentScreenPoint.x,
-            currentScreenPoint.y,
-            currentScreenPoint.w * value,
+            prevScrX,
+            prevScrY,
+            prevScrW * value,
+            currScrX,
+            currScrY,
+            currScrW * value,
             colors.strip,
           );
         }
 
         // checkered road
         if (colors.checkers === 'one') {
-          for (let i = -1; i < 0.9; i += 2 / 3) {
+          for (let j = -1; j < 0.9; j += 2 / 3) {
             this.render.drawPolygon(
               'black',
-              previousScreenPoint.x + previousScreenPoint.w * i,
-              previousScreenPoint.y,
-              previousScreenPoint.x + previousScreenPoint.w * (i + 1 / 3),
-              previousScreenPoint.y,
-              currentScreenPoint.x + currentScreenPoint.w * (i + 1 / 3),
-              currentScreenPoint.y,
-              currentScreenPoint.x + currentScreenPoint.w * i,
-              currentScreenPoint.y,
+              prevScrX + prevScrW * j,
+              prevScrY,
+              prevScrX + prevScrW * (j + 1 / 3),
+              prevScrY,
+              currScrX + currScrW * (j + 1 / 3),
+              currScrY,
+              currScrX + currScrW * j,
+              currScrY,
             );
           }
         }
         if (colors.checkers === 'two') {
-          for (let i = -2 / 3; i < 0.9; i += 2 / 3) {
+          for (let j = -2 / 3; j < 0.9; j += 2 / 3) {
             this.render.drawPolygon(
               'black',
-              previousScreenPoint.x + previousScreenPoint.w * i,
-              previousScreenPoint.y,
-              previousScreenPoint.x + previousScreenPoint.w * (i + 1 / 3),
-              previousScreenPoint.y,
-              currentScreenPoint.x + currentScreenPoint.w * (i + 1 / 3),
-              currentScreenPoint.y,
-              currentScreenPoint.x + currentScreenPoint.w * i,
-              currentScreenPoint.y,
+              prevScrX + prevScrW * j,
+              prevScrY,
+              prevScrX + prevScrW * (j + 1 / 3),
+              prevScrY,
+              currScrX + currScrW * (j + 1 / 3),
+              currScrY,
+              currScrX + currScrW * j,
+              currScrY,
             );
           }
         }
       }
 
-      maxY = currentScreenPoint.y;
+      maxY = currScrnPoint.y;
     }
     for (let i = (this.visibleSegments + startPos) - 1; i >= startPos; i -= 1) {
       this.getSegmentFromIndex(i)

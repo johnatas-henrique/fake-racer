@@ -168,7 +168,7 @@ class Menu {
       const lowText = `${this.menuPhrase[this.menuOptions[menuLow]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuLow]].toLocaleUpperCase()}`;
       const highText = `${this.menuPhrase[this.menuOptions[menuHigh]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuHigh]].toLocaleUpperCase()}`;
 
-      this.core.render.roundRect('#2C69EB', 100, 100, 440, 170, 20, true, false);
+      this.core.render.roundRect('#2C69EB', 100, 100, 440, 170, true, 20, false);
       this.core.render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
       const phrase = `${this.menuPhrase[this.menuOptions[this.menuX]]} ${this.menu[this.menuOptions[this.menuX]][this.menuY].toLocaleUpperCase()}`;
       this.core.render.drawText('#050B1A', phrase, 320, 180 + (this.menuTitle.pos / 4), 1.6);
