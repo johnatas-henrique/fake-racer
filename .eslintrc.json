@@ -1,29 +1,31 @@
 {
     "env": {
         "browser": true,
-        "es2021": true,
         "es6": true
     },
     "globals": {
-        "addItens": "writable",
-        "camera": "writable",
-        "Camera": "writable",
-        "keyboard": "writable",
-        "Keyboard": "writable",
-        "player": "writable",
-        "Player": "writable",
-        "render": "writable",
-        "Render": "writable",
-        "road": "writable",
-        "Road": "writable",
-        "resource": "writable"
+        "Camera": false,
+        "Core": false,
+        "Director": false,
+        "DirectionInput": false,
+        "KeyPressListener": false,
+        "Menu": false,
+        "Opponent": false,
+        "Player": false,
+        "Race": false,
+        "Render": false,
+        "Road": false,
+        "Stats": false,
+        "SpriteRace": false,
+        "Tunnel": false,
+        "utils": false
     },
     "extends": [
         "airbnb-base"
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "script"
     },
     "rules": {
         "no-console": "off",
@@ -42,6 +44,7 @@
         "no-unused-vars": [
             "error",
             {
+                "varsIgnorePattern": "^[A-Z]",
                 "argsIgnorePattern": "^_",
                 "ignoreRestSiblings": true
             }

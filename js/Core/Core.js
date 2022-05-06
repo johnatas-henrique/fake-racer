@@ -6,7 +6,7 @@ class Core {
     this.render = new Render(this.ctx);
     this.inputs = {
       oneDirection: null,
-      multiDirections: null,
+      multiDirection: null,
       keyPressListeners: [],
     };
     this.menu = null;
@@ -26,19 +26,15 @@ class Core {
         this.render.clear(0, 0, this.canvas.width, this.canvas.height);
 
         if (window.gameState.mode === 'menuScene') {
-          const fpsClassList = Array.from(utils.htmlElements.fps().firstElementChild.classList);
-          if (fpsClassList.includes('hidden')) {
-            utils.htmlElements.fps().firstElementChild.classList.remove('hidden');
-          }
-
-          this.menu.drawMenu();
+          this.menu.init();
           this.menu.update(this.deltaTime);
+          this.menu.draw();
         }
 
         if (window.gameState.mode === 'singleRaceScene') {
-          // console.log('raceScene');
-          // console.log(this.inputs.oneDirection);
-          // console.log(this.inputs.oneDirection);
+          this.singleRace.init();
+          this.singleRace.update();
+          this.singleRace.draw();
         }
 
         this.stats.end();
@@ -61,17 +57,15 @@ class Core {
   }
 
   init() {
-    this.inputs.oneDirection = new DirectionInput();
-
-    this.menu = new Menu({
-      animations: window.particles,
-      render: this.render,
-      core: this,
-    });
-    this.menu.init();
+    this.inputs.oneDirection = new OneDirectionInput();
+    this.inputs.multiDirection = new MultiDirectionInput();
 
     this.stats = new Stats();
     utils.htmlElements.fps().appendChild(this.stats.dom);
+
+    this.menu = new Menu({ animations: window.particles, core: this });
+
+    this.singleRace = new Race({ core: this });
 
     utils.htmlElements.fullScreenBtn()
       .addEventListener('click', Core.toggleFullScreen);

@@ -1,4 +1,4 @@
-class DirectionInput {
+class OneDirectionInput {
   constructor() {
     this.heldDirections = [];
     this.map = {

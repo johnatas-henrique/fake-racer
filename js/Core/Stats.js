@@ -11,8 +11,7 @@
     let mode = 0;
 
     const container = document.createElement('div');
-    container.classList.add('fpsCanvas');
-    container.classList.add('hidden');
+    container.classList.add('fps-canvas');
 
     function showPanel(id) {
       for (let i = 0; i < container.children.length; i += 1) {

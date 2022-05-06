@@ -81,7 +81,7 @@ class Overworld {
     this.bindActionInput();
     this.bindHeroPositionCheck();
 
-    this.directionInput = new DirectionInput();
+    this.directionInput = new OneDirectionInput();
     this.directionInput.init();
 
     this.startGameLoop();

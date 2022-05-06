@@ -1,7 +1,6 @@
 class Menu {
   constructor(config) {
     this.core = config.core;
-    this.render = config.render;
     this.animations = config.animations;
     this.menuArrowKeys = new Image();
     this.menuArrowKeys.src = '../images/sprites/other/arrowKeys.png';
@@ -14,7 +13,6 @@ class Menu {
     this.menuX = 5;
     this.fps = 8;
     this.deltaTime = 0;
-    this.lastTime = 0;
     this.arrowUpBlink = false;
     this.arrowDownBlink = false;
     this.menuTitle = { pos: 0, direction: 1 };
@@ -54,13 +52,22 @@ class Menu {
   }
 
   init() {
-    this.core.inputs.keyPressListeners.push(new KeyPressListener('Enter', () => this.acceptOption()));
-    this.core.inputs.oneDirection.init();
+    if (window.gameState.mode === 'menuScene' && !this.isInitOnce) {
+      utils.classToggler('pauseBtn', 'hidden');
+      utils.classToggler('muteBtn', 'hidden');
+
+      this.core.inputs.keyPressListeners.push(
+        new KeyPressListener('Enter', () => this.acceptOption()),
+      );
+      utils.keyInitializer('Enter', this.core);
+      this.core.inputs.oneDirection.init();
+      this.isInitOnce = true;
+    }
   }
 
   enterSingleRaceScene() {
     this.core.inputs.oneDirection.unbind();
-    utils.unbinder('Enter', this.core).unbind();
+    utils.keyUnbinder('Enter', this.core);
     window.gameState.mode = 'singleRaceScene';
   }
 
@@ -96,7 +103,7 @@ class Menu {
       }
 
       if (this.menuX > 0 && this.directionPressed() === 'up') {
-        this.arrowUpBlink = 1;
+        this.arrowUpBlink = !this.arrowUpBlink;
         this.menuX -= 1;
         this.menuY = this.menu[this.menuOptions[this.menuX]]
           .findIndex((item) => item === menuSelectedOptions[this.menuOptions[this.menuX]]);
@@ -122,41 +129,32 @@ class Menu {
       }
 
       if (this.isConfirmButtonPressed && this.menuX === lastMenuOption) {
-        const pauseBtn = document.querySelector('#pauseBtn');
-        const fps = document.querySelector('#fps');
-        const mute = document.querySelector('#mute');
-        pauseBtn.classList.toggle('hidden');
-        mute.classList.toggle('hidden');
-        const okBtn = document.querySelector('.rightControls').firstElementChild;
-        okBtn.classList.toggle('hidden');
-        // this.startRace(player, road, opponents, director);
         this.isConfirmButtonPressed = false;
-        fps.firstElementChild.classList.remove('hidden');
         this.enterSingleRaceScene();
       }
     }
   }
 
   drawButtons(x, y, size, text) {
-    this.render.drawCircle(x, y + 3, size, 0, Math.PI * 2);
-    this.render.drawText('black', text, x, y, 1.3, 'OutriderCond', 'center');
+    this.core.render.drawCircle(x, y + 3, size, 0, Math.PI * 2);
+    this.core.render.drawText('black', text, x, y, 1.3, 'OutriderCond', 'center');
   }
 
-  drawMenu() {
+  draw() {
     this.animations.forEach((item) => {
       item.update();
-      item.render(this.render);
+      item.render(this.core.render);
     });
-    this.render.drawText('#EB4844', 'Fake Racer', 320, 30, 4, 'OutriderCondBold');
+    this.core.render.drawText('#EB4844', 'Fake Racer', 320, 30, 4, 'OutriderCondBold');
 
     if (!this.showMenu) {
       if (this.menuTitle.pos >= 12) this.menuTitle.direction = -1;
       if (this.menuTitle.pos <= -12) this.menuTitle.direction = 1;
       this.menuTitle.pos += (this.menuTitle.direction / 2);
       if (window.navigator.maxTouchPoints) {
-        this.render.drawText('black', 'Aperte OK para iniciar', 320, 180 + this.menuTitle.pos);
+        this.core.render.drawText('black', 'Aperte OK para iniciar', 320, 180 + this.menuTitle.pos);
       } else {
-        this.render.drawText('black', 'Aperte ENTER para iniciar', 320, 180 + this.menuTitle.pos);
+        this.core.render.drawText('black', 'Aperte ENTER para iniciar', 320, 180 + this.menuTitle.pos);
       }
     }
 
@@ -170,37 +168,38 @@ class Menu {
       const lowText = `${this.menuPhrase[this.menuOptions[menuLow]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuLow]].toLocaleUpperCase()}`;
       const highText = `${this.menuPhrase[this.menuOptions[menuHigh]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuHigh]].toLocaleUpperCase()}`;
 
-      this.render.roundRect('#2C69EB', 100, 100, 440, 170, 20, true, false);
-      this.render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
+      this.core.render.roundRect('#2C69EB', 100, 100, 440, 170, 20, true, false);
+      this.core.render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
       const phrase = `${this.menuPhrase[this.menuOptions[this.menuX]]} ${this.menu[this.menuOptions[this.menuX]][this.menuY].toLocaleUpperCase()}`;
-      this.render.drawText('#050B1A', phrase, 320, 180 + (this.menuTitle.pos / 4), 1.6);
-      this.render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);
+      this.core.render.drawText('#050B1A', phrase, 320, 180 + (this.menuTitle.pos / 4), 1.6);
+      this.core.render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);
 
       if (window.navigator.maxTouchPoints) {
         this.drawButtons(145, 310, 15, 'U');
         this.drawButtons(185, 310, 15, 'D');
         this.drawButtons(225, 310, 15, 'L');
         this.drawButtons(265, 310, 15, 'R');
-        this.render.drawText('black', 'Navegar', 150, 345, 1.3, 'OutriderCond', 'left');
+        this.core.render.drawText('black', 'Navegar', 150, 345, 1.3, 'OutriderCond', 'left');
         this.drawButtons(418, 310, 18, 'OK');
-        this.render.drawText('black', 'Confirmar', 490, 345, 1.3, 'OutriderCond', 'right');
+        this.core.render.drawText('black', 'Confirmar', 490, 345, 1.3, 'OutriderCond', 'right');
       } else {
-        this.render.drawText('black', 'Navegar', 590, 320, 1.3, 'OutriderCond', 'right');
-        this.render.ctx.drawImage(this.menuArrowKeys, 595, 310, 28, 18);
+        this.core.render.drawText('black', 'Navegar', 590, 320, 1.3, 'OutriderCond', 'right');
+        this.core.render.ctx.drawImage(this.menuArrowKeys, 595, 310, 28, 18);
 
-        this.render.drawText('black', 'Confirmar', 590, 345, 1.3, 'OutriderCond', 'right');
-        this.render.ctx.drawImage(this.menuEnterKey, 597, 335, 23, 18);
+        this.core.render.drawText('black', 'Confirmar', 590, 345, 1.3, 'OutriderCond', 'right');
+        this.core.render.ctx.drawImage(this.menuEnterKey, 597, 335, 23, 18);
       }
 
       if (this.arrowUpBlink) {
-        this.render.drawText('#050B1A', 'c', 520, 140, 2, 'Arrows');
+        this.core.render.drawText('#050B1A', 'c', 520, 140, 2, 'Arrows');
       } else {
-        this.render.drawText('#FFFAF4', 'c', 520, 140, 2, 'Arrows');
+        this.core.render.drawText('#FFFAF4', 'c', 520, 140, 2, 'Arrows');
       }
+
       if (this.arrowDownBlink) {
-        this.render.drawText('#050B1A', 'd', 520, 240, 2, 'Arrows');
+        this.core.render.drawText('#050B1A', 'd', 520, 240, 2, 'Arrows');
       } else {
-        this.render.drawText('#FFFAF4', 'd', 520, 240, 2, 'Arrows');
+        this.core.render.drawText('#FFFAF4', 'd', 520, 240, 2, 'Arrows');
       }
     }
   }

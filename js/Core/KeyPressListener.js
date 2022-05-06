@@ -18,7 +18,9 @@ class KeyPressListener {
         keySafe = true;
       }
     };
+  }
 
+  init() {
     document.addEventListener('keydown', this.keydownFunction);
     document.addEventListener('keyup', this.keyupFunction);
   }
