@@ -1,6 +1,3 @@
-import Sprite from './sprite.js';
-import { resource } from './util.js';
-
 class Background {
   constructor() {
     this.x = 0;
@@ -35,16 +32,10 @@ class Background {
         return result;
       };
       const segment = road.getSegment(camera.cursor);
-      const speedPercent = player.runningPower / player.maxSpeed;
-      this.layer1Offset = increase(
-        this.layer1Offset, this.layer1Speed * segment.curve * speedPercent * -1, 2,
-      );
-      this.layer2Offset = increase(
-        this.layer2Offset, this.layer2Speed * segment.curve * speedPercent * -1, 2,
-      );
-      this.layer3Offset = increase(
-        this.layer3Offset, this.layer3Speed * segment.curve * speedPercent * -1, 2,
-      );
+      const speedPercent = player.runningPower / player.maxPower;
+      this.layer1Offset = increase(this.layer1Offset, this.layer1Speed * segment.curve * speedPercent * -1, 2);
+      this.layer2Offset = increase(this.layer2Offset, this.layer2Speed * segment.curve * speedPercent * -1, 2);
+      this.layer3Offset = increase(this.layer3Offset, this.layer3Speed * segment.curve * speedPercent * -1, 2);
     }
   }
 
@@ -64,17 +55,27 @@ class Background {
       const positionW = camera.screen.midpoint.x * 2 * this[`${item}Offset`];
       const correctedWidth = player.width / 64;
       render.drawSprite(
-        this[item], camera, player, roadWidth, scale * 0.05 * correctedWidth,
-        positionW, this[item].height, clip,
+        this[item],
+        camera,
+        player,
+        roadWidth,
+        scale * 0.05 * correctedWidth,
+        positionW,
+        this[item].height,
+        clip,
       );
       if (Math.abs(this[`${item}Offset`]) > 1) {
         render.drawSprite(
-          this[item], camera, player, roadWidth,
-          scale * 0.05 * correctedWidth, positionW - this[item].width, this[item].height, clip,
+          this[item],
+          camera,
+          player,
+          roadWidth,
+          scale * 0.05 * correctedWidth,
+          positionW - this[item].width,
+          this[item].height,
+          clip,
         );
       }
     });
   }
 }
-
-export default Background;

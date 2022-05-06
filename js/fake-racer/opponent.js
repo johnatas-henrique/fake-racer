@@ -1,16 +1,9 @@
-import Sprite from './sprite.js';
-import {
-  resource, tracks, updateOpponentsCarOffset,
-} from './util.js';
-
 class Opponent {
-  constructor(
-    maxSpeed = 600, trackPosition = 0, startPos = -1, image, opponentName = 'John Doe', carColor = 'random',
-  ) {
+  constructor(maxSpeed = 600, trackPosition = 0, startPos = -1, image, opponentName = 'John Doe', carColor = 'random') {
     this.maxSpeed = maxSpeed;
     this.sprite = new Sprite();
     this.image = image;
-    this.runningPower = 0;
+    this.actualSpeed = 0;
     this.scale = 0;
     this.trackPosition = trackPosition;
     this.startPos = startPos;
@@ -34,7 +27,7 @@ class Opponent {
       ? this.carColor
       : Math.floor(Math.random() * 7.99);
     this.sprite.sheetPositionY = 0;
-    this.sprite.runningPower.mult = 1;
+    this.sprite.actualSpeed.mult = 1;
     this.maxSpeed += Math.floor(Math.random() * 40);
     this.baseSpeed = this.maxSpeed;
   }
@@ -54,29 +47,29 @@ class Opponent {
       // crash corrector
       const newMaxSpeed = this.carSpeedCorrection();
       newMaxSpeed.next();
-      if (this.runningPower < 0) this.runningPower = 0;
+      if (this.actualSpeed < 0) this.actualSpeed = 0;
 
       const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
         * mult * (1.5 - (speed / this.maxSpeed));
 
-      this.runningPower = this.runningPower >= this.maxSpeed
-        ? this.maxSpeed : this.runningPower += acceleration(this.runningPower, 0.9);
+      this.actualSpeed = this.actualSpeed >= this.maxSpeed
+        ? this.maxSpeed : this.actualSpeed += acceleration(this.actualSpeed, 0.9);
 
       // helper to stop opponent speeds
-      // this.runningPower = 0;
+      // this.actualSpeed = 0;
 
-      this.sprite.runningPower.speed = this.runningPower;
+      this.sprite.actualSpeed.speed = this.actualSpeed;
       const oldSegment = road.getSegment(Math.round(this.trackPosition));
       this.opponentX = updateOpponentsCarOffset(this, player, director, oppArr);
 
       this.sprite.offsetX += 0.008 * this.opponentX;
-      this.trackPosition += this.runningPower;
+      this.trackPosition += this.actualSpeed;
       this.isCrashed = this.isCrashed > 0 ? this.isCrashed -= 0.1 : 0;
       const actualSegment = road.getSegment(Math.round(this.trackPosition));
       oldSegment.sprites = oldSegment.sprites.filter(({ name }) => name !== this.sprite.name);
       actualSegment.sprites.push(this.sprite);
 
-      const { trackSize } = tracks[road.trackName];
+      const { trackSize } = utils.tracks[road.trackName];
       const actualPosition = this.trackPosition / 200;
       const actualLap = Math.floor(actualPosition / trackSize);
 
@@ -87,5 +80,3 @@ class Opponent {
     }
   }
 }
-
-export default Opponent;

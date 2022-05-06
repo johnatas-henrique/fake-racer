@@ -1,66 +1,10 @@
-import Background from './background.js';
-import Camera from './camera.js';
-import Director from './director.js';
-import Menu from './menu.js';
-import Player from './player.js';
-import Render from './render.js';
-import Road from './road.js';
-import particles from './animations/particles.js';
-import {
-  canvas, handleInput, playMusic, resource, startPosition, tracks, toggleMusic,
-} from './util.js';
-import Tachometer from './tachometer.js';
-
 window.onload = () => {
   const containerCanvas = document.querySelector('.container');
   containerCanvas.height = Math.min(window.innerHeight, (0.5625 * window.innerWidth));
 };
 
-let actualVal = 0;
+const handleInput = new HandleInput();
 
-const tyreAnimation = (player, spriteNum, speed) => {
-  const playerAnim = player;
-  if (speed) {
-    playerAnim.sprite.sheetPositionX = spriteNum;
-    playerAnim.sprite.sheetPositionY = Number(!playerAnim.sprite.sheetPositionY);
-  } else {
-    playerAnim.sprite.sheetPositionX = spriteNum;
-  }
-};
-
-const findDirection = () => {
-  const { arrowleft, arrowright } = handleInput.map;
-  if (arrowleft) return 'Left';
-  if (arrowright) return 'Right';
-  return 'Center';
-};
-
-const curveAnim = (player, speed) => {
-  const playerAnim = player;
-  const { arrowleft, arrowright } = handleInput.map;
-  const actualImage = playerAnim.sprite.image;
-  const actualArrow = actualImage.src.match(/player\w+/g, '')[0].slice(6);
-  const keyPress = findDirection();
-
-  if ((!arrowleft && !arrowright) && actualVal >= 0) {
-    actualVal = actualVal > 0 ? actualVal -= 1 : 0;
-    tyreAnimation(player, actualVal, speed);
-  }
-
-  if (arrowleft || arrowright) {
-    if (keyPress === actualArrow) {
-      actualVal = actualVal < 5 ? actualVal += 1 : 5;
-      tyreAnimation(player, actualVal, speed);
-    } else if (keyPress !== actualArrow && actualVal > 0) {
-      tyreAnimation(player, actualVal, speed);
-      actualVal = actualVal > 0 ? actualVal -= 1 : 0;
-    } else if (keyPress !== actualArrow && actualVal === 0) {
-      actualVal = 1;
-      playerAnim.sprite.image = resource.get(`player${keyPress}`);
-      tyreAnimation(player, actualVal, speed);
-    }
-  }
-};
 
 const stats = new Stats();
 stats.showPanel(0);
@@ -77,8 +21,20 @@ fps.appendChild(stats.dom);
    * @param {Number} width
    * @param {Number} height
    */
-const loop = (time, render, camera, player, oppArr, road,
-  bg, director, menu, tachometer, width, height) => {
+const loop = (
+  time,
+  render,
+  camera,
+  player,
+  oppArr,
+  road,
+  bg,
+  director,
+  menu,
+  tachometer,
+  width,
+  height,
+) => {
   stats.begin();
 
   const directorParam = director;
@@ -113,9 +69,9 @@ const loop = (time, render, camera, player, oppArr, road,
     render.restore();
 
     // print to screen (a better console.log)
-    // addItens('#line1', `Position: ${position} / ${Number(menu.selectedOptions[1]) + 1}`);
-    // addItens('#line1', `Segment: ${(cameraParam.cursor / 200).toFixed(3)}`);
-    // addItens('#line2', `CameraY: ${cameraParam.y.toFixed(3)}`);
+    addItens('#line1', `Position: ${position} / ${Number(menu.selectedOptions[1]) + 1}`);
+    utils.addItens('#line1', `Segment: ${(cameraParam.cursor / 200).toFixed(3)}`);
+    utils.addItens('#line2', `CameraY: ${cameraParam.y.toFixed(3)}`);
     // addItens('#line3', `NoUse: ${playerParam.z.toFixed(3)}`);
     // addItens('#line4', `Centrifugal: ${playerParam.centrifugalForce.toFixed(3)}`);
     // addItens('#line5', `Curve: ${playerParam.curvePower.toFixed(3)}`);
@@ -134,16 +90,16 @@ const loop = (time, render, camera, player, oppArr, road,
 
     if (directorParam.timeSinceLastFrameSwap > menu.updateTime) {
       menu.update(playerParam, road, oppArr, directorParam);
-      toggleMusic('event', selectedOptions[3], selectedOptions[4]);
+      utils.toggleMusic('event', selectedOptions[3], selectedOptions[4]);
       directorParam.timeSinceLastFrameSwap = 0;
     }
 
     menu.render(render);
 
     // spawn point before startLine
-    const { trackSize } = tracks[selectedOptions[0]];
+    const { trackSize } = utils.tracks[selectedOptions[0]];
     const qualyPos = Number(selectedOptions[1]) + 1;
-    cameraParam.cursor = startPosition(trackSize, qualyPos);
+    cameraParam.cursor = utils.startPosition(trackSize, qualyPos);
     playerParam.x = qualyPos % 2 ? -1 : 1;
 
     // for test, enter race on page load
@@ -160,29 +116,51 @@ const loop = (time, render, camera, player, oppArr, road,
   stats.end();
 
   requestAnimationFrame(() => loop(
-    time, render, cameraParam, playerParam, oppArr, road,
-    bg, directorParam, menu, tachometer, width, height,
+    time,
+    render,
+    cameraParam,
+    playerParam,
+    oppArr,
+    road,
+    bg,
+    directorParam,
+    menu,
+    tachometer,
+    width,
+    height,
   ));
 };
 
-const init = (time) => {
-  const { width, height } = canvas;
+const initialize = (time) => {
+  const { width, height } = utils.canvas;
   const opponents = [];
 
-  const render = new Render(canvas.getContext('2d'));
+  const render = new Render(utils.canvas.getContext('2d'));
   const camera = new Camera();
   const director = new Director();
   const player = new Player();
   const road = new Road();
   const background = new Background();
-  const menu = new Menu(width, height, particles);
+  const menu = new Menu(width, height, window.particles);
   const tachometer = new Tachometer();
 
   background.create();
-  playMusic();
+  utils.playMusic();
 
-  loop(time, render, camera, player, opponents, road,
-    background, director, menu, tachometer, width, height);
+  loop(
+    time,
+    render,
+    camera,
+    player,
+    opponents,
+    road,
+    background,
+    director,
+    menu,
+    tachometer,
+    width,
+    height,
+  );
 };
 
 resource
@@ -200,4 +178,4 @@ resource
   .add('opponents', './images/sprites/other/opponents.png')
   .add('playerLeft', './images/sprites/player/playerLeft.png')
   .add('playerRight', './images/sprites/player/playerRight.png')
-  .load(() => requestAnimationFrame((time) => init(time)));
+  .load(() => requestAnimationFrame((time) => initialize(time)));

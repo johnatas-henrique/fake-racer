@@ -1,9 +1,3 @@
-import {
-  handleInput, formatTime, addItens, resource, tracks, canvas,
-} from './util.js';
-import Sprite from './sprite.js';
-import rain from './animations/rain.js';
-
 class Director {
   constructor() {
     this.realTime = 0;
@@ -18,7 +12,7 @@ class Director {
     this.position = '';
     this.positions = [];
     this.running = true;
-    this.startLights = new Sprite();
+    this.startLights = new SpriteRace();
     this.paused = false;
     this.hudPositions = [];
     this.trackName = '';
@@ -26,13 +20,17 @@ class Director {
     this.carSegments = [];
     this.raining = false;
     this.rain = [];
+    this.images = {};
   }
 
-  create(road, trackName) {
-    handleInput.mapPress.p = true;
-
+  init(road, trackName) {
+    // handleInput.mapPress.p = true;
+    this.images.startLights = new Image();
+    this.images.startLights.src = '../images/sprites/other/startLights.png';
+    this.images.startLightsBar = new Image();
+    this.images.startLightsBar.src = '../images/sprites/other/startLightsBar.png';
     const segmentLineFirst = road.getSegmentFromIndex(0);
-    const segmentLineTen = road.getSegmentFromIndex(tracks[road.trackName].trackSize - 160);
+    const segmentLineTen = road.getSegmentFromIndex(utils.tracks[road.trackName].trackSize - 160);
     this.trackName = trackName;
     this.startLights.offsetX = 0;
     this.startLights.offsetY = 2;
@@ -40,7 +38,7 @@ class Director {
     this.startLights.scaleY = 27;
     this.startLights.spritesInX = 6;
     this.startLights.sheetPositionX = Math.ceil(this.animTime / 500);
-    this.startLights.image = resource.get('startLights');
+    this.startLights.image = this.images.startLights;
     this.startLights.name = 'tsStartLights';
     segmentLineFirst.sprites.push(this.startLights);
     segmentLineTen.sprites.push(this.startLights);
@@ -49,7 +47,7 @@ class Director {
     startLineLeft.offsetX = -1.15;
     startLineLeft.scaleX = 216;
     startLineLeft.scaleY = 708;
-    startLineLeft.image = resource.get('startLightsBar');
+    startLineLeft.image = this.images.startLightsBar;
     startLineLeft.name = 'tsStartLightsBar';
 
     const startLineRight = new Sprite();
@@ -64,9 +62,9 @@ class Director {
     segmentLineTen.sprites.push(startLineLeft);
     segmentLineTen.sprites.push(startLineRight);
     const rainDrops = Math.random() * 500 + 100;
-    this.rain = rain(rainDrops);
+    this.rain = window.rain(rainDrops);
     this.raining = Math.round(Math.random() * 5) % 3 === 0;
-    if (this.raining) canvas.classList.add('filter');
+    if (this.raining) utils.canvas.classList.add('filter');
   }
 
   refreshPositions(player, opponents) {
@@ -93,7 +91,7 @@ class Director {
   }
 
   update(player, opponent) {
-    this.paused = handleInput.mapPress.p;
+    this.paused = this.inputs.multiDirection.mapPress.p;
     if (this.totalTime < this.startTimer || !this.paused) this.running = false;
     else if (this.totalTime >= this.startTimer && this.paused) this.running = true;
 
@@ -142,7 +140,7 @@ class Director {
 
       this.carSegments = this.positions.map((driver) => ({
         name: driver.name,
-        pos: Math.floor(driver.pos / 200) % tracks[this.trackName].trackSize,
+        pos: Math.floor(driver.pos / 200) % utils.tracks[this.trackName].trackSize,
         x: driver.x,
       })).sort((a, b) => a.pos - b.pos);
 
@@ -150,34 +148,59 @@ class Director {
     }
   }
 
-  render(render, player) {
+  draw(render, player) {
     if (!this.paused) {
-      render.drawText('#FFFAF4', 'Jogo pausado!', 320, 175,
-        2, 'OutriderCond', 'center', 'black', true);
+      render.drawText(
+        '#FFFAF4',
+        'Jogo pausado!',
+        320,
+        175,
+        2,
+        'OutriderCond',
+        'center',
+        'black',
+        true,
+      );
     }
     if (!this.paused) {
-      render.drawText('#FFFAF4', 'Aperte "P" para continuar', 320, 215,
-        2, 'OutriderCond', 'center', 'black', true);
+      render.drawText(
+        '#FFFAF4',
+        'Aperte "P" para continuar',
+        320,
+        215,
+        2,
+        'OutriderCond',
+        'center',
+        'black',
+        true,
+      );
     }
     if (this.totalTime < 2500) {
-      render.drawText('#FFFAF4', 'Prepare-se...', 320, 135,
-        2, 'OutriderCond', 'center', 'black', true);
+      render.drawText(
+        '#FFFAF4',
+        'Prepare-se...',
+        320,
+        135,
+        2,
+        'OutriderCond',
+        'center',
+        'black',
+        true,
+      );
     }
     // if (this.paused) {
-    render.drawText('#050B1A', `Volta ${this.lap} de ${tracks[this.trackName].laps}`, 4, 44, 0.8, 'Computo', 'left');
+    render.drawText('#050B1A', `Volta ${this.lap} de ${utils.tracks[this.trackName].laps}`, 4, 44, 0.8, 'Computo', 'left');
     this.hudPositions.forEach(({ pos, name, relTime }, index) => {
       const alignPos = pos < 10 ? `0${pos}` : pos;
       render.drawText('#050B1A', `${alignPos}`, 4, `${60 + (index * 16)}`, 0.8, 'Computo', 'left');
       render.drawText('#050B1A', `${name} ${relTime}`, 32, `${60 + (index * 16)}`, 0.8, 'Computo', 'left');
     });
-    render.drawText('#050B1A', `Total: ${formatTime(this.totalTime)}`, 636, 44, 0.8, 'Computo', 'right');
-    render.drawText('#050B1A', `Lap: ${formatTime(this.animTime)}`, 636, 60, 0.8, 'Computo', 'right');
-    render.drawText('#050B1A', `Last: ${formatTime(this.lastLap)}`, 636, 76, 0.8, 'Computo', 'right');
-    render.drawText('#050B1A', `Fast: ${formatTime(this.fastestLap)}`, 636, 92, 0.8, 'Computo', 'right');
+    render.drawText('#050B1A', `Total: ${utils.formatTime(this.totalTime)}`, 636, 44, 0.8, 'Computo', 'right');
+    render.drawText('#050B1A', `Lap: ${utils.formatTime(this.animTime)}`, 636, 60, 0.8, 'Computo', 'right');
+    render.drawText('#050B1A', `Last: ${utils.formatTime(this.lastLap)}`, 636, 76, 0.8, 'Computo', 'right');
+    render.drawText('#050B1A', `Fast: ${utils.formatTime(this.fastestLap)}`, 636, 92, 0.8, 'Computo', 'right');
 
     if (this.raining) this.rain.forEach((item) => item.render(render, player));
     // }
   }
 }
-
-export default Director;

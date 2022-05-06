@@ -1,15 +1,13 @@
-import { degToRad, speedToDeg } from './util.js';
-
 class Tachometer {
   constructor() {
-    this.runningPower = 0;
+    this.actualSpeed = 0;
   }
 
   update(player, director) {
     if (director.paused) {
-      this.runningPower = player.runningPower;
-      if (this.runningPower > 1140) {
-        this.runningPower = this.runningPower - 2 + Math.random() * 6;
+      this.actualSpeed = player.actualSpeed;
+      if (this.actualSpeed > 1140) {
+        this.actualSpeed = this.actualSpeed - 2 + Math.random() * 6;
       }
     }
   }
@@ -19,8 +17,8 @@ class Tachometer {
       context, x, y, radius,
     } = options;
 
-    const speedAngle = speedToDeg(this.runningPower / 4, 360, -30, 210);
-    const speedRad = degToRad(speedAngle);
+    const speedAngle = utils.speedToDeg(this.actualSpeed / 4, 360, -30, 210);
+    const speedRad = utils.degToRad(speedAngle);
     const onArcX = radius - (Math.cos(speedRad) * 0);
     const onArcY = radius - (Math.sin(speedRad) * 0);
     const innerX = radius - (Math.cos(speedRad) * (radius * 0.7));
@@ -81,7 +79,7 @@ class Tachometer {
       context, x, y, radius,
     } = options;
     for (let i = -30; i <= 210; i += 40) {
-      const iRad = degToRad(i);
+      const iRad = utils.degToRad(i);
       const onArcX = radius - (Math.cos(iRad) * (radius - 10));
       const onArcY = radius - (Math.sin(iRad) * (radius - 10));
       const innerX = radius - (Math.cos(iRad) * radius);
@@ -104,7 +102,7 @@ class Tachometer {
     }
 
     for (let i = -10; i <= 210; i += 40) {
-      const iRad = degToRad(i);
+      const iRad = utils.degToRad(i);
       const onArcX = radius - (Math.cos(iRad) * (radius - 5));
       const onArcY = radius - (Math.sin(iRad) * (radius - 5));
       const innerX = radius - (Math.cos(iRad) * radius);
@@ -132,7 +130,7 @@ class Tachometer {
 
     for (let i = -30, n = 0; i <= 210; i += 40) {
       n += 1;
-      const iRad = degToRad(i);
+      const iRad = utils.degToRad(i);
       const onArcX = radius - (Math.cos(iRad) * (radius - 19 - (n * 0.8)));
       const yFix = n !== 4 ? 4 : -1;
       const onArcY = radius - (Math.sin(iRad) * (radius - 15 - yFix));
@@ -149,10 +147,10 @@ class Tachometer {
     const {
       context, x, y, radius,
     } = options;
-    const start = degToRad(149.5);
-    const endGreen = degToRad(291);
-    const endYellow = degToRad(10);
-    const endRed = degToRad(30.5);
+    const start = utils.degToRad(149.5);
+    const endGreen = utils.degToRad(291);
+    const endYellow = utils.degToRad(10);
+    const endRed = utils.degToRad(30.5);
     context.save();
     context.lineWidth = 3;
     render.drawCircle(x, y, radius + 1, start, endGreen, false, 'rgb(82, 240, 55)');
@@ -179,5 +177,3 @@ class Tachometer {
     this.drawNeedle(options);
   }
 }
-
-export default Tachometer;
