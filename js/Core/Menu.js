@@ -143,7 +143,7 @@ class Menu {
   draw() {
     this.animations.forEach((item) => {
       item.update();
-      item.render(this.core.render);
+      item.draw(this.core.render);
     });
     this.core.render.drawText('#EB4844', 'Fake Racer', 320, 30, 4, 'OutriderCondBold');
 

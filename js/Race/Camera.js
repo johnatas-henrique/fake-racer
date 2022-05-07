@@ -59,9 +59,8 @@ class Camera {
         const lastLap = this.director.totalLaptimes[this.director.lap - 1];
         this.director.laptimes.push(lastLap);
       }
-
       this.cursor -= length;
-    } else if (this.cursor < 0) {
+    } else if (this.cursor <= 0) {
       this.cursor += length;
     }
   }

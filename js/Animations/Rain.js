@@ -19,18 +19,18 @@ class RainDrop {
     }
   }
 
-  render(render, player) {
-    const { renderingContext } = render;
+  draw(render, player) {
+    const { ctx } = render;
     const { maxSpeed, actualSpeed } = player;
     const accel = actualSpeed / maxSpeed;
-    renderingContext.strokeStyle = 'rgba(174,194,224,0.9)';
-    renderingContext.lineWidth = 0.5;
-    renderingContext.lineCap = 'round';
-    renderingContext.beginPath();
-    renderingContext.moveTo(this.x, this.y);
+    ctx.strokeStyle = 'rgba(174,194,224,0.9)';
+    ctx.lineWidth = 0.5;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
     const drizzle = (this.directionY * accel) / 1.66;
-    renderingContext.lineTo(this.x + this.size * drizzle, this.y + this.size * this.directionY);
-    renderingContext.stroke();
+    ctx.lineTo(this.x + this.size * drizzle, this.y + this.size * this.directionY);
+    ctx.stroke();
   }
 }
 
