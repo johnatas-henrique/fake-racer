@@ -29,13 +29,26 @@ class Director {
     this.opponents = null;
   }
 
+  pauseOption() {
+    this.paused = !this.paused;
+    utils.htmlElements.pauseBtn().classList.toggle('off');
+  }
+
+  pauseRace() {
+    this.race.core.inputs.keyPressListeners.push(
+      new KeyPressListener('KeyP', () => this.pauseOption()),
+    );
+    utils.keyInitializer('KeyP', this.race.core);
+    utils.htmlElements.pauseBtn().addEventListener('click', () => this.pauseOption());
+  }
+
   init() {
     this.trackName = window.gameState.menuSelectedOptions.track;
     this.road = this.race.road;
     this.player = this.race.player;
     this.opponents = this.race.opponents;
 
-    // handleInput.mapPress.p = true;
+    this.pauseRace();
 
     this.images.startLights = new Image();
     this.images.startLights.src = '../images/sprites/other/startLights.png';
@@ -106,8 +119,6 @@ class Director {
   }
 
   update() {
-    // console.log(this);
-    // this.paused = this.inputs.multiDirection.mapPress.p;
     if (this.totalTime < this.startTimer || !this.paused) this.running = false;
     else
     if (this.totalTime >= this.startTimer && this.paused) this.running = true;
