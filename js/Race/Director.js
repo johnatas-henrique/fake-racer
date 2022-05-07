@@ -3,10 +3,8 @@ class Director {
     this.race = config.race;
     this.render = config.race.core.render;
     this.trackName = this.race.trackName;
-    this.realTime = 0;
     this.totalTime = 0;
     this.animTime = 0;
-    this.timeSinceLastFrameSwap = 0;
     this.lap = 0;
     this.lastLap = 0;
     this.fastestLap = 0;
@@ -86,13 +84,6 @@ class Director {
     segmentLineFirst.sprites.push(startLineRight);
     segmentLineTen.sprites.push(startLineLeft);
     segmentLineTen.sprites.push(startLineRight);
-
-    this.raining = Math.round(Math.random() * 5) % 3 === 0;
-    if (this.raining) {
-      const rainDrops = Math.random() * 500 + 100;
-      this.rain = window.rain(rainDrops);
-      utils.htmlElements.canvas().classList.add('filter');
-    }
   }
 
   refreshPositions() {
@@ -172,8 +163,6 @@ class Director {
         pos: Math.floor(driver.pos / 200) % window.tracks.f1Y91[this.trackName].trackSize,
         x: driver.x,
       })).sort((a, b) => a.pos - b.pos);
-
-      if (this.raining) this.rain.forEach((item) => item.update());
     }
   }
 
@@ -201,7 +190,5 @@ class Director {
     this.render.drawText('#050B1A', `Lap: ${utils.formatTime(this.animTime)}`, 636, 60, 0.8, 'Computo', 'right');
     this.render.drawText('#050B1A', `Last: ${utils.formatTime(this.lastLap)}`, 636, 76, 0.8, 'Computo', 'right');
     this.render.drawText('#050B1A', `Fast: ${utils.formatTime(this.fastestLap)}`, 636, 92, 0.8, 'Computo', 'right');
-
-    if (this.raining) this.rain.forEach((item) => item.draw(this.render, this.player));
   }
 }
