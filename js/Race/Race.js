@@ -7,20 +7,24 @@ class Race {
     this.director = null;
     this.trackName = null;
     this.opponents = [];
+    this.raining = Math.round(Math.random() * 5) % 3 === 0;
   }
 
   update() {
     this.background.update();
     this.camera.update();
-    this.player.update();
     this.opponents.forEach((opp) => opp.update());
+    this.player.update();
     this.director.update();
+
+    if (this.raining) this.rain.forEach((item) => item.update());
   }
 
   draw() {
     this.background.draw();
     this.road.draw();
     this.player.draw();
+    if (this.raining) this.rain.forEach((item) => item.draw(this.core.render, this.player));
     this.director.draw();
   }
 
@@ -52,6 +56,12 @@ class Race {
         maxSpeed: 1050,
         trackPosition: 1740800,
       }));
+
+      if (this.raining) {
+        const rainDrops = Math.random() * 500 + 100;
+        this.rain = window.rain(rainDrops);
+        utils.htmlElements.canvas().classList.add('filter');
+      }
 
       this.road.init();
       this.player.init();

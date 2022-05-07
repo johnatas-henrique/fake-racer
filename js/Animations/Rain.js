@@ -23,14 +23,16 @@ class RainDrop {
     const { ctx } = render;
     const { maxSpeed, actualSpeed } = player;
     const accel = actualSpeed / maxSpeed;
+    ctx.save();
     ctx.strokeStyle = 'rgba(174,194,224,0.9)';
     ctx.lineWidth = 0.5;
     ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
-    const drizzle = (this.directionY * accel) / 1.66;
+    const drizzle = (this.directionY * accel) / 4;
     ctx.lineTo(this.x + this.size * drizzle, this.y + this.size * this.directionY);
     ctx.stroke();
+    ctx.restore();
   }
 }
 

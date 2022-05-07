@@ -33,7 +33,7 @@ class Background {
     this.images.hill.src = './images/sprites/background/hill.png';
     this.images.tree.src = './images/sprites/background/tree.png';
 
-    this.layer1.image = this.images.skyClear;
+    this.layer1.image = this.race.raining ? this.images.skyDark : this.images.skyClear;
     this.layer2.image = this.images.hill;
     this.layer3.image = this.images.tree;
 
