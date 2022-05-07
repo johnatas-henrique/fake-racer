@@ -10,6 +10,7 @@ class Race {
   }
 
   update() {
+    this.background.update();
     this.camera.update();
     this.player.update();
     this.opponents.forEach((opp) => opp.update());
@@ -17,6 +18,7 @@ class Race {
   }
 
   draw() {
+    this.background.draw();
     this.road.draw();
     this.player.draw();
     this.director.draw();
@@ -35,6 +37,7 @@ class Race {
       this.camera = new Camera({ race: this });
       this.player = new Player({ race: this });
       this.director = new Director({ race: this });
+      this.background = new Background({ race: this });
       this.opponents.push(new Opponent({
         race: this,
         startPos: -1,
@@ -54,6 +57,7 @@ class Race {
       this.player.init();
       this.camera.init();
       this.director.init();
+      this.background.init();
       this.opponents.forEach((opp) => opp.init());
       this.isInitOnce = true;
     }
