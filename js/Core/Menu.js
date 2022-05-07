@@ -25,7 +25,7 @@ class Menu {
       isRaceOn: 'Iniciar ',
     };
     this.menu = {
-      track: Object.keys(utils.tracks),
+      track: Object.keys(window.tracks.f1Y91),
       opponents: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19'],
       difficulty: ['novato', 'corredor', 'campeão'],
       isMusicActive: ['não', 'sim'],

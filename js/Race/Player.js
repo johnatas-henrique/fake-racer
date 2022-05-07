@@ -7,7 +7,7 @@ class Player {
     this.camera = null;
     this.road = null;
     this.director = null;
-    this.opponentsArr = null;
+    this.opponents = null;
     this.x = 0;
     this.y = 0;
     this.z = 0;
@@ -52,7 +52,7 @@ class Player {
     this.camera = this.race.camera;
     this.road = this.race.road;
     this.director = this.race.director;
-    this.opponentsArr = [];
+    this.opponents = this.race.opponents;
 
     this.inputs.multiDirection.init();
 
@@ -69,10 +69,11 @@ class Player {
     this.sprite.scaleX = 2.5;
     this.sprite.scaleY = 3;
 
-    const { trackSize } = utils.tracks[window.gameState.menuSelectedOptions.track];
+    const { trackSize } = window.tracks.f1Y91[window.gameState.menuSelectedOptions.track];
     const qualyPos = Number(window.gameState.menuSelectedOptions.opponents) + 1;
     this.trackPosition = utils.startPosition(trackSize, qualyPos);
     this.camera.cursor = this.trackPosition;
+    this.x = (qualyPos) % 2 ? -1 : 1;
     this.actualSpeed = 0;
   }
 
@@ -132,21 +133,21 @@ class Player {
   };
 
   update() {
+    this.deltaTime += this.race.core.deltaTime;
+    if (this.deltaTime > utils.secondInMS / this.fps && this.director.paused) {
+      this.curveAnim(this.actualSpeed);
+      this.deltaTime = 0;
+    }
+
     if (this.director.running) {
-      this.deltaTime += this.race.core.deltaTime;
       this.sprite.name = 'Player';
       this.fps = utils.playerFPS(this.actualSpeed);
 
-      if (this.deltaTime > utils.secondInMS / this.fps) {
-        this.deltaTime = 0;
-        this.curveAnim(this.actualSpeed);
-      }
-
-      if (this.director.timeSinceLastFrameSwap > this.animationUpdateTime && this.director.paused) {
-        console.log('verificar o paused');
-        this.curveAnim(this.actualSpeed);
-        this.director.timeSinceLastFrameSwap = 0;
-      }
+      // if (this.director.timeSinceLastFrameSwap > this.animationUpdateTime) {
+      //   console.log('verificar o paused');
+      //   this.curveAnim(this.actualSpeed);
+      //   this.director.timeSinceLastFrameSwap = 0;
+      // }
 
       // crash corrector
       const alignAfterCrash = this.carXCrashState();
@@ -255,7 +256,7 @@ class Player {
       }
 
       this.trackPosition += this.actualSpeed;
-      const { trackSize } = utils.tracks[this.road.trackName];
+      const { trackSize } = window.tracks.f1Y91[this.road.trackName];
       const actualPosition = this.trackPosition / 200;
       const actualLap = Math.floor(actualPosition / trackSize);
 
@@ -291,13 +292,13 @@ class Player {
             this.actualSpeed = utils.calcCrashSpeed(this.actualSpeed, speed, mult);
             this.crashXCorrection += 300 * differentialSpeedPercent;
             this.camera.cursor -= 300;
-            const oppIdx = this.opponentsArr.findIndex(
+            const oppIdx = this.opponents.findIndex(
               (driver) => driver.sprite.name === sprite.name,
             );
             if (oppIdx !== -1) {
-              this.opponentsArr[oppIdx].maxSpeed *= (1 + Math.abs(differentialSpeedPercent / 6));
-              this.opponentsArr[oppIdx].actualSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
-              this.opponentsArr[oppIdx].isCrashed = 1;
+              this.opponents[oppIdx].maxSpeed *= (1 + Math.abs(differentialSpeedPercent / 6));
+              this.opponents[oppIdx].actualSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
+              this.opponents[oppIdx].isCrashed = 1;
             }
           }
         }

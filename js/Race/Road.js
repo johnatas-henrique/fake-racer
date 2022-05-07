@@ -6,7 +6,7 @@ class Road {
 
   #segmentLength = 200; // it could be named segmentHeight
 
-  visibleSegments = 600;
+  visibleSegments = 450;
 
   #k = 13; // number of segments to change kerb color
 
@@ -65,7 +65,7 @@ class Road {
 
     this.#segments = [];
     const { k } = this;
-    const actualTrack = utils.tracks[this.trackName];
+    const actualTrack = window.tracks.f1Y91[this.trackName];
     const { trackSize, colors } = actualTrack;
     for (let i = 0; i < trackSize; i += 1) {
       const lightestColors = {
