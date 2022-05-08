@@ -1,69 +1,38 @@
 class Road {
-  /**
-   * @type {SegmentLine[]}
-   */
-  #segments = [];
-
-  #segmentLength = 200; // it could be named segmentHeight
-
-  visibleSegments = 450;
-
-  #k = 13; // number of segments to change kerb color
-
-  #width = 2000;
-
   constructor(config) {
     this.race = config.race;
     this.render = config.race.core.render;
     this.trackName = config.race.trackName;
+    this.segments = [];
+    this.segmentLength = 200; // it could be named segmentHeight
+    this.visibleSegments = 450;
+    this.k = 13; // number of segments to change kerb color
+    this.width = 2000;
     this.camera = null;
     this.player = null;
   }
 
-  get k() {
-    return this.#k;
-  }
-
-  /**
-   * Segment size on road
-   */
-  get segmentLength() {
-    return this.#segmentLength;
-  }
-
-  /**
-   * Total of segments (track length)
-   */
   get segmentsLength() {
-    return this.#segments.length;
+    return this.segments.length;
   }
 
   get length() {
     return this.segmentsLength * this.segmentLength;
   }
 
-  get width() {
-    return this.#width;
-  }
-
-  /**
-   *
-   * @param {Number} cursor
-   * @returns
-   */
   getSegment(cursor) {
-    return this.#segments[Math.floor(cursor / this.#segmentLength) % this.segmentsLength];
+    return this.segments[Math.floor(cursor / this.segmentLength) % this.segmentsLength];
   }
 
   getSegmentFromIndex(index) {
-    return this.#segments[index % this.segmentsLength];
+    return this.segments[index % this.segmentsLength];
   }
 
   init() {
     this.camera = this.race.camera;
     this.player = this.race.player;
 
-    this.#segments = [];
+    this.segments = [];
     const { k } = this;
     const actualTrack = window.tracks.f1Y91[this.trackName];
     const { trackSize, colors } = actualTrack;
@@ -117,7 +86,7 @@ class Road {
       const { world } = segmentLine.points;
       world.w = this.width;
       world.z = (i + 1) * this.segmentLength;
-      this.#segments.push(segmentLine);
+      this.segments.push(segmentLine);
 
       // adding curves
       const createCurve = (min, max, curve, kerb) => {
@@ -128,11 +97,6 @@ class Road {
       };
       actualTrack.curves
         .forEach((curve) => createCurve(curve.min, curve.max, curve.curveInclination, curve.kerb));
-
-      // adding speed bump
-      // if (i <=k) {
-      //   world.y = sin(i * 0.5) * 1000;
-      // }
 
       // Road Sprites
       // signalDirections
