@@ -52,8 +52,7 @@ canvas {
 }
 
 #info, .hud-container, .touch-controls {
-  color: white;
-  text-shadow: 1px 1px 2px black;
+  color: black;
   position: absolute;
   width: 100%;
   list-style-type: none;

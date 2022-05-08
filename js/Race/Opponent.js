@@ -5,8 +5,8 @@ class Opponent {
     this.trackPosition = config.trackPosition || 1;
     this.startPos = config.startPos || -1;
     this.opponentName = config.opponentName || 'Desconhecido';
-    this.carColor = config.carColor || 'random';
-    this.image = config.image || '../images/sprites/other/opponents.png';
+    this.carColor = config.carColor ?? 'random';
+    this.image = config.image || '../images/sprites/other/f1Y91Opponents.png';
     this.sprite = new SpriteRace();
     this.actualSpeed = 0;
     this.scale = 0;
@@ -38,7 +38,7 @@ class Opponent {
     this.sprite.sheetPositionX = this.carColor !== 'random' ? this.carColor : Math.floor(Math.random() * 7.99);
     this.sprite.sheetPositionY = 0;
     this.sprite.actualSpeed.mult = 1;
-    this.maxSpeed += Math.floor(Math.random() * 40);
+    this.maxSpeed += Math.floor(Math.random() * 20);
     this.baseSpeed = this.maxSpeed;
   }
 

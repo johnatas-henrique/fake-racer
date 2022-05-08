@@ -111,7 +111,7 @@ const utils = {
     const tenths = time.toString().slice(-3);
     return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}.${time < 100 ? '000' : tenths}`;
   },
-  startPosition: (trackSize, position) => (trackSize - (position * 16)) * 200,
+  startPosition: (trackSize, position) => (trackSize - (position * 24)) * 200,
   overlap: (x1, w1, x2, w2, percent = 1) => {
     const half = percent / 2;
     const callerL = x1 - (w1 * half);
@@ -126,20 +126,12 @@ const utils = {
     if (callerSpd - objSpd <= 120) return callerSpd - 120;
     return Math.max(callerSpd - ((callerSpd - objSpd) * 1.6), 20);
   },
-  // const pause = (e, state) => {
-  //   const pauseState = state;
-  //   const pauseBtn = document.querySelector('#pauseBtn');
-  //   pauseBtn.classList.toggle('off');
-  //   if (!window.navigator.maxTouchPoints && e.type !== 'keypress') {
-  //     pauseState.p = !pauseState.p;
-  //   }
-  // };
   updateOpponentsCarOffset: (car, player, director, oppArr) => {
     const carParam = car;
     const playerParam = player;
     const oppArrParam = oppArr;
     const lookAhead = 40;
-    const crash = 8;
+    const crash = 4;
     const { carSegments: carSeg } = director;
     const cSeg = (carSeg.find(({ name }) => name === carParam.opponentName));
     const arrObjSeg = carSeg.filter(({ pos }) => pos < cSeg.pos + lookAhead && pos > cSeg.pos);
@@ -159,8 +151,8 @@ const utils = {
           if (objSeg.x < -1 || (objSeg.x < 0 && diffCarsX < 0.3)) dir = changeX;
           if (objCrash && objCrash.name !== playerParam.name) {
             const opp = oppArrParam.findIndex(({ opponentName }) => opponentName === objCrash.name);
-            oppArrParam[opp].actualSpeed *= 1.02;
-            carParam.actualSpeed *= 0.98;
+            oppArrParam[opp].actualSpeed *= 1.04;
+            carParam.actualSpeed *= 0.96;
           }
         }
       }

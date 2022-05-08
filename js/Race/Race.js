@@ -6,6 +6,7 @@ class Race {
     this.player = null;
     this.director = null;
     this.trackName = null;
+    this.difficulty = null;
     this.opponents = [];
     this.raining = Math.round(Math.random() * 5) % 3 === 0;
   }
@@ -26,11 +27,21 @@ class Race {
     this.player.draw();
     if (this.raining) this.rain.forEach((item) => item.draw(this.core.render, this.player));
     this.director.draw();
+
+    // for development only
+    // utils.addItens('#line1', `Segment: ${(this.camera.cursor / 200).toFixed(3)}`);
+  }
+
+  adjustDifficulty() {
+    if (this.difficulty === 'novato') return 0.87;
+    if (this.difficulty === 'corredor') return 0.935;
+    return 1;
   }
 
   init() {
     if (window.gameState.mode === 'singleRaceScene' && !this.isInitOnce) {
       this.trackName = window.gameState.menuSelectedOptions.track;
+      this.difficulty = window.gameState.menuSelectedOptions.difficulty;
 
       utils.classRemover('pauseBtn', 'hidden');
       utils.classRemover('muteBtn', 'hidden');
@@ -42,20 +53,22 @@ class Race {
       this.player = new Player({ race: this });
       this.director = new Director({ race: this });
       this.background = new Background({ race: this });
-      this.opponents.push(new Opponent({
-        race: this,
-        startPos: -1,
-        opponentName: 'Forte',
-        maxSpeed: 1080,
-        trackPosition: 1744000,
-      }));
-      this.opponents.push(new Opponent({
-        race: this,
-        startPos: 1,
-        opponentName: 'Fraco',
-        maxSpeed: 1050,
-        trackPosition: 1740800,
-      }));
+
+      const { trackSize } = window.tracks.f1Y91[this.trackName];
+
+      window.drivers.f1Y91.forEach((driver) => {
+        this.opponents.push(new Opponent({
+          race: this,
+          maxSpeed: driver.power * this.adjustDifficulty(),
+          trackPosition: utils.startPosition(trackSize, driver.position),
+          startPos: driver.trackSide,
+          opponentName: driver.name,
+          carColor: driver.carColor,
+        }));
+      });
+
+      // setting number of opponents
+      this.opponents.length = window.gameState.menuSelectedOptions.opponents;
 
       if (this.raining) {
         const rainDrops = Math.random() * 500 + 100;
@@ -69,6 +82,7 @@ class Race {
       this.director.init();
       this.background.init();
       this.opponents.forEach((opp) => opp.init());
+
       this.isInitOnce = true;
     }
   }
