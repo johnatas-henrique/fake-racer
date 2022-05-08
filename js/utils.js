@@ -176,7 +176,6 @@ const utils = {
           if (objCrash) {
             const x = (carParam.actualSpeed - playerParam.actualSpeed) / 2;
             playerParam.actualSpeed += x * 1.8;
-            carParam.actualSpeed += x * -1.5;
           }
         }
       }

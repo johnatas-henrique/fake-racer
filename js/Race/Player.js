@@ -139,15 +139,17 @@ class Player {
       this.deltaTime = 0;
     }
 
+    // for testing only
+    if (this.inputs.multiDirection.isKeyDown('m')) {
+      // this.camera.cursor = (road.length) - 200 * 200;
+      // this.x = 0;
+      // this.actualSpeed = 1200;
+      window.gameState.mode = 'menuScene';
+    }
+
     if (this.director.running) {
       this.sprite.name = 'Player';
       this.fps = utils.playerFPS(this.actualSpeed);
-
-      // if (this.director.timeSinceLastFrameSwap > this.animationUpdateTime) {
-      //   console.log('verificar o paused');
-      //   this.curveAnim(this.actualSpeed);
-      //   this.director.timeSinceLastFrameSwap = 0;
-      // }
 
       // crash corrector
       const alignAfterCrash = this.carXCrashState();
@@ -164,12 +166,6 @@ class Player {
         // this.sprite.sheetPositionX += 1;
         this.x = 0;
         this.actualSpeed = 1200;
-      }
-      if (this.inputs.multiDirection.isKeyDown('m')) {
-        // this.camera.cursor = (road.length) - 200 * 200;
-        // this.x = 0;
-        // this.actualSpeed = 1200;
-        window.gameState.mode = 'menuScene';
       }
 
       // making playerCar moves in Y axis
@@ -268,11 +264,15 @@ class Player {
       // making player crash
       const baseSegment = segment.index;
       const lookupTrackside = 4;
-      let crashLookup = 0;
-      if (this.actualSpeed / this.maxSpeed < 0.5) crashLookup = 1;
+      let crashLookup = 4;
       const minHit = baseSegment + lookupTrackside;
+      if (this.actualSpeed / this.maxSpeed < 0.5) {
+        crashLookup = Math.ceil((this.actualSpeed / this.maxSpeed) * 4);
+      }
+
       for (let i = baseSegment; i <= minHit; i += 1) {
         const crashSegment = this.road.getSegmentFromIndex(i);
+
         for (let j = 0; j < crashSegment.sprites.length; j += 1) {
           const sprite = crashSegment.sprites[j];
           const { scale } = crashSegment;
@@ -290,13 +290,14 @@ class Player {
             const { speed, mult } = sprite.actualSpeed;
             const differentialSpeedPercent = (this.actualSpeed - speed) / 1200;
             this.actualSpeed = utils.calcCrashSpeed(this.actualSpeed, speed, mult);
-            this.crashXCorrection += 300 * differentialSpeedPercent;
-            this.camera.cursor -= 300;
+            this.crashXCorrection += 600 * differentialSpeedPercent;
+            this.camera.cursor -= 800;
             const oppIdx = this.opponents.findIndex(
               (driver) => driver.sprite.name === sprite.name,
             );
+
             if (oppIdx !== -1) {
-              this.opponents[oppIdx].maxSpeed *= (1 + Math.abs(differentialSpeedPercent / 6));
+              this.opponents[oppIdx].maxSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
               this.opponents[oppIdx].actualSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
               this.opponents[oppIdx].isCrashed = 1;
             }
