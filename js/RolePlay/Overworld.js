@@ -5,13 +5,16 @@ class Overworld {
     this.ctx = this.canvas.getContext('2d');
     this.map = null;
     this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
-    this.keyPressListeners = [];
+    this.inputs = {
+      oneDirection: null,
+      multiDirection: null,
+      keyPressListeners: [],
+    };
   }
 
   startGameLoop() {
     const frame = () => {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
       const cameraPerson = {
         ...this.map.gameObjects.hero,
         canvasMidpoint: this.canvasMidpoint,
@@ -46,14 +49,14 @@ class Overworld {
   }
 
   helperHeroPositionMapCheck() {
-    this.keyPressListeners.push(new KeyPressListener(
+    this.inputs.keyPressListeners.push(new KeyPressListener(
       'KeyH',
       () => this.map.helperCheckHeroMapPosition(),
     ));
   }
 
   bindActionInput() {
-    this.keyPressListeners.push(new KeyPressListener(
+    this.inputs.keyPressListeners.push(new KeyPressListener(
       'Enter',
       () => this.map.checkForActionCutscene(),
     ));
@@ -79,7 +82,9 @@ class Overworld {
     this.helperHeroPositionMapCheck();
 
     this.bindActionInput();
+    utils.keyInitializer('KeyH', this);
     this.bindHeroPositionCheck();
+    utils.keyInitializer('Enter', this);
 
     this.directionInput = new OneDirectionInput();
     this.directionInput.init();
@@ -87,7 +92,7 @@ class Overworld {
     this.startGameLoop();
 
     this.map.startCutscene([
-      // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'teste ganho', textLose: 'teste perdido' },
+      // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'testwin', textLose: 'testlose' },
       //   { who: 'hero', type: 'walk', direction: 'down' },
       //   { who: 'hero', type: 'walk', direction: 'down' },
       //   { who: 'npcA', type: 'walk', direction: 'left' },

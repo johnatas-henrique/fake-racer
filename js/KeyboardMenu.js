@@ -86,5 +86,8 @@ class KeyboardMenu {
 
       nextButton?.focus();
     });
+
+    this.up.init();
+    this.down.init();
   }
 }

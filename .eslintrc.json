@@ -13,16 +13,23 @@
         "MultiDirectionInput": false,
         "OneDirectionInput": false,
         "Opponent": false,
+        "Overworld": false,
+        "OverworldEvent": false,
+        "OverworldMap": false,
         "Player": false,
         "Race": false,
         "Render": false,
+        "RevealingText": false,
         "Road": false,
         "SegmentLine": false,
         "Stats": false,
         "SpriteRace": false,
         "Speedometer": false,
         "Tunnel": false,
-        "utils": false
+        "utils": false,
+
+        "Howler": false,
+        "Howl": false
     },
     "extends": [
         "airbnb-base"
@@ -43,6 +50,7 @@
             2,
             "single"
         ],
+        "no-param-reassign": ["error", { "props": false }],
         "implicit-arrow-linebreak": "off",
         "consistent-return": "off",
         "no-unused-vars": [

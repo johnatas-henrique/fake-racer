@@ -28,6 +28,7 @@ class RaceScene {
 
   bindPauseInput() {
     this.bindPauseListener = new KeyPressListener('KeyP', () => this.showPauseMenu());
+    this.bindPauseListener.init();
   }
 
   init() {
