@@ -71,14 +71,12 @@ class Menu {
   enterSingleRaceScene() {
     this.core.inputs.oneDirection.unbind();
     utils.keyUnbinder('Enter', this.core);
-    window.gameState.mode = 'singleRaceScene';
+    utils.modeChanger('singleRaceScene');
   }
 
   enterRPGScene() {
     console.log('rpg run', this);
-    // this.core.inputs.oneDirection.unbind();
-    // utils.keyUnbinder('Enter', this.core);
-    // window.gameState.mode = 'singleRaceScene';
+    utils.modeChanger('RPGScene');
   }
 
   static musicControl() {
@@ -176,6 +174,7 @@ class Menu {
   }
 
   draw() {
+    this.core.render.drawRect('#FAF6F2', 0, 0, this.core.canvas.width, this.core.canvas.height);
     this.animations.forEach((item) => {
       item.update();
       item.draw(this.core.render);
@@ -203,7 +202,7 @@ class Menu {
       const lowText = `${this.menuPhrase[this.menuOptions[menuLow]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuLow]].toLocaleUpperCase()}`;
       const highText = `${this.menuPhrase[this.menuOptions[menuHigh]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuHigh]].toLocaleUpperCase()}`;
 
-      this.core.render.roundRect('#2C69EB', 100, 100, 440, 170, true, 20, false);
+      this.core.render.drawRoundRect('#2C69EB', 100, 100, 440, 170, true, 20, false);
       this.core.render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
 
       const phrase = `${this.menuPhrase[this.menuOptions[this.menuX]]} ${this.menu[this.menuOptions[this.menuX]][this.menuY].toLocaleUpperCase()}`;

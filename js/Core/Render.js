@@ -100,7 +100,14 @@ class Render {
     }
   }
 
-  roundRect(color, x, y, width, height, fill, radius = 5, stroke = true) {
+  drawRect(color, startX, startY, width, height) {
+    this.save();
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(startX, startY, width, height);
+    this.restore();
+  }
+
+  drawRoundRect(color, x, y, width, height, fill, radius = 5, stroke = true) {
     const radii = {
       tl: 0, tr: 0, br: 0, bl: 0,
     };

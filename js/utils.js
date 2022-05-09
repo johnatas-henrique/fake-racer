@@ -27,8 +27,11 @@ const utils = {
     utils.htmlElements[htmlEl]().classList.add(cssClass);
   },
   modeChanger: (mode) => {
+    window.gameState.mode = mode;
     if (mode !== 'RPGScene') {
       utils.classRemover('gameCanvas', 'pixelated');
+    } else {
+      utils.classAdder('gameCanvas', 'pixelated');
     }
   },
   // RPG Functions
