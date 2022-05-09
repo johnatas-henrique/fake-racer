@@ -75,34 +75,21 @@ const utils = {
     const li = document.querySelector(liId);
     li.textContent = text;
   },
-  toggleMusic: (_e, toggle, volume = '2') => {
-    const music = document.getElementById('music');
-    const mute = document.getElementById('mute');
-
-    music.volume = Number(volume) / 10;
-    if (!toggle) {
-      music.play();
-      mute.classList.toggle('off');
-      music.muted = !music.muted;
-    }
-
-    if (toggle === 'sim') {
-      music.play();
-      mute.classList.remove('off');
-      music.muted = false;
-    } else if (toggle === 'não') {
-      mute.classList.add('off');
-      music.muted = true;
+  changeMusic: () => {
+    const nextPosition = Math.round(Math.random() * (window.musicList.length - 1));
+    window.gameState.music = window.musicList[nextPosition];
+  },
+  playMusic: (chosenMusic) => {
+    window.music[chosenMusic].volume(window.gameState.menuSelectedOptions.musicVolume / 10);
+    if (!window.music[chosenMusic].playing()) {
+      window.music[chosenMusic].play();
+      utils.htmlElements.muteBtn().classList.remove('off');
     }
   },
-  playMusic: () => {
-    const music = document.getElementById('music');
-    const mute = document.getElementById('mute');
-    music.loop = true;
-    music.volume = 0.3;
-    music.muted = 'true';
-    mute.classList.toggle('off');
-    mute.addEventListener('click', utils.toggleMusic);
+  stopMusic: (chosenMusic) => {
+    window.music[chosenMusic].stop();
+    utils.changeMusic();
+    utils.htmlElements.muteBtn().classList.add('off');
   },
   formatTime: (dt) => {
     const time = Math.round(dt);

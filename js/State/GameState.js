@@ -1,6 +1,7 @@
 class GameState {
   constructor() {
     this.mode = 'menuScene';
+    this.music = null;
     this.menuSelectedOptions = {
       track: 'canada',
       opponents: '19',

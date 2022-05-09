@@ -71,6 +71,23 @@ class Core {
     utils.htmlElements.fullScreenBtn()
       .addEventListener('click', Core.toggleFullScreen);
 
+    const [firstMusic] = window.musicList;
+
+    window.gameState.music = firstMusic;
+
+    utils.htmlElements.muteBtn()
+      .addEventListener('click', (e) => {
+        const { menuSelectedOptions } = window.gameState;
+        menuSelectedOptions.isMusicActive = menuSelectedOptions.isMusicActive === 'não' ? 'sim' : 'não';
+        if (menuSelectedOptions.isMusicActive === 'sim') {
+          e.target.classList.remove('off');
+          utils.playMusic(window.gameState.music);
+        } else {
+          e.target.classList.add('off');
+          utils.stopMusic(window.gameState.music);
+        }
+      });
+
     this.startGameLoop();
   }
 }

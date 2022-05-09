@@ -71,14 +71,30 @@ class Menu {
     window.gameState.mode = 'singleRaceScene';
   }
 
+  static musicControl() {
+    if (window.gameState.menuSelectedOptions.isMusicActive === 'sim') {
+      utils.playMusic(window.gameState.music);
+    } else {
+      utils.stopMusic(window.gameState.music);
+    }
+  }
+
   update(deltaTime) {
     const { menuSelectedOptions } = window.gameState;
+
+    Menu.musicControl();
+
     this.deltaTime += deltaTime;
     const maxX = Object.keys(this.menu).length - 1;
     const maxY = this.menu[this.menuOptions[this.menuX]].length - 1;
 
+    if (this.isConfirmButtonPressed) {
+      window.sfx.confirm.play();
+    }
+
     if (this.isConfirmButtonPressed && !this.showMenu) {
       menuSelectedOptions.isMusicActive = 'sim';
+      utils.htmlElements.muteBtn().classList.remove('off');
       this.showMenu = 1;
       this.menuTitle.pos = 0;
       this.isConfirmButtonPressed = false;
@@ -89,6 +105,10 @@ class Menu {
 
       if (this.directionPressed() !== 'down') this.arrowDownBlink = false;
       if (this.directionPressed() !== 'up') this.arrowUpBlink = false;
+
+      if (this.directionPressed() === 'down' || this.directionPressed() === 'up') {
+        window.sfx.menuUpDown.play();
+      }
 
       if (this.menuX < maxX && this.directionPressed() === 'down') {
         this.arrowDownBlink = !this.arrowDownBlink;
