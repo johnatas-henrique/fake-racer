@@ -3,6 +3,7 @@ class Core {
     this.element = config.element;
     this.canvas = this.element.querySelector('.game-canvas');
     this.ctx = this.canvas.getContext('2d');
+    this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     this.render = new Render(this.ctx);
     this.inputs = {
       oneDirection: null,
@@ -38,6 +39,12 @@ class Core {
           this.singleRace.draw();
         }
 
+        if (window.gameState.mode === 'RPGScene') {
+          this.overworld.init();
+          this.overworld.update();
+          this.overworld.draw();
+        }
+
         this.stats.end();
         this.lastTime = this.timeStamp;
       }
@@ -67,6 +74,11 @@ class Core {
     this.menu = new Menu({ animations: window.particles, core: this });
 
     this.singleRace = new Race({ core: this });
+
+    this.overworld = new Overworld({
+      core: this,
+      element: document.querySelector('.game-container'),
+    });
 
     utils.htmlElements.fullScreenBtn()
       .addEventListener('click', Core.toggleFullScreen);

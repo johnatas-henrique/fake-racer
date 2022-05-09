@@ -56,6 +56,7 @@ class Menu {
 
   init() {
     if (window.gameState.mode === 'menuScene' && !this.isInitOnce) {
+      utils.resolutionChanger(this.core);
       utils.classToggler('pauseBtn', 'hidden');
       utils.classToggler('muteBtn', 'hidden');
 

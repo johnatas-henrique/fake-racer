@@ -144,7 +144,7 @@ class Player {
       // this.camera.cursor = (road.length) - 200 * 200;
       // this.x = 0;
       // this.actualSpeed = 1200;
-      window.gameState.mode = 'menuScene';
+      utils.modeChanger('menuScene');
     }
 
     if (this.director.running) {

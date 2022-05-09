@@ -40,6 +40,7 @@ class Race {
 
   init() {
     if (window.gameState.mode === 'singleRaceScene' && !this.isInitOnce) {
+      utils.resolutionChanger(this.core);
       this.trackName = window.gameState.menuSelectedOptions.track;
       this.difficulty = window.gameState.menuSelectedOptions.difficulty;
 

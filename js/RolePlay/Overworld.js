@@ -1,10 +1,11 @@
 class Overworld {
   constructor(config) {
+    this.core = config.core;
     this.element = config.element;
     this.canvas = this.element.querySelector('.game-canvas');
     this.ctx = this.canvas.getContext('2d');
     this.map = null;
-    this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
+    this.canvasMidpoint = config.core.canvasMidpoint;
     this.inputs = {
       oneDirection: null,
       multiDirection: null,
@@ -13,39 +14,46 @@ class Overworld {
   }
 
   startGameLoop() {
+    console.log('loop');
     const frame = () => {
+      console.log('frame');
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      const cameraPerson = {
-        ...this.map.gameObjects.hero,
-        canvasMidpoint: this.canvasMidpoint,
-      };
-
-      Object.values(this.map.gameObjects).forEach((item) => {
-        item.update({
-          arrow: this.directionInput.direction,
-          map: this.map,
-        });
-      });
-
-      this.map.drawLowerImage(this.ctx, cameraPerson);
-
-      const gameObj = Object.values(this.map.gameObjects);
-
-      gameObj
-        .sort((a, b) => a.y - b.y)
-        .forEach((item) => {
-          item.sprite.draw(this.ctx, cameraPerson);
-        });
-
-      this.map.drawMiddleImage(this.ctx, cameraPerson);
-
-      this.map.drawUpperImage(this.ctx, cameraPerson);
 
       requestAnimationFrame(() => {
         frame();
       });
     };
     frame();
+  }
+
+  update() {
+    Object.values(this.map.gameObjects).forEach((item) => {
+      item.update({
+        arrow: this.directionInput.direction,
+        map: this.map,
+      });
+    });
+  }
+
+  draw() {
+    const cameraPerson = {
+      ...this.map.gameObjects.hero,
+      canvasMidpoint: this.canvasMidpoint,
+    };
+
+    this.map.drawLowerImage(this.ctx, cameraPerson);
+
+    const gameObj = Object.values(this.map.gameObjects);
+
+    gameObj
+      .sort((a, b) => a.y - b.y)
+      .forEach((item) => {
+        item.sprite.draw(this.ctx, cameraPerson);
+      });
+
+    this.map.drawMiddleImage(this.ctx, cameraPerson);
+
+    this.map.drawUpperImage(this.ctx, cameraPerson);
   }
 
   helperHeroPositionMapCheck() {
@@ -77,29 +85,34 @@ class Overworld {
   }
 
   init() {
-    this.startMap(window.OverworldMaps.DemoRoom);
+    if (window.gameState.mode === 'RPGScene' && !this.isInitOnce) {
+      utils.resolutionChanger(this.core);
+      utils.classAdder('gameCanvas', 'pixelated');
 
-    this.helperHeroPositionMapCheck();
+      this.startMap(window.OverworldMaps.DemoRoom);
 
-    this.bindActionInput();
-    utils.keyInitializer('KeyH', this);
-    this.bindHeroPositionCheck();
-    utils.keyInitializer('Enter', this);
+      this.helperHeroPositionMapCheck();
 
-    this.directionInput = new OneDirectionInput();
-    this.directionInput.init();
+      this.bindActionInput();
+      utils.keyInitializer('KeyH', this);
+      this.bindHeroPositionCheck();
+      utils.keyInitializer('Enter', this);
 
-    this.startGameLoop();
+      this.directionInput = new OneDirectionInput();
+      this.directionInput.init();
 
-    this.map.startCutscene([
-      // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'testwin', textLose: 'testlose' },
-      //   { who: 'hero', type: 'walk', direction: 'down' },
-      //   { who: 'hero', type: 'walk', direction: 'down' },
-      //   { who: 'npcA', type: 'walk', direction: 'left' },
-      //   { who: 'npcA', type: 'walk', direction: 'up' },
-      //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
-      //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
-      //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
-    ]);
+      this.map.startCutscene([
+        // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'testwin', textLose: 'testlose' },
+        //   { who: 'hero', type: 'walk', direction: 'down' },
+        //   { who: 'hero', type: 'walk', direction: 'down' },
+        //   { who: 'npcA', type: 'walk', direction: 'left' },
+        //   { who: 'npcA', type: 'walk', direction: 'up' },
+        //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
+        //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
+        //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
+      ]);
+
+      this.isInitOnce = true;
+    }
   }
 }

@@ -9,29 +9,68 @@
 
 * {
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-body {
-  background: #333;
+@font-face {
+  font-family: Arrows;
+  src: url(../assets/fonts/arrows.ttf);
+}
+
+@font-face {
+  font-family: OutriderCond;
+  src: url(../assets/fonts/outriderCond.ttf);
+}
+
+@font-face {
+  font-family: OutriderCondBold;
+  src: url(../assets/fonts/outriderCondBold.ttf);
+}
+
+@font-face {
+  font-family: Joystix;
+  src: url(../assets/fonts/joystix.ttf);
+}
+
+@font-face {
+  font-family: Computo;
+  src: url(../assets/fonts/computo.ttf);
+}
+
+html, body {
+  background: #000000;
+  font-family: Joystix, Verdana, Geneva, sans-serif;
+  height: 100vh;
   margin: 0;
   padding: 0;
+  position: relative;
   overflow: hidden;
+  width: 100vw;
 }
 
 .game-container {
+  height: min(56.25vw, 100vh);
+  margin: 0 auto;
+  outline: 0.1vw solid white;
   position: relative;
   width: 100vw;
-  height: min(56.25vw, 100vh);
-  outline: 0.1vw solid #fff;
-  margin: 0 auto;
 }
 
-.game-container canvas {
-  width: 100vw;
-  height: min(56.25vw, 100vh);
+.game-container .game-canvas {
+  height: 100%;
+  width: 100%;
+  background: grey;
+  
+}
+
+.pixelated {
   image-rendering: pixelated;
 }
 
-.game-canvas {
-  background-color: rgb(128, 128, 128);
+.fps-canvas canvas {
+  height: 100%;
+  width: 100%;
 }

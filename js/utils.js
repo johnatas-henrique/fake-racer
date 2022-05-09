@@ -26,12 +26,21 @@ const utils = {
   classAdder: (htmlEl, cssClass) => {
     utils.htmlElements[htmlEl]().classList.add(cssClass);
   },
+  resolutionChanger: (coreClass) => {
+    const { width, height } = coreClass.canvas;
+    coreClass.canvasMidpoint.x = width / 2;
+    coreClass.canvasMidpoint.y = height / 2;
+  },
   modeChanger: (mode) => {
     window.gameState.mode = mode;
     if (mode !== 'RPGScene') {
       utils.classRemover('gameCanvas', 'pixelated');
+      utils.htmlElements.gameCanvas().width = 640;
+      utils.htmlElements.gameCanvas().height = 360;
     } else {
       utils.classAdder('gameCanvas', 'pixelated');
+      utils.htmlElements.gameCanvas().width = 384;
+      utils.htmlElements.gameCanvas().height = 216;
     }
   },
   // RPG Functions
