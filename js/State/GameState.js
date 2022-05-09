@@ -8,7 +8,8 @@ class GameState {
       difficulty: 'novato',
       isMusicActive: 'não',
       musicVolume: '1',
-      isRaceOn: 'corrida',
+      isSingleRaceOn: 'única',
+      isRPGOn: 'história',
     };
   }
 }

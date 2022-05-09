@@ -10,7 +10,7 @@ class Menu {
     this.isConfirmButtonPressed = false;
     this.showMenu = 0;
     this.menuY = 0;
-    this.menuX = 5;
+    this.menuX = 6;
     this.fps = 8;
     this.deltaTime = 0;
     this.arrowUpBlink = false;
@@ -22,7 +22,8 @@ class Menu {
       difficulty: 'Dificuldade: ',
       isMusicActive: 'Música: ',
       musicVolume: 'Volume da música: ',
-      isRaceOn: 'Iniciar ',
+      isSingleRaceOn: 'Corrida ',
+      isRPGOn: 'Modo ',
     };
     this.menu = {
       track: Object.keys(window.tracks.f1Y91),
@@ -30,7 +31,8 @@ class Menu {
       difficulty: ['novato', 'corredor', 'campeão'],
       isMusicActive: ['não', 'sim'],
       musicVolume: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-      isRaceOn: ['corrida'],
+      isSingleRaceOn: ['única'],
+      isRPGOn: ['história'],
     };
     this.menuOptions = {
       0: 'track',
@@ -38,7 +40,8 @@ class Menu {
       2: 'difficulty',
       3: 'isMusicActive',
       4: 'musicVolume',
-      5: 'isRaceOn',
+      5: 'isSingleRaceOn',
+      6: 'isRPGOn',
     };
   }
 
@@ -69,6 +72,13 @@ class Menu {
     this.core.inputs.oneDirection.unbind();
     utils.keyUnbinder('Enter', this.core);
     window.gameState.mode = 'singleRaceScene';
+  }
+
+  enterRPGScene() {
+    console.log('rpg run', this);
+    // this.core.inputs.oneDirection.unbind();
+    // utils.keyUnbinder('Enter', this.core);
+    // window.gameState.mode = 'singleRaceScene';
   }
 
   static musicControl() {
@@ -140,17 +150,22 @@ class Menu {
       if (this.menuY > 0 && this.directionPressed() === 'left') this.menuY -= 1;
       else if (this.menuY === 0 && this.directionPressed() === 'left') this.menuY = maxY;
 
-      const lastMenuOption = Object.keys(this.menu).length - 1;
+      const inconfirmableOptions = Object.keys(this.menu).length - 2;
 
-      if (this.menuX !== lastMenuOption) {
+      if (this.isConfirmButtonPressed && this.menuX === 5) {
+        this.isConfirmButtonPressed = false;
+        this.enterSingleRaceScene();
+      }
+
+      if (this.isConfirmButtonPressed && this.menuX === 6) {
+        this.isConfirmButtonPressed = false;
+        this.enterRPGScene();
+      }
+
+      if (this.menuX < inconfirmableOptions) {
         const changeOption = this.menu[this.menuOptions[this.menuX]][this.menuY];
         menuSelectedOptions[this.menuOptions[this.menuX]] = changeOption;
         this.isConfirmButtonPressed = false;
-      }
-
-      if (this.isConfirmButtonPressed && this.menuX === lastMenuOption) {
-        this.isConfirmButtonPressed = false;
-        this.enterSingleRaceScene();
       }
     }
   }
@@ -190,6 +205,7 @@ class Menu {
 
       this.core.render.roundRect('#2C69EB', 100, 100, 440, 170, true, 20, false);
       this.core.render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);
+
       const phrase = `${this.menuPhrase[this.menuOptions[this.menuX]]} ${this.menu[this.menuOptions[this.menuX]][this.menuY].toLocaleUpperCase()}`;
       this.core.render.drawText('#050B1A', phrase, 320, 180 + (this.menuTitle.pos / 4), 1.6);
       this.core.render.drawText('#FFFAF4', highText, 320, 180 + 45, 1.6);
