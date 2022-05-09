@@ -1,5 +1,5 @@
 const arrPart = [];
-const { width: canvasWidth, height: canvasHeight } = utils.htmlElements.canvas();
+const { width: canvasWidth, height: canvasHeight } = utils.htmlElements.gameCanvas();
 
 const connect = (render) => {
   const { ctx } = render;
@@ -51,7 +51,7 @@ class Particle {
 }
 
 const initParticles = () => {
-  const { height, width } = utils.htmlElements.canvas();
+  const { height, width } = utils.htmlElements.gameCanvas();
   const numberOfParticles = 32;
   for (let i = 0; i < numberOfParticles; i += 1) {
     const size = (Math.random() * 1.5) + 1.5;

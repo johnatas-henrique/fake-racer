@@ -31,11 +31,11 @@ class Camera {
     }(this);
 
     get width() {
-      return utils.htmlElements.canvas().width;
+      return utils.htmlElements.gameCanvas().width;
     }
 
     get height() {
-      return utils.htmlElements.canvas().height;
+      return utils.htmlElements.gameCanvas().height;
     }
   }();
 

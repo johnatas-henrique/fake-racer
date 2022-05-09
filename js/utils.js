@@ -1,7 +1,7 @@
 const utils = {
   htmlElements: {
     gameContainer: () => document.querySelector('.game-container'),
-    canvas: () => document.querySelector('.game-canvas'),
+    gameCanvas: () => document.querySelector('.game-canvas'),
     pauseMenu: () => document.querySelector('.keyboard-menu'),
     descriptionPauseMenu: () => document.querySelector('.description-box'),
     fps: () => document.querySelector('.fps'),
@@ -23,7 +23,14 @@ const utils = {
   classRemover: (htmlEl, cssClass) => {
     utils.htmlElements[htmlEl]().classList.remove(cssClass);
   },
-
+  classAdder: (htmlEl, cssClass) => {
+    utils.htmlElements[htmlEl]().classList.add(cssClass);
+  },
+  modeChanger: (mode) => {
+    if (mode !== 'RPGScene') {
+      utils.classRemover('gameCanvas', 'pixelated');
+    }
+  },
   // RPG Functions
   withGrid: (n) => (n * 16),
   asGridCoord: (x, y) => `${x * 16},${y * 16}`,

@@ -1,5 +1,5 @@
 const arrRain = [];
-const { width, height } = utils.htmlElements.canvas();
+const { width, height } = utils.htmlElements.gameCanvas();
 
 class RainDrop {
   constructor() {

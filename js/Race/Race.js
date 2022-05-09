@@ -73,7 +73,7 @@ class Race {
       if (this.raining) {
         const rainDrops = Math.random() * 500 + 100;
         this.rain = window.rain(rainDrops);
-        utils.htmlElements.canvas().classList.add('filter');
+        utils.htmlElements.gameCanvas().classList.add('filter');
       }
 
       this.road.init();
