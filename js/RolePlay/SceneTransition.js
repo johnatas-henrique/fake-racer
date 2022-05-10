@@ -3,9 +3,9 @@ class SceneTransition {
     this.element = null;
   }
 
-  createElement() {
+  createElement(animation) {
     this.element = document.createElement('div');
-    this.element.classList.add('SceneTransition');
+    this.element.classList.add(animation);
   }
 
   fadeOut() {
@@ -15,8 +15,8 @@ class SceneTransition {
     }, { once: true });
   }
 
-  init(container, callback) {
-    this.createElement();
+  init(animation, container, callback) {
+    this.createElement(animation);
     container.appendChild(this.element);
     this.element.addEventListener('animationend', () => {
       callback();

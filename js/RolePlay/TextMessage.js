@@ -8,7 +8,6 @@ class TextMessage {
   createElement() {
     this.element = document.createElement('div');
     this.element.classList.add('TextMessage');
-
     this.element.innerHTML = (`
       <p class='TextMessage_p'></p>
       <button class='TextMessage_button'>Next</button>
@@ -31,8 +30,10 @@ class TextMessage {
     if (this.revealingText.isDone) {
       this.element.remove();
       this.actionListener.unbind();
+      window.sfx.talking.stop();
       this.onComplete();
     } else {
+      window.sfx.talking.stop();
       this.revealingText.warpToDone();
     }
   }

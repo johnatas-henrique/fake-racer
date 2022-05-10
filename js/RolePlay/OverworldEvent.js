@@ -50,15 +50,20 @@ class OverworldEvent {
     });
 
     message.init(document.querySelector('.game-container'));
+    window.sfx.talking.play();
   }
 
   changeMap(resolve) {
-    const sceneTransition = new SceneTransition();
-    sceneTransition.init(document.querySelector('.game-container'), () => {
-      this.map.overworld.startMap(window.OverworldMaps[this.event.map]);
-      resolve();
-      sceneTransition.fadeOut();
-    });
+    const mapTransition = new SceneTransition();
+    mapTransition.init(
+      'map-transition',
+      document.querySelector('.game-container'),
+      () => {
+        this.map.overworld.startMap(window.OverworldMaps[this.event.map]);
+        resolve();
+        mapTransition.fadeOut();
+      },
+    );
   }
 
   race(resolve) {
