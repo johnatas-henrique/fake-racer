@@ -25,7 +25,7 @@ class Core {
       this.stats.begin();
       if (this.deltaTime > utils.secondInMS / this.fps) {
         this.render.clear(0, 0, this.canvas.width, this.canvas.height);
-        this.render.save();
+        // this.render.save();
 
         if (window.gameState.mode === 'menuScene') {
           this.menu.init();

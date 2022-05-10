@@ -53,7 +53,7 @@ class Render {
     stroke = false,
   ) {
     this.ctx.fillStyle = color;
-    this.ctx.font = font;
+    this.ctx.lineWidth = 1;
     this.ctx.font = `${fontSize}em ${font}`;
     this.ctx.textAlign = align;
     this.ctx.textBaseline = 'middle';
