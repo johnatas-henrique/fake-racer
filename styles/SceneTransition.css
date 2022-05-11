@@ -6,14 +6,28 @@
   bottom: 0;
   background: #000000;
   opacity: 0;
-  animation: scene-transition-fade-in 0.6s forwards;
+  animation: map-transition-start 0.6s forwards;
 }
 
 .map-transition.fade-out {
-  animation: scene-transition-fade-out 0.6s forwards;
+  animation: map-transition-end 0.6s forwards;
 }
 
-@keyframes scene-transition-fade-in {
+.battle-transition {
+  position: absolute;
+  left: 200px;
+  top: 200px;
+  right: 200px;
+  bottom: 200px;
+  background: #000000;
+  animation: battle-transition-start 0.6s forwards;
+}
+
+.battle-transition.fade-out {
+  animation: battle-transition-end 0.6s forwards;
+}
+
+@keyframes map-transition-start {
   from {
     opacity: 0;
   }
@@ -23,12 +37,63 @@
   }
 }
 
-@keyframes scene-transition-fade-out {
+@keyframes map-transition-end {
   from {
     opacity: 1;
   }
 
   to {
+    opacity: 0;
+  }
+}
+
+@keyframes battle-transition-start {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: 50% 50%;
+    opacity: 0.5;
+  }
+
+  80% {
+    transform: rotate(360deg);
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    opacity: 0.99;
+  }
+  100% {
+    transform: rotate(360deg);
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes battle-transition-end {
+  0% {
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+
+  20% {
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    transform: rotate(360deg);
+    opacity: 0.99;
+  }
+
+  100% {
+    transform: rotate(0deg);
+    transform-origin: 50% 50%;
     opacity: 0;
   }
 }

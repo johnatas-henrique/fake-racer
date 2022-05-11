@@ -66,6 +66,18 @@ class OverworldEvent {
     );
   }
 
+  enterRace(resolve) {
+    const battleTransition = new SceneTransition();
+    battleTransition.init(
+      'battle-transition',
+      document.querySelector('.game-container'),
+      () => {
+        resolve();
+        battleTransition.fadeOut();
+      },
+    );
+  }
+
   race(resolve) {
     const race = new RaceScene({
       map: this.map,
