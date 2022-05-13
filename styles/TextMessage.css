@@ -5,6 +5,7 @@
   bottom: 0;
   height: 12vw;
   padding: 2vw;
+  font-family: Computo, Verdana, Geneva, sans-serif;
   background: var(--menu-background);
   border-top: 0.1vw solid var(--menu-border-color);
   color: var(--menu-font-color);

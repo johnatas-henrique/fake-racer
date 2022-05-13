@@ -105,7 +105,7 @@
     canvas.height = HEIGHT;
 
     const context = canvas.getContext('2d');
-    context.font = `${10 * PR}px Computo`;
+    context.font = `${10 * PR}px Joystix`;
     context.textBaseline = 'top';
 
     context.fillStyle = bg;
