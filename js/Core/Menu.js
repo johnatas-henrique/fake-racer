@@ -70,13 +70,14 @@ class Menu {
   }
 
   enterSingleRaceScene() {
-    this.core.inputs.oneDirection.unbind();
     utils.keyUnbinder('Enter', this.core);
     utils.modeChanger('singleRaceScene');
+    this.core.singleRace = new Race({ core: this.core });
+    this.core.singleRace.init();
   }
 
   enterRPGScene() {
-    console.log('rpg run', this);
+    utils.keyUnbinder('Enter', this.core);
     utils.modeChanger('RPGScene');
   }
 

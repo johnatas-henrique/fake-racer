@@ -9,14 +9,30 @@ const utils = {
     pauseBtn: () => document.querySelector('.pause-btn'),
     muteBtn: () => document.querySelector('.mute-btn'),
   },
-  keyUnbinder: (keyToUnbind, coreClass) => (
+  changeMode(newGameState, newSceneClass, coreClass) {
+    window.gameState.mode = newGameState;
+    if (newGameState === 'menuScene') {
+      coreClass.menu = new Menu({ animations: window.particles, core: coreClass });
+      coreClass.menu.init();
+    }
+    if (newGameState === 'singleRaceScene') {
+      coreClass.singleRace = new Race({ core: coreClass });
+      coreClass.singleRace.init();
+    }
+  },
+  keyUnbinder: (keyToUnbind, coreClass) => {
+    const callback = ({ keyCode }) => keyCode === keyToUnbind;
+    coreClass.inputs.keyPressListeners.find(callback)?.unbind();
+    const index = coreClass.inputs.keyPressListeners.findIndex(callback);
+
+    if (index !== -1) {
+      coreClass.inputs.keyPressListeners.splice(index, 1);
+    }
+  },
+  keyInitializer: (keyToUnbind, coreClass) => {
     coreClass.inputs.keyPressListeners
-      .find(({ keyCode }) => keyCode === keyToUnbind).unbind()
-  ),
-  keyInitializer: (keyToUnbind, coreClass) => (
-    coreClass.inputs.keyPressListeners
-      .find(({ keyCode }) => keyCode === keyToUnbind).init()
-  ),
+      .find(({ keyCode }) => keyCode === keyToUnbind).init();
+  },
   classToggler: (htmlEl, cssClass) => {
     utils.htmlElements[htmlEl]().classList.toggle(cssClass);
   },
@@ -110,12 +126,14 @@ const utils = {
     utils.changeMusic();
     utils.htmlElements.muteBtn().classList.add('off');
   },
-  formatTime: (dt) => {
+  formatTime: (dt, minute = false) => {
     const time = Math.round(dt);
     const minutes = Math.floor(time / 60000);
     const seconds = Math.floor(time / 1000) - (minutes * 60);
     const tenths = time.toString().slice(-3);
-    return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}.${time < 100 ? '000' : tenths}`;
+
+    if (!minute) return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}.${time < 100 ? '000' : tenths}`;
+    return `${seconds}.${time < 100 ? '000' : tenths}`;
   },
   startPosition: (trackSize, position) => (trackSize - (position * 24)) * 200,
   overlap: (x1, w1, x2, w2, percent = 1) => {

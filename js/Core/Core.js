@@ -25,16 +25,13 @@ class Core {
       this.stats.begin();
       if (this.deltaTime > utils.secondInMS / this.fps) {
         this.render.clear(0, 0, this.canvas.width, this.canvas.height);
-        // this.render.save();
 
         if (window.gameState.mode === 'menuScene') {
-          this.menu.init();
           this.menu.update(this.deltaTime);
           this.menu.draw();
         }
 
         if (window.gameState.mode === 'singleRaceScene') {
-          this.singleRace.init();
           this.singleRace.update();
           this.singleRace.draw();
         }
@@ -67,13 +64,13 @@ class Core {
   init() {
     this.inputs.oneDirection = new OneDirectionInput();
     this.inputs.multiDirection = new MultiDirectionInput();
+    this.inputs.multiDirection.init();
 
     this.stats = new Stats();
     utils.htmlElements.fps().appendChild(this.stats.dom);
 
     this.menu = new Menu({ animations: window.particles, core: this });
-
-    this.singleRace = new Race({ core: this });
+    this.menu.init();
 
     this.overworld = new Overworld({
       core: this,

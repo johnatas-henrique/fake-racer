@@ -6,17 +6,22 @@ class Director {
     this.totalTime = 0;
     this.animTime = 0;
     this.lap = 0;
+    this.raceLaps = config.raceLaps ?? Math.round(window.tracks.f1Y91[this.trackName].laps * 0.1);
     this.lastLap = 0;
     this.fastestLap = 0;
     this.totalLaptimes = [];
     this.laptimes = [];
     this.position = '';
     this.positions = [];
+    this.finalPositions = false;
     this.running = true;
     this.paused = true;
+    this.isRaceFinished = false;
+    this.raceFinishedCars = [];
+    this.shakeMessageY = { pos: 0, direction: 1 };
     this.startLights = new SpriteRace();
     this.hudPositions = [];
-    this.startTimer = 5000;
+    this.startTimer = config.startTimer || 5000;
     this.carSegments = [];
     this.raining = false;
     this.rain = [];
@@ -40,11 +45,63 @@ class Director {
     utils.htmlElements.pauseBtn().addEventListener('click', () => this.pauseOption());
   }
 
+  closeRaceEvent() {
+    if (this.isRaceFinished) {
+      utils.keyUnbinder('Enter', this.race.core);
+      utils.classRemover('gameCanvas', 'filter');
+      if (window.gameState.mode === 'singleRaceScene') {
+        utils.changeMode('menuScene', this.race.core.menu, this.race.core);
+      }
+    }
+  }
+
+  finishRace() {
+    if (this.raceFinishedCars.every((opp) => opp.finished === true)) this.isRaceFinished = true;
+
+    if (this.lap > this.raceLaps) {
+      this.isRaceFinished = true;
+    }
+
+    if (this.isRaceFinished) {
+      utils.keyUnbinder('KeyP', this.race.core);
+
+      // correcting X and Y axis of player
+      if (this.player.maxSpeed > 800) this.player.maxSpeed -= 1;
+      if (this.player.maxRange > 1.6) this.player.maxRange -= 0.1;
+      if (Math.abs(this.player.x) > 1.6) {
+        this.player.x = (Math.abs(this.player.x) - 0.1) * Math.sign(this.player.x);
+      }
+
+      // arranging position;
+      if (!this.finalPositions) {
+        this.finalPositions = this.positions
+          .slice(0, Math.min(this.positions.length, 3))
+          .map(({ name, raceTime, position }, index, arr) => {
+            let totalTime = utils.formatTime(raceTime.at(-1));
+            if (index > 0) {
+              const isSameLap = raceTime.at(-1) > arr[index - 1].raceTime.at(-1);
+              const diff = raceTime.at(-1) - arr[index - 1].raceTime.at(-1);
+              totalTime = isSameLap ? `+${utils.formatTime(diff, true)}` : '-1 volta';
+            }
+            return { position, name, totalTime, laps: raceTime.length - 2 };
+          });
+      }
+    }
+  }
+
   init() {
+    this.race.core.inputs.keyPressListeners.push(
+      new KeyPressListener('Enter', () => this.closeRaceEvent()),
+    );
+    utils.keyInitializer('Enter', this.race.core);
+
     this.trackName = window.gameState.menuSelectedOptions.track;
     this.road = this.race.road;
     this.player = this.race.player;
     this.opponents = this.race.opponents;
+
+    this.raceFinishedCars = this.opponents
+      .map(({ opponentName }) => ({ name: opponentName, finished: false }));
 
     this.pauseRace();
 
@@ -110,6 +167,7 @@ class Director {
   }
 
   update() {
+    this.finishRace();
     if (this.totalTime < this.startTimer || !this.paused) this.running = false;
     else
     if (this.totalTime >= this.startTimer && this.paused) this.running = true;
@@ -166,7 +224,34 @@ class Director {
     }
   }
 
+  drawFinishStandings() {
+    if (this.isRaceFinished) {
+      this.render.drawRoundRect('#08142d98', 32, 64, 576, 224, true, 20, false);
+
+      this.render.drawText('#FFFAF4', 'Classificação Final', 320, 80, 2.5, 'OutriderCond', 'center', 'black', true);
+      this.finalPositions.forEach(({ position, name, laps, totalTime }, index) => {
+        const alignPos = position < 10 ? `0${position}` : position;
+        this.render.drawText('#FFFAF4', `${alignPos}`, 80, `${128 + (index * 24)}`, 1.5, 'OutriderCond', 'left', 'black', true);
+        this.render.drawText('#FFFAF4', `${name}`, 144, `${128 + (index * 24)}`, 1.5, 'OutriderCond', 'left', 'black', true);
+        this.render.drawText('#FFFAF4', `${totalTime}`, 512, `${128 + (index * 24)}`, 1.5, 'OutriderCond', 'right', 'black', true);
+        this.render.drawText('#FFFAF4', `${laps}`, 560, `${128 + (index * 24)}`, 1.5, 'OutriderCond', 'right', 'black', true);
+      });
+      if (this.shakeMessageY.pos >= 4) this.shakeMessageY.direction = -0.5;
+      if (this.shakeMessageY.pos <= -4) this.shakeMessageY.direction = 0.5;
+      this.shakeMessageY.pos += (this.shakeMessageY.direction / 2);
+      if (window.navigator.maxTouchPoints) {
+        this.render.drawText('#FFFAF4', 'Clique OK', 320, 216 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
+        this.render.drawText('#FFFAF4', 'para continuar', 320, 248 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
+      } else {
+        this.render.drawText('#FFFAF4', 'Aperte ENTER', 320, 216 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
+        this.render.drawText('#FFFAF4', 'para continuar', 320, 248 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
+      }
+    }
+  }
+
   draw() {
+    this.drawFinishStandings();
+
     if (!this.paused) {
       this.render
         .drawText('#FFFAF4', 'Jogo pausado!', 320, 175, 2, 'OutriderCond', 'center', 'black', true);
@@ -180,15 +265,17 @@ class Director {
         .drawText('#FFFAF4', 'Prepare-se...', 320, 135, 2, 'OutriderCond', 'center', 'black', true);
     }
 
-    this.render.drawText('#050B1A', `Volta ${this.lap} de ${window.tracks.f1Y91[this.trackName].laps}`, 4, 44, 0.8, 'Computo', 'left');
-    this.hudPositions.forEach(({ pos, name, relTime }, index) => {
-      const alignPos = pos < 10 ? `0${pos}` : pos;
-      this.render.drawText('#050B1A', `${alignPos}`, 4, `${60 + (index * 16)}`, 0.8, 'Computo', 'left');
-      this.render.drawText('#050B1A', `${name} ${relTime}`, 32, `${60 + (index * 16)}`, 0.8, 'Computo', 'left');
-    });
-    this.render.drawText('#050B1A', `Total: ${utils.formatTime(this.totalTime)}`, 636, 44, 0.8, 'Computo', 'right');
-    this.render.drawText('#050B1A', `Lap: ${utils.formatTime(this.animTime)}`, 636, 60, 0.8, 'Computo', 'right');
-    this.render.drawText('#050B1A', `Last: ${utils.formatTime(this.lastLap)}`, 636, 76, 0.8, 'Computo', 'right');
-    this.render.drawText('#050B1A', `Fast: ${utils.formatTime(this.fastestLap)}`, 636, 92, 0.8, 'Computo', 'right');
+    if (!this.isRaceFinished) {
+      this.render.drawText('#050B1A', `Volta ${this.lap} de ${this.raceLaps}`, 4, 44, 0.8, 'Computo', 'left');
+      this.hudPositions.forEach(({ pos, name, relTime }, index) => {
+        const alignPos = pos < 10 ? `0${pos}` : pos;
+        this.render.drawText('#050B1A', `${alignPos}`, 4, `${60 + (index * 16)}`, 0.8, 'Computo', 'left');
+        this.render.drawText('#050B1A', `${name} ${relTime}`, 32, `${60 + (index * 16)}`, 0.8, 'Computo', 'left');
+      });
+      this.render.drawText('#050B1A', `Total: ${utils.formatTime(this.totalTime)}`, 636, 44, 0.8, 'Computo', 'right');
+      this.render.drawText('#050B1A', `Lap: ${utils.formatTime(this.animTime)}`, 636, 60, 0.8, 'Computo', 'right');
+      this.render.drawText('#050B1A', `Last: ${utils.formatTime(this.lastLap)}`, 636, 76, 0.8, 'Computo', 'right');
+      this.render.drawText('#050B1A', `Fast: ${utils.formatTime(this.fastestLap)}`, 636, 92, 0.8, 'Computo', 'right');
+    }
   }
 }

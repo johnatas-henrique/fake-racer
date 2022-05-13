@@ -54,8 +54,6 @@ class Player {
     this.director = this.race.director;
     this.opponents = this.race.opponents;
 
-    this.inputs.multiDirection.init();
-
     this.images = {};
     this.images.left = new Image();
     this.images.left.src = '../images/sprites/player/playerLeft.png';

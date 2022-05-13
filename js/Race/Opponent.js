@@ -52,6 +52,10 @@ class Opponent {
     }
   }
 
+  findFinishedCars(driver) {
+    return this.director.raceFinishedCars.find(({ name }) => name === driver);
+  }
+
   update() {
     if (this.director.running) {
       const newMaxSpeed = this.carSpeedCorrection();
@@ -85,7 +89,16 @@ class Opponent {
 
       if (this.lap < actualLap) {
         this.raceTime.push(this.director.totalTime);
+        const raceLeader = this.director.positions[0].name;
+        const leaderHasFinished = this.findFinishedCars(raceLeader)?.finished === true;
+
+        if (leaderHasFinished) {
+          this.findFinishedCars(this.opponentName).finished = true;
+        }
         this.lap += 1;
+      }
+      if (this.lap > this.director.raceLaps) {
+        this.findFinishedCars(this.opponentName).finished = true;
       }
     }
   }
