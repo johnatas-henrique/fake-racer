@@ -42,10 +42,10 @@ const utils = {
   classAdder: (htmlEl, cssClass) => {
     utils.htmlElements[htmlEl]().classList.add(cssClass);
   },
-  resolutionChanger: (coreClass) => {
-    const { width, height } = coreClass.canvas;
-    coreClass.canvasMidpoint.x = width / 2;
-    coreClass.canvasMidpoint.y = height / 2;
+  resolutionChanger: () => {
+    const { width, height } = utils.htmlElements.gameCanvas();
+    window.gameState.canvasMidpoint.x = width / 2;
+    window.gameState.canvasMidpoint.y = height / 2;
   },
   modeChanger: (mode) => {
     window.gameState.mode = mode;
@@ -113,6 +113,7 @@ const utils = {
   changeMusic: () => {
     const nextPosition = Math.round(Math.random() * (window.musicList.length - 1));
     window.gameState.music = window.musicList[nextPosition];
+    window.music[window.musicList[nextPosition]].play();
   },
   playMusic: (chosenMusic) => {
     window.music[chosenMusic].volume(window.gameState.menuSelectedOptions.musicVolume / 10);
@@ -122,8 +123,9 @@ const utils = {
     }
   },
   stopMusic: (chosenMusic) => {
+    const nextPosition = Math.round(Math.random() * (window.musicList.length - 1));
     window.music[chosenMusic].stop();
-    utils.changeMusic();
+    window.gameState.music = window.musicList[nextPosition];
     utils.htmlElements.muteBtn().classList.add('off');
   },
   formatTime: (dt, minute = false) => {
