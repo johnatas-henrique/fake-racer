@@ -77,7 +77,7 @@ class OverworldMap {
 
   helperCheckHeroMapPosition() {
     const { hero } = this.gameObjects;
-    console.log({ x: hero.x / 16, y: hero.y / 16 });
+    console.table({ x: hero.x / 16, y: hero.y / 16 });
   }
 
   checkForActionCutscene() {

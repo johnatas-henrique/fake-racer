@@ -27,9 +27,6 @@ class Race {
     this.player.draw();
     if (this.raining) this.rain.forEach((item) => item.draw(this.core.render, this.player));
     this.director.draw();
-
-    // for development only
-    // utils.addItens('#line1', `Segment: ${(this.camera.cursor / 200).toFixed(3)}`);
   }
 
   adjustDifficulty() {

@@ -137,12 +137,9 @@ class Player {
       this.deltaTime = 0;
     }
 
-    // for testing only
+    // for development only
     if (this.inputs.multiDirection.isKeyDown('m')) {
-      // this.camera.cursor = (road.length) - 200 * 200;
-      // this.x = 0;
-      // this.actualSpeed = 1200;
-      utils.modeChanger('menuScene');
+      // utils.modeChanger('menuScene');
     }
 
     if (this.director.running) {
@@ -160,8 +157,6 @@ class Player {
 
       // recover button
       if (this.inputs.multiDirection.isKeyDown('*')) {
-        // this.camera.cursor = road.length - (road.segmentLength * road.kerbLength * 2);
-        // this.sprite.sheetPositionX += 1;
         this.x = 0;
         this.actualSpeed = 1200;
       }

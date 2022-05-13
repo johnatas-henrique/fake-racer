@@ -68,9 +68,6 @@ class Opponent {
       this.actualSpeed = this.actualSpeed >= this.maxSpeed
         ? this.maxSpeed : this.actualSpeed += acceleration(this.actualSpeed, 0.9);
 
-      // helper to stop opponent speeds
-      // this.actualSpeed = 0;
-
       this.sprite.actualSpeed.speed = this.actualSpeed;
       const oldSegment = this.road.getSegment(Math.round(this.trackPosition));
       this.opponentX = utils

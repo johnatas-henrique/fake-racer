@@ -25,14 +25,14 @@ class PauseMenu {
           label: 'Items',
           description: 'Escolha um item',
           handler: () => {
-            console.log('página de items');
+            console.error('página de items');
           },
         },
         {
           label: 'Troca',
           description: 'Escolha outro pokémon',
           handler: () => {
-            console.log('página de troca');
+            console.error('página de troca');
           },
         },
       ],
@@ -41,7 +41,7 @@ class PauseMenu {
           label: 'My first atk',
           description: 'Does something',
           handler: () => {
-            console.log('attack!');
+            console.error('attack!');
           },
         },
         backOption,
