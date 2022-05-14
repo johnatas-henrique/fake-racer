@@ -9,15 +9,29 @@ const utils = {
     pauseBtn: () => document.querySelector('.pause-btn'),
     muteBtn: () => document.querySelector('.mute-btn'),
   },
-  changeMode(newGameState, newSceneClass, coreClass) {
+  changeMode(newGameState, coreClass) {
     window.gameState.mode = newGameState;
+    utils.keyUnbinder('Enter', coreClass);
     if (newGameState === 'menuScene') {
+      utils.classRemover('gameCanvas', 'pixelated');
+      utils.htmlElements.gameCanvas().width = 640;
+      utils.htmlElements.gameCanvas().height = 360;
       coreClass.menu = new Menu({ animations: window.particles, core: coreClass });
       coreClass.menu.init();
     }
     if (newGameState === 'singleRaceScene') {
+      utils.classRemover('gameCanvas', 'pixelated');
+      utils.htmlElements.gameCanvas().width = 640;
+      utils.htmlElements.gameCanvas().height = 360;
       coreClass.singleRace = new Race({ core: coreClass });
       coreClass.singleRace.init();
+    }
+    if (newGameState === 'RPGScene') {
+      utils.classAdder('gameCanvas', 'pixelated');
+      utils.htmlElements.gameCanvas().width = 384;
+      utils.htmlElements.gameCanvas().height = 216;
+      coreClass.overworld = new Overworld({ core: coreClass });
+      coreClass.overworld.init();
     }
   },
   keyUnbinder: (keyToUnbind, coreClass) => {
@@ -46,18 +60,6 @@ const utils = {
     const { width, height } = utils.htmlElements.gameCanvas();
     window.gameState.canvasMidpoint.x = width / 2;
     window.gameState.canvasMidpoint.y = height / 2;
-  },
-  modeChanger: (mode) => {
-    window.gameState.mode = mode;
-    if (mode !== 'RPGScene') {
-      utils.classRemover('gameCanvas', 'pixelated');
-      utils.htmlElements.gameCanvas().width = 640;
-      utils.htmlElements.gameCanvas().height = 360;
-    } else {
-      utils.classAdder('gameCanvas', 'pixelated');
-      utils.htmlElements.gameCanvas().width = 384;
-      utils.htmlElements.gameCanvas().height = 216;
-    }
   },
   // RPG Functions
   withGrid: (n) => (n * 16),

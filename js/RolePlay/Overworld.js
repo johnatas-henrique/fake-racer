@@ -1,70 +1,45 @@
 class Overworld {
   constructor(config) {
     this.core = config.core;
-    this.element = config.element;
-    this.canvas = this.element.querySelector('.game-canvas');
-    this.ctx = this.canvas.getContext('2d');
     this.map = null;
-    this.canvasMidpoint = config.core.canvasMidpoint;
-    this.inputs = {
-      oneDirection: null,
-      multiDirection: null,
-      keyPressListeners: [],
-    };
-  }
-
-  startGameLoop() {
-    console.log('loop');
-    const frame = () => {
-      console.log('frame');
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-      requestAnimationFrame(() => {
-        frame();
-      });
-    };
-    frame();
   }
 
   update() {
     Object.values(this.map.gameObjects).forEach((item) => {
-      item.update({
-        arrow: this.directionInput.direction,
-        map: this.map,
-      });
+      item.update({ arrow: this.core.inputs.oneDirection.direction, map: this.map });
     });
   }
 
   draw() {
     const cameraPerson = {
       ...this.map.gameObjects.hero,
-      canvasMidpoint: this.canvasMidpoint,
+      canvasMidpoint: window.gameState.canvasMidpoint,
     };
 
-    this.map.drawLowerImage(this.ctx, cameraPerson);
+    this.map.drawLowerImage(this.core.render.ctx, cameraPerson);
 
     const gameObj = Object.values(this.map.gameObjects);
 
     gameObj
       .sort((a, b) => a.y - b.y)
       .forEach((item) => {
-        item.sprite.draw(this.ctx, cameraPerson);
+        item.sprite.draw(this.core.render.ctx, cameraPerson);
       });
 
-    this.map.drawMiddleImage(this.ctx, cameraPerson);
+    this.map.drawMiddleImage(this.core.render.ctx, cameraPerson);
 
-    this.map.drawUpperImage(this.ctx, cameraPerson);
+    this.map.drawUpperImage(this.core.render.ctx, cameraPerson);
   }
 
   helperHeroPositionMapCheck() {
-    this.inputs.keyPressListeners.push(new KeyPressListener(
+    this.core.inputs.keyPressListeners.push(new KeyPressListener(
       'KeyH',
       () => this.map.helperCheckHeroMapPosition(),
     ));
   }
 
   bindActionInput() {
-    this.inputs.keyPressListeners.push(new KeyPressListener(
+    this.core.inputs.keyPressListeners.push(new KeyPressListener(
       'Enter',
       () => this.map.checkForActionCutscene(),
     ));
@@ -94,12 +69,11 @@ class Overworld {
       this.helperHeroPositionMapCheck();
 
       this.bindActionInput();
-      utils.keyInitializer('KeyH', this);
+      utils.keyInitializer('KeyH', this.core);
       this.bindHeroPositionCheck();
-      utils.keyInitializer('Enter', this);
+      utils.keyInitializer('Enter', this.core);
 
-      this.directionInput = new OneDirectionInput();
-      this.directionInput.init();
+      this.core.inputs.oneDirection.init();
 
       this.map.startCutscene([
         // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'testwin', textLose: 'testlose' },

@@ -37,7 +37,6 @@ class Core {
         }
 
         if (window.gameState.mode === 'RPGScene') {
-          this.overworld.init();
           this.overworld.update();
           this.overworld.draw();
         }
@@ -63,6 +62,7 @@ class Core {
 
   init() {
     this.inputs.oneDirection = new OneDirectionInput();
+    this.inputs.oneDirection.init();
     this.inputs.multiDirection = new MultiDirectionInput();
     this.inputs.multiDirection.init();
 
@@ -72,10 +72,13 @@ class Core {
     this.menu = new Menu({ animations: window.particles, core: this });
     this.menu.init();
 
-    this.overworld = new Overworld({
-      core: this,
-      element: document.querySelector('.game-container'),
-    });
+    // for development - to enter race instantly
+    this.singleRace = new Race({ core: this });
+    this.singleRace.init();
+
+    // for development - to enter history mode instantly
+    this.overworld = new Overworld({ core: this, element: document.querySelector('.game-container') });
+    this.overworld.init();
 
     utils.htmlElements.fullScreenBtn()
       .addEventListener('click', Core.toggleFullScreen);

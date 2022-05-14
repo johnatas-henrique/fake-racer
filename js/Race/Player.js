@@ -139,7 +139,7 @@ class Player {
 
     // for development only
     if (this.inputs.multiDirection.isKeyDown('m')) {
-      // utils.modeChanger('menuScene');
+      utils.changeMode('menuScene', this.race.core);
     }
 
     if (this.director.running) {

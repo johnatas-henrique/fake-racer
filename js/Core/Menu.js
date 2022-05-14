@@ -15,6 +15,7 @@ class Menu {
     this.deltaTime = 0;
     this.arrowUpBlink = false;
     this.arrowDownBlink = false;
+    this.isInitOnce = false;
     this.menuTitle = { pos: 0, direction: 1 };
     this.menuPhrase = {
       track: 'Circuito: ',
@@ -57,6 +58,7 @@ class Menu {
   init() {
     if (window.gameState.mode === 'menuScene' && !this.isInitOnce) {
       utils.resolutionChanger(this.core);
+      utils.classRemover('gameCanvas', 'filter');
       utils.classToggler('pauseBtn', 'hidden');
       utils.classToggler('muteBtn', 'hidden');
 
@@ -64,21 +66,19 @@ class Menu {
         new KeyPressListener('Enter', () => this.acceptOption()),
       );
       utils.keyInitializer('Enter', this.core);
-      this.core.inputs.oneDirection.init();
+
       this.isInitOnce = true;
     }
   }
 
   enterSingleRaceScene() {
     utils.keyUnbinder('Enter', this.core);
-    utils.modeChanger('singleRaceScene');
-    this.core.singleRace = new Race({ core: this.core });
-    this.core.singleRace.init();
+    utils.changeMode('singleRaceScene', this.core);
   }
 
   enterRPGScene() {
     utils.keyUnbinder('Enter', this.core);
-    utils.modeChanger('RPGScene');
+    utils.changeMode('RPGScene', this.core);
   }
 
   static musicControl() {

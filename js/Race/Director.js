@@ -38,6 +38,7 @@ class Director {
   }
 
   pauseRace() {
+    utils.keyUnbinder('KeyP', this.race.core);
     this.race.core.inputs.keyPressListeners.push(
       new KeyPressListener('KeyP', () => this.pauseOption()),
     );
@@ -50,7 +51,7 @@ class Director {
       utils.keyUnbinder('Enter', this.race.core);
       utils.classRemover('gameCanvas', 'filter');
       if (window.gameState.mode === 'singleRaceScene') {
-        utils.changeMode('menuScene', this.race.core.menu, this.race.core);
+        utils.changeMode('menuScene', this.race.core);
       }
     }
   }
