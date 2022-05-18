@@ -3,8 +3,10 @@ class Sprite {
     // Setup the image
     this.image = new Image();
     this.image.src = config.src;
-    this.offsetX = config.offsetX || 0;
-    this.offsetY = config.offsetY || -4;
+    this.offsetX = config.offsetX ?? 0;
+    this.offsetY = config.offsetY ?? -4;
+    this.sizeX = config.sizeX || 1;
+    this.sizeY = config.sizeY || 1;
     this.image.onload = () => {
       this.isLoaded = true;
     };
@@ -29,9 +31,9 @@ class Sprite {
       'walk-up': [[6, 2], [7, 2], [8, 2], [9, 2], [10, 2], [11, 2]],
       'walk-left': [[12, 2], [13, 2], [14, 2], [15, 2], [16, 2], [17, 2]],
       'walk-down': [[18, 2], [19, 2], [20, 2], [21, 2], [22, 2], [23, 2]],
-
+      'idle-object': [[0, 0]],
     };
-    this.currentAnimation = config.currentAnimation || 'walk-down';
+    this.currentAnimation = config.currentAnimation || 'idle-object';
     this.currentAnimationFrame = 0;
 
     this.animationFrameLimit = config.animationFrameLimit || 8;
@@ -81,7 +83,9 @@ class Sprite {
     const [frameX, frameY] = this.frame;
 
     if (this.isLoaded) {
-      ctx.drawImage(this.image, frameX * 16, frameY * 32, 16, 32, x, y, 16, 32);
+      const sizeX = 16 * this.sizeX;
+      const sizeY = 32 * this.sizeY;
+      ctx.drawImage(this.image, frameX * 16, frameY * 32, sizeX, sizeY, x, y, sizeX, sizeY);
     }
 
     this.updateAnimationProgress();

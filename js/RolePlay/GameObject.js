@@ -13,6 +13,8 @@ class GameObject {
       src: config.src || '../assets/images/characters/people/santa.png',
       offsetX: config.offsetX,
       offsetY: config.offsetY,
+      sizeX: config.sizeX,
+      sizeY: config.sizeY,
     });
   }
 

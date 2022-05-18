@@ -217,8 +217,6 @@ window.OverworldMaps = {
   },
   TVStudio: {
     lowerSrc: '../assets/images/maps/TVStudioLower.png',
-    middleSrc: '../assets/images/maps/TVStudioMiddle.png',
-    // upperSrc: '../assets/images/maps/TVStudioUpper.png',
     gameObjects: {
       hero: new Person({
         isPlayerControlled: true,
@@ -237,6 +235,13 @@ window.OverworldMaps = {
         y: utils.withGrid(3),
         src: '../assets/images/characters/people/man2.png',
         offsetX: 8,
+      }),
+      desk: new GameObject({
+        x: utils.withGrid(3),
+        y: utils.withGrid(4),
+        src: '../assets/images/maps/TVStudioMiddle1.png',
+        sizeX: 5,
+        offsetY: -2,
       }),
     },
     walls: {
