@@ -1,0 +1,25 @@
+.game-menu {
+  position: absolute;
+  top: 3.5vw;
+  bottom: 3.5vw;
+  left: 60vw;
+  right: 0.5vw;
+  background: var(--menu-background);
+  color: var(--menu-font-color);
+  border: 0.1vw solid var(--menu-border-color);
+  z-index: 2;
+}
+
+.game-menu .keyboard-menu {
+  position: relative;
+  border: 0;
+}
+
+.game-menu h2 {
+  font-size: 3vw;
+  color: var(--menu-font-color);
+  margin: 0;
+  padding: 0.2vw 0;
+  text-align: center;
+  border-bottom: 0.1vw solid #A48465;
+}

@@ -61,6 +61,13 @@ const utils = {
     window.gameState.canvasMidpoint.x = width / 2;
     window.gameState.canvasMidpoint.y = height / 2;
   },
+  wait(ms) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
+  },
   // RPG Functions
   withGrid: (n) => (n * 16),
   asGridCoord: (x, y) => `${x * 16},${y * 16}`,

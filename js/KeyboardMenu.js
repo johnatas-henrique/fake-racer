@@ -1,9 +1,10 @@
 class KeyboardMenu {
-  constructor() {
+  constructor(config = {}) {
     this.options = [];
     this.up = null;
     this.down = null;
     this.prevFocus = null;
+    this.descriptionContainer = config.descriptionContainer || null;
   }
 
   setOptions(options) {
@@ -47,7 +48,10 @@ class KeyboardMenu {
 
   createElement(menuType) {
     this.element = document.createElement('div');
-    this.element.className = `${menuType} keyboard-menu`;
+    this.element.className = 'keyboard-menu';
+    if (menuType) {
+      this.element.classList.add(menuType);
+    }
 
     // Description box
     this.descriptionElement = document.createElement('div');
@@ -66,8 +70,8 @@ class KeyboardMenu {
 
   init(container, menuType) {
     this.createElement(menuType);
+    (this.descriptionContainer || container).appendChild(this.descriptionElement);
     container.appendChild(this.element);
-    container.appendChild(this.descriptionElement);
 
     this.up = new KeyPressListener('ArrowUp', () => {
       const current = Number(this.prevFocus.getAttribute('data-button'));

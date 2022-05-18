@@ -78,6 +78,18 @@ class OverworldEvent {
     );
   }
 
+  pause(resolve) {
+    this.map.overworld.core.isPaused = true;
+    const menu = new GameMenu({
+      onComplete: () => {
+        resolve();
+        this.map.overworld.core.isPaused = false;
+        this.map.overworld.core.startGameLoop();
+      },
+    });
+    menu.init(utils.htmlElements.gameContainer());
+  }
+
   race(resolve) {
     const race = new RaceScene({
       map: this.map,

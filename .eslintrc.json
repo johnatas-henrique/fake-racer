@@ -8,6 +8,7 @@
         "Camera": false,
         "Core": false,
         "Director": false,
+        "GameMenu": false,
         "GameObject": false,
         "KeyboardMenu": false,
         "KeyPressListener": false,

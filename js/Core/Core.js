@@ -16,6 +16,7 @@ class Core {
     this.deltaTime = 0;
     this.timeStamp = 0;
     this.lastTime = 0;
+    this.isPaused = false;
   }
 
   startGameLoop() {
@@ -44,8 +45,9 @@ class Core {
         this.stats.end();
         this.lastTime = this.timeStamp;
       }
-
-      requestAnimationFrame((timeCounter) => frame(timeCounter));
+      if (!this.isPaused) {
+        requestAnimationFrame((timeCounter) => frame(timeCounter));
+      }
     };
     frame();
   }
