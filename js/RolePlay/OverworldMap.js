@@ -105,7 +105,12 @@ class OverworldMap {
     const match = this.cutsceneSpaces[`${hero.x},${hero.y}`];
 
     if (!this.isCutscenePlaying && match && match.length) {
-      this.startCutscene(match[0].events);
+      const relevantScenario = match
+        .find((scene) => (scene.required || []).every((sf) => window.playerState.storyFlags[sf]));
+
+      if (relevantScenario) {
+        this.startCutscene(relevantScenario.events);
+      }
     }
   }
 

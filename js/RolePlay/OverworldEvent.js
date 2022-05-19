@@ -107,6 +107,11 @@ class OverworldEvent {
     resolve();
   }
 
+  deleteStoryFlag(resolve) {
+    delete window.playerState.storyFlags[this.event.flag];
+    resolve();
+  }
+
   async init() {
     return new Promise((resolve) => {
       if (this.event.type !== 'enterRaceAnimation') {

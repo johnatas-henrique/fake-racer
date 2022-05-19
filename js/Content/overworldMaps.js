@@ -35,6 +35,24 @@ window.OverworldMaps = {
         src: '../assets/images/characters/people/thug1.png',
         talking: [
           {
+            required: ['WON_npcB'],
+            events: [
+              { type: 'textMessage', text: 'Será que eu ainda posso ser o guarda?', faceHero: 'npcB' },
+              { type: 'textMessage', text: 'Pode avisar a Bee que te deixo passar.', faceHero: 'npcB' },
+              { type: 'addStoryFlag', flag: 'TALKED_TO_npcB' },
+            ],
+          },
+          {
+            required: ['SECRET_RACE_npcB'],
+            events: [
+              { type: 'textMessage', text: 'Depois que eu te vencer, você não vai tentar mais nada!', faceHero: 'npcB' },
+              { type: 'enterRaceAnimation' },
+              { type: 'race', raceId: 'raceB', npc: 'npcB' },
+              { type: 'addStoryFlag', flag: 'WON_npcB' },
+              { type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'npcB' },
+            ],
+          },
+          {
             events: [
               { type: 'textMessage', text: 'Você não pode entrar.', faceHero: 'npcB' },
               { type: 'addStoryFlag', flag: 'TALKED_TO_npcB' },
@@ -45,7 +63,7 @@ window.OverworldMaps = {
       npcC: new Person({
         x: utils.withGrid(2),
         y: utils.withGrid(6),
-        src: '../assets/images/characters/people/woman2.png',
+        src: '../assets/images/characters/people/bee1.png',
         talking: [
           {
             required: ['WON_npcC'],
@@ -90,6 +108,35 @@ window.OverworldMaps = {
     cutsceneSpaces: {
       [utils.asGridCoord(7, 4)]: [
         {
+          required: ['BLOCK_KITCHEN_npcB_2'],
+          events: [
+            { who: 'npcB', type: 'walk', direction: 'left' },
+            { who: 'npcB', type: 'stand', direction: 'up', time: 300 },
+            { type: 'textMessage', text: 'Ok engraçadinho, saia daí agora!' },
+            { who: 'npcB', type: 'walk', direction: 'right' },
+            { who: 'hero', type: 'walk', direction: 'down' },
+            { who: 'hero', type: 'walk', direction: 'left' },
+            { who: 'npcB', type: 'walk', direction: 'left' },
+            { who: 'npcB', type: 'stand', direction: 'down', time: 300 },
+            { type: 'textMessage', text: 'Quero ver você passar por mim!' },
+            { type: 'addStoryFlag', flag: 'SECRET_RACE_npcB' },
+          ],
+        },
+        {
+          required: ['BLOCK_KITCHEN_npcB_1'],
+          events: [
+            { who: 'npcB', type: 'walk', direction: 'left' },
+            { who: 'npcB', type: 'stand', direction: 'up', time: 300 },
+            { type: 'textMessage', text: 'Você é surdo?' },
+            { who: 'npcB', type: 'walk', direction: 'right' },
+            { who: 'hero', type: 'walk', direction: 'down' },
+            { who: 'hero', type: 'walk', direction: 'left' },
+            { who: 'npcB', type: 'stand', direction: 'down', time: 300 },
+            { type: 'deleteStoryFlag', flag: 'BLOCK_KITCHEN_npcB_1' },
+            { type: 'addStoryFlag', flag: 'BLOCK_KITCHEN_npcB_2' },
+          ],
+        },
+        {
           events: [
             { who: 'npcB', type: 'walk', direction: 'left' },
             { who: 'npcB', type: 'stand', direction: 'up', time: 300 },
@@ -98,13 +145,36 @@ window.OverworldMaps = {
             { who: 'hero', type: 'walk', direction: 'down' },
             { who: 'hero', type: 'walk', direction: 'left' },
             { who: 'npcB', type: 'stand', direction: 'down', time: 300 },
+            { type: 'addStoryFlag', flag: 'BLOCK_KITCHEN_npcB_1' },
           ],
         },
       ],
       [utils.asGridCoord(5, 10)]: [
         {
+          required: ['WON_npcC'],
           events: [
             { type: 'changeMap', map: 'Kitchen' },
+          ],
+        },
+        {
+          events: [
+            { who: 'npcC', type: 'walk', direction: 'down' },
+            { who: 'npcC', type: 'walk', direction: 'right' },
+            { who: 'npcC', type: 'walk', direction: 'down' },
+            { who: 'npcC', type: 'walk', direction: 'right' },
+            { who: 'npcC', type: 'walk', direction: 'down' },
+            { who: 'npcC', type: 'walk', direction: 'right' },
+            { who: 'npcC', type: 'stand', direction: 'down', time: 300 },
+            { who: 'hero', type: 'stand', direction: 'up', time: 300 },
+            { type: 'textMessage', text: 'Não te avisaram para não sair sem falar comigo?' },
+            { who: 'npcC', type: 'walk', direction: 'up' },
+            { who: 'hero', type: 'walk', direction: 'up' },
+            { who: 'npcC', type: 'walk', direction: 'left' },
+            { who: 'npcC', type: 'walk', direction: 'up' },
+            { who: 'npcC', type: 'walk', direction: 'left' },
+            { who: 'npcC', type: 'walk', direction: 'up' },
+            { who: 'npcC', type: 'walk', direction: 'left' },
+            { who: 'npcC', type: 'stand', direction: 'down', time: 300 },
           ],
         },
       ],
