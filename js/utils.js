@@ -33,6 +33,7 @@ const utils = {
       coreClass.overworld = new Overworld({ core: coreClass });
       coreClass.overworld.init();
     }
+    utils.emitEvent('canvasResized');
   },
   keyUnbinder: (keyToUnbind, coreClass) => {
     const callback = ({ keyCode }) => keyCode === keyToUnbind;

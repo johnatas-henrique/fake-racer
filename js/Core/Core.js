@@ -3,7 +3,7 @@ class Core {
     this.element = config.element;
     this.canvas = this.element.querySelector('.game-canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
+    // this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     this.render = new Render(this.ctx);
     this.inputs = {
       oneDirection: null,
@@ -62,6 +62,10 @@ class Core {
     }
   }
 
+  canvasResizer() {
+    window.gameState.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
+  }
+
   init() {
     this.inputs.oneDirection = new OneDirectionInput();
     this.inputs.oneDirection.init();
@@ -73,6 +77,8 @@ class Core {
 
     this.menu = new Menu({ animations: window.particles, core: this });
     this.menu.init();
+
+    document.addEventListener('canvasResized', () => this.canvasResizer());
 
     // for development - to enter race instantly
     this.singleRace = new Race({ core: this });
