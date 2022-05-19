@@ -37,7 +37,7 @@ class Core {
           this.singleRace.draw();
         }
 
-        if (window.gameState.mode === 'RPGScene') {
+        if (window.gameState.mode === 'RPGScene' || window.gameState.mode === 'historyRaceScene') {
           this.overworld.update();
           this.overworld.draw();
         }
@@ -85,11 +85,10 @@ class Core {
     this.singleRace.init();
 
     // for development - to enter history mode instantly
-    this.overworld = new Overworld({ core: this, element: document.querySelector('.game-container') });
+    this.overworld = new Overworld({ core: this, element: utils.htmlElements.gameContainer() });
     this.overworld.init();
 
-    utils.htmlElements.fullScreenBtn()
-      .addEventListener('click', Core.toggleFullScreen);
+    utils.htmlElements.fullScreenBtn().addEventListener('click', Core.toggleFullScreen);
 
     const [firstMusic] = window.musicList;
 

@@ -15,6 +15,7 @@ class OverworldMap {
     this.upperImage.src = config.upperSrc || '../assets/images/maps/clean.png';
 
     this.isCutscenePlaying = false;
+    this.eventHandler = null;
   }
 
   drawLowerImage(ctx, cameraPerson) {
@@ -59,7 +60,7 @@ class OverworldMap {
 
     // Loop of async events
     for (let i = 0; i < events.length; i += 1) {
-      const eventHandler = new OverworldEvent(
+      this.eventHandler = new OverworldEvent(
         { event: events[i], map: this },
       );
 
@@ -67,7 +68,7 @@ class OverworldMap {
       // because I want every event to finish before the next fires.
       // If I fire all events together, the movement will be broken.
 
-      await eventHandler.init();
+      await this.eventHandler.init();
     }
 
     this.isCutscenePlaying = false;

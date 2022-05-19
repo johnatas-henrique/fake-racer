@@ -3,59 +3,17 @@ class RaceScene {
     this.map = config.map;
     this.event = config.event;
     this.onComplete = config.onComplete;
-    this.isFinished = false;
-    this.timeout = null;
     this.raceId = config.event.raceId;
-    this.textWin = config.event.textWin || 'Win (need a text here)';
-    this.textLose = config.event.textLose || 'Lose (need a text here)';
+    this.isFinished = false;
     this.hasPlayerWin = false;
-    this.bindPauseListener = null;
-    this.eventClass = undefined;
-  }
-
-  showPauseMenu() {
-    if (utils.pauseMenu()) {
-      utils.pauseMenu().remove();
-      utils.descriptionPauseMenu().remove();
-    } else {
-      this.eventClass = new RaceEvent({
-        event: { type: 'pauseMenu' },
-        race: { element: utils.gameContainer() },
-      });
-      this.eventClass.init();
-    }
-  }
-
-  bindPauseInput() {
-    this.bindPauseListener = new KeyPressListener('KeyP', () => this.showPauseMenu());
-    this.bindPauseListener.init();
+    this.historyRace = null;
   }
 
   init() {
-    const talkToChange = this.map.gameObjects[this.event.who]?.talking[0].events;
-
-    this.bindPauseInput();
-
-    if (!utils.hasEventTextWin(this.textWin, talkToChange)) {
-      // setTimeout here below just to simulate a race, will not be here on final code
-      this.timeout = setTimeout(() => {
-        this.isFinished = true;
-        clearTimeout(this.timeout);
-        const random = Math.round(Math.random() * 10);
-        if (random >= 5) {
-          this.hasPlayerWin = true;
-        }
-        const talkChosen = utils.chooseTalk(this.textWin, this.textLose, this.hasPlayerWin);
-        const oldMessage = ['{depends on}', this.textLose];
-        utils.changeTalk(talkChosen, talkToChange, oldMessage);
-        if (this.eventClass) {
-          this.eventClass.menu.keyboardMenu.end();
-        }
-        this.bindPauseListener.unbind();
-        this.onComplete();
-      }, 2000);
-    } else {
-      this.onComplete();
-    }
+    this.core = this.map.overworld.core;
+    const rpgRace = { ...window.races[this.event.raceId].race, raceScene: this };
+    utils.changeMode('historyRaceScene', this.core);
+    this.historyRace = new Race({ core: this.core, onComplete: this.onComplete, rpgRace });
+    this.historyRace.init(true);
   }
 }

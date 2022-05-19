@@ -2,11 +2,12 @@ class Director {
   constructor(config) {
     this.race = config.race;
     this.render = config.race.core.render;
-    this.trackName = this.race.trackName;
+    this.trackName = config.race.trackName;
+    this.raceLaps = config.race.raceLaps ?? Math.round(window.tracks.f1Y91[this.trackName].laps * 0.1);
+    this.startTimer = config.race.startTimer ?? 5000;
     this.totalTime = 0;
     this.animTime = 0;
     this.lap = 0;
-    this.raceLaps = config.raceLaps ?? Math.round(window.tracks.f1Y91[this.trackName].laps * 0.1);
     this.lastLap = 0;
     this.fastestLap = 0;
     this.totalLaptimes = [];
@@ -21,13 +22,9 @@ class Director {
     this.shakeMessageY = { pos: 0, direction: 1 };
     this.startLights = new SpriteRace();
     this.hudPositions = [];
-    this.startTimer = config.startTimer || 5000;
     this.carSegments = [];
-    this.raining = false;
-    this.rain = [];
     this.images = {};
     this.road = null;
-    this.trackName = null;
     this.player = null;
     this.opponents = null;
   }
@@ -53,59 +50,14 @@ class Director {
       if (window.gameState.mode === 'singleRaceScene') {
         utils.changeMode('menuScene', this.race.core);
       }
-    }
-  }
-
-  finishRace() {
-    if (this.raceFinishedCars.every((opp) => opp.finished === true)) this.isRaceFinished = true;
-
-    if (this.lap > this.raceLaps) {
-      this.isRaceFinished = true;
-    }
-
-    if (this.isRaceFinished) {
-      utils.keyUnbinder('KeyP', this.race.core);
-
-      // correcting X and Y axis of player
-      if (this.player.maxSpeed > 800) this.player.maxSpeed -= 1;
-      if (this.player.maxRange > 1.6) this.player.maxRange -= 0.1;
-      if (Math.abs(this.player.x) > 1.6) {
-        this.player.x = (Math.abs(this.player.x) - 0.1) * Math.sign(this.player.x);
-      }
-
-      // arranging position;
-      if (!this.finalPositions) {
-        this.finalPositions = this.positions
-          .slice(0, Math.min(this.positions.length, 3))
-          .map(({ name, raceTime, position }, index, arr) => {
-            let totalTime = utils.formatTime(raceTime.at(-1));
-            if (index > 0) {
-              const isSameLap = raceTime.at(-1) > arr[index - 1].raceTime.at(-1);
-              const diff = raceTime.at(-1) - arr[index - 1].raceTime.at(-1);
-              totalTime = isSameLap ? `+${utils.formatTime(diff, true)}` : '-1 volta';
-            }
-            return { position, name, totalTime, laps: raceTime.length - 2 };
-          });
+      if (window.gameState.mode === 'historyRaceScene') {
+        utils.changeMode('RPGScene', this.race.core, false);
+        this.race.onComplete();
       }
     }
   }
 
-  init() {
-    this.race.core.inputs.keyPressListeners.push(
-      new KeyPressListener('Enter', () => this.closeRaceEvent()),
-    );
-    utils.keyInitializer('Enter', this.race.core);
-
-    this.trackName = window.gameState.menuSelectedOptions.track;
-    this.road = this.race.road;
-    this.player = this.race.player;
-    this.opponents = this.race.opponents;
-
-    this.raceFinishedCars = this.opponents
-      .map(({ opponentName }) => ({ name: opponentName, finished: false }));
-
-    this.pauseRace();
-
+  createLights() {
     this.images.startLights = new Image();
     this.images.startLights.src = '../images/sprites/other/startLights.png';
     this.images.startLightsBar = new Image();
@@ -144,6 +96,23 @@ class Director {
     segmentLineTen.sprites.push(startLineRight);
   }
 
+  init() {
+    this.race.core.inputs.keyPressListeners.push(
+      new KeyPressListener('Enter', () => this.closeRaceEvent()),
+    );
+    utils.keyInitializer('Enter', this.race.core);
+
+    this.road = this.race.road;
+    this.player = this.race.player;
+    this.opponents = this.race.opponents;
+
+    this.raceFinishedCars = this.opponents
+      .map(({ opponentName }) => ({ name: opponentName, finished: false }));
+
+    this.pauseRace();
+    this.createLights();
+  }
+
   refreshPositions() {
     let arr = [];
     const {
@@ -165,6 +134,40 @@ class Director {
     arr.sort((a, b) => b.pos - a.pos);
     arr = arr.map((item, index) => ({ ...item, position: index + 1 }));
     this.positions = arr;
+  }
+
+  finishRace() {
+    if (this.raceFinishedCars.every((opp) => opp.finished === true)) this.isRaceFinished = true;
+
+    if (this.lap > this.raceLaps) {
+      this.isRaceFinished = true;
+    }
+
+    if (this.isRaceFinished) {
+      utils.keyUnbinder('KeyP', this.race.core);
+
+      // correcting X and Y axis of player
+      if (this.player.maxSpeed > 800) this.player.maxSpeed -= 1;
+      if (this.player.maxRange > 1.6) this.player.maxRange -= 0.1;
+      if (Math.abs(this.player.x) > 1.6) {
+        this.player.x = (Math.abs(this.player.x) - 0.1) * Math.sign(this.player.x);
+      }
+
+      // arranging position;
+      if (!this.finalPositions) {
+        this.finalPositions = this.positions
+          .slice(0, Math.min(this.positions.length, 3))
+          .map(({ name, raceTime, position }, index, arr) => {
+            let totalTime = utils.formatTime(raceTime.at(-1));
+            if (index > 0) {
+              const isSameLap = raceTime.at(-1) > arr[index - 1].raceTime.at(-1);
+              const diff = raceTime.at(-1) - arr[index - 1].raceTime.at(-1);
+              totalTime = isSameLap ? `+${utils.formatTime(diff, true)}` : '-1 volta';
+            }
+            return { position, name, totalTime, laps: raceTime.length - 2 };
+          });
+      }
+    }
   }
 
   update() {

@@ -66,7 +66,7 @@ class OverworldEvent {
     );
   }
 
-  enterRace(resolve) {
+  static enterRaceAnimation(resolve) {
     const battleTransition = new SceneTransition();
     battleTransition.init(
       'battle-transition',
@@ -91,18 +91,22 @@ class OverworldEvent {
   }
 
   race(resolve) {
-    const race = new RaceScene({
+    this.raceScene = new RaceScene({
       map: this.map,
       event: this.event,
       onComplete: () => resolve(),
     });
 
-    race.init();
+    this.raceScene.init();
   }
 
   async init() {
     return new Promise((resolve) => {
-      this[this.event.type](resolve);
+      if (this.event.type !== 'enterRaceAnimation') {
+        this[this.event.type](resolve);
+        return;
+      }
+      OverworldEvent[this.event.type](resolve);
     });
   }
 }

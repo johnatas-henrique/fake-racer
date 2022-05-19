@@ -9,29 +9,40 @@ const utils = {
     pauseBtn: () => document.querySelector('.pause-btn'),
     muteBtn: () => document.querySelector('.mute-btn'),
   },
-  changeMode(newGameState, coreClass) {
+  changeMode(newGameState, coreClass, noRestart = true) {
     window.gameState.mode = newGameState;
     utils.keyUnbinder('Enter', coreClass);
     if (newGameState === 'menuScene') {
       utils.classRemover('gameCanvas', 'pixelated');
       utils.htmlElements.gameCanvas().width = 640;
       utils.htmlElements.gameCanvas().height = 360;
-      coreClass.menu = new Menu({ animations: window.particles, core: coreClass });
-      coreClass.menu.init();
+      if (noRestart) {
+        coreClass.menu = new Menu({ animations: window.particles, core: coreClass });
+        coreClass.menu.init();
+      }
     }
     if (newGameState === 'singleRaceScene') {
       utils.classRemover('gameCanvas', 'pixelated');
       utils.htmlElements.gameCanvas().width = 640;
       utils.htmlElements.gameCanvas().height = 360;
-      coreClass.singleRace = new Race({ core: coreClass });
-      coreClass.singleRace.init();
+      if (noRestart) {
+        coreClass.singleRace = new Race({ core: coreClass });
+        coreClass.singleRace.init();
+      }
+    }
+    if (newGameState === 'historyRaceScene') {
+      utils.classRemover('gameCanvas', 'pixelated');
+      utils.htmlElements.gameCanvas().width = 640;
+      utils.htmlElements.gameCanvas().height = 360;
     }
     if (newGameState === 'RPGScene') {
       utils.classAdder('gameCanvas', 'pixelated');
       utils.htmlElements.gameCanvas().width = 384;
       utils.htmlElements.gameCanvas().height = 216;
-      coreClass.overworld = new Overworld({ core: coreClass });
-      coreClass.overworld.init();
+      if (noRestart) {
+        coreClass.overworld = new Overworld({ core: coreClass });
+        coreClass.overworld.init();
+      }
     }
     utils.emitEvent('canvasResized');
   },

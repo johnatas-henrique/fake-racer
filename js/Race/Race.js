@@ -1,12 +1,17 @@
 class Race {
   constructor(config) {
     this.core = config.core;
+    this.onComplete = config.onComplete || null;
+    this.trackName = config.rpgRace?.trackName || window.gameState.menuSelectedOptions.track;
+    this.oppNumber = config.rpgRace?.oppNumber || window.gameState.menuSelectedOptions.opponents;
+    this.startTimer = config.rpgRace?.startTimer ?? null;
+    this.raceLaps = config.rpgRace?.raceLaps ?? null;
+    this.difficulty = config.rpgRace?.difficulty || window.gameState.menuSelectedOptions.difficulty;
+    this.raceScene = config.rpgRace?.raceScene || null;
     this.road = null;
     this.camera = null;
     this.player = null;
     this.director = null;
-    this.trackName = null;
-    this.difficulty = null;
     this.opponents = [];
     this.raining = Math.round(Math.random() * 5) % 3 === 0;
   }
@@ -30,17 +35,15 @@ class Race {
   }
 
   adjustDifficulty() {
+    if (typeof this.difficulty === 'number') return this.difficulty;
     if (this.difficulty === 'novato') return 0.87;
     if (this.difficulty === 'corredor') return 0.935;
     return 1;
   }
 
-  init() {
-    if (window.gameState.mode === 'singleRaceScene' && !this.isInitOnce) {
+  init(run = false) {
+    if ((window.gameState.mode === 'singleRaceScene' && !this.isInitOnce) || run) {
       utils.resolutionChanger(this.core);
-      this.trackName = window.gameState.menuSelectedOptions.track;
-      this.difficulty = window.gameState.menuSelectedOptions.difficulty;
-
       utils.classRemover('pauseBtn', 'hidden');
       utils.classRemover('muteBtn', 'hidden');
       const okBtn = document.querySelector('.right-controls').firstElementChild;
@@ -66,7 +69,7 @@ class Race {
       });
 
       // setting number of opponents
-      this.opponents.length = window.gameState.menuSelectedOptions.opponents;
+      this.opponents.length = this.oppNumber;
 
       if (this.raining) {
         const rainDrops = Math.random() * 500 + 100;

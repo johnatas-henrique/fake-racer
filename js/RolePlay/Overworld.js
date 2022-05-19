@@ -2,15 +2,26 @@ class Overworld {
   constructor(config) {
     this.core = config.core;
     this.map = null;
+    this.inputs = {
+      keyPressListeners: [],
+    };
   }
 
   update() {
+    if (window.gameState.mode === 'historyRaceScene') {
+      this.map.eventHandler.raceScene.historyRace.update();
+      return;
+    }
     Object.values(this.map.gameObjects).forEach((item) => {
       item.update({ arrow: this.core.inputs.oneDirection.direction, map: this.map });
     });
   }
 
   draw() {
+    if (window.gameState.mode === 'historyRaceScene') {
+      this.map.eventHandler.raceScene.historyRace.draw();
+      return;
+    }
     const cameraPerson = {
       ...this.map.gameObjects.hero,
       canvasMidpoint: window.gameState.canvasMidpoint,
@@ -32,17 +43,23 @@ class Overworld {
   }
 
   helperHeroPositionMapCheck() {
-    this.core.inputs.keyPressListeners.push(new KeyPressListener(
+    this.inputs.keyPressListeners.push(new KeyPressListener(
       'KeyH',
       () => this.map.helperCheckHeroMapPosition(),
     ));
   }
 
   bindActionInput() {
-    this.core.inputs.keyPressListeners.push(new KeyPressListener(
-      'Enter',
-      () => this.map.checkForActionCutscene(),
-    ));
+    this.inputs.keyPressListeners.push(new KeyPressListener('Enter', () => {
+      this.map.checkForActionCutscene();
+    }));
+    this.inputs.keyPressListeners.push(new KeyPressListener('Escape', () => {
+      if (!this.map.isCutscenePlaying) {
+        this.map.startCutscene([
+          { type: 'pause' },
+        ]);
+      }
+    }));
   }
 
   bindHeroPositionCheck() {
@@ -67,11 +84,13 @@ class Overworld {
       this.startMap(window.OverworldMaps.DemoRoom);
 
       this.helperHeroPositionMapCheck();
-
       this.bindActionInput();
-      utils.keyInitializer('KeyH', this.core);
+
+      utils.keyInitializer('KeyH', this);
+      utils.keyInitializer('Enter', this);
+      utils.keyInitializer('Escape', this);
+
       this.bindHeroPositionCheck();
-      utils.keyInitializer('Enter', this.core);
 
       this.core.inputs.oneDirection.init();
 

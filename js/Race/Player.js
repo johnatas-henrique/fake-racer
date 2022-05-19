@@ -67,8 +67,8 @@ class Player {
     this.sprite.scaleX = 2.5;
     this.sprite.scaleY = 3;
 
-    const { trackSize } = window.tracks.f1Y91[window.gameState.menuSelectedOptions.track];
-    const qualyPos = Number(window.gameState.menuSelectedOptions.opponents) + 1;
+    const { trackSize } = window.tracks.f1Y91[this.race.trackName];
+    const qualyPos = Number(this.race.oppNumber) + 1;
     this.trackPosition = utils.startPosition(trackSize, qualyPos);
     this.camera.cursor = this.trackPosition;
     this.x = (qualyPos) % 2 ? -1 : 1;
