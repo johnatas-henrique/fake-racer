@@ -13,7 +13,13 @@ class RaceScene {
     this.core = this.map.overworld.core;
     const rpgRace = { ...window.races[this.event.raceId].race, raceScene: this };
     utils.changeMode('historyRaceScene', this.core);
-    this.historyRace = new Race({ core: this.core, onComplete: this.onComplete, rpgRace });
+    this.historyRace = new Race({
+      core: this.core,
+      onComplete: this.onComplete,
+      eventRPG: this.event,
+      rpgRace,
+    });
+
     this.historyRace.init(true);
   }
 }

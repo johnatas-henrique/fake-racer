@@ -19,7 +19,7 @@ class Player {
     this.startPress = 0;
     this.sprite = new SpriteRace();
     this.trackPosition = 0;
-    this.name = 'Player X';
+    this.name = window.playerState.name;
     this.lap = 0;
     this.raceTime = [0];
     this.crashXCorrection = 0;

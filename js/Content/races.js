@@ -1,24 +1,24 @@
 window.races = {
-  npcA: {
+  raceA: {
     race: {
-      trackName: 'monaco',
-      startTimer: 0,
-      raceLaps: 0,
-      oppNumber: 3,
+      trackName: 'brasil',
+      startTimer: 5000,
+      raceLaps: 2,
+      oppNumber: 9,
       difficulty: 'novato',
+      winCondition: 3,
+      xp: 20, // TODO Think about XP system
     },
-    winCondition: 3,
-    xp: 20,
   },
-  npcB: {
+  raceB: {
     race: {
       trackName: 'canada',
-      startTimer: 0,
+      startTimer: 5000,
       raceLaps: 3,
       oppNumber: 9,
       difficulty: 0.9,
+      winCondition: 1,
+      xp: 40,
     },
-    winCondition: 2,
-    xp: 40,
   },
 };

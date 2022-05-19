@@ -12,7 +12,7 @@ window.OverworldMaps = {
       npcA: new Person({
         x: utils.withGrid(7),
         y: utils.withGrid(9),
-        src: '../assets/images/characters/people/man1.png',
+        src: '../assets/images/characters/people/woman1.png',
         behaviorLoop: [
           { type: 'stand', direction: 'left', time: 800 },
           { type: 'stand', direction: 'up', time: 800 },
@@ -22,8 +22,9 @@ window.OverworldMaps = {
         talking: [
           {
             events: [
-              { faceHero: 'npcA', type: 'textMessage', text: 'Estou ocupado!' },
+              { type: 'textMessage', text: 'Estou tão ocupada!', faceHero: 'npcA' },
               { type: 'textMessage', text: 'Vá logo entregar as pizzas menino!' },
+              { type: 'addStoryFlag', flag: 'TALKED_TO_npcA' },
             ],
           },
         ],
@@ -35,7 +36,8 @@ window.OverworldMaps = {
         talking: [
           {
             events: [
-              { faceHero: 'npcB', type: 'textMessage', text: 'Você não pode entrar.' },
+              { type: 'textMessage', text: 'Você não pode entrar.', faceHero: 'npcB' },
+              { type: 'addStoryFlag', flag: 'TALKED_TO_npcB' },
             ],
           },
         ],
@@ -46,11 +48,40 @@ window.OverworldMaps = {
         src: '../assets/images/characters/people/woman2.png',
         talking: [
           {
+            required: ['WON_npcC'],
             events: [
-              { faceHero: 'npcC', type: 'textMessage', text: 'Então bora correr!' },
-              { type: 'enterRace' },
-              { who: 'npcC', type: 'race', textWin: 'teste ganho', textLose: 'teste perdido' },
-              { type: 'textMessage', text: '{depends on}' },
+              { type: 'textMessage', text: 'Eu voltarei, mas com um carro mais rápido!', faceHero: 'npcC' },
+            ],
+          },
+          {
+            required: ['LOST_npcC'],
+            events: [
+              { type: 'textMessage', text: 'Já te venci antes, posso vencer de novo!', faceHero: 'npcC' },
+              { type: 'enterRaceAnimation' },
+              { type: 'race', raceId: 'raceB', npc: 'npcC' },
+              { type: 'addStoryFlag', flag: 'WON_npcC' },
+              { type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'npcC' },
+            ],
+          },
+          {
+            required: ['TALKED_TO_npcA', 'TALKED_TO_npcB'],
+            events: [
+              { type: 'textMessage', text: 'Então bora correr!', faceHero: 'npcC' },
+              { type: 'enterRaceAnimation' },
+              { type: 'race', raceId: 'raceA', npc: 'npcC' },
+              { type: 'addStoryFlag', flag: 'WON_npcC' },
+              { type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'npcC' },
+            ],
+          },
+          {
+            required: ['TALKED_TO_npcB'],
+            events: [
+              { type: 'textMessage', text: 'Fale com a Nena, ela está nervosa.', faceHero: 'npcC' },
+            ],
+          },
+          {
+            events: [
+              { type: 'textMessage', text: 'O Bob não quer deixar ninguém passar.', faceHero: 'npcC' },
             ],
           },
         ],

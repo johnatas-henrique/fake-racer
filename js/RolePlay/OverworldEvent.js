@@ -94,10 +94,17 @@ class OverworldEvent {
     this.raceScene = new RaceScene({
       map: this.map,
       event: this.event,
-      onComplete: () => resolve(),
+      onComplete: (didWin) => {
+        resolve(didWin ? 'WON_RACE' : 'LOST_RACE');
+      },
     });
 
     this.raceScene.init();
+  }
+
+  addStoryFlag(resolve) {
+    window.playerState.storyFlags[this.event.flag] = true;
+    resolve();
   }
 
   async init() {

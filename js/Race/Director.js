@@ -3,7 +3,7 @@ class Director {
     this.race = config.race;
     this.render = config.race.core.render;
     this.trackName = config.race.trackName;
-    this.raceLaps = config.race.raceLaps ?? Math.round(window.tracks.f1Y91[this.trackName].laps * 0.1);
+    this.raceLaps = config.race.raceLaps ?? Math.round(window.tracks.f1Y91[this.trackName].laps * 0.1); // TODO make a shorter line
     this.startTimer = config.race.startTimer ?? 5000;
     this.totalTime = 0;
     this.animTime = 0;
@@ -51,8 +51,20 @@ class Director {
         utils.changeMode('menuScene', this.race.core);
       }
       if (window.gameState.mode === 'historyRaceScene') {
+        const playerName = window.playerState.name;
+
+        const playerPos = this.finalPositions
+          .find((driver) => driver.name === playerName)?.position || this.race.oppNumber + 1;
+        const hasPlayerWin = playerPos <= this.race.winCondition;
+
+        if (!hasPlayerWin) {
+          window.playerState.storyFlags[`LOST_${this.race.eventRPG.npc}`] = true; // HACK Should be an async event
+        } else {
+          delete window.playerState.storyFlags[`LOST_${this.race.eventRPG.npc}`];
+        }
+
         utils.changeMode('RPGScene', this.race.core, false);
-        this.race.onComplete();
+        this.race.onComplete(playerPos <= this.race.winCondition);
       }
     }
   }

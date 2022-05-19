@@ -1,10 +1,10 @@
 window.sfx = {
   // example: new Howl({
-  // src: ['./assets/sfx/talking/typing_keystroke_short.wav'],
-  // volume: (Number(0.5)),
-  // loop: true,
-  // onplay: () => console.log(window.sfx.talking),
-  // onend: () => window.sfx.talking2.play(),
+  //   src: ['./assets/sfx/talking/typing_keystroke_short.wav'],
+  //   volume: (Number(0.5)),
+  //   loop: true,
+  //   onplay: () => console.log(window.sfx.talking),
+  //   onend: () => window.sfx.talking2.play(), // TODO Controle de volume SFX
   // }),
   confirm: new Howl({
     src: ['./assets/sfx/ui_menu_button_confirm_06.wav'],
@@ -25,6 +25,5 @@ window.sfx = {
   tick: new Howl({
     src: ['./assets/sfx/tick.wav'],
     volume: (Number(window.gameState.menuSelectedOptions.musicVolume) + 1) / 10,
-    // onend: () => window.sfx.talking3.play(),
   }),
 };

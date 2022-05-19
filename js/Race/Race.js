@@ -8,6 +8,8 @@ class Race {
     this.raceLaps = config.rpgRace?.raceLaps ?? null;
     this.difficulty = config.rpgRace?.difficulty || window.gameState.menuSelectedOptions.difficulty;
     this.raceScene = config.rpgRace?.raceScene || null;
+    this.winCondition = config.rpgRace?.winCondition || null;
+    this.eventRPG = config.eventRPG;
     this.road = null;
     this.camera = null;
     this.player = null;

@@ -68,7 +68,10 @@ class OverworldMap {
       // because I want every event to finish before the next fires.
       // If I fire all events together, the movement will be broken.
 
-      await this.eventHandler.init();
+      const result = await this.eventHandler.init();
+      if (result === 'LOST_RACE') {
+        break;
+      }
     }
 
     this.isCutscenePlaying = false;
@@ -84,10 +87,16 @@ class OverworldMap {
   checkForActionCutscene() {
     const { hero } = this.gameObjects;
     const nextCoords = utils.nextPosition(hero.x, hero.y, hero.direction);
-    const match = Object.values(this.gameObjects).find((item) => `${item.x},${item.y}` === `${nextCoords.x},${nextCoords.y}`);
+    const match = Object.values(this.gameObjects)
+      .find((item) => `${item.x},${item.y}` === `${nextCoords.x},${nextCoords.y}`);
 
     if (!this.isCutscenePlaying && match && match.talking.length) {
-      this.startCutscene(match.talking[0].events);
+      const relevantScenario = match.talking
+        .find((scene) => (scene.required || []).every((sf) => window.playerState.storyFlags[sf]));
+
+      if (relevantScenario) {
+        this.startCutscene(relevantScenario.events);
+      }
     }
   }
 
