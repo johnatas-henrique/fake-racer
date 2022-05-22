@@ -64,7 +64,7 @@ class Director {
         }
 
         utils.changeMode('RPGScene', this.race.core, false);
-        this.race.onComplete(playerPos <= this.race.winCondition);
+        this.race.onComplete(hasPlayerWin);
       }
     }
   }

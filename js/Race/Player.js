@@ -157,8 +157,7 @@ class Player {
 
       // recover button
       if (this.inputs.multiDirection.isKeyDown('*')) {
-        this.x = 0;
-        this.actualSpeed = 1200;
+        this.actualSpeed = 1196;
       }
 
       // making playerCar moves in Y axis
