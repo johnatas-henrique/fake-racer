@@ -5,101 +5,134 @@ window.OverworldMaps = {
     gameObjects: {
       hero: new Person({
         isPlayerControlled: true,
-        x: utils.withGrid(3),
-        y: utils.withGrid(6),
+        x: utils.withGrid(7),
+        y: utils.withGrid(8),
         src: '../assets/images/characters/people/hero.png',
       }),
-      npcA: new Person({
+      Carol_DemoRoom: new Person({
         x: utils.withGrid(7),
         y: utils.withGrid(9),
-        src: '../assets/images/characters/people/woman1.png',
+        src: '../assets/images/characters/people/schoolgirl1.png',
         behaviorLoop: [
-          { type: 'stand', direction: 'left', time: 800 },
-          { type: 'stand', direction: 'up', time: 800 },
-          { type: 'stand', direction: 'right', time: 1200 },
-          { type: 'stand', direction: 'up', time: 3000 },
+          { type: 'stand', direction: 'right', time: 600 },
+          { type: 'stand', direction: 'up', time: 1800 },
+          { type: 'stand', direction: 'left', time: 600 },
+          { type: 'stand', direction: 'down', time: 2000 },
         ],
         talking: [
           {
             events: [
-              { type: 'textMessage', text: 'Estou tão ocupada!', faceHero: 'npcA' },
-              { type: 'textMessage', text: 'Vá logo entregar as pizzas menino!' },
-              { type: 'addStoryFlag', flag: 'TALKED_TO_npcA' },
+              { who: 'Carol_DemoRoom', type: 'textMessage', text: 'Estou tão ocupada!', faceHero: 'Carol_DemoRoom' },
+              { who: 'hero', type: 'textMessage', text: 'Mas a Bee...' },
+              { who: 'Carol_DemoRoom', type: 'textMessage', text: 'Vá logo entregar as pizzas menino!' },
+              { type: 'addStoryFlag', flag: 'TALKED_TO_Carol_DemoRoom' },
             ],
           },
         ],
       }),
-      npcB: new Person({
+      Bob_DemoRoom: new Person({
         x: utils.withGrid(8),
         y: utils.withGrid(5),
         src: '../assets/images/characters/people/thug1.png',
+        behaviorLoop: [
+          { type: 'stand', direction: 'left', time: 800 },
+          { type: 'stand', direction: 'down', time: 3200 },
+          { type: 'stand', direction: 'right', time: 900 },
+        ],
         talking: [
           {
-            required: ['WON_npcB'],
+            required: ['WON_Bob_DemoRoom'],
             events: [
-              { type: 'textMessage', text: 'Será que eu ainda posso ser o guarda?', faceHero: 'npcB' },
-              { type: 'textMessage', text: 'Pode avisar a Bee que te deixo passar.', faceHero: 'npcB' },
-              { type: 'addStoryFlag', flag: 'TALKED_TO_npcB' },
+              { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Será que eu ainda posso ser o guarda?', faceHero: 'Bob_DemoRoom' },
+              { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Pode avisar a Bee que te deixo passar.', faceHero: 'Bob_DemoRoom' },
+              { type: 'addStoryFlag', flag: 'TALKED_TO_Bob_DemoRoom' },
             ],
           },
           {
-            required: ['SECRET_RACE_npcB'],
+            required: ['SECRET_RACE_Bob_DemoRoom'],
             events: [
-              { type: 'textMessage', text: 'Depois que eu te vencer, você não vai tentar mais nada!', faceHero: 'npcB' },
+              { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Depois que eu te vencer, você não vai tentar mais nada!', faceHero: 'Bob_DemoRoom' },
               { type: 'enterRaceAnimation' },
-              { type: 'race', raceId: 'raceB', npc: 'npcB' },
-              { type: 'addStoryFlag', flag: 'WON_npcB' },
-              { type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'npcB' },
+              { type: 'race', raceId: 'raceB', npc: 'Bob_DemoRoom' },
+              { type: 'addStoryFlag', flag: 'WON_Bob_DemoRoom' },
+              { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'Bob_DemoRoom' },
             ],
           },
           {
             events: [
-              { type: 'textMessage', text: 'Você não pode entrar.', faceHero: 'npcB' },
-              { type: 'addStoryFlag', flag: 'TALKED_TO_npcB' },
+              { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Você não pode entrar.', faceHero: 'Bob_DemoRoom' },
+              { type: 'addStoryFlag', flag: 'TALKED_TO_Bob_DemoRoom' },
             ],
           },
         ],
       }),
-      npcC: new Person({
+      Bee_DemoRoom: new Person({
         x: utils.withGrid(2),
         y: utils.withGrid(6),
         src: '../assets/images/characters/people/bee1.png',
+        behaviorLoop: [
+          { type: 'stand', direction: 'up', time: 1100 },
+          { type: 'stand', direction: 'left', time: 800 },
+          { type: 'stand', direction: 'right', time: 2300 },
+          { type: 'stand', direction: 'down', time: 4000 },
+        ],
         talking: [
           {
-            required: ['WON_npcC'],
+            required: ['WON_Bob_DemoRoom'],
             events: [
-              { type: 'textMessage', text: 'Eu voltarei, mas com um carro mais rápido!', faceHero: 'npcC' },
+              { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Nossa, você venceu aquele maluco! Não acredito.', faceHero: 'Bee_DemoRoom' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
+              { who: 'Bob_DemoRoom', type: 'stand', direction: 'down', time: 100 },
+              { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Sim, ele me venceu e agora ele tem todo o direito de entrar na cozinha.' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
+              { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
+              { who: 'Bob_DemoRoom', type: 'stand', direction: 'down', time: 100 },
+              { type: 'deleteStoryFlag', flag: 'WON_Bob_DemoRoom' },
+              { type: 'deleteStoryFlag', flag: 'BLOCK_KITCHEN_Bob_DemoRoom_2' },
+              { type: 'addStoryFlag', flag: 'KITCHEN_OPEN' },
             ],
           },
           {
-            required: ['LOST_npcC'],
+            required: ['WON_Bee_DemoRoom'],
             events: [
-              { type: 'textMessage', text: 'Já te venci antes, posso vencer de novo!', faceHero: 'npcC' },
+              { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Eu voltarei, mas com um carro mais rápido!', faceHero: 'Bee_DemoRoom' },
+            ],
+          },
+          {
+            required: ['LOST_Bee_DemoRoom'],
+            events: [
+              { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Já te venci antes, posso vencer de novo!', faceHero: 'Bee_DemoRoom' },
               { type: 'enterRaceAnimation' },
-              { type: 'race', raceId: 'raceB', npc: 'npcC' },
-              { type: 'addStoryFlag', flag: 'WON_npcC' },
-              { type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'npcC' },
+              { type: 'race', raceId: 'raceB', npc: 'Bee_DemoRoom' },
+              { type: 'addStoryFlag', flag: 'WON_Bee_DemoRoom' },
+              { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'Bee_DemoRoom' },
             ],
           },
           {
-            required: ['TALKED_TO_npcA', 'TALKED_TO_npcB'],
+            required: ['TALKED_TO_Carol_DemoRoom', 'TALKED_TO_Bob_DemoRoom'],
             events: [
-              { type: 'textMessage', text: 'Então bora correr!', faceHero: 'npcC' },
+              { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Então bora correr!', faceHero: 'Bee_DemoRoom' },
               { type: 'enterRaceAnimation' },
-              { type: 'race', raceId: 'raceA', npc: 'npcC' },
-              { type: 'addStoryFlag', flag: 'WON_npcC' },
-              { type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'npcC' },
+              { type: 'race', raceId: 'raceA', npc: 'Bee_DemoRoom' },
+              { type: 'addStoryFlag', flag: 'WON_Bee_DemoRoom' },
+              { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'Bee_DemoRoom' },
             ],
           },
           {
-            required: ['TALKED_TO_npcB'],
+            required: ['TALKED_TO_Bob_DemoRoom'],
             events: [
-              { type: 'textMessage', text: 'Fale com a Nena, ela está nervosa.', faceHero: 'npcC' },
+              { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Fale com a Carol, ela está nervosa.', faceHero: 'Bee_DemoRoom' },
             ],
           },
           {
             events: [
-              { type: 'textMessage', text: 'O Bob não quer deixar ninguém passar.', faceHero: 'npcC' },
+              { who: 'Bee_DemoRoom', type: 'textMessage', text: 'O Bob não quer deixar ninguém passar.', faceHero: 'Bee_DemoRoom' },
             ],
           },
         ],
@@ -108,73 +141,81 @@ window.OverworldMaps = {
     cutsceneSpaces: {
       [utils.asGridCoord(7, 4)]: [
         {
-          required: ['BLOCK_KITCHEN_npcB_2'],
+          required: ['KITCHEN_OPEN'],
           events: [
-            { who: 'npcB', type: 'walk', direction: 'left' },
-            { who: 'npcB', type: 'stand', direction: 'up', time: 300 },
-            { type: 'textMessage', text: 'Ok engraçadinho, saia daí agora!' },
-            { who: 'npcB', type: 'walk', direction: 'right' },
-            { who: 'hero', type: 'walk', direction: 'down' },
-            { who: 'hero', type: 'walk', direction: 'left' },
-            { who: 'npcB', type: 'walk', direction: 'left' },
-            { who: 'npcB', type: 'stand', direction: 'down', time: 300 },
-            { type: 'textMessage', text: 'Quero ver você passar por mim!' },
-            { type: 'addStoryFlag', flag: 'SECRET_RACE_npcB' },
+            { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Não conta pra ninguém que te deixei passar' },
+            { type: 'changeMap', map: 'Kitchen' },
           ],
         },
         {
-          required: ['BLOCK_KITCHEN_npcB_1'],
+          required: ['BLOCK_KITCHEN_Bob_DemoRoom_2'],
           events: [
-            { who: 'npcB', type: 'walk', direction: 'left' },
-            { who: 'npcB', type: 'stand', direction: 'up', time: 300 },
-            { type: 'textMessage', text: 'Você é surdo?' },
-            { who: 'npcB', type: 'walk', direction: 'right' },
+            { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
+            { who: 'Bob_DemoRoom', type: 'stand', direction: 'up', time: 300 },
+            { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Ok engraçadinho, saia daí agora!' },
+            { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
             { who: 'hero', type: 'walk', direction: 'down' },
             { who: 'hero', type: 'walk', direction: 'left' },
-            { who: 'npcB', type: 'stand', direction: 'down', time: 300 },
-            { type: 'deleteStoryFlag', flag: 'BLOCK_KITCHEN_npcB_1' },
-            { type: 'addStoryFlag', flag: 'BLOCK_KITCHEN_npcB_2' },
+            { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
+            { who: 'Bob_DemoRoom', type: 'stand', direction: 'down', time: 300 },
+            { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Quero ver você passar por mim!' },
+            { type: 'addStoryFlag', flag: 'SECRET_RACE_Bob_DemoRoom' },
           ],
         },
         {
+          required: ['BLOCK_KITCHEN_Bob_DemoRoom_1'],
           events: [
-            { who: 'npcB', type: 'walk', direction: 'left' },
-            { who: 'npcB', type: 'stand', direction: 'up', time: 300 },
-            { type: 'textMessage', text: 'Não entre aí!' },
-            { who: 'npcB', type: 'walk', direction: 'right' },
+            { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
+            { who: 'Bob_DemoRoom', type: 'stand', direction: 'up', time: 300 },
+            { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Você é surdo?' },
+            { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
             { who: 'hero', type: 'walk', direction: 'down' },
             { who: 'hero', type: 'walk', direction: 'left' },
-            { who: 'npcB', type: 'stand', direction: 'down', time: 300 },
-            { type: 'addStoryFlag', flag: 'BLOCK_KITCHEN_npcB_1' },
+            { who: 'Bob_DemoRoom', type: 'stand', direction: 'down', time: 300 },
+            { type: 'deleteStoryFlag', flag: 'BLOCK_KITCHEN_Bob_DemoRoom_1' },
+            { type: 'addStoryFlag', flag: 'BLOCK_KITCHEN_Bob_DemoRoom_2' },
+          ],
+        },
+        {
+          required: ['KITCHEN_BLOCKED'],
+          events: [
+            { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
+            { who: 'Bob_DemoRoom', type: 'stand', direction: 'up', time: 300 },
+            { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Não entre aí!' },
+            { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
+            { who: 'hero', type: 'walk', direction: 'down' },
+            { who: 'hero', type: 'walk', direction: 'left' },
+            { who: 'Bob_DemoRoom', type: 'stand', direction: 'down', time: 300 },
+            { type: 'addStoryFlag', flag: 'BLOCK_KITCHEN_Bob_DemoRoom_1' },
           ],
         },
       ],
       [utils.asGridCoord(5, 10)]: [
         {
-          required: ['WON_npcC'],
+          required: ['WON_Bee_DemoRoom'],
           events: [
-            { type: 'changeMap', map: 'Kitchen' },
+            { type: 'changeMap', map: 'PizzaShop' },
           ],
         },
         {
           events: [
-            { who: 'npcC', type: 'walk', direction: 'down' },
-            { who: 'npcC', type: 'walk', direction: 'right' },
-            { who: 'npcC', type: 'walk', direction: 'down' },
-            { who: 'npcC', type: 'walk', direction: 'right' },
-            { who: 'npcC', type: 'walk', direction: 'down' },
-            { who: 'npcC', type: 'walk', direction: 'right' },
-            { who: 'npcC', type: 'stand', direction: 'down', time: 300 },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'down' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'right' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'down' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'right' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'down' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'right' },
+            { who: 'Bee_DemoRoom', type: 'stand', direction: 'down', time: 300 },
             { who: 'hero', type: 'stand', direction: 'up', time: 300 },
-            { type: 'textMessage', text: 'Não te avisaram para não sair sem falar comigo?' },
-            { who: 'npcC', type: 'walk', direction: 'up' },
+            { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Não te avisaram para não sair sem falar comigo?' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'up' },
             { who: 'hero', type: 'walk', direction: 'up' },
-            { who: 'npcC', type: 'walk', direction: 'left' },
-            { who: 'npcC', type: 'walk', direction: 'up' },
-            { who: 'npcC', type: 'walk', direction: 'left' },
-            { who: 'npcC', type: 'walk', direction: 'up' },
-            { who: 'npcC', type: 'walk', direction: 'left' },
-            { who: 'npcC', type: 'stand', direction: 'down', time: 300 },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'left' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'up' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'left' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'up' },
+            { who: 'Bee_DemoRoom', type: 'walk', direction: 'left' },
+            { who: 'Bee_DemoRoom', type: 'stand', direction: 'down', time: 300 },
           ],
         },
       ],
@@ -239,26 +280,26 @@ window.OverworldMaps = {
         y: utils.withGrid(9),
         src: '../assets/images/characters/people/hero.png',
       }),
-      npcA: new Person({
+      Carol_DemoRoom: new Person({
         x: utils.withGrid(9),
         y: utils.withGrid(6),
         src: '../assets/images/characters/people/woman1.png',
         talking: [
           {
             events: [
-              { faceHero: 'npcA', type: 'textMessage', text: 'Você não tem o que fazer não?' },
+              { faceHero: 'Carol_DemoRoom', type: 'textMessage', text: 'Você não tem o que fazer não?' },
             ],
           },
         ],
       }),
-      npcB: new Person({
+      Bob_DemoRoom: new Person({
         x: utils.withGrid(6),
         y: utils.withGrid(8),
         src: '../assets/images/characters/people/man1.png',
         talking: [
           {
             events: [
-              { faceHero: 'npcB', type: 'textMessage', text: 'Como você entrou aqui?' },
+              { faceHero: 'Bob_DemoRoom', type: 'textMessage', text: 'Como você entrou aqui?' },
             ],
           },
         ],
@@ -304,12 +345,12 @@ window.OverworldMaps = {
         x: utils.withGrid(1),
         y: utils.withGrid(7),
       }),
-      npcA: new Person({
+      Carol_DemoRoom: new Person({
         x: utils.withGrid(4),
         y: utils.withGrid(11),
         src: '../assets/images/characters/people/man1.png',
       }),
-      npcB: new Person({
+      Bob_DemoRoom: new Person({
         x: utils.withGrid(9),
         y: utils.withGrid(10),
         src: '../assets/images/characters/people/man2.png',
@@ -325,13 +366,13 @@ window.OverworldMaps = {
         y: utils.withGrid(8),
         src: '../assets/images/characters/people/hero.png',
       }),
-      npcA: new Person({
+      Carol_DemoRoom: new Person({
         x: utils.withGrid(3),
         y: utils.withGrid(3),
         src: '../assets/images/characters/people/man1.png',
         offsetX: 8,
       }),
-      npcB: new Person({
+      Bob_DemoRoom: new Person({
         x: utils.withGrid(6),
         y: utils.withGrid(3),
         src: '../assets/images/characters/people/man2.png',

@@ -7,6 +7,7 @@ class PlayerState {
       { actionId: 'cellphone', instanceId: 'history1' },
     ];
     this.storyFlags = {
+      KITCHEN_BLOCKED: true,
     };
   }
 }

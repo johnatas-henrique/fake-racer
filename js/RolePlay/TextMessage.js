@@ -1,5 +1,7 @@
 class TextMessage {
   constructor(config) {
+    this.gameObjects = config.gameObjects;
+    this.who = config.who || null;
     this.text = config.text;
     this.onComplete = config.onComplete;
     this.element = null;
@@ -7,11 +9,31 @@ class TextMessage {
 
   createElement() {
     this.element = document.createElement('div');
-    this.element.classList.add('TextMessage');
-    this.element.innerHTML = (`
+
+    if (this.who) {
+      const objName = this.gameObjects[this.who].id.split('_')[0];
+      const personName = objName === 'hero' ? window.playerState.name : objName;
+      this.element.classList.add('TextMessage');
+      this.element.innerHTML = (`
+      <div class='person-face_container'> 
+        <div class='person-face_div' style="
+          background: url('${this.gameObjects[this.who].sprite.image.src}');
+          background-size: 4000%;
+          background-position: 5.32% 1.5%;
+          "> 
+        </div>
+        <p class='person-face_p'>${personName}</p>
+      </div>
       <p class='TextMessage_p'></p>
       <button class='TextMessage_button'>Next</button>
     `);
+    } else {
+      this.element.classList.add('TextMessage');
+      this.element.innerHTML = (`
+        <p class='TextMessage_p'></p>
+        <button class='TextMessage_button'>Next</button>
+      `);
+    }
 
     this.revealingText = new RevealingText({
       element: this.element.querySelector('.TextMessage_p'),
