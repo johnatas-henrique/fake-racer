@@ -1,4 +1,4 @@
-window.OverworldMaps = {
+window.overworldMaps = {
   DemoRoom: {
     lowerSrc: '../assets/images/maps/DemoLower.png',
     upperSrc: '../assets/images/maps/DemoUpper.png',
@@ -8,6 +8,14 @@ window.OverworldMaps = {
         x: utils.withGrid(7),
         y: utils.withGrid(8),
         src: '../assets/images/characters/people/hero.png',
+      }),
+      conversationBaloon: new GameObject({
+        x: utils.withGrid(3),
+        y: utils.withGrid(4),
+        src: '../assets/images/ui/UI_angry_emote_16x16.png',
+        sizeX: 1,
+        currentAnimation: 'change-right-4',
+        showItem: false,
       }),
       Carol_DemoRoom: new Person({
         x: utils.withGrid(7),
@@ -51,6 +59,7 @@ window.OverworldMaps = {
           {
             required: ['SECRET_RACE_Bob_DemoRoom'],
             events: [
+              { type: 'showRaceBaloon', who: 'Bob_DemoRoom' },
               { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Depois que eu te vencer, você não vai tentar mais nada!', faceHero: 'Bob_DemoRoom' },
               { type: 'enterRaceAnimation' },
               { type: 'race', raceId: 'raceB', npc: 'Bob_DemoRoom' },
@@ -107,6 +116,7 @@ window.OverworldMaps = {
           {
             required: ['LOST_Bee_DemoRoom'],
             events: [
+              { type: 'showRaceBaloon', who: 'Bee_DemoRoom' },
               { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Já te venci antes, posso vencer de novo!', faceHero: 'Bee_DemoRoom' },
               { type: 'enterRaceAnimation' },
               { type: 'race', raceId: 'raceB', npc: 'Bee_DemoRoom' },
@@ -117,6 +127,7 @@ window.OverworldMaps = {
           {
             required: ['TALKED_TO_Carol_DemoRoom', 'TALKED_TO_Bob_DemoRoom'],
             events: [
+              { type: 'showRaceBaloon', who: 'Bee_DemoRoom' },
               { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Então bora correr!', faceHero: 'Bee_DemoRoom' },
               { type: 'enterRaceAnimation' },
               { type: 'race', raceId: 'raceA', npc: 'Bee_DemoRoom' },

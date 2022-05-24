@@ -8,9 +8,11 @@ class GameObject {
     this.behaviorLoop = config.behaviorLoop || [];
     this.behaviorLoopIndex = 0;
     this.talking = config.talking || [];
-    this.sprite = new Sprite({
+    this.showItem = config.showItem ?? true;
+    this.sprite = new SpriteGameObjects({
       gameObject: this,
       src: config.src || '../assets/images/characters/people/santa.png',
+      currentAnimation: config.currentAnimation || null,
       offsetX: config.offsetX,
       offsetY: config.offsetY,
       sizeX: config.sizeX,

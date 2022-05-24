@@ -61,14 +61,16 @@ class OverworldEvent {
       'map-transition',
       document.querySelector('.game-container'),
       () => {
-        this.map.overworld.startMap(window.OverworldMaps[this.event.map]);
+        this.map.overworld.startMap(window.overworldMaps[this.event.map]);
         resolve();
         mapTransition.fadeOut();
       },
     );
   }
 
-  static enterRaceAnimation(resolve) {
+  enterRaceAnimation(resolve) {
+    const oldBaloon = this.map.gameObjects.conversationBaloon;
+    oldBaloon.showItem = false;
     const battleTransition = new SceneTransition();
     battleTransition.init(
       'battle-transition',
@@ -78,6 +80,7 @@ class OverworldEvent {
         battleTransition.fadeOut();
       },
     );
+    window.sfx.enterRace.stop();
   }
 
   pause(resolve) {
@@ -114,13 +117,19 @@ class OverworldEvent {
     resolve();
   }
 
+  showRaceBaloon(resolve) {
+    window.sfx.enterRace.play();
+    const personTalked = this.map.gameObjects[this.event.who];
+    const oldBaloon = this.map.gameObjects.conversationBaloon;
+    oldBaloon.showItem = true;
+    oldBaloon.x = personTalked.x;
+    oldBaloon.y = personTalked.y - 15.9;
+    resolve();
+  }
+
   async init() {
     return new Promise((resolve) => {
-      if (this.event.type !== 'enterRaceAnimation') {
-        this[this.event.type](resolve);
-        return;
-      }
-      OverworldEvent[this.event.type](resolve);
+      this[this.event.type](resolve);
     });
   }
 }

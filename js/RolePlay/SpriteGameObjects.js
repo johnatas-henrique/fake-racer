@@ -1,4 +1,4 @@
-class Sprite {
+class SpriteGameObjects {
   constructor(config) {
     // Setup the image
     this.image = new Image();
@@ -32,6 +32,7 @@ class Sprite {
       'walk-left': [[12, 2], [13, 2], [14, 2], [15, 2], [16, 2], [17, 2]],
       'walk-down': [[18, 2], [19, 2], [20, 2], [21, 2], [22, 2], [23, 2]],
       'idle-object': [[0, 0]],
+      'change-right-4': [[0, 0], [1, 0], [2, 0], [3, 0]],
     };
     this.currentAnimation = config.currentAnimation || 'idle-object';
     this.currentAnimationFrame = 0;

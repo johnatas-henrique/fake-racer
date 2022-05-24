@@ -34,7 +34,9 @@ class Overworld {
     gameObj
       .sort((a, b) => a.y - b.y)
       .forEach((item) => {
-        item.sprite.draw(this.core.render.ctx, cameraPerson);
+        if (item.showItem) {
+          item.sprite.draw(this.core.render.ctx, cameraPerson);
+        }
       });
 
     this.map.drawMiddleImage(this.core.render.ctx, cameraPerson);
@@ -82,7 +84,7 @@ class Overworld {
       utils.resolutionChanger(this.core);
       utils.classAdder('gameCanvas', 'pixelated');
 
-      this.startMap(window.OverworldMaps.DemoRoom);
+      this.startMap(window.overworldMaps.DemoRoom);
 
       this.helperHeroPositionMapCheck();
       this.bindActionInput();

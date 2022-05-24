@@ -22,6 +22,10 @@ window.sfx = {
     src: ['./assets/sfx/talking/typing_keystroke_long.wav'],
     volume: (Number(window.gameState.menuSelectedOptions.musicVolume) + 1) / 10,
   }),
+  enterRace: new Howl({
+    src: ['./assets/music/enterRaceLoop.ogg'],
+    volume: (Number(window.gameState.menuSelectedOptions.musicVolume) + 1) / 10,
+  }),
   tick: new Howl({
     src: ['./assets/sfx/tick.wav'],
     volume: (Number(window.gameState.menuSelectedOptions.musicVolume) + 1) / 10,

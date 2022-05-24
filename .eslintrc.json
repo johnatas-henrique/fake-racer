@@ -32,6 +32,7 @@
         "SegmentLine": false,
         "Stats": false,
         "SpriteRace": false,
+        "SpriteGameObjects": false,
         "Speedometer": false,
         "TextMessage": false,
         "Tunnel": false,
