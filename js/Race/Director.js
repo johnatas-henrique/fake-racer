@@ -3,7 +3,7 @@ class Director {
     this.race = config.race;
     this.render = config.race.core.render;
     this.trackName = config.race.trackName;
-    this.raceLaps = config.race.raceLaps ?? Math.round(window.tracks.f1Y91[this.trackName].laps * 0.1); // TODO make a shorter line
+    this.raceLaps = config.race.raceLaps;
     this.startTimer = config.race.startTimer ?? 5000;
     this.totalTime = 0;
     this.animTime = 0;
@@ -59,12 +59,22 @@ class Director {
 
         if (!hasPlayerWin) {
           window.playerState.storyFlags[`LOST_${this.race.eventRPG.npc}`] = true; // HACK Should be an async event
+          window.playerState.storyFlags[`LOSE_${this.race.eventRPG.npc}`] = true; // HACK Should be an async event
         } else {
           delete window.playerState.storyFlags[`LOST_${this.race.eventRPG.npc}`];
         }
 
-        utils.changeMode('RPGScene', this.race.core, false);
-        this.race.onComplete(hasPlayerWin);
+        const endRaceTransition = new SceneTransition();
+        endRaceTransition.init(
+          'map-transition',
+          document.querySelector('.game-container'),
+          () => {
+            this.race.onComplete(hasPlayerWin);
+            utils.changeMode('RPGScene', this.race.core, false);
+            document.querySelector('.Hud').classList.remove('hidden');
+            endRaceTransition.fadeOut();
+          },
+        );
       }
     }
   }
@@ -109,6 +119,9 @@ class Director {
   }
 
   init() {
+    if (this.raceLaps < 0 || typeof this.raceLaps !== 'number') {
+      this.raceLaps = Math.round(window.tracks.f1Y91[this.trackName].laps * 0.1);
+    }
     this.race.core.inputs.keyPressListeners.push(
       new KeyPressListener('Enter', () => this.closeRaceEvent()),
     );

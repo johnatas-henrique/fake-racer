@@ -57,7 +57,7 @@ class OverworldMap {
 
   async startCutscene(events) {
     this.isCutscenePlaying = true;
-
+    let loseRace = null;
     // Loop of async events
     for (let i = 0; i < events.length; i += 1) {
       this.eventHandler = new OverworldEvent(
@@ -71,8 +71,20 @@ class OverworldMap {
       // eslint-disable-next-line no-await-in-loop
       const result = await this.eventHandler.init();
       if (result === 'LOST_RACE') {
+        loseRace = 'LOSE_';
         break;
       }
+    }
+
+    const npc = this.eventHandler?.event.npc;
+    const eventName = `${loseRace}${npc}`;
+    if (window.playerState.storyFlags[eventName] && loseRace) {
+      this.isCutscenePlaying = true;
+      const { savedMap } = window.playerState;
+      const npcTalkingEvents = window.overworldMaps[savedMap].gameObjects[npc].talking;
+      const afterLoseCutscene = npcTalkingEvents
+        .find((item) => item.required?.find((rpgEvent) => rpgEvent === eventName));
+      return this.startCutscene(afterLoseCutscene.events);
     }
 
     this.isCutscenePlaying = false;

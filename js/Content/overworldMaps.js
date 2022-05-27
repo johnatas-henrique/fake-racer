@@ -53,7 +53,13 @@ window.overworldMaps = {
             events: [
               { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Será que eu ainda posso ser o guarda?', faceHero: 'Bob_DemoRoom' },
               { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Pode avisar a Bee que te deixo passar.', faceHero: 'Bob_DemoRoom' },
-              { type: 'addStoryFlag', flag: 'TALKED_TO_Bob_DemoRoom' },
+            ],
+          },
+          {
+            required: ['LOSE_Bob_DemoRoom'],
+            events: [
+              { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Você é uma piada mesmo!', faceHero: 'Bob_DemoRoom' },
+              { type: 'deleteStoryFlag', flag: 'LOSE_Bob_DemoRoom' },
             ],
           },
           {
@@ -88,7 +94,7 @@ window.overworldMaps = {
         ],
         talking: [
           {
-            required: ['WON_Bob_DemoRoom'],
+            required: ['WON_Bob_DemoRoom', 'SECRET_RACE_Bob_DemoRoom'],
             events: [
               { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Nossa, você venceu aquele maluco! Não acredito.', faceHero: 'Bee_DemoRoom' },
               { who: 'Bob_DemoRoom', type: 'walk', direction: 'left' },
@@ -103,8 +109,8 @@ window.overworldMaps = {
               { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
               { who: 'Bob_DemoRoom', type: 'walk', direction: 'right' },
               { who: 'Bob_DemoRoom', type: 'stand', direction: 'down', time: 100 },
-              { type: 'deleteStoryFlag', flag: 'WON_Bob_DemoRoom' },
               { type: 'deleteStoryFlag', flag: 'BLOCK_KITCHEN_Bob_DemoRoom_2' },
+              { type: 'deleteStoryFlag', flag: 'SECRET_RACE_Bob_DemoRoom' },
               { type: 'addStoryFlag', flag: 'KITCHEN_OPEN' },
             ],
           },
@@ -201,6 +207,7 @@ window.overworldMaps = {
             { who: 'hero', type: 'walk', direction: 'left' },
             { who: 'Bob_DemoRoom', type: 'stand', direction: 'down', time: 300 },
             { type: 'addStoryFlag', flag: 'BLOCK_KITCHEN_Bob_DemoRoom_1' },
+            { type: 'addStoryFlag', flag: 'TALKED_TO_Bob_DemoRoom' },
           ],
         },
       ],
