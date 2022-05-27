@@ -7,7 +7,12 @@ window.races = {
       oppNumber: 9,
       difficulty: 'novato',
       winCondition: 3,
-      xp: 20, // TODO Think about XP system
+    },
+    goodies: {
+      gas: 20, // TODO Think about gas system
+      xp: 60, // TODO Think about XP system
+      money: 100, // TODO Think about money system
+      item: 'medal', // TODO Think about item system
     },
   },
   raceB: {
@@ -18,7 +23,12 @@ window.races = {
       oppNumber: 9,
       difficulty: 0.9,
       winCondition: 1,
-      xp: 40,
+    },
+    goodies: {
+      gas: 30,
+      xp: 60,
+      money: 150,
+      item: 'bag',
     },
   },
 };

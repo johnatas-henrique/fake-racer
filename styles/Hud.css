@@ -1,0 +1,75 @@
+.Hud {
+  width: 17vw;
+  height: 4vw;
+  background: url("../assets/images/ui/combatant-plate.png") no-repeat;
+  background-size: cover;
+  position: absolute;
+  left: 0.6vw;
+  top: 5vw;
+  image-rendering: pixelated;
+}
+
+.Hud_character_crop {
+  position: absolute;
+  top: 0.5vw;
+  left: 1.5vw;
+  width: 4.5vw;
+  height: 3vw;
+}
+
+.Hud_character {
+  display: block;
+  position: absolute;
+  left: -40px;
+  top: 0;
+  zoom: 2;
+  clip: rect(0.1vw, 64px, 28px, 48px);
+}
+
+.Hud_name {
+  position: absolute;
+  left: -0.5vw;
+  top: -2vw;
+  white-space: nowrap;
+  background: var(--menu-font-color);
+  color: #fff;
+  font-size: 2vw;
+  padding-left: 0.5vw;
+  padding-right: 0.5vw;
+  margin: 0;
+}
+
+.Hud_gas-container {
+  position: absolute;
+  left: 5.7vw;
+  top: 1vw;
+  width: 7.55vw;
+  height: 1.17vw;
+}
+
+.Hud_gas-container>rect, .Hud_xp-container>rect {
+  transition: width 1s;
+}
+
+.Hud_xp-container {
+  position: absolute;
+  left: 5.7vw;
+  top: 2.25vw;
+  width: 7.55vw;
+  height: 0.765vw;
+}
+
+.Hud_level {
+  position: absolute;
+  font-size: 2vw;
+  right: -1vw;
+  top: -0.5vw;
+  width: 4vw;
+  height: 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F8C594;
+  border: 0.25vw solid #A48465;
+  margin: 0;
+}

@@ -57,11 +57,13 @@ class OverworldEvent {
 
   changeMap(resolve) {
     const mapTransition = new SceneTransition();
+    window.playerState.savedMap = this.event.map;
     mapTransition.init(
       'map-transition',
       document.querySelector('.game-container'),
       () => {
         this.map.overworld.startMap(window.overworldMaps[this.event.map]);
+        utils.emitEvent('HudUpdate');
         resolve();
         mapTransition.fadeOut();
       },
@@ -69,8 +71,10 @@ class OverworldEvent {
   }
 
   enterRaceAnimation(resolve) {
+    document.querySelector('.Hud').classList.add('hidden');
     const oldBaloon = this.map.gameObjects.conversationBaloon;
     oldBaloon.showItem = false;
+
     const battleTransition = new SceneTransition();
     battleTransition.init(
       'battle-transition',
@@ -125,6 +129,20 @@ class OverworldEvent {
     oldBaloon.x = personTalked.x;
     oldBaloon.y = personTalked.y - 15.9;
     resolve();
+  }
+
+  giveGoodies(resolve) {
+    setTimeout(() => {
+      const { goodies } = window.races[this.event.raceId];
+      const changeGas = goodies.gas || 0;
+      const changeXp = goodies.xp || 0;
+      window.playerState.updateGas(changeGas);
+      window.playerState.updateXp(changeXp);
+
+      window.playerState.money += goodies.money || 0;
+      utils.emitEvent('HudUpdate');
+      resolve();
+    }, 1200);
   }
 
   async init() {

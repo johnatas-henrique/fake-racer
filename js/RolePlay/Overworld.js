@@ -84,7 +84,10 @@ class Overworld {
       utils.resolutionChanger(this.core);
       utils.classAdder('gameCanvas', 'pixelated');
 
-      this.startMap(window.overworldMaps.DemoRoom);
+      this.startMap(window.overworldMaps[window.playerState.savedMap]);
+
+      this.hud = new Hud({ map: this.map });
+      this.hud.init(utils.htmlElements.gameContainer());
 
       this.helperHeroPositionMapCheck();
       this.bindActionInput();

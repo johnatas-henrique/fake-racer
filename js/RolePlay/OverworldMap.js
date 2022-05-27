@@ -68,6 +68,7 @@ class OverworldMap {
       // because I want every event to finish before the next fires.
       // If I fire all events together, the movement will be broken.
 
+      // eslint-disable-next-line no-await-in-loop
       const result = await this.eventHandler.init();
       if (result === 'LOST_RACE') {
         break;

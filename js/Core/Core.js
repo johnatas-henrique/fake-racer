@@ -3,7 +3,6 @@ class Core {
     this.element = config.element;
     this.canvas = this.element.querySelector('.game-canvas');
     this.ctx = this.canvas.getContext('2d');
-    // this.canvasMidpoint = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
     this.render = new Render(this.ctx);
     this.inputs = {
       oneDirection: null,

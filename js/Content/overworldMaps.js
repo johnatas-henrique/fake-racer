@@ -5,8 +5,8 @@ window.overworldMaps = {
     gameObjects: {
       hero: new Person({
         isPlayerControlled: true,
-        x: utils.withGrid(7),
-        y: utils.withGrid(8),
+        x: utils.withGrid(5),
+        y: utils.withGrid(6),
         src: '../assets/images/characters/people/hero.png',
       }),
       conversationBaloon: new GameObject({
@@ -64,6 +64,7 @@ window.overworldMaps = {
               { type: 'enterRaceAnimation' },
               { type: 'race', raceId: 'raceB', npc: 'Bob_DemoRoom' },
               { type: 'addStoryFlag', flag: 'WON_Bob_DemoRoom' },
+              { type: 'giveGoodies', raceId: 'raceB' },
               { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'Bob_DemoRoom' },
             ],
           },
@@ -121,6 +122,7 @@ window.overworldMaps = {
               { type: 'enterRaceAnimation' },
               { type: 'race', raceId: 'raceB', npc: 'Bee_DemoRoom' },
               { type: 'addStoryFlag', flag: 'WON_Bee_DemoRoom' },
+              { type: 'giveGoodies', raceId: 'raceB' },
               { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'Bee_DemoRoom' },
             ],
           },
@@ -132,6 +134,7 @@ window.overworldMaps = {
               { type: 'enterRaceAnimation' },
               { type: 'race', raceId: 'raceA', npc: 'Bee_DemoRoom' },
               { type: 'addStoryFlag', flag: 'WON_Bee_DemoRoom' },
+              { type: 'giveGoodies', raceId: 'raceB' },
               { who: 'Bee_DemoRoom', type: 'textMessage', text: 'Não posso acreditar que perdi para você...', faceHero: 'Bee_DemoRoom' },
             ],
           },

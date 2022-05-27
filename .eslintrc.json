@@ -10,6 +10,7 @@
         "Director": false,
         "GameMenu": false,
         "GameObject": false,
+        "Hud": false,
         "KeyboardMenu": false,
         "KeyPressListener": false,
         "Menu": false,
