@@ -50,6 +50,9 @@ class PlayerState {
         this.xp = levelUpXp - this.maxXp;
         this.maxXp = this.level * 100;
         utils.emitEvent('HudUpdate');
+        if (this.xp >= this.maxXp) {
+          this.updateXp(0);
+        }
       }, 2200);
     }
   }
