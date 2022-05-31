@@ -42,6 +42,11 @@ class Overworld {
     this.map.drawMiddleImage(this.core.render.ctx, cameraPerson);
 
     this.map.drawUpperImage(this.core.render.ctx, cameraPerson);
+
+    const raceBaloon = this.map.gameObjects.conversationBaloon;
+    if (raceBaloon?.showItem) {
+      raceBaloon.sprite.draw(this.core.render.ctx, cameraPerson);
+    }
   }
 
   helperHeroPositionMapCheck() {
