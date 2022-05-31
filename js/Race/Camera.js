@@ -1,46 +1,23 @@
-/* eslint-disable lines-between-class-members */
-/* eslint-disable max-classes-per-file */
-
 class Camera {
   constructor(config) {
     this.race = config.race;
     this.road = config.race.road;
     this.director = config.race.director;
-  }
-  x = 0;
-  y = 1500;
-  z = 0;
-  h = this.y;
-  cursor = 0;
-  deltaZ = 0;
-
-  #distanceToProjectionPlane = 1 / Math.tan(utils.theta);
-
-  screen = new class {
-    midpoint = new class {
-      #screen;
-      constructor(screen) {
-        this.#screen = screen;
-      }
-      get x() {
-        return this.#screen.width * 0.5;
-      }
-      get y() {
-        return this.#screen.height * 0.5;
-      }
-    }(this);
-
-    get width() {
-      return utils.htmlElements.gameCanvas().width;
-    }
-
-    get height() {
-      return utils.htmlElements.gameCanvas().height;
-    }
-  }();
-
-  get distanceToProjectionPlane() {
-    return this.#distanceToProjectionPlane;
+    this.x = 0;
+    this.y = 1500;
+    this.z = 0;
+    this.h = this.y;
+    this.cursor = 0;
+    this.deltaZ = 0;
+    this.distanceToProjectionPlane = 1 / Math.tan(utils.theta);
+    this.screen = {
+      midpoint: {
+        x: utils.htmlElements.gameCanvas().width * 0.5,
+        y: utils.htmlElements.gameCanvas().height * 0.5,
+      },
+      width: utils.htmlElements.gameCanvas().width,
+      height: utils.htmlElements.gameCanvas().height,
+    };
   }
 
   init() {

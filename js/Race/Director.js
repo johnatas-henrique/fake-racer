@@ -86,7 +86,7 @@ class Director {
     this.images.startLightsBar.src = '../images/sprites/other/startLightsBar.png';
     const segmentLineFirst = this.road.getSegmentFromIndex(0);
     const actualTrack = window.tracks.f1Y91[this.trackName];
-    const segmentLineTen = this.road.getSegmentFromIndex(actualTrack.trackSize - 160);
+    const segmentLineTen = this.road.getSegmentFromIndex(actualTrack.trackSize - 240);
     this.startLights.offsetX = 0;
     this.startLights.offsetY = 2;
     this.startLights.scaleX = 27;
@@ -120,7 +120,7 @@ class Director {
 
   init() {
     if (this.raceLaps < 0 || typeof this.raceLaps !== 'number') {
-      this.raceLaps = Math.round(window.tracks.f1Y91[this.trackName].laps * 0.1);
+      this.raceLaps = Math.round(window.tracks.f1Y91[this.trackName].laps * 0.05);
     }
     this.race.core.inputs.keyPressListeners.push(
       new KeyPressListener('Enter', () => this.closeRaceEvent()),

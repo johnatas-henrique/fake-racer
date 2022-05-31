@@ -41,28 +41,28 @@ class Road {
         road: colors.lightRoad,
         grass: colors.lightGrass,
         kerb: colors.lightKerb,
-        strip: '',
+        stripe: colors.lightStripe,
         tunnel: colors.lightTunnel,
       };
       const lightColors = {
-        road: '#393839',
+        road: colors.darkRoad,
         grass: colors.darkGrass,
         kerb: colors.lightKerb,
-        strip: '',
+        stripe: colors.lightStripe,
         tunnel: colors.lightTunnel,
       };
       const darkColors = {
-        road: '#393839',
+        road: colors.darkRoad,
         grass: colors.lightGrass,
         kerb: colors.darkKerb,
-        strip: '#fff',
+        stripe: colors.darkStripe,
         tunnel: colors.darkTunnel,
       };
       const darkestColors = {
         road: colors.lightRoad,
         grass: colors.darkGrass,
         kerb: colors.darkKerb,
-        strip: '#fff',
+        stripe: colors.darkStripe,
         tunnel: colors.darkTunnel,
       };
 
@@ -146,7 +146,7 @@ class Road {
             tunnel.worldH = tunnelInfo.height;
 
             baseSegment.tunnel = tunnel;
-            baseSegment.colors.tunnel = '#fff';
+            baseSegment.colors.tunnel = colors.frontTunnel;
             tunnel.title = tunnelInfo.name;
           } else if (i % (k * 1) === 0) {
             const tunnel = new Tunnel();
@@ -194,166 +194,66 @@ class Road {
         const previousSegment = this.getSegmentFromIndex(i - 1);
         const prevScrnPoint = previousSegment.points.screen;
         const { colors } = currentSegment;
+        const { road, grass, kerb, stripe, checkers } = colors;
 
-        const { x: prevScrX, y: prevScrY, w: prevScrW } = prevScrnPoint;
-        const { x: currScrX, y: currScrY, w: currScrW } = currScrnPoint;
+        const { x: pX, y: pY, w: pW } = prevScrnPoint;
+        const { x: cX, y: cY, w: cW } = currScrnPoint;
+        const { width: camWidth } = this.camera.screen;
 
-        if (currScrY >= prevScrY) {
+        if (cY >= pY) {
           continue;
         }
 
-        this.render
-          .drawTrapezium(prevScrX, prevScrY, prevScrW, currScrX, currScrY, currScrW, colors.road);
+        this.render.drawTrapezium(pX, pY, pW, cX, cY, cW, road);
 
         // left grass
-        this.render
-          .drawPolygon(
-            colors.grass,
-            0,
-            prevScrY,
-            prevScrX - prevScrW,
-            prevScrY,
-            currScrX - currScrW,
-            currScrY,
-            0,
-            currScrY,
-          );
+        this.render.drawPolygon(grass, 0, pY, pX - pW, pY, cX - cW, cY, 0, cY);
 
         // right grass
-        this.render.drawPolygon(
-          colors.grass,
-          prevScrX + prevScrW * 1,
-          prevScrY,
-          this.camera.screen.width,
-          prevScrY,
-          this.camera.screen.width,
-          currScrY,
-          currScrX + currScrW,
-          currScrY,
-        );
+        this.render.drawPolygon(grass, pX + pW * 1, pY, camWidth, pY, camWidth, cY, cX + cW, cY);
 
         if (currentSegment.kerb) {
           // left kerb
-          this.render.drawPolygon(
-            colors.kerb,
-            prevScrX - prevScrW * 1.3,
-            prevScrY,
-            prevScrX - prevScrW,
-            prevScrY,
-            currScrX - currScrW,
-            currScrY,
-            currScrX - currScrW * 1.3,
-            currScrY,
-          );
+          this.render
+            .drawPolygon(kerb, pX - pW * 1.3, pY, pX - pW, pY, cX - cW, cY, cX - cW * 1.3, cY);
 
           // right kerb
-          this.render.drawPolygon(
-            colors.kerb,
-            prevScrX + prevScrW * 1.3,
-            prevScrY,
-            prevScrX + prevScrW,
-            prevScrY,
-            currScrX + currScrW,
-            currScrY,
-            currScrX + currScrW * 1.3,
-            currScrY,
-          );
+          this.render
+            .drawPolygon(kerb, pX + pW * 1.3, pY, pX + pW, pY, cX + cW, cY, cX + cW * 1.3, cY);
         }
 
         // center strip and lateral stripes
-        if (colors.strip) {
+        if (stripe) {
           // left stripe
-          this.render.drawPolygon(
-            colors.strip,
-            prevScrX + prevScrW * -0.97,
-            prevScrY,
-            prevScrX + prevScrW * -0.94,
-            prevScrY,
-            currScrX + currScrW * -0.94,
-            currScrY,
-            currScrX + currScrW * -0.97,
-            currScrY,
-          );
+          this.render
+            .drawPolygon(stripe, pX + pW * -0.97, pY, pX + pW * -0.94, pY, cX + cW * -0.94, cY, cX + cW * -0.97, cY);
 
-          this.render.drawPolygon(
-            colors.strip,
-            prevScrX + prevScrW * -0.91,
-            prevScrY,
-            prevScrX + prevScrW * -0.88,
-            prevScrY,
-            currScrX + currScrW * -0.88,
-            currScrY,
-            currScrX + currScrW * -0.91,
-            currScrY,
-          );
+          this.render
+            .drawPolygon(stripe, pX + pW * -0.91, pY, pX + pW * -0.88, pY, cX + cW * -0.88, cY, cX + cW * -0.91, cY);
 
           // right stripe
-          this.render.drawPolygon(
-            colors.strip,
-            prevScrX + prevScrW * 0.97,
-            prevScrY,
-            prevScrX + prevScrW * 0.94,
-            prevScrY,
-            currScrX + currScrW * 0.94,
-            currScrY,
-            currScrX + currScrW * 0.97,
-            currScrY,
-          );
+          this.render
+            .drawPolygon(stripe, pX + pW * 0.97, pY, pX + pW * 0.94, pY, cX + cW * 0.94, cY, cX + cW * 0.97, cY);
 
-          this.render.drawPolygon(
-            colors.strip,
-            prevScrX + prevScrW * 0.91,
-            prevScrY,
-            prevScrX + prevScrW * 0.88,
-            prevScrY,
-            currScrX + currScrW * 0.88,
-            currScrY,
-            currScrX + currScrW * 0.91,
-            currScrY,
-          );
+          this.render
+            .drawPolygon(stripe, pX + pW * 0.91, pY, pX + pW * 0.88, pY, cX + cW * 0.88, cY, cX + cW * 0.91, cY);
 
-          // center strip
+          // center stripe
           const value = 0.02;
-          this.render.drawTrapezium(
-            prevScrX,
-            prevScrY,
-            prevScrW * value,
-            currScrX,
-            currScrY,
-            currScrW * value,
-            colors.strip,
-          );
+          this.render.drawTrapezium(pX, pY, pW * value, cX, cY, cW * value, stripe);
         }
 
         // checkered road
-        if (colors.checkers === 'one') {
+        if (checkers === 'one') {
           for (let j = -1; j < 0.9; j += 2 / 3) {
-            this.render.drawPolygon(
-              'black',
-              prevScrX + prevScrW * j,
-              prevScrY,
-              prevScrX + prevScrW * (j + 1 / 3),
-              prevScrY,
-              currScrX + currScrW * (j + 1 / 3),
-              currScrY,
-              currScrX + currScrW * j,
-              currScrY,
-            );
+            this.render
+              .drawPolygon('black', pX + pW * j, pY, pX + pW * (j + 1 / 3), pY, cX + cW * (j + 1 / 3), cY, cX + cW * j, cY);
           }
         }
-        if (colors.checkers === 'two') {
+        if (checkers === 'two') {
           for (let j = -2 / 3; j < 0.9; j += 2 / 3) {
-            this.render.drawPolygon(
-              'black',
-              prevScrX + prevScrW * j,
-              prevScrY,
-              prevScrX + prevScrW * (j + 1 / 3),
-              prevScrY,
-              currScrX + currScrW * (j + 1 / 3),
-              currScrY,
-              currScrX + currScrW * j,
-              currScrY,
-            );
+            this.render
+              .drawPolygon('black', pX + pW * j, pY, pX + pW * (j + 1 / 3), pY, cX + cW * (j + 1 / 3), cY, cX + cW * j, cY);
           }
         }
       }

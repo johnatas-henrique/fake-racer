@@ -30,6 +30,9 @@ window.tracks = {
         darkKerb: '#ff0000',
         lightTunnel: '#0000ff',
         darkTunnel: '#00008b',
+        frontTunnel: '#606060',
+        lightStripe: '#ffffff00',
+        darkStripe: '#ffffff',
       },
       curves: [
         {
@@ -114,6 +117,9 @@ window.tracks = {
         darkKerb: '#ff0000',
         lightTunnel: '#0000ff',
         darkTunnel: '#00008b',
+        frontTunnel: '#606060',
+        lightStripe: '#ffffff00',
+        darkStripe: '#ffffff',
       },
       curves: [
         {
@@ -218,7 +224,9 @@ window.tracks = {
       ],
       tunnels: [
         {
-          min: 3250, max: 3900, name: '', height: 12500,
+          min: 0, max: 0, name: '', height: 1,
+          // disabling tunnel because of CPU utilization
+          // min: 3250, max: 3900, name: '', height: 12500,
         },
       ],
     },
@@ -235,6 +243,9 @@ window.tracks = {
         darkKerb: '#ff0000',
         lightTunnel: '#0000ff',
         darkTunnel: '#00008b',
+        frontTunnel: '#606060',
+        lightStripe: '#ffffff00',
+        darkStripe: '#ffffff',
       },
       curves: [
         {
