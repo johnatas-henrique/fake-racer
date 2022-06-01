@@ -106,6 +106,7 @@ class Overworld {
       this.core.inputs.oneDirection.init();
 
       this.map.startCutscene([
+        { type: 'changeName' },
         // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'testwin', textLose: 'testlose' },
         //   { who: 'hero', type: 'walk', direction: 'down' },
         //   { who: 'hero', type: 'walk', direction: 'down' },

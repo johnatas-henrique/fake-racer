@@ -1,6 +1,6 @@
 class PlayerState {
   constructor() {
-    this.name = 'John Doe'; // TODO Way to choose player's name
+    this.name = 'Adam';
     this.level = 1;
     this.gas = 5;
     this.maxGas = 100;
@@ -9,7 +9,7 @@ class PlayerState {
     this.money = 0;
     this.savedMap = 'DemoRoom';
     this.items = [
-      { actionId: 'cellphone', instanceId: 'history1' },
+      // { actionId: 'cellphone', instanceId: 'history1' },
     ];
     this.storyFlags = {
       KITCHEN_BLOCKED: true,

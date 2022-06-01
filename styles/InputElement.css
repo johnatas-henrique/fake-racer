@@ -1,0 +1,50 @@
+.InputElement {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56.25vw;
+  padding: 1vw 2vw;
+  font-family: OutriderCondBold, Verdana, Geneva, sans-serif;
+  background: var(--menu-background);
+  border-top: 0.1vw solid var(--menu-border-color);
+  color: var(--menu-font-color);
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 3;
+}
+
+.InputElement_p {
+  margin: 0;
+  font-size: 4vw;
+  width: 90vw;
+  margin-left: 1vw;
+}
+
+.InputElement span {
+  opacity: 0;
+}
+
+.InputElement_input {
+  border: 0;
+  background: var(--menu-background);
+  border-bottom: 0.1vw solid var(--menu-border-color);
+  color: var(--menu-font-color);
+  height: 10vw;
+  font-size: 4vw;
+  width: 100%;
+}
+
+.InputElement_button {
+  margin: 0;
+  font-size: 2vw;
+  padding: 0;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  position: absolute;
+  right: 1vw;
+  bottom: 0;
+}

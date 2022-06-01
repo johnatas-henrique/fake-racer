@@ -95,6 +95,14 @@ class GameMenu {
             }
           },
         },
+        {
+          label: 'Mudar de nome',
+          description: 'Altera o nome do herói',
+          handler: () => {
+            const newInput = new InputElement({});
+            newInput.init(document.querySelector('.game-container'));
+          },
+        },
         backOption,
         {
           label: 'Fechar',

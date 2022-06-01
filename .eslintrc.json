@@ -11,6 +11,7 @@
         "GameMenu": false,
         "GameObject": false,
         "Hud": false,
+        "InputElement": false,
         "KeyboardMenu": false,
         "KeyPressListener": false,
         "Menu": false,
