@@ -77,9 +77,18 @@ class Overworld {
     });
   }
 
-  startMap(mapConfig) {
+  startMap(mapConfig, initialHeroPosition = null) {
     this.map = new OverworldMap(mapConfig);
     this.map.overworld = this;
+
+    if (initialHeroPosition) {
+      const { hero } = this.map.gameObjects;
+      this.map.removeWall(hero.x, hero.y);
+      hero.x = initialHeroPosition.x;
+      hero.y = initialHeroPosition.y;
+      hero.direction = initialHeroPosition.direction;
+    }
+
     this.map.mountObjects();
   }
 
@@ -106,7 +115,7 @@ class Overworld {
       this.core.inputs.oneDirection.init();
 
       this.map.startCutscene([
-        { type: 'changeName' },
+        // { type: 'changeName' },
         // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'testwin', textLose: 'testlose' },
         //   { who: 'hero', type: 'walk', direction: 'down' },
         //   { who: 'hero', type: 'walk', direction: 'down' },

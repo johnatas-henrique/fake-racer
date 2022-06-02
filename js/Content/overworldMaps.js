@@ -164,7 +164,13 @@ window.overworldMaps = {
           required: ['KITCHEN_OPEN'],
           events: [
             { who: 'Bob_DemoRoom', type: 'textMessage', text: 'Não conta pra ninguém que te deixei passar' },
-            { type: 'changeMap', map: 'Kitchen' },
+            {
+              type: 'changeMap',
+              map: 'Kitchen',
+              x: utils.withGrid(5),
+              y: utils.withGrid(9),
+              direction: 'up',
+            },
           ],
         },
         {
@@ -215,7 +221,13 @@ window.overworldMaps = {
         {
           required: ['WON_Bee_DemoRoom'],
           events: [
-            { type: 'changeMap', map: 'PizzaShop' },
+            {
+              type: 'changeMap',
+              map: 'PizzaShop',
+              x: utils.withGrid(5),
+              y: utils.withGrid(11),
+              direction: 'up',
+            },
           ],
         },
         {
@@ -330,14 +342,26 @@ window.overworldMaps = {
       [utils.asGridCoord(5, 10)]: [
         {
           events: [
-            { type: 'changeMap', map: 'DemoRoom' },
+            {
+              type: 'changeMap',
+              map: 'DemoRoom',
+              x: utils.withGrid(7),
+              y: utils.withGrid(5),
+              direction: 'down',
+            },
           ],
         },
       ],
       [utils.asGridCoord(3, 8)]: [
         {
           events: [
-            { type: 'changeMap', map: 'TVStudio' },
+            {
+              type: 'changeMap',
+              map: 'TVStudio',
+              x: utils.withGrid(7),
+              y: utils.withGrid(8),
+              direction: 'up',
+            },
           ],
         },
       ],
@@ -376,6 +400,22 @@ window.overworldMaps = {
         y: utils.withGrid(10),
         src: '../assets/images/characters/people/man2.png',
       }),
+    },
+    cutsceneSpaces: {
+
+      [utils.asGridCoord(5, 12)]: [
+        {
+          events: [
+            {
+              type: 'changeMap',
+              map: 'Kitchen',
+              x: utils.withGrid(4),
+              y: utils.withGrid(4),
+              direction: 'down',
+            },
+          ],
+        },
+      ],
     },
   },
   TVStudio: {
@@ -466,14 +506,26 @@ window.overworldMaps = {
       [utils.asGridCoord(7, 9)]: [
         {
           events: [
-            { type: 'changeMap', map: 'DemoRoom' },
+            {
+              type: 'changeMap',
+              map: 'DemoRoom',
+              x: utils.withGrid(3),
+              y: utils.withGrid(6),
+              direction: 'left',
+            },
           ],
         },
       ],
       [utils.asGridCoord(8, 9)]: [
         {
           events: [
-            { type: 'changeMap', map: 'PizzaShop' },
+            {
+              type: 'changeMap',
+              map: 'PizzaShop',
+              x: utils.withGrid(6),
+              y: utils.withGrid(8),
+              direction: 'down',
+            },
           ],
         },
       ],

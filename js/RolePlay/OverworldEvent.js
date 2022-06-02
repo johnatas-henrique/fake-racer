@@ -62,7 +62,11 @@ class OverworldEvent {
       'map-transition',
       document.querySelector('.game-container'),
       () => {
-        this.map.overworld.startMap(window.overworldMaps[this.event.map]);
+        this.map.overworld.startMap(
+          window.overworldMaps[this.event.map],
+          { x: this.event.x, y: this.event.y, direction: this.event.direction },
+        );
+
         utils.emitEvent('HudUpdate');
         resolve();
         mapTransition.fadeOut();

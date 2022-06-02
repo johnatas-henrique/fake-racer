@@ -18,8 +18,9 @@
 .game-menu h2 {
   font-size: 4vw;
   color: var(--menu-font-color);
-  margin: 0;
+  margin: 0 auto;
   padding: 0.2vw 0;
   text-align: center;
-  border-bottom: 0.1vw solid #A48465;
+  width: 90%;
+  border-bottom: 0.2vw solid #A48465;
 }
