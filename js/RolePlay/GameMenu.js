@@ -1,5 +1,6 @@
 class GameMenu {
-  constructor({ onComplete }) {
+  constructor({ progress, onComplete }) {
+    this.progress = progress;
     this.onComplete = onComplete;
   }
 
@@ -37,6 +38,8 @@ class GameMenu {
           description: 'Salve seu progresso',
           handler: () => {
             console.error('botão de salvar');
+            this.progress.save();
+            this.close();
           },
         },
         {

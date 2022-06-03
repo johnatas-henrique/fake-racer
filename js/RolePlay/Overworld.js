@@ -80,16 +80,21 @@ class Overworld {
   startMap(mapConfig, initialHeroPosition = null) {
     this.map = new OverworldMap(mapConfig);
     this.map.overworld = this;
+    this.map.mountObjects();
 
+    const { hero } = this.map.gameObjects;
     if (initialHeroPosition) {
-      const { hero } = this.map.gameObjects;
       this.map.removeWall(hero.x, hero.y);
       hero.x = initialHeroPosition.x;
       hero.y = initialHeroPosition.y;
       hero.direction = initialHeroPosition.direction;
+      this.map.addWall(hero.x, hero.y);
     }
 
-    this.map.mountObjects();
+    this.progress.mapId = window.playerState.savedMap;
+    this.progress.startingHeroX = hero.x;
+    this.progress.startingHeroY = hero.y;
+    this.progress.startingHeroDirection = hero.direction;
   }
 
   init() {
@@ -97,6 +102,8 @@ class Overworld {
       utils.changeMode('RPGScene', this.core, false);
       utils.resolutionChanger(this.core);
       utils.classAdder('gameCanvas', 'pixelated');
+
+      this.progress = new Progress();
 
       this.startMap(window.overworldMaps[window.playerState.savedMap]);
 
@@ -116,14 +123,6 @@ class Overworld {
 
       this.map.startCutscene([
         // { type: 'changeName' },
-        // { who: 'npcC', type: 'race', raceId: 'kart1', textWin: 'testwin', textLose: 'testlose' },
-        //   { who: 'hero', type: 'walk', direction: 'down' },
-        //   { who: 'hero', type: 'walk', direction: 'down' },
-        //   { who: 'npcA', type: 'walk', direction: 'left' },
-        //   { who: 'npcA', type: 'walk', direction: 'up' },
-        //   { who: 'npcA', type: 'stand', direction: 'left', time: 300 },
-        //   { who: 'hero', type: 'stand', direction: 'right', time: 200 },
-        //   { type: 'textMessage', text: 'Olá meu caro, tudo bem contigo?' },
       ]);
 
       this.isInitOnce = true;

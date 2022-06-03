@@ -51,6 +51,7 @@ class OverworldMap {
     Object.keys(this.gameObjects).forEach((key) => {
       const object = this.gameObjects[key];
       object.id = key;
+      object.progress = this.overworld.progress;
       object.mount(this);
     });
   }

@@ -62,6 +62,12 @@ class Person extends GameObject {
     this.movingProgressRemaining -= 1;
     if (this.movingProgressRemaining === 0) {
       utils.emitEvent('PersonWalkingComplete', { whoId: this.id });
+
+      if (this.isPlayerControlled) {
+        this.progress.startingHeroX = this.x;
+        this.progress.startingHeroY = this.y;
+        this.progress.startingHeroDirection = this.direction;
+      }
     }
   }
 

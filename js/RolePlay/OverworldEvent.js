@@ -94,6 +94,7 @@ class OverworldEvent {
   pause(resolve) {
     this.map.overworld.core.isPaused = true;
     const menu = new GameMenu({
+      progress: this.map.overworld.progress,
       onComplete: () => {
         resolve();
         this.map.overworld.core.isPaused = false;
