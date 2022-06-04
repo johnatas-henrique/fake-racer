@@ -9,8 +9,9 @@ class GameState {
       difficulty: 'novato',
       isMusicActive: 'não',
       musicVolume: '1',
-      isSingleRaceOn: 'única',
       isRPGOn: 'história',
+      isRPGOnSave: 'jogo',
+      isSingleRaceOn: 'rápida',
     };
   }
 }

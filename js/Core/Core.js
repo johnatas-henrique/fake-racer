@@ -74,17 +74,17 @@ class Core {
     this.stats = new Stats();
     utils.htmlElements.fps().appendChild(this.stats.dom);
 
+    this.singleRace = new Race({ core: this });
+    this.overworld = new Overworld({ core: this, element: utils.htmlElements.gameContainer() });
     this.menu = new Menu({ animations: window.particles, core: this });
     this.menu.init();
 
     document.addEventListener('canvasResized', () => this.canvasResizer());
 
     // for development - to enter race instantly
-    this.singleRace = new Race({ core: this });
     this.singleRace.init();
 
     // for development - to enter history mode instantly
-    this.overworld = new Overworld({ core: this, element: utils.htmlElements.gameContainer() });
     this.overworld.init();
 
     utils.htmlElements.fullScreenBtn().addEventListener('click', Core.toggleFullScreen);

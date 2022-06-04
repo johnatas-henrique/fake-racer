@@ -2,6 +2,8 @@ class Overworld {
   constructor(config) {
     this.core = config.core;
     this.map = null;
+    this.heroPosition = null;
+    this.progress = new Progress();
     this.inputs = {
       keyPressListeners: [],
     };
@@ -103,9 +105,17 @@ class Overworld {
       utils.resolutionChanger(this.core);
       utils.classAdder('gameCanvas', 'pixelated');
 
-      this.progress = new Progress();
+      this.heroPosition = {
+        x: this.core.overworld.progress.startingHeroX,
+        y: this.core.overworld.progress.startingHeroY,
+        direction: this.core.overworld.progress.startingHeroDirection,
+      };
 
-      this.startMap(window.overworldMaps[window.playerState.savedMap]);
+      if (Number.isNaN(this.heroPosition.x) || Number.isNaN(this.heroPosition.y)) {
+        this.heroPosition = null;
+      }
+
+      this.startMap(window.overworldMaps[window.playerState.savedMap], this.heroPosition);
 
       this.hud = new Hud({ map: this.map });
       this.hud.init(utils.htmlElements.gameContainer());

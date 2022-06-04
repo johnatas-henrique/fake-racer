@@ -1,8 +1,8 @@
 class Progress {
   constructor() {
     this.mapId = 'DemoRoom';
-    this.startingHeroX = 0;
-    this.startingHeroY = 0;
+    this.startingHeroX = NaN;
+    this.startingHeroY = NaN;
     this.startingHeroDirection = 'down';
     this.saveFileKey = 'FakeRacer_SaveFile1';
   }

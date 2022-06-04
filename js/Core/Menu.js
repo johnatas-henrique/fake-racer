@@ -10,7 +10,7 @@ class Menu {
     this.isConfirmButtonPressed = false;
     this.showMenu = 0;
     this.menuY = 0;
-    this.menuX = 6;
+    this.menuX = 0;
     this.fps = 8;
     this.deltaTime = 0;
     this.arrowUpBlink = false;
@@ -18,31 +18,34 @@ class Menu {
     this.isInitOnce = false;
     this.menuTitle = { pos: 0, direction: 1 };
     this.menuPhrase = {
+      isSingleRaceOn: 'Corrida',
       track: 'Circuito: ',
       opponents: 'Oponentes: ',
       difficulty: 'Dificuldade: ',
       isMusicActive: 'Música: ',
       musicVolume: 'Volume da música: ',
-      isSingleRaceOn: 'Corrida ',
-      isRPGOn: 'Modo ',
+      isRPGOn: 'Iniciar modo',
+      isRPGOnSave: 'Carregar',
     };
     this.menu = {
+      isSingleRaceOn: ['rápida'],
       track: Object.keys(window.tracks.f1Y91),
       opponents: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19'],
       difficulty: ['novato', 'corredor', 'campeão'],
       isMusicActive: ['não', 'sim'],
       musicVolume: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-      isSingleRaceOn: ['única'],
       isRPGOn: ['história'],
+      isRPGOnSave: ['jogo'],
     };
     this.menuOptions = {
-      0: 'track',
-      1: 'opponents',
-      2: 'difficulty',
-      3: 'isMusicActive',
-      4: 'musicVolume',
-      5: 'isSingleRaceOn',
+      0: 'isSingleRaceOn',
+      1: 'track',
+      2: 'opponents',
+      3: 'difficulty',
+      4: 'isMusicActive',
+      5: 'musicVolume',
       6: 'isRPGOn',
+      7: 'isRPGOnSave',
     };
   }
 
@@ -55,8 +58,17 @@ class Menu {
     this.isConfirmButtonPressed = true;
   }
 
+  hideSaveFunction() {
+    const saveFileName = this.core.overworld.progress.saveFileKey;
+    const saveFile = JSON.parse(localStorage.getItem(saveFileName));
+    if (!saveFile) {
+      delete this.menu.isRPGOnSave;
+    }
+  }
+
   init() {
     if (window.gameState.mode === 'menuScene' && !this.isInitOnce) {
+      this.hideSaveFunction();
       utils.resolutionChanger(this.core);
       utils.classRemover('gameCanvas', 'filter');
       utils.classToggler('pauseBtn', 'hidden');
@@ -78,7 +90,7 @@ class Menu {
 
   enterRPGScene() {
     utils.keyUnbinder('Enter', this.core);
-    utils.changeMode('RPGScene', this.core);
+    utils.changeMode('RPGScene', this.core, true);
   }
 
   static musicControl() {
@@ -152,13 +164,19 @@ class Menu {
 
       const inconfirmableOptions = Object.keys(this.menu).length - 2;
 
-      if (this.isConfirmButtonPressed && this.menuX === 5) {
+      if (this.isConfirmButtonPressed && this.menuX === 0) {
         this.isConfirmButtonPressed = false;
         this.enterSingleRaceScene();
       }
 
       if (this.isConfirmButtonPressed && this.menuX === 6) {
         this.isConfirmButtonPressed = false;
+        this.enterRPGScene();
+      }
+
+      if (this.isConfirmButtonPressed && this.menuX === 7) {
+        this.isConfirmButtonPressed = false;
+        this.core.overworld.progress.load();
         this.enterRPGScene();
       }
 
@@ -201,8 +219,8 @@ class Menu {
       const maxX = Object.keys(this.menu).length - 1;
       const menuLow = this.menuX - 1 >= 0 ? this.menuX - 1 : maxX;
       const menuHigh = this.menuX + 1 <= maxX ? this.menuX + 1 : 0;
-      const lowText = `${this.menuPhrase[this.menuOptions[menuLow]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuLow]].toLocaleUpperCase()}`;
-      const highText = `${this.menuPhrase[this.menuOptions[menuHigh]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuHigh]].toLocaleUpperCase()}`;
+      const lowText = `${this.menuPhrase[this.menuOptions[menuLow]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuLow]]}`;
+      const highText = `${this.menuPhrase[this.menuOptions[menuHigh]]} ${window.gameState.menuSelectedOptions[this.menuOptions[menuHigh]]}`;
 
       this.core.render.drawRoundRect('#2C69EB', 100, 100, 440, 170, true, 20, false);
       this.core.render.drawText('#FFFAF4', lowText, 320, 180 - 45, 1.6);

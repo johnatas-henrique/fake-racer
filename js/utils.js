@@ -40,7 +40,6 @@ const utils = {
       utils.htmlElements.gameCanvas().width = 384;
       utils.htmlElements.gameCanvas().height = 216;
       if (noRestart) {
-        coreClass.overworld = new Overworld({ core: coreClass });
         coreClass.overworld.init();
       }
     }

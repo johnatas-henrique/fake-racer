@@ -37,7 +37,6 @@ class GameMenu {
           label: 'Salvar',
           description: 'Salve seu progresso',
           handler: () => {
-            console.error('botão de salvar');
             this.progress.save();
             this.close();
           },

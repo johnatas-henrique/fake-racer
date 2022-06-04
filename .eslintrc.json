@@ -24,6 +24,7 @@
         "PauseMenu": false,
         "Person": false,
         "Player": false,
+        "Progress": false,
         "Race": false,
         "RaceEvent": false,
         "RaceScene": false,
