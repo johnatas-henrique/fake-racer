@@ -63,14 +63,120 @@ html, body {
   height: 100%;
   width: 100%;
   background: grey;
-  
 }
 
 .pixelated {
   image-rendering: pixelated;
 }
 
+#info, .touch-controls {
+  color: black;
+  position: absolute;
+  width: 100%;
+  list-style-type: none;
+  font-weight: 700;
+  font-size: 2vw;
+  text-align: justify;
+  z-index: 2;
+  user-select: none;
+}
+
+#info {
+  align-content: end;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 3vw;
+  padding-right: 0.5vw;
+  top: 0vw;
+  width: 100%;
+}
+
+.fps-canvas {
+  cursor: pointer;
+  height: 3vw;
+  margin-left: auto;
+  margin-right: 0.2vw;
+  opacity: 0.85;
+  width: 4vw;
+}
+
 .fps-canvas canvas {
   height: 100%;
   width: 100%;
+}
+
+.control-buttons {
+  border-radius: 50%;
+  display: block;
+  font-size: 6vw;
+  font-weight: 700;
+  height: 10vw;
+  width: 10vw;
+  margin: 0 0.3em 0.5em;
+  background: rgba(0, 0, 0, 0.05);
+  color: #c0c0c0;
+}
+
+.touch-controls {
+  bottom: 0em;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1em;
+}
+
+.filter {
+  filter: brightness(75%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .touch-controls {
+    display: none;
+  }
+
+  .container {
+    height: min(100vh, 56.25vw);
+  }
+}
+
+.interface-btn {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  height: 3vw;
+  width: 3vw;
+}
+
+.pause-btn {
+  background: url(../images/sprites/other/pause-play.png);
+  background-size: 200%;
+  margin-right: 0.2vw;
+}
+
+.pause-btn.off {
+  background-position: 3vw 0;
+}
+
+.fullscreen-btn {
+  background: url(../images/sprites/other/fullscreen.png);
+  background-size: cover;
+  margin-right: 0.2vw;
+}
+
+.mute-btn {
+  background: url(../images/sprites/other/mute.png);
+  background-size: cover;
+  cursor: pointer;
+  display: block;
+  height: 3vw;
+  width: 3vw;
+}
+
+.mute-btn.off {
+  background-position: 3vw 0;
+}
+
+.hidden {
+  display: none;
 }
