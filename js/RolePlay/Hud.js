@@ -4,12 +4,12 @@ class Hud {
     this.gameObjects = null;
     this.element = null;
     this.container = null;
-    this.hpFills = null;
+    this.gasFills = null;
     this.xpFills = null;
   }
 
   update() {
-    const { name, level, gas, maxGas, xp, maxXp, savedMap } = window.playerState;
+    const { name, level, gas, maxGas, xp, maxXp, money, savedMap } = window.playerState;
     this.gameObjects = window.overworldMaps[savedMap].gameObjects;
 
     this.gasFills = this.element.querySelectorAll('.Hud_gas-container > rect');
@@ -17,17 +17,19 @@ class Hud {
     this.hudName = this.element.querySelector('.Hud_name');
     this.hudLevel = this.element.querySelector('.Hud_level');
     this.hudCharacter = this.element.querySelector('.Hud_character_crop');
+    this.hudMoney = this.element.querySelector('.Hud_money');
     const actualImage = this.hudCharacter.style['background-image'].split('"')[1];
     if (actualImage !== this.gameObjects.hero.sprite.image.src) {
       this.hudCharacter.style = `
       background: url('${this.gameObjects.hero.sprite.image.src}');
       background-size: 4000%;
-      background-position: 5.32% 1.5%;
+      background-position: 5.32% 1.125%;
       `;
     }
 
     this.hudName.innerText = name;
     this.hudLevel.innerText = level;
+    this.hudMoney.innerText = `${money} G`;
     this.gasFills.forEach((rect) => {
       rect.style.width = `${(gas / maxGas) * 100}%`;
     });
@@ -47,7 +49,7 @@ class Hud {
         <div class="Hud_character_crop" style="
         background: url('${this.gameObjects.hero.sprite.image.src}');
         background-size: 4000%;
-        background-position: 5.32% 1.5%;
+        background-position: 5.32% 1.125%;
         ">
         </div>
         <svg viewBox="0 0 26 3" class="Hud_gas-container">
@@ -59,6 +61,8 @@ class Hud {
           <rect x=0 y=1 width="0%" height="50%" fill="#ffc934" />
         </svg>
         <p class="Hud_status"></p>
+        <img class="Hud_money_img" src="assets/images/ui/coin-plate.png">
+        <span class="Hud_money">0 G</span>
       `);
     this.update();
   }
