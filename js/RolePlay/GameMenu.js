@@ -34,11 +34,23 @@ class GameMenu {
     if (pageKey === 'root') {
       return [
         {
-          label: 'Salvar',
-          description: 'Salve seu progresso',
+          label: 'Personagem',
+          description: 'Evolua seu personagem',
           handler: () => {
-            this.progress.save();
-            this.close();
+            // this.progress.save();
+            // this.close();
+            console.error('Abrir aba personagem');
+          },
+        },
+        {
+          label: 'Inventário',
+          description: 'Mostre o inventário',
+          handler: () => {
+            // this.progress.save();
+            // this.close();
+            const newInput = new InventoryScreen({});
+            newInput.init(document.querySelector('.game-container'));
+            console.error('Abrir aba inventário');
           },
         },
         {
@@ -46,6 +58,14 @@ class GameMenu {
           description: 'Painel de configurações do jogo',
           handler: () => {
             this.keyboardMenu.setOptions(this.getOptions('options'));
+          },
+        },
+        {
+          label: 'Salvar',
+          description: 'Salve seu progresso',
+          handler: () => {
+            this.progress.save();
+            this.close();
           },
         },
         {

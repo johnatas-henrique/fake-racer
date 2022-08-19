@@ -2,15 +2,15 @@ window.races = {
   raceA: {
     race: {
       trackName: 'brasil',
-      startTimer: 5000,
-      raceLaps: 2,
-      oppNumber: 9,
+      // startTimer: 50,
+      raceLaps: 0,
+      oppNumber: 2,
       difficulty: 'novato',
       winCondition: 3,
     },
     goodies: {
-      gas: 20, // TODO Think about gas system
-      xp: 60, // TODO Think about XP system
+      gas: 40, // TODO Think about gas system
+      xp: 60,
       money: 100, // TODO Think about money system
       item: 'medal', // TODO Think about item system
     },
@@ -18,15 +18,15 @@ window.races = {
   raceB: {
     race: {
       trackName: 'canada',
-      startTimer: 5000,
-      raceLaps: 3,
-      oppNumber: 9,
+      // startTimer: 50,
+      raceLaps: 0,
+      oppNumber: 2,
       difficulty: 0.9,
       winCondition: 1,
     },
     goodies: {
-      gas: 30,
-      xp: 60,
+      gas: 50,
+      xp: 70,
       money: 150,
       item: 'bag',
     },

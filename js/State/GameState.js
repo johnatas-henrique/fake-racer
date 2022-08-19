@@ -1,6 +1,8 @@
 class GameState {
   constructor() {
-    this.mode = 'menuScene';
+    // this.mode = 'menuScene';
+    this.mode = 'RPGScene';
+    // this.mode = 'singleRaceScene';
     this.canvasMidpoint = { x: 640 / 2, y: 360 / 2 };
     this.music = null;
     this.menuSelectedOptions = {

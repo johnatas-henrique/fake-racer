@@ -158,6 +158,14 @@ class OverworldEvent {
     newInput.init(document.querySelector('.game-container'));
   }
 
+  showInventory(resolve) {
+    const newInput = new InventoryScreen({
+      onComplete: () => resolve(),
+      event: this.event,
+    });
+    newInput.init(document.querySelector('.game-container'));
+  }
+
   async init() {
     return new Promise((resolve) => {
       this[this.event.type](resolve);

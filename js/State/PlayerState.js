@@ -2,17 +2,21 @@ class PlayerState {
   constructor() {
     this.name = 'Adam';
     this.level = 1;
-    this.gas = 5;
+    this.gas = 20;
     this.maxGas = 100;
-    this.xp = 0;
+    this.xp = 20;
     this.maxXp = 100;
     this.money = 0;
     this.savedMap = 'DemoRoom';
     this.items = [
-      // { actionId: 'cellphone', instanceId: 'history1' },
+      { actionId: 'bike', type: 'history' },
+      { actionId: 'gear', type: 'quest' },
+      { actionId: 'pizza', type: 'consumable', quantity: 3 },
     ];
     this.storyFlags = {
       KITCHEN_BLOCKED: true,
+      TALKED_TO_Bob_DemoRoom: true,
+      TALKED_TO_Carol_DemoRoom: true,
     };
   }
 
