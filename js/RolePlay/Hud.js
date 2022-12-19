@@ -23,13 +23,13 @@ class Hud {
       this.hudCharacter.style = `
       background: url('${this.gameObjects.hero.sprite.image.src}');
       background-size: 4000%;
-      background-position: 5.32% 1.125%;
+      background-position: 5.5% 1.25%;
       `;
     }
 
     this.hudName.innerText = name;
     this.hudLevel.innerText = level;
-    this.hudMoney.innerText = `${money} G`;
+    this.hudMoney.innerText = money;
     this.gasFills.forEach((rect) => {
       rect.style.width = `${(gas / maxGas) * 100}%`;
     });
@@ -49,20 +49,20 @@ class Hud {
         <div class="Hud_character_crop" style="
         background: url('${this.gameObjects.hero.sprite.image.src}');
         background-size: 4000%;
-        background-position: 5.32% 1.125%;
+        background-position: 5.5% 1.25%;
         ">
         </div>
         <svg viewBox="0 0 26 3" class="Hud_gas-container">
-          <rect x=0 y=0 width="0%" height="40%" fill="#82ff71" />
+          <rect x=0 y=0 width="0%" height="50%" fill="#82ff71" />
           <rect x=0 y=1 width="0%" height="65%" fill="#3ef126" />
         </svg>
         <svg viewBox="0 0 26 2" class="Hud_xp-container">
-          <rect x=0 y=0 width="0%" height="55%" fill="#ffd76a" />
+          <rect x=0 y=0 width="0%" height="50%" fill="#ffd76a" />
           <rect x=0 y=1 width="0%" height="50%" fill="#ffc934" />
         </svg>
         <p class="Hud_status"></p>
         <img class="Hud_money_img" src="assets/images/ui/coin-plate.png">
-        <span class="Hud_money">0 G</span>
+        <span class="Hud_money">0</span>
       `);
     this.update();
   }

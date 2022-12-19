@@ -19,7 +19,7 @@ class TextMessage {
         <div class='person-face_div' style="
           background: url('${this.gameObjects[this.who].sprite.image.src}');
           background-size: 4000%;
-          background-position: 5.32% 1.5%;
+          background-position: 5.5% 1.25%;
           "> 
         </div>
         <p class='person-face_p'>${personName}</p>
