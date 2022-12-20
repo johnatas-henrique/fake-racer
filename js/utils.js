@@ -1,4 +1,7 @@
+window.gameContent = {};
+
 const utils = {
+  pixelBase: 16,
   htmlElements: {
     gameContainer: () => document.querySelector('.game-container'),
     gameCanvas: () => document.querySelector('.game-canvas'),
@@ -37,8 +40,8 @@ const utils = {
     }
     if (newGameState === 'RPGScene') {
       utils.classAdder('gameCanvas', 'pixelated');
-      utils.htmlElements.gameCanvas().width = 384;
-      utils.htmlElements.gameCanvas().height = 216;
+      utils.htmlElements.gameCanvas().width = 320;
+      utils.htmlElements.gameCanvas().height = 180;
       if (noRestart) {
         coreClass.overworld.init();
       }
@@ -121,6 +124,12 @@ const utils = {
   hasEventTextWin: (winMessage, eventsArr) => (
     eventsArr.find((item) => (item.text === winMessage))
   ),
+  itemFunctions: {
+    changeStatus: (type, value) => {
+      window.playerState[type] += value;
+      utils.emitEvent('HudUpdate');
+    },
+  },
 
   // Race Functions
   secondInMS: 1000,

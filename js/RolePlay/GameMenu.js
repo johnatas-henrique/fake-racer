@@ -50,7 +50,6 @@ class GameMenu {
             // this.close();
             const newInput = new InventoryScreen({});
             newInput.init(document.querySelector('.game-container'));
-            console.error('Abrir aba inventário');
           },
         },
         {
