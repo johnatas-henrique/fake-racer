@@ -10,8 +10,7 @@ class Hud {
 
   update() {
     const { name, level, gas, maxGas, xp, maxXp, money, savedMap } = window.playerState;
-    this.gameObjects = window.overworldMaps[savedMap].gameObjects;
-
+    this.gameObjects = window.overworldMaps[savedMap].configObjects;
     this.gasFills = this.element.querySelectorAll('.Hud_gas-container > rect');
     this.xpFills = this.element.querySelectorAll('.Hud_xp-container > rect');
     this.hudName = this.element.querySelector('.Hud_name');
@@ -19,9 +18,9 @@ class Hud {
     this.hudCharacter = this.element.querySelector('.Hud_character_crop');
     this.hudMoney = this.element.querySelector('.Hud_money');
     const actualImage = this.hudCharacter.style['background-image'].split('"')[1];
-    if (actualImage !== this.gameObjects.hero.sprite.image.src) {
+    if (actualImage !== this.gameObjects.hero.src) {
       this.hudCharacter.style = `
-      background: url('${this.gameObjects.hero.sprite.image.src}');
+      background: url('${this.gameObjects.hero.src}');
       background-size: 4000%;
       background-position: 5.5% 1.25%;
       `;
@@ -47,7 +46,7 @@ class Hud {
         <p class="Hud_name">${name}</p>
         <p class="Hud_level">${level}</p>
         <div class="Hud_character_crop" style="
-        background: url('${this.gameObjects.hero.sprite.image.src}');
+        background: url('${this.gameObjects.hero.src}');
         background-size: 4000%;
         background-position: 5.5% 1.25%;
         ">

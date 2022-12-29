@@ -1,7 +1,10 @@
 class OverworldMap {
   constructor(config) {
     this.overworld = null;
-    this.gameObjects = config.gameObjects;
+
+    this.gameObjects = {};
+    this.configObjects = config.configObjects;
+
     this.cutsceneSpaces = config.cutsceneSpaces || {};
     this.walls = config.walls || {};
 
@@ -21,38 +24,61 @@ class OverworldMap {
   drawLowerImage(ctx, cameraPerson) {
     ctx.drawImage(
       this.lowerImage,
-      utils.withGrid(cameraPerson.canvasMidpoint.x / 16 - 1) - cameraPerson.x,
-      utils.withGrid(cameraPerson.canvasMidpoint.y / 16 - 1) - cameraPerson.y,
+      utils.withGrid(cameraPerson.canvasMidpoint.x / utils.pixelBase - 1) - cameraPerson.x,
+      utils.withGrid(cameraPerson.canvasMidpoint.y / utils.pixelBase - 1) - cameraPerson.y,
     );
   }
 
   drawMiddleImage(ctx, cameraPerson) {
     ctx.drawImage(
       this.middleImage,
-      utils.withGrid(cameraPerson.canvasMidpoint.x / 16 - 1) - cameraPerson.x,
-      utils.withGrid(cameraPerson.canvasMidpoint.y / 16 - 1) - cameraPerson.y,
+      utils.withGrid(cameraPerson.canvasMidpoint.x / utils.pixelBase - 1) - cameraPerson.x,
+      utils.withGrid(cameraPerson.canvasMidpoint.y / utils.pixelBase - 1) - cameraPerson.y,
     );
   }
 
   drawUpperImage(ctx, cameraPerson) {
     ctx.drawImage(
       this.upperImage,
-      utils.withGrid(cameraPerson.canvasMidpoint.x / 16 - 1) - cameraPerson.x,
-      utils.withGrid(cameraPerson.canvasMidpoint.y / 16 - 1) - cameraPerson.y,
+      utils.withGrid(cameraPerson.canvasMidpoint.x / utils.pixelBase - 1) - cameraPerson.x,
+      utils.withGrid(cameraPerson.canvasMidpoint.y / utils.pixelBase - 1) - cameraPerson.y,
     );
   }
 
   isSpaceTaken(currentX, currentY, direction) {
     const { x, y } = utils.nextPosition(currentX, currentY, direction);
-    return this.walls[`${x},${y}`] || false;
+    if (this.walls[`${x},${y}`]) return true;
+
+    const result = Object.values(this.gameObjects).find((obj) => {
+      if (obj.x === x && obj.y === y) {
+        return true;
+      }
+      if (obj.intentPosition && obj.intentPosition[0] === x && obj.intentPosition[1] === y) {
+        return true;
+      }
+      return false;
+    });
+    return result;
   }
 
   mountObjects() {
-    Object.keys(this.gameObjects).forEach((key) => {
-      const object = this.gameObjects[key];
+    Object.keys(this.configObjects).forEach((key) => {
+      const object = this.configObjects[key];
       object.id = key;
       object.progress = this.overworld.progress;
-      object.mount(this);
+
+      let instance;
+      if (object.type === 'Person') {
+        instance = new Person(object);
+      }
+      if (object.type === 'GameObject') {
+        instance = new GameObject(object);
+      }
+
+      this.gameObjects[key] = instance;
+      this.gameObjects[key].id = key;
+
+      instance.mount(this);
     });
   }
 
@@ -89,8 +115,6 @@ class OverworldMap {
     }
 
     this.isCutscenePlaying = false;
-
-    Object.values(this.gameObjects).forEach((item) => item.doBehaviorEvent(this));
   }
 
   helperCheckHeroMapPosition() {
@@ -126,19 +150,5 @@ class OverworldMap {
         this.startCutscene(relevantScenario.events);
       }
     }
-  }
-
-  addWall(x, y) {
-    this.walls[`${x},${y}`] = true;
-  }
-
-  removeWall(x, y) {
-    delete this.walls[`${x},${y}`];
-  }
-
-  moveWall(wasX, wasY, direction) {
-    this.removeWall(wasX, wasY);
-    const { x, y } = utils.nextPosition(wasX, wasY, direction);
-    this.addWall(x, y);
   }
 }

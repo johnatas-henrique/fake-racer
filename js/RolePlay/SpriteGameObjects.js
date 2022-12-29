@@ -71,8 +71,8 @@ class SpriteGameObjects {
 
   draw(ctx, cameraPerson) {
     const { x: cameraX, y: cameraY, canvasMidpoint } = cameraPerson;
-    const gridX = canvasMidpoint.x / 16 - 1;
-    const gridY = canvasMidpoint.y / 16 - 2;
+    const gridX = canvasMidpoint.x / utils.pixelBase - 1;
+    const gridY = canvasMidpoint.y / utils.pixelBase - 2;
 
     const x = this.gameObject.x + this.offsetX + utils.withGrid(gridX) - cameraX;
     const y = this.gameObject.y + this.offsetY + utils.withGrid(gridY) - cameraY;

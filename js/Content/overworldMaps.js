@@ -2,30 +2,37 @@ window.overworldMaps = {
   DemoRoom: {
     lowerSrc: '../assets/images/maps/DemoLower.png',
     upperSrc: '../assets/images/maps/DemoUpper.png',
-    gameObjects: {
-      hero: new Person({
+    configObjects: {
+      hero: {
+        type: 'Person',
         isPlayerControlled: true,
         x: utils.withGrid(5),
         y: utils.withGrid(6),
         src: '../assets/images/characters/people/hero.png',
-      }),
-      conversationBaloon: new GameObject({
+      },
+      conversationBaloon: {
+        type: 'GameObject',
         x: utils.withGrid(3),
         y: utils.withGrid(4),
         src: '../assets/images/ui/UI_angry_emote_16x16.png',
         sizeX: 1,
         currentAnimation: 'change-right-4',
         showItem: false,
-      }),
-      Carol_DemoRoom: new Person({
+      },
+      Carol_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(7),
         y: utils.withGrid(9),
         src: '../assets/images/characters/people/schoolgirl1.png',
         behaviorLoop: [
           { type: 'stand', direction: 'right', time: 600 },
+          { type: 'walk', direction: 'up' },
           { type: 'stand', direction: 'up', time: 1800 },
+          { type: 'walk', direction: 'left' },
           { type: 'stand', direction: 'left', time: 600 },
+          { type: 'walk', direction: 'down' },
           { type: 'stand', direction: 'down', time: 2000 },
+          { type: 'walk', direction: 'right' },
         ],
         talking: [
           {
@@ -37,8 +44,9 @@ window.overworldMaps = {
             ],
           },
         ],
-      }),
-      Bob_DemoRoom: new Person({
+      },
+      Bob_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(8),
         y: utils.withGrid(5),
         src: '../assets/images/characters/people/thug1.png',
@@ -81,8 +89,9 @@ window.overworldMaps = {
             ],
           },
         ],
-      }),
-      Bee_DemoRoom: new Person({
+      },
+      Bee_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(2),
         y: utils.withGrid(6),
         src: '../assets/images/characters/people/bee1.png',
@@ -156,7 +165,7 @@ window.overworldMaps = {
             ],
           },
         ],
-      }),
+      },
     },
     cutsceneSpaces: {
       [utils.asGridCoord(7, 4)]: [
@@ -296,7 +305,6 @@ window.overworldMaps = {
       [utils.asGridCoord(11, 8)]: true,
       [utils.asGridCoord(11, 9)]: true,
 
-      // fakeGameObjects
       [utils.asGridCoord(7, 6)]: true,
       [utils.asGridCoord(8, 6)]: true,
       [utils.asGridCoord(7, 7)]: true,
@@ -306,14 +314,17 @@ window.overworldMaps = {
   Kitchen: {
     lowerSrc: '../assets/images/maps/KitchenLower.png',
     upperSrc: '../assets/images/maps/KitchenUpper.png',
-    gameObjects: {
-      hero: new Person({
+    gameObjects: {},
+    configObjects: {
+      hero: {
+        type: 'Person',
         isPlayerControlled: true,
         x: utils.withGrid(3),
         y: utils.withGrid(9),
         src: '../assets/images/characters/people/hero.png',
-      }),
-      Carol_DemoRoom: new Person({
+      },
+      Carol_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(9),
         y: utils.withGrid(6),
         src: '../assets/images/characters/people/woman1.png',
@@ -324,8 +335,9 @@ window.overworldMaps = {
             ],
           },
         ],
-      }),
-      Bob_DemoRoom: new Person({
+      },
+      Bob_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(6),
         y: utils.withGrid(8),
         src: '../assets/images/characters/people/man1.png',
@@ -336,7 +348,7 @@ window.overworldMaps = {
             ],
           },
         ],
-      }),
+      },
     },
     cutsceneSpaces: {
       [utils.asGridCoord(5, 10)]: [
@@ -384,22 +396,27 @@ window.overworldMaps = {
   PizzaShop: {
     lowerSrc: '../assets/images/maps/PizzaShopLower.png',
     upperSrc: '../assets/images/maps/PizzaShopUpper.png',
-    gameObjects: {
-      hero: new Person({
+    gameObjects: {},
+    configObjects: {
+      hero: {
+        type: 'Person',
         isPlayerControlled: true,
-        x: utils.withGrid(1),
-        y: utils.withGrid(7),
-      }),
-      Carol_DemoRoom: new Person({
+        x: utils.withGrid(5),
+        y: utils.withGrid(11),
+        src: '../assets/images/characters/people/hero.png',
+      },
+      Carol_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(4),
         y: utils.withGrid(11),
         src: '../assets/images/characters/people/man1.png',
-      }),
-      Bob_DemoRoom: new Person({
+      },
+      Bob_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(9),
         y: utils.withGrid(10),
         src: '../assets/images/characters/people/man2.png',
-      }),
+      },
     },
     cutsceneSpaces: {
 
@@ -420,32 +437,37 @@ window.overworldMaps = {
   },
   TVStudio: {
     lowerSrc: '../assets/images/maps/TVStudioLower.png',
-    gameObjects: {
-      hero: new Person({
+    gameObjects: {},
+    configObjects: {
+      hero: {
+        type: 'Person',
         isPlayerControlled: true,
         x: utils.withGrid(7),
         y: utils.withGrid(8),
         src: '../assets/images/characters/people/hero.png',
-      }),
-      Carol_DemoRoom: new Person({
+      },
+      Carol_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(3),
         y: utils.withGrid(3),
         src: '../assets/images/characters/people/man1.png',
         offsetX: 8,
-      }),
-      Bob_DemoRoom: new Person({
+      },
+      Bob_DemoRoom: {
+        type: 'Person',
         x: utils.withGrid(6),
         y: utils.withGrid(3),
         src: '../assets/images/characters/people/man2.png',
         offsetX: 8,
-      }),
-      desk: new GameObject({
+      },
+      desk: {
+        type: 'GameObject',
         x: utils.withGrid(3),
         y: utils.withGrid(4),
-        src: '../assets/images/maps/TVStudioMiddle1.png',
+        src: '../assets/images/characters/objects/desk.png',
         sizeX: 5,
         offsetY: -2,
-      }),
+      },
     },
     walls: {
       // up

@@ -5,9 +5,6 @@ class GameObject {
     this.x = config.x || 0;
     this.y = config.y || 0;
     this.direction = config.direction || 'down';
-    this.behaviorLoop = config.behaviorLoop || [];
-    this.behaviorLoopIndex = 0;
-    this.talking = config.talking || [];
     this.showItem = config.showItem ?? true;
     this.sprite = new SpriteGameObjects({
       gameObject: this,
@@ -18,21 +15,36 @@ class GameObject {
       sizeX: config.sizeX,
       sizeY: config.sizeY,
     });
+
+    this.behaviorLoop = config.behaviorLoop || [];
+    this.behaviorLoopIndex = 0;
+    this.talking = config.talking || [];
+    this.retryTimeout = null;
   }
 
   mount(map) {
     this.isMounted = true;
-    map.addWall(this.x, this.y);
+    // map.addWall(this.x, this.y);
 
     setTimeout(() => {
       this.doBehaviorEvent(map);
-    }, 10);
+    }, 100);
   }
 
   update() { }
 
   async doBehaviorEvent(map) {
-    if (map.isCutscenePlaying || this.behaviorLoop.length === 0 || this.isStanding) {
+    if (this.behaviorLoop.length === 0 || this.isStanding) {
+      return;
+    }
+
+    if (map.isCutscenePlaying) {
+      if (this.retryTimeout) {
+        clearTimeout(this.retryTimeout);
+      }
+      this.retryTimeout = setTimeout(() => {
+        this.doBehaviorEvent(map);
+      }, 1000);
       return;
     }
 
@@ -41,8 +53,8 @@ class GameObject {
 
     const eventHandler = new OverworldEvent({ map, event: eventConfig });
     await eventHandler.init();
-    this.behaviorLoopIndex += 1;
 
+    this.behaviorLoopIndex += 1;
     if (this.behaviorLoopIndex === this.behaviorLoop.length) {
       this.behaviorLoopIndex = 0;
     }

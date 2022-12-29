@@ -82,21 +82,19 @@ class Overworld {
   startMap(mapConfig, initialHeroPosition = null) {
     this.map = new OverworldMap(mapConfig);
     this.map.overworld = this;
-    this.map.mountObjects();
 
-    const { hero } = this.map.gameObjects;
+    const { hero } = this.map.configObjects;
     if (initialHeroPosition) {
-      this.map.removeWall(hero.x, hero.y);
       hero.x = initialHeroPosition.x;
       hero.y = initialHeroPosition.y;
       hero.direction = initialHeroPosition.direction;
-      this.map.addWall(hero.x, hero.y);
     }
-
     this.progress.mapId = window.playerState.savedMap;
     this.progress.startingHeroX = hero.x;
     this.progress.startingHeroY = hero.y;
     this.progress.startingHeroDirection = hero.direction;
+
+    this.map.mountObjects();
   }
 
   init() {
