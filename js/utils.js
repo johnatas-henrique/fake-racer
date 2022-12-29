@@ -129,6 +129,8 @@ const utils = {
       window.playerState[type] += value;
       utils.emitEvent('HudUpdate');
     },
+    nothing: () => {},
+    history: () => { console.error('criar função para uso'); },
   },
 
   // Race Functions

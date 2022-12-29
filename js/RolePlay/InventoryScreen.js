@@ -4,6 +4,9 @@ class InventoryScreen {
     this.event = config.event;
     this.element = null;
     this.actionListener = null;
+    this.left = null;
+    this.right = null;
+    this.prevFocus = null;
   }
 
   useItem = (e) => {
@@ -38,6 +41,8 @@ class InventoryScreen {
   closeInventory = () => {
     this.element.remove();
     this.actionListener.unbind();
+    this.left.unbind();
+    this.right.unbind();
     if (this.onComplete) {
       this.onComplete();
     }
@@ -50,33 +55,37 @@ class InventoryScreen {
     this.element.innerHTML = (`
         <p class="Inventory_p">Inventário</p>
         <div class="Inventory_div_items">
-        ${window.playerState.items.map((item) => {
+        ${window.playerState.items.map((item, index) => {
         const itemInfo = window.gameContent.items
           .find((itemStore) => itemStore.actionId === item.actionId);
 
         if (item.type === 'consumable') {
-          return `<button
-            class="Inventory_button Inventory_button_flex"
-            title=${itemInfo.actionId}>
-              <img 
-                class="Inventory_img" 
-                src=/assets/images/items/${itemInfo.image}
-                title=${itemInfo.actionId}
-                >
-              <p class="Inventory_p_quantity" title=${itemInfo.actionId}>${item.quantity}</p>
-            </button>`;
+          return `
+            <button
+              class="Inventory_button"
+              data-button='${index}' 
+              title=${itemInfo.actionId}
+              style="background-image: url('/assets/images/items/${itemInfo.image}');"
+            >
+              ${item.quantity}
+            </button>
+            `;
         }
 
-        return `<button class="Inventory_button" title=${itemInfo.actionId}>
+        return `<button class="Inventory_button" title=${itemInfo.actionId} data-button='${index}'>
           ${itemInfo.name}
         </button>`;
       })
         .join('')}
         </div>
         <div class="Inventory_div_info">
-         <p>Passe o mouse em cima dos itens para ver mais informações</p>
+          <p class="Inventory_p_hover_details">
+            Passe o mouse em cima dos itens para ver mais informações
+          </p>
         </div>
-        <button class='Inventory_button_close'>Ok</button>
+        <button class='Inventory_button_close' data-button='${window.playerState.items.length}'>
+          Ok
+        </button>
       `);
 
     const firstBtn = this.element.querySelector('button');
@@ -84,14 +93,53 @@ class InventoryScreen {
     const lastBtn = allBtn[allBtn.length - 1];
 
     allBtn.forEach((btn) => btn.addEventListener('click', this.useItem));
-    allBtn.forEach((btn) => btn.addEventListener('mouseover', this.hoverItem));
+    allBtn.forEach((btn) => btn.addEventListener('mouseover', (e) => {
+      console.log(e);
+      this.prevFocus = Number(e.target.dataset.button);
+      btn.focus();
+      this.hoverItem(e);
+      console.log('mouseenterx2', this.prevFocus);
+    }));
+
     lastBtn.removeEventListener('click', this.useItem);
+    lastBtn.removeEventListener('mouseover', this.hoverItem);
     lastBtn.addEventListener('click', this.closeInventory);
 
     this.actionListener = new KeyPressListener('Escape', () => {
       this.closeInventory();
     });
     this.actionListener.init();
+
+    this.prevFocus = 0;
+
+    this.left = new KeyPressListener('ArrowLeft', () => {
+      const inventoryBtn = Array.from(this.element.querySelectorAll('button[data-button]'));
+      inventoryBtn.pop();
+      const nextButton = Array
+        .from(inventoryBtn).reverse()
+        .find((item) => item.dataset.button < this.prevFocus && !item.disabled);
+      if (nextButton) {
+        nextButton?.focus();
+        this.prevFocus -= 1;
+      }
+      console.log('left', this.prevFocus);
+    });
+
+    this.right = new KeyPressListener('ArrowRight', () => {
+      const inventoryBtn = Array.from(this.element.querySelectorAll('button[data-button]'));
+      inventoryBtn.pop();
+      const nextButton = Array
+        .from(inventoryBtn)
+        .find((item) => item.dataset.button > this.prevFocus && !item.disabled);
+      if (nextButton) {
+        nextButton?.focus();
+        this.prevFocus += 1;
+      }
+      console.log('right', this.prevFocus);
+    });
+
+    this.left.init();
+    this.right.init();
 
     setTimeout(() => {
       firstBtn.focus();
