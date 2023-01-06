@@ -4,7 +4,7 @@ class Director {
     this.render = config.race.core.render;
     this.trackName = config.race.trackName;
     this.raceLaps = config.race.raceLaps;
-    this.startTimer = config.race.startTimer ?? 5000;
+    this.startTimer = config.race.startTimer ?? 1000;
     this.totalTime = 0;
     this.animTime = 0;
     this.lap = 0;
@@ -92,7 +92,7 @@ class Director {
     this.startLights.scaleX = 27;
     this.startLights.scaleY = 27;
     this.startLights.spritesInX = 6;
-    this.startLights.sheetPositionX = Math.ceil(this.animTime / 500);
+    this.startLights.sheetPositionX = 0;
     this.startLights.image = this.images.startLights;
     this.startLights.name = 'tsStartLights';
     segmentLineFirst.sprites.push(this.startLights);
@@ -209,16 +209,16 @@ class Director {
     this.position = (this.positions
       .findIndex((elem) => elem.name === this.player.name) + 1).toString();
     if (this.position < 10) this.position = `0${this.position}`;
-    let numberOfCars = this.positions.length;
-    if (numberOfCars < 10) numberOfCars = `0${numberOfCars}`;
 
     this.refreshPositions(this.player, this.opponents);
-    if (this.animTime > this.startTimer) this.startLights.sheetPositionX = 0;
-    else if (this.animTime > 2000 + 2500) this.startLights.sheetPositionX = 5;
-    else if (this.animTime > 2000 + 2000) this.startLights.sheetPositionX = 4;
-    else if (this.animTime > 2000 + 1500) this.startLights.sheetPositionX = 3;
-    else if (this.animTime > 2000 + 1000) this.startLights.sheetPositionX = 2;
-    else if (this.animTime > 2000 + 500) this.startLights.sheetPositionX = 1;
+
+    if (this.animTime > this.startTimer / 2 && this.animTime < this.startTimer) {
+      const sheetPosition = Math.floor((this.animTime / this.startTimer) * 10) - 4;
+      this.startLights.sheetPositionX = sheetPosition;
+    }
+    if (this.animTime > this.startTimer) {
+      this.startLights.sheetPositionX = 0;
+    }
 
     if (this.paused) {
       const actualPos = Number(this.position);
@@ -289,7 +289,7 @@ class Director {
       this.render
         .drawText('#FFFAF4', 'Aperte "P" para continuar', 320, 215, 2, 'OutriderCond', 'center', 'black', true);
     }
-    if (this.totalTime < 2500) {
+    if (this.totalTime < this.startTimer / 2) {
       this.render
         .drawText('#FFFAF4', 'Prepare-se...', 320, 135, 2, 'OutriderCond', 'center', 'black', true);
     }
