@@ -113,7 +113,7 @@ class OverworldMap {
     if (window.playerState.storyFlags[eventName] && loseRace) {
       this.isCutscenePlaying = true;
       const { savedMap } = window.playerState;
-      const npcTalkingEvents = window.overworldMaps[savedMap].gameObjects[npc].talking;
+      const npcTalkingEvents = window.overworldMaps[savedMap].configObjects[npc].talking;
       const afterLoseCutscene = npcTalkingEvents
         .find((item) => item.required?.find((rpgEvent) => rpgEvent === eventName));
       return this.startCutscene(afterLoseCutscene.events);
