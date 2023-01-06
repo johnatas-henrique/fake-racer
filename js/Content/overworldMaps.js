@@ -25,13 +25,13 @@ window.overworldMaps = {
         y: utils.withGrid(9),
         src: '../assets/images/characters/people/schoolgirl1.png',
         behaviorLoop: [
-          { type: 'stand', direction: 'right', time: 600 },
+          { type: 'stand', direction: 'right', time: 60 },
           { type: 'walk', direction: 'up' },
-          { type: 'stand', direction: 'up', time: 1800 },
+          { type: 'stand', direction: 'up', time: 18 },
           { type: 'walk', direction: 'left' },
-          { type: 'stand', direction: 'left', time: 600 },
+          { type: 'stand', direction: 'left', time: 60 },
           { type: 'walk', direction: 'down' },
-          { type: 'stand', direction: 'down', time: 2000 },
+          { type: 'stand', direction: 'down', time: 20 },
           { type: 'walk', direction: 'right' },
         ],
         talking: [
@@ -323,7 +323,7 @@ window.overworldMaps = {
         y: utils.withGrid(9),
         src: '../assets/images/characters/people/hero.png',
       },
-      Carol_DemoRoom: {
+      Carol_Kitchen: {
         type: 'Person',
         x: utils.withGrid(9),
         y: utils.withGrid(6),
@@ -331,12 +331,12 @@ window.overworldMaps = {
         talking: [
           {
             events: [
-              { faceHero: 'Carol_DemoRoom', type: 'textMessage', text: 'Você não tem o que fazer não?' },
+              { faceHero: 'Carol_Kitchen', type: 'textMessage', text: 'Você não tem o que fazer não?' },
             ],
           },
         ],
       },
-      Bob_DemoRoom: {
+      Bob_Kitchen: {
         type: 'Person',
         x: utils.withGrid(6),
         y: utils.withGrid(8),
@@ -344,7 +344,7 @@ window.overworldMaps = {
         talking: [
           {
             events: [
-              { faceHero: 'Bob_DemoRoom', type: 'textMessage', text: 'Como você entrou aqui?' },
+              { faceHero: 'Bob_Kitchen', type: 'textMessage', text: 'Como você entrou aqui?' },
             ],
           },
         ],
@@ -405,13 +405,13 @@ window.overworldMaps = {
         y: utils.withGrid(11),
         src: '../assets/images/characters/people/hero.png',
       },
-      Carol_DemoRoom: {
+      Carol_PizzaShop: {
         type: 'Person',
         x: utils.withGrid(4),
         y: utils.withGrid(11),
         src: '../assets/images/characters/people/man1.png',
       },
-      Bob_DemoRoom: {
+      Bob_PizzaShop: {
         type: 'Person',
         x: utils.withGrid(9),
         y: utils.withGrid(10),

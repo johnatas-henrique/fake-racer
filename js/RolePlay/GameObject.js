@@ -24,8 +24,6 @@ class GameObject {
 
   mount(map) {
     this.isMounted = true;
-    // map.addWall(this.x, this.y);
-
     setTimeout(() => {
       this.doBehaviorEvent(map);
     }, 100);
@@ -34,7 +32,7 @@ class GameObject {
   update() { }
 
   async doBehaviorEvent(map) {
-    if (this.behaviorLoop.length === 0 || this.isStanding) {
+    if (this.behaviorLoop.length === 0) {
       return;
     }
 

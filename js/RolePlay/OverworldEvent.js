@@ -56,6 +56,10 @@ class OverworldEvent {
   }
 
   changeMap(resolve) {
+    Object.values(this.map.gameObjects).forEach((obj) => {
+      obj.isMounted = false;
+    });
+
     const mapTransition = new SceneTransition();
     window.playerState.savedMap = this.event.map;
     mapTransition.init(

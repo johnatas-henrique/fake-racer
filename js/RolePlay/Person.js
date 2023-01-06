@@ -33,6 +33,9 @@ class Person extends GameObject {
   }
 
   startBehavior(state, behavior) {
+    if (!this.isMounted) {
+      return;
+    }
     this.direction = behavior.direction;
     if (behavior.type === 'walk') {
       if (state.map.isSpaceTaken(this.x, this.y, this.direction)) {
