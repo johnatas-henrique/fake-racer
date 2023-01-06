@@ -14,26 +14,42 @@ class InventoryScreen {
     const inventoryObj = window.playerState.items.find((item) => item.actionId === itemUsed);
     const indexObj = window.playerState.items.findIndex((item) => item.actionId === itemUsed);
     const itemInfo = window.gameContent.items.find((item) => item.actionId === itemUsed);
+    const inventoryBtn = Array.from(this.element.querySelectorAll('button[data-button]'));
 
     utils.itemFunctions[itemInfo.action](itemInfo.type, itemInfo.value);
 
-    // lowering quantity of consumable items
-    if (inventoryObj.type === 'consumable' && inventoryObj.quantity === 1) {
-      window.playerState.items.splice(indexObj, 1);
+    if (inventoryObj?.type === 'consumable') {
+      // lowering quantity of consumable items
+      if (inventoryObj.quantity === 1) {
+        window.playerState.items.splice(indexObj, 1);
+      }
+      if (inventoryObj.quantity > 1) {
+        window.playerState.items[indexObj].quantity -= 1;
+      }
+
+      if (Number(e.target.innerText) === 1) {
+        e.target.remove();
+        this.prevFocus -= 1;
+        inventoryBtn[this.prevFocus].focus();
+        this.hoverItem();
+      }
+      if (Number(e.target.innerText) > 1) {
+        e.target.innerText -= 1;
+      }
     }
-    if (inventoryObj.type === 'consumable' && inventoryObj.quantity > 1) {
-      window.playerState.items[indexObj].quantity -= 1;
-    }
-    this.closeInventory();
   };
 
-  hoverItem = (e) => {
-    const itemUsed = e.target.title;
+  hoverItem = () => {
+    const inventoryBtn = Array.from(this.element.querySelectorAll('button[data-button]'));
+    const itemUsed = inventoryBtn[this.prevFocus].title;
     const hoverDiv = this.element.querySelector('.Inventory_div_info');
     const itemInfo = window.gameContent.items.find((item) => item.actionId === itemUsed);
     hoverDiv.innerHTML = (`
       <p class="Inventory_p_hover_title">${itemInfo.name}</p>
-      <img class="Inventory_img_hover" src=/assets/images/items/${itemInfo.image} title=${itemInfo.actionId}>
+      <img 
+        class="Inventory_img_hover" 
+        src=/assets/images/items/${itemInfo.image}
+      >
       <p class="Inventory_p_hover_details">${itemInfo.details}</p>
     `);
   };
@@ -55,26 +71,18 @@ class InventoryScreen {
     this.element.innerHTML = (`
         <p class="Inventory_p">Inventário</p>
         <div class="Inventory_div_items">
-        ${window.playerState.items.map((item, index) => {
-        const itemInfo = window.gameContent.items
-          .find((itemStore) => itemStore.actionId === item.actionId);
+        ${window.playerState.items.map((el, index) => {
+        const itemInfo = window.gameContent.items.find(({ actionId }) => actionId === el.actionId);
 
-        if (item.type === 'consumable') {
-          return `
-            <button
-              class="Inventory_button"
-              data-button='${index}' 
-              title=${itemInfo.actionId}
-              style="background-image: url('/assets/images/items/${itemInfo.image}');"
-            >
-              ${item.quantity}
-            </button>
-            `;
-        }
-
-        return `<button class="Inventory_button" title=${itemInfo.actionId} data-button='${index}'>
-          ${itemInfo.name}
-        </button>`;
+        return `
+          <button 
+            class="Inventory_button" 
+            data-button='${index}'
+            title=${itemInfo.actionId} 
+            style="background-image: url('/assets/images/items/${itemInfo.image}');"
+          >
+          ${el.quantity ? el.quantity : ''}
+          </button>`;
       })
         .join('')}
         </div>
@@ -83,61 +91,61 @@ class InventoryScreen {
             Passe o mouse em cima dos itens para ver mais informações
           </p>
         </div>
-        <button class='Inventory_button_close' data-button='${window.playerState.items.length}'>
+        <button 
+          class='Inventory_button_close' 
+          data-button='${window.playerState.items.length}'
+          title='backButton'
+          >
           Ok
         </button>
       `);
 
     const firstBtn = this.element.querySelector('button');
-    const allBtn = this.element.querySelectorAll('button');
+    const allBtn = Array.from(this.element.querySelectorAll('button'));
     const lastBtn = allBtn[allBtn.length - 1];
 
     allBtn.forEach((btn) => btn.addEventListener('click', this.useItem));
     allBtn.forEach((btn) => btn.addEventListener('mouseover', (e) => {
-      console.log(e);
       this.prevFocus = Number(e.target.dataset.button);
       btn.focus();
-      this.hoverItem(e);
-      console.log('mouseenterx2', this.prevFocus);
+      this.hoverItem();
     }));
 
-    lastBtn.removeEventListener('click', this.useItem);
-    lastBtn.removeEventListener('mouseover', this.hoverItem);
+    allBtn.pop();
+
     lastBtn.addEventListener('click', this.closeInventory);
 
     this.actionListener = new KeyPressListener('Escape', () => {
       this.closeInventory();
     });
-    this.actionListener.init();
-
-    this.prevFocus = 0;
 
     this.left = new KeyPressListener('ArrowLeft', () => {
       const inventoryBtn = Array.from(this.element.querySelectorAll('button[data-button]'));
-      inventoryBtn.pop();
-      const nextButton = Array
-        .from(inventoryBtn).reverse()
+      const nextButton = Array.from(inventoryBtn).reverse()
         .find((item) => item.dataset.button < this.prevFocus && !item.disabled);
       if (nextButton) {
         nextButton?.focus();
         this.prevFocus -= 1;
+        this.hoverItem();
       }
-      console.log('left', this.prevFocus);
     });
 
     this.right = new KeyPressListener('ArrowRight', () => {
       const inventoryBtn = Array.from(this.element.querySelectorAll('button[data-button]'));
-      inventoryBtn.pop();
       const nextButton = Array
         .from(inventoryBtn)
         .find((item) => item.dataset.button > this.prevFocus && !item.disabled);
       if (nextButton) {
         nextButton?.focus();
         this.prevFocus += 1;
+        this.hoverItem();
       }
-      console.log('right', this.prevFocus);
     });
 
+    this.prevFocus = 0;
+    this.hoverItem();
+
+    this.actionListener.init();
     this.left.init();
     this.right.init();
 
