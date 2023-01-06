@@ -1,3 +1,5 @@
+import utils from '../Core/utils.js';
+
 class Camera {
   constructor(config) {
     this.race = config.race;
@@ -42,3 +44,5 @@ class Camera {
     }
   }
 }
+
+export default Camera;

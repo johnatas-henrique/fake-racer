@@ -1,3 +1,5 @@
+import utils from '../Core/utils.js';
+
 const arrPart = [];
 const { width: canvasWidth, height: canvasHeight } = utils.htmlElements.gameCanvas();
 
@@ -50,9 +52,9 @@ class Particle {
   }
 }
 
-const initParticles = () => {
+const particles = () => {
   const { height, width } = utils.htmlElements.gameCanvas();
-  const numberOfParticles = 32;
+  const numberOfParticles = 20;
   for (let i = 0; i < numberOfParticles; i += 1) {
     const size = (Math.random() * 1.5) + 1.5;
     const x = (Math.random() * ((width - size * 2) - (size * 2)) + size * 2);
@@ -65,4 +67,4 @@ const initParticles = () => {
   return arrPart;
 };
 
-window.particles = initParticles();
+export default particles;

@@ -1,3 +1,5 @@
+import KeyPressListener from './KeyPressListener.js';
+
 class KeyboardMenu {
   constructor(config = {}) {
     this.options = [];
@@ -95,3 +97,5 @@ class KeyboardMenu {
     this.down.init();
   }
 }
+
+export default KeyboardMenu;

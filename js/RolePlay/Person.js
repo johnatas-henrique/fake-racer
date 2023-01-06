@@ -1,3 +1,6 @@
+import utils from '../Core/utils.js';
+import GameObject from './GameObject.js';
+
 class Person extends GameObject {
   constructor(config) {
     super(config);
@@ -91,3 +94,5 @@ class Person extends GameObject {
     this.sprite.setAnimation(`idle-${this.direction}`);
   }
 }
+
+export default Person;

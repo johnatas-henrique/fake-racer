@@ -19,3 +19,5 @@ class Tunnel {
     this.previousSegment = null;
   }
 }
+
+export default Tunnel;

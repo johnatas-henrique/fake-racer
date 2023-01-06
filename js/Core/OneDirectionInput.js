@@ -42,3 +42,5 @@ class OneDirectionInput {
     document.removeEventListener('keyup', this.keyupFunction);
   }
 }
+
+export default OneDirectionInput;

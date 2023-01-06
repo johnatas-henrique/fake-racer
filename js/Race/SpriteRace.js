@@ -21,3 +21,5 @@ class SpriteRace {
     return this.image.height;
   }
 }
+
+export default SpriteRace;

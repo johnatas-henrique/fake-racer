@@ -12,7 +12,7 @@ const utils = {
     pauseBtn: () => document.querySelector('.pause-btn'),
     muteBtn: () => document.querySelector('.mute-btn'),
   },
-  changeMode(newGameState, coreClass, noRestart = true) {
+  changeMode(newGameState, coreClass, noRestart, ClassInstance) {
     window.gameState.mode = newGameState;
     utils.keyUnbinder('Enter', coreClass);
     if (newGameState === 'menuScene') {
@@ -20,8 +20,7 @@ const utils = {
       utils.htmlElements.gameCanvas().width = 640;
       utils.htmlElements.gameCanvas().height = 360;
       if (noRestart) {
-        coreClass.menu = new Menu({ animations: window.particles, core: coreClass });
-        coreClass.menu.init();
+        coreClass.menu.init(true);
       }
     }
     if (newGameState === 'singleRaceScene') {
@@ -29,8 +28,8 @@ const utils = {
       utils.htmlElements.gameCanvas().width = 640;
       utils.htmlElements.gameCanvas().height = 360;
       if (noRestart) {
-        coreClass.singleRace = new Race({ core: coreClass });
-        coreClass.singleRace.init();
+        coreClass.singleRace = new ClassInstance({ core: coreClass });
+        coreClass.singleRace.init(true);
       }
     }
     if (newGameState === 'historyRaceScene') {
@@ -239,3 +238,5 @@ const utils = {
   },
   playerFPS: (speed) => (Math.min((speed / 32 + 10), 40)),
 };
+
+export default utils;

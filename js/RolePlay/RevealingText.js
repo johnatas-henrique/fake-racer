@@ -45,3 +45,5 @@ class RevealingText {
     this.revealOneCharacter(characters);
   }
 }
+
+export default RevealingText;

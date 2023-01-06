@@ -1,3 +1,5 @@
+import utils from '../Core/utils.js';
+
 class SpriteGameObjects {
   constructor(config) {
     // Setup the image
@@ -92,3 +94,5 @@ class SpriteGameObjects {
     this.updateAnimationProgress();
   }
 }
+
+export default SpriteGameObjects;

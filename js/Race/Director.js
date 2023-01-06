@@ -1,3 +1,8 @@
+import KeyPressListener from '../Core/KeyPressListener.js';
+import utils from '../Core/utils.js';
+import SceneTransition from '../RolePlay/SceneTransition.js';
+import SpriteRace from './SpriteRace.js';
+
 class Director {
   constructor(config) {
     this.race = config.race;
@@ -308,3 +313,5 @@ class Director {
     }
   }
 }
+
+export default Director;

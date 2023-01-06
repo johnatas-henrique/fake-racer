@@ -1,3 +1,6 @@
+import utils from '../Core/utils.js';
+import KeyPressListener from '../Core/KeyPressListener.js';
+
 class InputElement {
   constructor(config) {
     this.onComplete = config.onComplete;
@@ -49,3 +52,5 @@ class InputElement {
     container.appendChild(this.element);
   }
 }
+
+export default InputElement;

@@ -1,3 +1,8 @@
+import utils from '../Core/utils.js';
+import Person from './Person.js';
+import GameObject from './GameObject.js';
+import OverworldEvent from './OverworldEvent.js';
+
 class OverworldMap {
   constructor(config) {
     this.overworld = null;
@@ -152,3 +157,5 @@ class OverworldMap {
     }
   }
 }
+
+export default OverworldMap;

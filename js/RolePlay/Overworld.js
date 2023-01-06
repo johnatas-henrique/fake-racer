@@ -1,3 +1,9 @@
+import utils from '../Core/utils.js';
+import Progress from '../Core/Progress.js';
+import OverworldMap from './OverworldMap.js';
+import Hud from './Hud.js';
+import KeyPressListener from '../Core/KeyPressListener.js';
+
 class Overworld {
   constructor(config) {
     this.core = config.core;
@@ -137,3 +143,5 @@ class Overworld {
     }
   }
 }
+
+export default Overworld;

@@ -1,3 +1,5 @@
+import utils from '../Core/utils.js';
+
 window.overworldMaps = {
   DemoRoom: {
     lowerSrc: '../assets/images/maps/DemoLower.png',

@@ -23,3 +23,5 @@ class SceneTransition {
     }, { once: true });
   }
 }
+
+export default SceneTransition;

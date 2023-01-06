@@ -1,3 +1,6 @@
+import KeyPressListener from '../Core/KeyPressListener.js';
+import RevealingText from './RevealingText.js';
+
 class TextMessage {
   constructor(config) {
     this.gameObjects = config.gameObjects;
@@ -66,3 +69,5 @@ class TextMessage {
     this.revealingText.init();
   }
 }
+
+export default TextMessage;

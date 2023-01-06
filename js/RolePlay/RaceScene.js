@@ -1,3 +1,6 @@
+import utils from '../Core/utils.js';
+import Race from '../Race/Race.js';
+
 class RaceScene {
   constructor(config) {
     this.map = config.map;
@@ -23,3 +26,5 @@ class RaceScene {
     this.historyRace.init(true);
   }
 }
+
+export default RaceScene;

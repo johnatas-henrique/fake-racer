@@ -1,3 +1,6 @@
+import utils from '../Core/utils.js';
+import SpriteRace from './SpriteRace.js';
+
 class Opponent {
   constructor(config) {
     this.race = config.race;
@@ -100,3 +103,5 @@ class Opponent {
     }
   }
 }
+
+export default Opponent;

@@ -1,3 +1,6 @@
+import SpriteGameObjects from './SpriteGameObjects.js';
+import OverworldEvent from './OverworldEvent.js';
+
 class GameObject {
   constructor(config) {
     this.id = null;
@@ -60,3 +63,5 @@ class GameObject {
     this.doBehaviorEvent(map);
   }
 }
+
+export default GameObject;

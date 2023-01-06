@@ -1,17 +1,19 @@
+import utils from '../Core/utils.js';
+
 class PlayerState {
   constructor() {
     this.name = 'Adam';
     this.level = 1;
-    this.gas = 20;
+    this.gas = 5;
     this.maxGas = 100;
-    this.xp = 20;
+    this.xp = 5;
     this.maxXp = 100;
-    this.money = 0;
+    this.money = 200;
     this.savedMap = 'DemoRoom';
     this.items = [
       { actionId: 'bike', type: 'history' },
-      { actionId: 'gear', type: 'quest' },
-      { actionId: 'pizza', type: 'consumable', quantity: 3 },
+      { actionId: 'gas1', type: 'consumable', quantity: 3 },
+      { actionId: 'taw', type: 'consumable', quantity: 2 },
     ];
     this.storyFlags = {
       KITCHEN_BLOCKED: true,

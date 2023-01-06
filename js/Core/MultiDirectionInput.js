@@ -66,3 +66,5 @@ class MultiDirectionInput {
     window.addEventListener('keyup', (event) => this.handler(event));
   }
 }
+
+export default MultiDirectionInput;

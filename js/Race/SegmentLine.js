@@ -202,3 +202,5 @@ class SegmentLine {
     return this;
   }
 }
+
+export default SegmentLine;

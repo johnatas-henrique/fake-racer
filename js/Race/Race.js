@@ -1,3 +1,12 @@
+import utils from '../Core/utils.js';
+import Background from './Background.js';
+import Road from './Road.js';
+import Camera from './Camera.js';
+import Opponent from './Opponent.js';
+import Player from './Player.js';
+import Director from './Director.js';
+import rain from '../Animations/Rain.js';
+
 class Race {
   constructor(config) {
     this.core = config.core;
@@ -74,8 +83,8 @@ class Race {
       this.opponents.length = this.oppNumber;
 
       if (this.raining) {
-        const rainDrops = Math.random() * 500 + 100;
-        this.rain = window.rain(rainDrops);
+        const rainDrops = Math.random() * 1000 + 100;
+        this.rain = rain(rainDrops);
         utils.htmlElements.gameCanvas().classList.add('filter');
       }
 
@@ -90,3 +99,5 @@ class Race {
     }
   }
 }
+
+export default Race;

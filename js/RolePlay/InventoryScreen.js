@@ -1,3 +1,6 @@
+import utils from '../Core/utils.js';
+import KeyPressListener from '../Core/KeyPressListener.js';
+
 class InventoryScreen {
   constructor(config) {
     this.onComplete = config.onComplete;
@@ -159,3 +162,5 @@ class InventoryScreen {
     container.appendChild(this.element);
   }
 }
+
+export default InventoryScreen;

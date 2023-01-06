@@ -1,3 +1,12 @@
+import utils from './utils.js';
+import Menu from './Menu.js';
+import Render from './Render.js';
+import OneDirectionInput from './OneDirectionInput.js';
+import MultiDirectionInput from './MultiDirectionInput.js';
+import Race from '../Race/Race.js';
+import Overworld from '../RolePlay/Overworld.js';
+import particles from '../Animations/Particle.js';
+
 class Core {
   constructor(config) {
     this.element = config.element;
@@ -76,7 +85,7 @@ class Core {
 
     this.singleRace = new Race({ core: this });
     this.overworld = new Overworld({ core: this, element: utils.htmlElements.gameContainer() });
-    this.menu = new Menu({ animations: window.particles, core: this });
+    this.menu = new Menu({ animations: particles(), core: this });
     this.menu.init();
 
     document.addEventListener('canvasResized', () => this.canvasResizer());
@@ -109,3 +118,5 @@ class Core {
     this.startGameLoop();
   }
 }
+
+export default Core;

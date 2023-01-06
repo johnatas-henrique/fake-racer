@@ -1,3 +1,7 @@
+import utils from './utils.js';
+import KeyPressListener from './KeyPressListener.js';
+import Race from '../Race/Race.js';
+
 class Menu {
   constructor(config) {
     this.core = config.core;
@@ -66,8 +70,8 @@ class Menu {
     }
   }
 
-  init() {
-    if (window.gameState.mode === 'menuScene' && !this.isInitOnce) {
+  init(run) {
+    if ((window.gameState.mode === 'menuScene' && !this.isInitOnce) || run) {
       this.hideSaveFunction();
       utils.resolutionChanger(this.core);
       utils.classRemover('gameCanvas', 'filter');
@@ -85,7 +89,7 @@ class Menu {
 
   enterSingleRaceScene() {
     utils.keyUnbinder('Enter', this.core);
-    utils.changeMode('singleRaceScene', this.core);
+    utils.changeMode('singleRaceScene', this.core, true, Race);
   }
 
   enterRPGScene() {
@@ -259,3 +263,5 @@ class Menu {
     }
   }
 }
+
+export default Menu;

@@ -1,3 +1,9 @@
+import utils from '../Core/utils.js';
+import KeyboardMenu from '../Core/KeyboardMenu.js';
+import KeyPressListener from '../Core/KeyPressListener.js';
+import InputElement from './InputElement.js';
+import InventoryScreen from './InventoryScreen.js';
+
 class GameMenu {
   constructor({ progress, onComplete }) {
     this.progress = progress;
@@ -253,3 +259,5 @@ class GameMenu {
     this.esc.init();
   }
 }
+
+export default GameMenu;

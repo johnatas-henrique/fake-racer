@@ -1,3 +1,5 @@
+import SpriteRace from './SpriteRace.js';
+
 class Background {
   constructor(config) {
     this.race = config.race;
@@ -101,3 +103,5 @@ class Background {
     });
   }
 }
+
+export default Background;

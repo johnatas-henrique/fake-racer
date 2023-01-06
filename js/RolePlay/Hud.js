@@ -86,3 +86,5 @@ class Hud {
     });
   }
 }
+
+export default Hud;

@@ -1,3 +1,7 @@
+import SegmentLine from './SegmentLine.js';
+import SpriteRace from './SpriteRace.js';
+import Tunnel from './Tunnel.js';
+
 class Road {
   constructor(config) {
     this.race = config.race;
@@ -267,3 +271,5 @@ class Road {
     }
   }
 }
+
+export default Road;

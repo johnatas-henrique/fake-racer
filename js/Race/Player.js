@@ -1,3 +1,6 @@
+import utils from '../Core/utils.js';
+import SpriteRace from './SpriteRace.js';
+
 class Player {
   constructor(config) {
     this.race = config.race;
@@ -311,3 +314,5 @@ class Player {
       .drawRaceSprite(this.sprite, this.camera, this, this.road.width, scale, midX, height, clip);
   }
 }
+
+export default Player;

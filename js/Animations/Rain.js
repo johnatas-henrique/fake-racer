@@ -1,4 +1,5 @@
-const arrRain = [];
+import utils from '../Core/utils.js';
+
 const { width, height } = utils.htmlElements.gameCanvas();
 
 class RainDrop {
@@ -36,7 +37,12 @@ class RainDrop {
   }
 }
 
-window.rain = (rainDrops) => {
-  for (let i = 0; i < rainDrops; i += 1) arrRain.push(new RainDrop());
+const rain = (rainDrops) => {
+  const arrRain = [];
+  for (let i = 0; i < rainDrops; i += 1) {
+    arrRain.push(new RainDrop());
+  }
   return arrRain;
 };
+
+export default rain;

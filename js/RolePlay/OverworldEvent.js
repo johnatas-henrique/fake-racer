@@ -1,3 +1,11 @@
+import utils from '../Core/utils.js';
+import TextMessage from './TextMessage.js';
+import SceneTransition from './SceneTransition.js';
+import RaceScene from './RaceScene.js';
+import GameMenu from './GameMenu.js';
+import InputElement from './InputElement.js';
+import InventoryScreen from './InventoryScreen.js';
+
 class OverworldEvent {
   constructor(config) {
     this.map = config.map;
@@ -176,3 +184,5 @@ class OverworldEvent {
     });
   }
 }
+
+export default OverworldEvent;
