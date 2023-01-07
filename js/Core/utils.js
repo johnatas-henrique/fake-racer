@@ -12,25 +12,22 @@ const utils = {
     pauseBtn: () => document.querySelector('.pause-btn'),
     muteBtn: () => document.querySelector('.mute-btn'),
   },
-  changeMode(newGameState, coreClass, noRestart, ClassInstance) {
+  changeMode(newGameState, coreClass) {
     window.gameState.mode = newGameState;
     utils.keyUnbinder('Enter', coreClass);
     if (newGameState === 'menuScene') {
       utils.classRemover('gameCanvas', 'pixelated');
       utils.htmlElements.gameCanvas().width = 640;
       utils.htmlElements.gameCanvas().height = 360;
-      if (noRestart) {
-        coreClass.menu.init(true);
-      }
+      coreClass.overworld.isInitOnce = false;
+      coreClass.menu.init();
     }
     if (newGameState === 'singleRaceScene') {
       utils.classRemover('gameCanvas', 'pixelated');
       utils.htmlElements.gameCanvas().width = 640;
       utils.htmlElements.gameCanvas().height = 360;
-      if (noRestart) {
-        coreClass.singleRace = new ClassInstance({ core: coreClass });
-        coreClass.singleRace.init(true);
-      }
+      coreClass.singleRace = new coreClass.RaceClass({ core: coreClass });
+      coreClass.singleRace.init();
     }
     if (newGameState === 'historyRaceScene') {
       utils.classRemover('gameCanvas', 'pixelated');
@@ -41,9 +38,7 @@ const utils = {
       utils.classAdder('gameCanvas', 'pixelated');
       utils.htmlElements.gameCanvas().width = 320;
       utils.htmlElements.gameCanvas().height = 180;
-      if (noRestart) {
-        coreClass.overworld.init();
-      }
+      coreClass.overworld.init();
     }
     utils.emitEvent('canvasResized');
   },

@@ -140,10 +140,11 @@ class Player {
       this.deltaTime = 0;
     }
 
-    // for development only
+    // DEV for development only
     if (this.inputs.multiDirection.isKeyDown('m')) {
       utils.changeMode('menuScene', this.race.core);
     }
+    //
 
     if (this.director.running) {
       this.sprite.name = 'Player';

@@ -52,8 +52,9 @@ class Race {
     return 1;
   }
 
-  init(run = false) {
-    if ((window.gameState.mode === 'singleRaceScene' && !this.isInitOnce) || run) {
+  init() {
+    const { mode } = window.gameState;
+    if (mode === 'singleRaceScene' || mode === 'historyRaceScene') {
       utils.resolutionChanger(this.core);
       utils.classRemover('pauseBtn', 'hidden');
       utils.classRemover('muteBtn', 'hidden');

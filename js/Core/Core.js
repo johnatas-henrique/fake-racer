@@ -82,7 +82,7 @@ class Core {
 
     this.stats = new Stats();
     utils.htmlElements.fps().appendChild(this.stats.dom);
-
+    this.RaceClass = Race;
     this.singleRace = new Race({ core: this });
     this.overworld = new Overworld({ core: this, element: utils.htmlElements.gameContainer() });
     this.menu = new Menu({ animations: particles(), core: this });

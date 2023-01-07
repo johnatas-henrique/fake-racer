@@ -75,7 +75,7 @@ class Director {
           document.querySelector('.game-container'),
           () => {
             this.race.onComplete(hasPlayerWin);
-            utils.changeMode('RPGScene', this.race.core, false);
+            utils.changeMode('RPGScene', this.race.core);
             document.querySelector('.Hud').classList.remove('hidden');
             endRaceTransition.fadeOut();
           },

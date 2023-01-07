@@ -105,7 +105,12 @@ class Overworld {
 
   init() {
     if (window.gameState.mode === 'RPGScene' && !this.isInitOnce) {
-      utils.changeMode('RPGScene', this.core, false);
+      // DEV for development only
+      utils.classAdder('gameCanvas', 'pixelated');
+      utils.htmlElements.gameCanvas().width = 320;
+      utils.htmlElements.gameCanvas().height = 180;
+      //
+
       utils.resolutionChanger(this.core);
       utils.classAdder('gameCanvas', 'pixelated');
 

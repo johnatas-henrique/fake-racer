@@ -1,6 +1,5 @@
 import utils from './utils.js';
 import KeyPressListener from './KeyPressListener.js';
-import Race from '../Race/Race.js';
 
 class Menu {
   constructor(config) {
@@ -70,8 +69,8 @@ class Menu {
     }
   }
 
-  init(run) {
-    if ((window.gameState.mode === 'menuScene' && !this.isInitOnce) || run) {
+  init() {
+    if (window.gameState.mode === 'menuScene') {
       this.hideSaveFunction();
       utils.resolutionChanger(this.core);
       utils.classRemover('gameCanvas', 'filter');
@@ -82,19 +81,17 @@ class Menu {
         new KeyPressListener('Enter', () => this.acceptOption()),
       );
       utils.keyInitializer('Enter', this.core);
-
-      this.isInitOnce = true;
     }
   }
 
   enterSingleRaceScene() {
     utils.keyUnbinder('Enter', this.core);
-    utils.changeMode('singleRaceScene', this.core, true, Race);
+    utils.changeMode('singleRaceScene', this.core);
   }
 
   enterRPGScene() {
     utils.keyUnbinder('Enter', this.core);
-    utils.changeMode('RPGScene', this.core, true);
+    utils.changeMode('RPGScene', this.core);
   }
 
   static musicControl() {
