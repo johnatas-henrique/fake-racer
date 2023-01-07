@@ -25,22 +25,27 @@ class PlayerState {
   updateGas(updatedGas) {
     if ((this.gas + updatedGas) >= this.maxGas) {
       this.gas = this.maxGas;
+      utils.emitEvent('HudUpdate');
       return;
     }
 
     if ((this.gas + updatedGas) <= 0) {
       this.gas = 0;
+      utils.emitEvent('HudUpdate');
       return;
     }
 
     this.gas += updatedGas;
+    utils.emitEvent('HudUpdate');
   }
 
   updateXp(updatedXp) {
     if ((this.xp + updatedXp) < this.maxXp) {
       this.xp += updatedXp;
+      utils.emitEvent('HudUpdate');
       return;
     }
+
     if ((this.xp + updatedXp) >= this.maxXp) {
       const levelUpXp = this.xp + updatedXp;
       this.xp = this.maxXp;

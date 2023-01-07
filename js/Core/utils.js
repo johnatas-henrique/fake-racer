@@ -120,8 +120,7 @@ const utils = {
   ),
   itemFunctions: {
     changeStatus: (type, value) => {
-      window.playerState[type] += value;
-      utils.emitEvent('HudUpdate');
+      window.playerState[`update${type.charAt(0).toUpperCase() + type.slice(1)}`](value);
     },
     nothing: () => {},
     history: () => { console.error('criar função para uso'); },
