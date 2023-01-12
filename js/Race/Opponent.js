@@ -47,7 +47,7 @@ class Opponent {
 
   * carSpeedCorrection() {
     while (this.maxSpeed >= this.baseSpeed) {
-      this.maxSpeed -= 0.1;
+      this.maxSpeed -= 0.2;
       if (this.maxSpeed > this.baseSpeed * 1.6 || this.maxSpeed > 1260) {
         this.maxSpeed = Math.min(this.baseSpeed * 1.6, 1260);
       }

@@ -7,10 +7,10 @@ class Player {
     this.render = config.race.core.render;
     this.trackName = config.race.trackName;
     this.inputs = config.race.core.inputs;
-    this.camera = null;
-    this.road = null;
-    this.director = null;
-    this.opponents = null;
+    // this.camera = null;
+    // this.road = null;
+    // this.director = null;
+    // this.opponents = null;
     this.x = 0;
     this.y = 0;
     this.z = 0;
@@ -26,7 +26,7 @@ class Player {
     this.lap = 0;
     this.raceTime = [0];
     this.crashXCorrection = 0;
-    this.cursor = 0;
+    // this.cursor = 0;
     this.fps = 10;
     this.deltaTime = 0;
   }
@@ -52,10 +52,10 @@ class Player {
   }
 
   init() {
-    this.camera = this.race.camera;
-    this.road = this.race.road;
-    this.director = this.race.director;
-    this.opponents = this.race.opponents;
+    // this.race.camera = this.race.camera;
+    // this.race.road = this.race.road;
+    // this.race.director = this.race.director;
+    // this.opponents = this.race.opponents;
 
     this.images = {};
     this.images.left = new Image();
@@ -73,7 +73,7 @@ class Player {
     const { trackSize } = window.tracks.f1Y91[this.race.trackName];
     const qualyPos = Number(this.race.oppNumber) + 1;
     this.trackPosition = utils.startPosition(trackSize, qualyPos);
-    this.camera.cursor = this.trackPosition;
+    this.race.camera.cursor = this.trackPosition;
     this.x = (qualyPos) % 2 ? -1 : 1;
     this.actualSpeed = 0;
   }
@@ -135,7 +135,7 @@ class Player {
 
   update() {
     this.deltaTime += this.race.core.deltaTime;
-    if (this.deltaTime > utils.secondInMS / this.fps && this.director.paused) {
+    if (this.deltaTime > utils.secondInMS / this.fps && this.race.director.paused) {
       this.curveAnim(this.actualSpeed);
       this.deltaTime = 0;
     }
@@ -146,12 +146,13 @@ class Player {
     }
     //
 
-    if (this.director.running) {
-      this.sprite.name = 'Player';
+    if (this.race.director.running) {
+      // this.sprite.name = 'Player';
       this.fps = utils.playerFPS(this.actualSpeed);
 
       // crash corrector
       const alignAfterCrash = this.carXCrashState();
+
       if (alignAfterCrash.next().value) {
         let direction = Math.sign(this.x);
         if (this.inputs.multiDirection.isKeyDown('arrowLeft')) direction = 1;
@@ -170,7 +171,7 @@ class Player {
       let decelerationCurveBoost = 1;
 
       // offroad deceleration
-      let segment = this.road.getSegment(this.camera.cursor);
+      let segment = this.race.road.getSegment(this.race.camera.cursor);
       const midSpd = this.maxSpeed / 2;
       if (Math.abs(this.x) > 2.2 && segment.curve && this.actualSpeed > midSpd) {
         this.actualSpeed -= acceleration(this.actualSpeed, 7.2);
@@ -183,7 +184,7 @@ class Player {
         if (this.actualSpeed === 0) this.startPress = window.performance.now();
         this.actualSpeed = this.actualSpeed >= this.maxSpeed
           ? this.maxSpeed : this.actualSpeed += acceleration(this.actualSpeed, 0.9);
-        this.camera.cursor += this.actualSpeed;
+        this.race.camera.cursor += this.actualSpeed;
       } else if (this.inputs.multiDirection.isKeyDown('arrowDown') && !this.inputs.multiDirection.isKeyDown('arrowUp') && this.actualSpeed >= 0) {
         const brakePower = 6;
         this.actualSpeed = this.actualSpeed % brakePower === 0
@@ -192,21 +193,21 @@ class Player {
         decelerationCurveBoost = this.actualSpeed >= 10
           ? (1.125 + (this.maxSpeed - this.actualSpeed) / this.maxSpeed)
           : 1;
-        this.camera.cursor += this.actualSpeed;
+        this.race.camera.cursor += this.actualSpeed;
       } else if (!this.inputs.multiDirection.isKeyDown('arrowUp') && this.actualSpeed > 0) {
         this.actualSpeed = this.actualSpeed % 1 === 0
           ? this.actualSpeed
           : Math.ceil(this.actualSpeed);
         this.actualSpeed = this.actualSpeed < 2 ? 0 : this.actualSpeed += -2;
-        this.camera.cursor += this.actualSpeed;
+        this.race.camera.cursor += this.actualSpeed;
         decelerationCurveBoost = this.actualSpeed >= 10
           ? (1.125 + (this.maxSpeed - this.actualSpeed) / this.maxSpeed)
           : 1;
       }
 
       // making a centrifugal force to pull the car
-      segment = this.road.getSegment(this.camera.cursor);
-      const playerPosition = (Math.floor((this.camera.cursor / this.road.segmentLength)));
+      segment = this.race.road.getSegment(this.race.camera.cursor);
+      const playerPosition = (Math.floor((this.race.camera.cursor / this.race.road.segmentLength)));
       const baseForce = 0.06;
       this.centrifugalForce = Math.abs(
         baseForce * (this.actualSpeed / this.maxSpeed) * segment.curve,
@@ -248,12 +249,12 @@ class Player {
       }
 
       this.trackPosition += this.actualSpeed;
-      const { trackSize } = window.tracks.f1Y91[this.road.trackName];
+      const { trackSize } = window.tracks.f1Y91[this.race.road.trackName];
       const actualPosition = this.trackPosition / 200;
       const actualLap = Math.floor(actualPosition / trackSize);
 
       if (this.lap < actualLap) {
-        this.raceTime.push(this.director.totalTime);
+        this.raceTime.push(this.race.director.totalTime);
         this.lap += 1;
       }
 
@@ -267,10 +268,11 @@ class Player {
       }
 
       for (let i = baseSegment; i <= minHit; i += 1) {
-        const crashSegment = this.road.getSegmentFromIndex(i);
+        const crashSegment = this.race.road.getSegmentFromIndex(i);
 
         for (let j = 0; j < crashSegment.sprites.length; j += 1) {
           const sprite = crashSegment.sprites[j];
+
           const { scale } = crashSegment;
           const ignoredSprites = ['tsStartLights'];
           const regexDrivers = /^op\w*/g;
@@ -283,36 +285,46 @@ class Player {
 
           if (overLapResponse && !ignoredSprites.includes(sprite.name)
             && (i <= baseSegment + crashLookup || (i > baseSegment && !isDriverSprite))) {
+            // console.log('sp', sprite);
             const { speed, mult } = sprite.actualSpeed;
             const differentialSpeedPercent = (this.actualSpeed - speed) / 1200;
+            console.log('name', sprite.name, 'dif', Math.abs(this.actualSpeed - speed), 'pl', this.actualSpeed, 'op', speed);
             this.actualSpeed = utils.calcCrashSpeed(this.actualSpeed, speed, mult);
             this.crashXCorrection += 600 * differentialSpeedPercent;
-            this.camera.cursor -= 800;
-            const oppIdx = this.opponents.findIndex(
+            // this.race.camera.cursor -= 800;
+            const oppIdx = this.race.opponents.findIndex(
               (driver) => driver.sprite.name === sprite.name,
             );
 
             if (oppIdx !== -1) {
-              this.opponents[oppIdx].maxSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
-              this.opponents[oppIdx].actualSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
-              this.opponents[oppIdx].isCrashed = 1;
+              this.race.opponents[oppIdx].maxSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
+              this.race.opponents[oppIdx].actualSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
+              this.race.opponents[oppIdx].isCrashed = 1;
             }
           }
         }
       }
       if (this.actualSpeed < 0) this.actualSpeed = 0;
-      this.cursor = this.camera.cursor;
-      this.camera.update();
+      // this.cursor = this.race.camera.cursor;
+      this.race.camera.update();
     }
   }
 
   draw() {
     const clip = 0;
-    const scale = 1 / this.camera.h;
-    const { midpoint: { x: midX }, height } = this.camera.screen;
+    const scale = 1 / this.race.camera.h;
+    const { midpoint: { x: midX }, height } = this.race.camera.screen;
 
-    this.render
-      .drawRaceSprite(this.sprite, this.camera, this, this.road.width, scale, midX, height, clip);
+    this.render.drawRaceSprite(
+      this.sprite,
+      this.race.camera,
+      this,
+      this.race.road.width,
+      scale,
+      midX,
+      height,
+      clip,
+    );
   }
 }
 
