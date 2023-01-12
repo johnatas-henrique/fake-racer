@@ -144,7 +144,7 @@ class OverworldEvent {
     const oldBaloon = this.map.gameObjects.conversationBaloon;
     oldBaloon.showItem = true;
     oldBaloon.x = personTalked.x;
-    oldBaloon.y = personTalked.y - 15.9;
+    oldBaloon.y = personTalked.y - 12;
     resolve();
   }
 

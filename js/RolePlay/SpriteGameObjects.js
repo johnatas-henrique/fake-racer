@@ -9,13 +9,14 @@ class SpriteGameObjects {
     this.offsetY = config.offsetY ?? -4;
     this.sizeX = config.sizeX || 1;
     this.sizeY = config.sizeY || 1;
+    this.useShadow = config.useShadow ?? true;
     this.image.onload = () => {
       this.isLoaded = true;
     };
-
+    
     // Shadow
     this.shadow = new Image();
-    this.useShadow = true;
+    
     if (this.useShadow) {
       this.shadow.src = '../assets/images/characters/shadow.png';
     }

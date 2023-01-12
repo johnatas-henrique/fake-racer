@@ -14,8 +14,9 @@ window.overworldMaps = {
       },
       conversationBaloon: {
         type: 'GameObject',
-        x: utils.withGrid(3),
-        y: utils.withGrid(4),
+        x: utils.withGrid(0),
+        y: utils.withGrid(0),
+        shadow: false,
         src: '../assets/images/ui/UI_angry_emote_16x16.png',
         sizeX: 1,
         currentAnimation: 'change-right-4',

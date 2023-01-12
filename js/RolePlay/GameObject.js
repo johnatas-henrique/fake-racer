@@ -17,6 +17,7 @@ class GameObject {
       offsetY: config.offsetY,
       sizeX: config.sizeX,
       sizeY: config.sizeY,
+      useShadow: config.shadow,
     });
 
     this.behaviorLoop = config.behaviorLoop || [];
