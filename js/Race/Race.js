@@ -1,11 +1,12 @@
+import rain from '../Animations/Rain.js';
 import utils from '../Core/utils.js';
 import Background from './Background.js';
-import Road from './Road.js';
 import Camera from './Camera.js';
+import Director from './Director.js';
 import Opponent from './Opponent.js';
 import Player from './Player.js';
-import Director from './Director.js';
-import rain from '../Animations/Rain.js';
+import Road from './Road.js';
+import Tachometer from './Tachometer.js';
 
 class Race {
   constructor(config) {
@@ -23,6 +24,7 @@ class Race {
     this.camera = null;
     this.player = null;
     this.director = null;
+    this.tachometer = null;
     this.opponents = [];
     this.raining = Math.round(Math.random() * 5) % 3 === 0;
   }
@@ -33,6 +35,7 @@ class Race {
     this.opponents.forEach((opp) => opp.update());
     this.player.update();
     this.director.update();
+    this.tachometer.update();
 
     if (this.raining) this.rain.forEach((item) => item.update());
   }
@@ -43,6 +46,7 @@ class Race {
     this.player.draw();
     if (this.raining) this.rain.forEach((item) => item.draw(this.core.render, this.player));
     this.director.draw();
+    this.tachometer.draw();
   }
 
   adjustDifficulty() {
@@ -66,6 +70,7 @@ class Race {
       this.player = new Player({ race: this });
       this.director = new Director({ race: this });
       this.background = new Background({ race: this });
+      this.tachometer = new Tachometer({ race: this });
 
       const { trackSize } = window.tracks.f1Y91[this.trackName];
 
@@ -94,6 +99,7 @@ class Race {
       this.camera.init();
       this.director.init();
       this.background.init();
+      this.tachometer.init();
       this.opponents.forEach((opp) => opp.init());
 
       this.isInitOnce = true;

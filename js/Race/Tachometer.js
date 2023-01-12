@@ -1,21 +1,32 @@
+import utils from '../Core/utils.js';
+
 class Tachometer {
-  constructor() {
+  constructor(config) {
     this.actualSpeed = 0;
+    this.race = config.race;
+    this.options = {};
   }
 
-  update(player, director) {
-    if (director.paused) {
-      this.actualSpeed = player.actualSpeed;
-      if (this.actualSpeed > 1140) {
-        this.actualSpeed = this.actualSpeed - 2 + Math.random() * 6;
-      }
+  init() {
+    this.render = this.race.core.render;
+    this.director = this.race.director;
+    this.player = this.race.player;
+    this.options = {
+      context: this.render.ctx, x: 570, y: 300, radius: 50, arcX: 50, arcY: 15,
+    };
+  }
+
+  update() {
+    if (this.director.paused) {
+      this.actualSpeed = this.player.actualSpeed;
+    }
+    if (this.actualSpeed > 1140) {
+      this.actualSpeed = this.actualSpeed - 2 + Math.random() * 6;
     }
   }
 
-  drawNeedle(options) {
-    const {
-      context, x, y, radius,
-    } = options;
+  drawNeedle() {
+    const { context, x, y, radius } = this.options;
 
     const speedAngle = utils.speedToDeg(this.actualSpeed / 4, 360, -30, 210);
     const speedRad = utils.degToRad(speedAngle);
@@ -40,11 +51,8 @@ class Tachometer {
     context.restore();
   }
 
-  static drawNeedleDial(options) {
-    const {
-      context, x, y, radius,
-    } = options;
-
+  drawNeedleDial() {
+    const { context, x, y } = this.options;
     const sColor = 'rgb(127, 127, 127)';
     const fColor = 'rgb(255,255,255)';
     for (let i = 0; i < 8; i += 1) {
@@ -61,10 +69,8 @@ class Tachometer {
     }
   }
 
-  static outerMettalicArc(options) {
-    const {
-      context, x, y, radius, arcY,
-    } = options;
+  outerMettalicArc() {
+    const { context, x, y, radius, arcY } = this.options;
     context.save();
     context.globalAlpha = 0.75;
     context.beginPath();
@@ -74,10 +80,8 @@ class Tachometer {
     context.restore();
   }
 
-  static drawMarks(options) {
-    const {
-      context, x, y, radius,
-    } = options;
+  drawMarks() {
+    const { context, x, y, radius } = this.options;
     for (let i = -30; i <= 210; i += 40) {
       const iRad = utils.degToRad(i);
       const onArcX = radius - (Math.cos(iRad) * (radius - 10));
@@ -125,8 +129,8 @@ class Tachometer {
     }
   }
 
-  static drawText(options, render) {
-    const { x, y, radius } = options;
+  drawText() {
+    const { x, y, radius } = this.options;
 
     for (let i = -30, n = 0; i <= 210; i += 40) {
       n += 1;
@@ -139,41 +143,32 @@ class Tachometer {
       const fromY = y - radius + onArcY;
 
       const speed = 10 + i + 20 * n;
-      render.drawText('#000', speed, fromX, fromY, 0.75, 'OutRiderCond', 'center', '#000', false);
+      this.render.drawText('#000', speed, fromX, fromY, 0.75, 'OutRiderCond', 'center', '#000', false);
     }
   }
 
-  static drawColorArc(options, render) {
-    const {
-      context, x, y, radius,
-    } = options;
+  drawColorArc() {
+    const { context, x, y, radius } = this.options;
     const start = utils.degToRad(149.5);
     const endGreen = utils.degToRad(291);
     const endYellow = utils.degToRad(10);
     const endRed = utils.degToRad(30.5);
     context.save();
     context.lineWidth = 3;
-    render.drawCircle(x, y, radius + 1, start, endGreen, false, 'rgb(82, 240, 55)');
-    render.drawCircle(x, y, radius + 1, endGreen, endYellow, false, 'yellow');
-    render.drawCircle(x, y, radius + 1, endYellow, endRed, false, 'red');
+    this.render.drawCircle(x, y, radius + 1, start, endGreen, false, 'rgb(82, 240, 55)');
+    this.render.drawCircle(x, y, radius + 1, endGreen, endYellow, false, 'yellow');
+    this.render.drawCircle(x, y, radius + 1, endYellow, endRed, false, 'red');
     context.restore();
   }
 
-  render(render) {
-    const { renderingContext } = render;
-    const options = {
-      context: renderingContext,
-      x: 570,
-      y: 300,
-      radius: 50,
-      arcX: 50,
-      arcY: 15,
-    };
-    Tachometer.outerMettalicArc(options);
-    Tachometer.drawMarks(options);
-    Tachometer.drawText(options, render);
-    Tachometer.drawColorArc(options, render);
-    Tachometer.drawNeedleDial(options, render);
-    this.drawNeedle(options);
+  draw() {
+    this.outerMettalicArc();
+    this.drawMarks();
+    this.drawText();
+    this.drawColorArc();
+    this.drawNeedleDial();
+    this.drawNeedle();
   }
 }
+
+export default Tachometer;
