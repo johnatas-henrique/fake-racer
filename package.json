@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js,.jsx",
     "prepare": "husky install",
     "release": "standard-version",
     "release:github": "conventional-github-releaser -p angular -t",
