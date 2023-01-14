@@ -3,7 +3,8 @@ import utils from '../Core/utils.js';
 const { width, height } = utils.htmlElements.gameCanvas();
 
 class RainDrop {
-  constructor() {
+  constructor(config) {
+    this.director = config.race.director;
     this.x = Math.random() * width;
     this.y = Math.random() * height;
     this.size = Math.random() * 0.9;
@@ -12,11 +13,13 @@ class RainDrop {
   }
 
   update() {
-    this.x += this.directionX;
-    this.y += this.directionY;
-    if (this.x > width || this.y > height) {
-      this.x = Math.random() * width;
-      this.y = -20;
+    if (this.director.paused) {
+      this.x += this.directionX;
+      this.y += this.directionY;
+      if (this.x > width || this.y > height) {
+        this.x = Math.random() * width;
+        this.y = -20;
+      }
     }
   }
 
@@ -37,10 +40,10 @@ class RainDrop {
   }
 }
 
-const rain = (rainDrops) => {
+const rain = (rainDrops, race) => {
   const arrRain = [];
   for (let i = 0; i < rainDrops; i += 1) {
-    arrRain.push(new RainDrop());
+    arrRain.push(new RainDrop({ race }));
   }
   return arrRain;
 };

@@ -90,7 +90,7 @@ class Race {
 
       if (this.raining) {
         const rainDrops = Math.random() * 1000 + 100;
-        this.rain = rain(rainDrops);
+        this.rain = rain(rainDrops, this);
         utils.htmlElements.gameCanvas().classList.add('filter');
       }
 
