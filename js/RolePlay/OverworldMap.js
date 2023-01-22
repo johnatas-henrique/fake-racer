@@ -12,53 +12,59 @@ class OverworldMap {
 
     this.cutsceneSpaces = config.cutsceneSpaces || {};
     this.walls = config.walls || {};
+    const transparentImage = '../assets/images/maps/clean.png';
 
     this.lowerImage = new Image();
-    this.lowerImage.src = config.lowerSrc || '../assets/images/maps/clean.png';
+    this.lowerImage.src = config.lowerSrc || transparentImage;
 
     this.middleImage = new Image();
-    this.middleImage.src = config.middleSrc || '../assets/images/maps/clean.png';
+    this.middleImage.src = config.middleSrc || transparentImage;
 
     this.upperImage = new Image();
-    this.upperImage.src = config.upperSrc || '../assets/images/maps/clean.png';
+    this.upperImage.src = config.upperSrc || transparentImage;
 
     this.isCutscenePlaying = false;
     this.eventHandler = null;
   }
 
   drawLowerImage(ctx, cameraPerson) {
+    const { canvasMidpoint, x, y } = cameraPerson;
     ctx.drawImage(
       this.lowerImage,
-      utils.withGrid(cameraPerson.canvasMidpoint.x / utils.pixelBase - 1) - cameraPerson.x,
-      utils.withGrid(cameraPerson.canvasMidpoint.y / utils.pixelBase - 1) - cameraPerson.y,
+      utils.withGrid(canvasMidpoint.x / utils.pixelBase - 1) - x,
+      utils.withGrid(canvasMidpoint.y / utils.pixelBase - 1) - y,
     );
   }
 
   drawMiddleImage(ctx, cameraPerson) {
+    const { canvasMidpoint, x, y } = cameraPerson;
     ctx.drawImage(
       this.middleImage,
-      utils.withGrid(cameraPerson.canvasMidpoint.x / utils.pixelBase - 1) - cameraPerson.x,
-      utils.withGrid(cameraPerson.canvasMidpoint.y / utils.pixelBase - 1) - cameraPerson.y,
+      utils.withGrid(canvasMidpoint.x / utils.pixelBase - 1) - x,
+      utils.withGrid(canvasMidpoint.y / utils.pixelBase - 1) - y,
     );
   }
 
   drawUpperImage(ctx, cameraPerson) {
+    const { canvasMidpoint, x, y } = cameraPerson;
     ctx.drawImage(
       this.upperImage,
-      utils.withGrid(cameraPerson.canvasMidpoint.x / utils.pixelBase - 1) - cameraPerson.x,
-      utils.withGrid(cameraPerson.canvasMidpoint.y / utils.pixelBase - 1) - cameraPerson.y,
+      utils.withGrid(canvasMidpoint.x / utils.pixelBase - 1) - x,
+      utils.withGrid(canvasMidpoint.y / utils.pixelBase - 1) - y,
     );
   }
 
   isSpaceTaken(currentX, currentY, direction) {
-    const { x, y } = utils.nextPosition(currentX, currentY, direction);
-    if (this.walls[`${x},${y}`]) return true;
+    const { x: nextPosX, y: nextPosY } = utils.nextPosition(currentX, currentY, direction);
+    if (this.walls[`${nextPosX},${nextPosY}`]) {
+      return true;
+    }
 
-    const result = Object.values(this.gameObjects).find((obj) => {
-      if (obj.x === x && obj.y === y) {
+    const result = Object.values(this.gameObjects).find(({ x, y, intentPosition }) => {
+      if (x === nextPosX && y === nextPosY) {
         return true;
       }
-      if (obj.intentPosition && obj.intentPosition[0] === x && obj.intentPosition[1] === y) {
+      if (intentPosition && intentPosition[0] === nextPosX && intentPosition[1] === nextPosY) {
         return true;
       }
       return false;
@@ -92,9 +98,7 @@ class OverworldMap {
     let loseRace = null;
     // Loop of async events
     for (let i = 0; i < events.length; i += 1) {
-      this.eventHandler = new OverworldEvent(
-        { event: events[i], map: this },
-      );
+      this.eventHandler = new OverworldEvent({ event: events[i], map: this });
 
       // Contrary to ESLint rule believes, I can't use a Promise.all here,
       // because I want every event to finish before the next fires.
