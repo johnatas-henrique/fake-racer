@@ -33,6 +33,7 @@ class GameObject {
     }, 100);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   update() { }
 
   async doBehaviorEvent(map) {
