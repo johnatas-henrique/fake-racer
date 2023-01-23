@@ -103,6 +103,9 @@ window.tracks = {
           min: 0, max: 0, name: '', height: 1,
         },
       ],
+      backgrounds: {
+        front: './images/sprites/background/bgRainForest.png',
+      },
     },
     monaco: {
       trackName: 'Monte Carlo',
@@ -229,6 +232,9 @@ window.tracks = {
           // min: 3250, max: 3900, name: '', height: 12500,
         },
       ],
+      backgrounds: {
+        front: './images/sprites/background/bgCity.png',
+      },
     },
     canada: {
       trackName: 'Montreal',
@@ -335,6 +341,9 @@ window.tracks = {
           min: 0, max: 0, name: '', height: 1,
         },
       ],
+      backgrounds: {
+        front: './images/sprites/background/bgRainForest.png',
+      },
     },
   },
 };
