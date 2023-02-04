@@ -26,56 +26,30 @@ class Tachometer {
     }
   }
 
-  drawNeedle() {
+  drawPointer() {
     const { context, x, y, radius } = this.options;
+    const angle = utils.rpmToDeg(this.actualSpeed / 4, 360, 180, 270);
+    const point = utils.getCirclePoint(x, y, radius - 20, angle, 0.85);
+    const point2 = utils.getCirclePoint(x, y, 2, angle + 90, 0.85);
+    const point3 = utils.getCirclePoint(x, y, 2, angle - 90, 0.85);
 
-    const speedAngle = utils.rpmToDeg(this.actualSpeed / 4, 360, 0, 90);
-    const speedRad = utils.degToRad(speedAngle);
-    const onArcX = radius - (Math.cos(speedRad) * 0);
-    const onArcY = radius - (Math.sin(speedRad) * 0);
-    const innerX = radius - (Math.cos(speedRad) * (radius * 0.7));
-    const innerY = radius - (Math.sin(speedRad) * (radius * 0.7));
-
-    const fromX = x - radius + onArcX;
-    const fromY = y - radius + onArcY;
-
-    const toX = x - radius + innerX;
-    const toY = y - radius + innerY;
-
-    context.save();
+    // draw needle
     context.beginPath();
-    context.strokeStyle = '#f00';
-    context.fillStyle = '#f00';
-    // context.lineWidth = 3;
-    // context.moveTo(fromX, fromY);
-    // context.lineTo(toX, toY);
-    context.lineWidth = 2.5;
-    context.moveTo(fromX, fromY);
-    context.lineTo(toX, toY);
-    // context.lineTo(fromX + 2, fromY + 2);
-    context.closePath();
+    context.strokeStyle = '#ff9166';
+    context.lineCap = 'round';
+    context.lineWidth = 3;
+    context.moveTo(point2.x, point2.y);
+    context.lineTo(point.x, point.y);
+    context.lineTo(point3.x, point3.y);
     context.stroke();
+    context.fillStyle = '#ff9166';
     context.fill();
-    context.restore();
-    // this.render.drawRoundRect('#2C69EB', toX, toY, 100, 100, true, 20, false);
-  }
 
-  drawNeedleDial() {
-    const { context, x, y } = this.options;
-    const sColor = 'rgb(127, 127, 127)';
-    const fColor = 'rgb(255,255,255)';
-    for (let i = 0; i < 4; i += 1) {
-      context.save();
-      context.globalAlpha = 0.6;
-      context.lineWidth = 3;
-      context.beginPath();
-      context.strokeStyle = sColor;
-      context.fillStyle = fColor;
-      context.arc(x, y, i, 15, Math.PI, true);
-      context.fill();
-      context.stroke();
-      context.restore();
-    }
+    // draw dial
+    context.beginPath();
+    context.arc(x, y, 5, 0, 2 * Math.PI, false);
+    context.fillStyle = '#000';
+    context.fill();
   }
 
   outerMettalicArc() {
@@ -177,13 +151,12 @@ class Tachometer {
     const correctedSpeed = Math.round(this.player.actualSpeed / 4);
     this.render.drawText('#ff0', this.gear, 605, 300, 1.25, 'OutRiderCond', 'center', '#660', true);
     this.render.drawText('#ff0', correctedSpeed, 605, 325, 1.75, 'OutRiderCond', 'center', '#440', true);
-    this.render.drawText('#b00', 'km/h', 605, 350, 1.25, 'OutRiderCond', 'center', '#400', true);
+    this.render.drawText('#ff4146', 'km/h', 605, 350, 1.25, 'OutRiderCond', 'center', '#400', true);
   }
 
   draw() {
     this.outerMettalicArc();
-    this.drawNeedleDial();
-    this.drawNeedle();
+    this.drawPointer();
     this.drawMarks();
     this.drawText();
     this.drawColorArc();
