@@ -5,13 +5,29 @@ class Tachometer {
     this.actualSpeed = 0;
     this.race = config.race;
     this.options = {};
+    this.gear = 'AT';
+    this.minSpeedByGear = 0;
+    this.maxSpeedByGear = 330;
+  }
+
+  gearBox() {
+    if (this.player.gearTypeAuto) {
+      this.gear = 'AT';
+      this.minSpeedByGear = 0;
+      this.maxSpeedByGear = (this.player.maxSpeed / 4) * 1.1;
+      return;
+    }
+    this.gear = this.player.gear;
+    this.minSpeedByGear = this.player.gearBox[this.gear].minSpeed / 4
+    this.maxSpeedByGear = (this.player.gearBox[this.gear].maxSpeed / 4);
+    return;
   }
 
   init() {
     this.render = this.race.core.render;
     this.director = this.race.director;
     this.player = this.race.player;
-    this.gear = 'AT';
+    this.gearBox();
     this.options = {
       context: this.render.ctx, x: 630, y: 340, radius: 90, arcX: 90, arcY: 90,
     };
@@ -20,18 +36,20 @@ class Tachometer {
   update() {
     if (this.director.paused) {
       this.actualSpeed = this.player.actualSpeed;
-      if (this.actualSpeed > 1140) {
-        this.actualSpeed = this.actualSpeed - 2 + Math.random() * 12;
+      this.gearBox();
+      this.angle = utils.rpmToDeg(this.actualSpeed / 4, this.minSpeedByGear, this.maxSpeedByGear, 180, 270);
+      if (this.angle > 261) {
+        this.angle = this.angle - 4 + Math.random() * 4;
       }
     }
   }
 
   drawPointer() {
     const { context, x, y, radius } = this.options;
-    const angle = utils.rpmToDeg(this.actualSpeed / 4, 360, 180, 270);
-    const point = utils.getCirclePoint(x, y, radius - 20, angle, 0.85);
-    const point2 = utils.getCirclePoint(x, y, 2, angle + 90, 0.85);
-    const point3 = utils.getCirclePoint(x, y, 2, angle - 90, 0.85);
+    
+    const point = utils.getCirclePoint(x, y, radius - 20, this.angle, 0.85);
+    const point2 = utils.getCirclePoint(x, y, 2, this.angle + 90, 0.85);
+    const point3 = utils.getCirclePoint(x, y, 2, this.angle - 90, 0.85);
 
     // draw needle
     context.beginPath();
@@ -115,7 +133,7 @@ class Tachometer {
   drawText() {
     const { x, y, radius } = this.options;
 
-    for (let i = 0, n = 0; i <= 90; i += 15) {
+    for (let i = 0, n = 1; i <= 90; i += 15) {
       const speed = 2 * n;
       n += 1;
 
