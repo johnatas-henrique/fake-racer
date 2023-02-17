@@ -205,6 +205,16 @@ class Player {
           : 1;
       }
 
+      // offroad deceleration
+      let segment = this.race.road.getSegment(this.race.camera.cursor);
+      const midSpd = this.maxSpeed / 2;
+      if (Math.abs(this.x) > 2.2 && segment.kerb && this.actualSpeed > midSpd) {
+        this.actualSpeed += this.accelerationAT(this.actualSpeed, -7.2);
+
+      } else if (Math.abs(this.x) > 1.6 && !segment.curve && this.actualSpeed > midSpd) {
+        this.actualSpeed += this.accelerationAT(this.actualSpeed, -7.2);
+      }
+
       // making a centrifugal force to pull the car
       segment = this.race.road.getSegment(this.race.camera.cursor);
       const playerPosition = (Math.floor((this.race.camera.cursor / this.race.road.segmentLength)));
