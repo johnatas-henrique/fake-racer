@@ -7,10 +7,6 @@ class Player {
     this.render = config.race.core.render;
     this.trackName = config.race.trackName;
     this.inputs = config.race.core.inputs;
-    // this.camera = null;
-    // this.road = null;
-    // this.director = null;
-    // this.opponents = null;
     this.x = 0;
     this.y = 0;
     this.z = 0;
@@ -26,7 +22,6 @@ class Player {
     this.lap = 0;
     this.raceTime = [0];
     this.crashXCorrection = 0;
-    // this.cursor = 0;
     this.fps = 10;
     this.deltaTime = 0;
   }
@@ -52,11 +47,6 @@ class Player {
   }
 
   init() {
-    // this.race.camera = this.race.camera;
-    // this.race.road = this.race.road;
-    // this.race.director = this.race.director;
-    // this.opponents = this.race.opponents;
-
     this.images = {};
     this.images.left = new Image();
     this.images.left.src = '../images/sprites/player/playerLeft.png';
@@ -160,14 +150,7 @@ class Player {
         this.changeXToLeft(direction * 0.10);
       }
 
-      // recover button
-      if (this.inputs.multiDirection.isKeyDown('*')) {
-        this.actualSpeed = 1196;
-      }
-
       // making playerCar moves in Y axis
-      const acceleration = (speed, mult) => ((this.maxSpeed + 300) / (speed + 300))
-        * mult * (1.5 - (speed / this.maxSpeed));
       let decelerationCurveBoost = 1;
 
       // offroad deceleration
@@ -193,26 +176,14 @@ class Player {
         decelerationCurveBoost = this.actualSpeed >= 10
           ? (1.125 + (this.maxSpeed - this.actualSpeed) / this.maxSpeed)
           : 1;
-        this.race.camera.cursor += this.actualSpeed;
       } else if (!this.inputs.multiDirection.isKeyDown('arrowUp') && this.actualSpeed > 0) {
         this.actualSpeed = this.actualSpeed % 1 === 0
           ? this.actualSpeed
           : Math.ceil(this.actualSpeed);
         this.actualSpeed = this.actualSpeed < 2 ? 0 : this.actualSpeed += -2;
-        this.race.camera.cursor += this.actualSpeed;
         decelerationCurveBoost = this.actualSpeed >= 10
           ? (1.125 + (this.maxSpeed - this.actualSpeed) / this.maxSpeed)
           : 1;
-      }
-
-      // offroad deceleration
-      let segment = this.race.road.getSegment(this.race.camera.cursor);
-      const midSpd = this.maxSpeed / 2;
-      if (Math.abs(this.x) > 2.2 && segment.kerb && this.actualSpeed > midSpd) {
-        this.actualSpeed += this.accelerationAT(this.actualSpeed, -7.2);
-
-      } else if (Math.abs(this.x) > 1.6 && !segment.curve && this.actualSpeed > midSpd) {
-        this.actualSpeed += this.accelerationAT(this.actualSpeed, -7.2);
       }
 
       // making a centrifugal force to pull the car
@@ -316,6 +287,7 @@ class Player {
       }
       if (this.actualSpeed < 0) this.actualSpeed = 0;
       // this.cursor = this.race.camera.cursor;
+      this.race.camera.cursor += this.actualSpeed;
       this.race.camera.update();
     }
   }

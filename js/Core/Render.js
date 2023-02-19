@@ -78,9 +78,9 @@ class Render {
       sheetPositionX, sheetPositionY, scaleX, scaleY,
     } = sprite;
     const destWidth = (spriteWidth * scale * midpoint.x)
-      * (((roadWidth * scaleX) / (player.width ?? 64)) * factor);
+      * (((roadWidth * scaleX) / (player.sprite.width ?? 64)) * factor);
     const destHeight = (spriteHeight * scale * midpoint.x)
-      * (((roadWidth * scaleY) / (player.width ?? 64)) * factor);
+      * (((roadWidth * scaleY) / (player.sprite.width ?? 64)) * factor);
     newDestX += -destWidth * 0.5;
     newDestY -= (destHeight * spritesInX * offsetY) / spritesInY;
     const clipHeight = clip ? Math.max(0, (newDestY + destHeight - clip)) : 0;
