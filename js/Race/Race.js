@@ -26,16 +26,22 @@ class Race {
     this.director = null;
     this.tachometer = null;
     this.opponents = [];
-    this.raining = Math.round(Math.random() * 5) % 3 === 0;
+    this.rainChance = Math.round(Math.random() * 100);
+    this.raining = this.rainChance <= 25;
   }
 
   update() {
     this.background.update();
-    this.camera.update();
-    this.opponents.forEach((opp) => opp.update());
     this.player.update();
+    this.opponents.forEach((opp) => opp.update());
+    this.camera.update();
     this.director.update();
     this.tachometer.update();
+
+    // DEV To see speed in race
+    if (!this.director.paused) {
+      // console.log(this.opponents.map(({ opponentName, maxSpeed, actualSpeed }) => ({ opponentName, maxSpeed, actualSpeed })));
+    }
 
     if (this.raining) this.rain.forEach((item) => item.update());
   }
@@ -45,8 +51,8 @@ class Race {
     this.road.draw();
     this.player.draw();
     if (this.raining) this.rain.forEach((item) => item.draw(this.core.render, this.player));
-    this.director.draw();
     this.tachometer.draw();
+    this.director.draw();
   }
 
   adjustDifficulty() {
