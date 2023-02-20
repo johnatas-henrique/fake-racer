@@ -15,7 +15,6 @@ class Player {
     this.centrifugalForce = 0;
     this.maxSpeed = 1200;
     this.actualSpeed = 0;
-    this.startPress = 0;
     this.sprite = new SpriteRace();
     this.trackPosition = 0;
     this.name = window.playerState.name;
@@ -24,14 +23,16 @@ class Player {
     this.crashXCorrection = 0;
     this.fps = 10;
     this.deltaTime = 0;
-  }
-
-  get width() {
-    return this.sprite.width;
-  }
-
-  get height() {
-    return this.sprite.height;
+    this.gearTypeAuto = 1;
+    this.gear = 1;
+    this.gearBox = {
+      1: { maxSpeed: Number(50 * 4), minSpeed: Number(0 * 4), ratio: 3.87 },
+      2: { maxSpeed: Number(120 * 4), minSpeed: Number(40 * 4), ratio: 2.23 },
+      3: { maxSpeed: Number(180 * 4), minSpeed: Number(110 * 4), ratio: 1.45 },
+      4: { maxSpeed: Number(230 * 4), minSpeed: Number(170 * 4), ratio: 1.12 },
+      5: { maxSpeed: Number(270 * 4), minSpeed: Number(220 * 4), ratio: 0.90 },
+      6: { maxSpeed: Number(300 * 4), minSpeed: Number(260 * 4), ratio: 0.71 },
+    };
   }
 
   changeXToLeft(curvePower) {
@@ -66,6 +67,7 @@ class Player {
     this.race.camera.cursor = this.trackPosition;
     this.x = (qualyPos) % 2 ? -1 : 1;
     this.actualSpeed = 0;
+    document.addEventListener('keydown', this.makeGears);
   }
 
   reforceCurvePowerLowSpeed() {
@@ -123,6 +125,35 @@ class Player {
     }
   };
 
+  accelerationAT = (speed, mult) => {
+    const accel = ((this.maxSpeed + 300) / (speed + 300)) * mult * (1.5 - (speed / this.maxSpeed));
+    const result = speed >= this.maxSpeed && accel > 0 ? 0 : accel;
+    return result;
+  };
+
+  accelerationMT = (speed) => {
+    const maxSpeed = this.gearBox[this.gear].maxSpeed + 1;
+
+    const result = ((maxSpeed - speed) * this.gearBox[this.gear].ratio) / 100;
+    return result;
+  };
+
+  acceleration = (speed, mult) => {
+    if (this.gearTypeAuto) {
+      return this.accelerationAT(speed, mult);
+    }
+    return this.accelerationMT(speed, mult);
+  };
+
+  makeGears = (e) => {
+    if (e.key === 'Shift' || e.key === 'Control') {
+      const directions = { Shift: 'up', Control: 'down' };
+
+      if (directions[e.key] === 'up' && this.gear < 6) this.gear += 1;
+      if (directions[e.key] === 'down' && this.gear > 1) this.gear -= 1;
+    }
+  };
+
   update() {
     this.deltaTime += this.race.core.deltaTime;
     if (this.deltaTime > utils.secondInMS / this.fps && this.race.director.paused) {
@@ -164,10 +195,7 @@ class Player {
 
       // acceleration and braking control
       if (this.inputs.multiDirection.isKeyDown('arrowUp')) {
-        if (this.actualSpeed === 0) this.startPress = window.performance.now();
-        this.actualSpeed = this.actualSpeed >= this.maxSpeed
-          ? this.maxSpeed : this.actualSpeed += acceleration(this.actualSpeed, 0.9);
-        this.race.camera.cursor += this.actualSpeed;
+        this.actualSpeed += this.acceleration(this.actualSpeed, 0.9);
       } else if (this.inputs.multiDirection.isKeyDown('arrowDown') && !this.inputs.multiDirection.isKeyDown('arrowUp') && this.actualSpeed >= 0) {
         const brakePower = 6;
         this.actualSpeed = this.actualSpeed % brakePower === 0
