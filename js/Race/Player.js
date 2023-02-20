@@ -125,6 +125,51 @@ class Player {
     }
   };
 
+  crash() {
+    const baseSegment = this.segment.index;
+    const crashLookup = 5;
+    const minHit = baseSegment + crashLookup;
+
+    for (let i = baseSegment; i <= minHit; i += 1) {
+      const crashSegment = this.race.road.getSegmentFromIndex(i);
+      for (let j = 0; j < crashSegment.sprites.length; j += 1) {
+        const sprite = crashSegment.sprites[j];
+        const ignoredSprites = ['tsStartLights'];
+        const isNotIgnored = !ignoredSprites.includes(sprite.name);
+        const regexDrivers = /^op\w*/g;
+        const isDriverSprite = regexDrivers.test(sprite.name);
+
+        const callerW = this.sprite.scaleX * 320 * 0.001;
+        const otherX = sprite.offsetX * 2;
+        const otherSize = (sprite.width / sprite.spritesInX);
+        const otherW = 0.05 * sprite.scaleX * otherSize * 0.001;
+        const overLapResponse = utils.overlap(this.x, callerW, otherX, otherW, 1);
+
+        if (overLapResponse && i <= minHit && isNotIgnored) {
+          const crashSpeeds = {};
+          const { speed, mult } = sprite.actualSpeed;
+          const differentialSpeedPercent = (this.actualSpeed - speed) / 1200;
+          this.crashXCorrection += 600 * differentialSpeedPercent;
+          crashSpeeds.player = this.actualSpeed;
+          this.actualSpeed = utils.calcCrashSpeed(this.actualSpeed, speed, mult);
+
+          if (isDriverSprite) {
+            const oppIdx = this.race.opponents.findIndex((op) => op.sprite.name === sprite.name);
+            crashSpeeds.opponent = this.race.opponents[oppIdx].actualSpeed;
+            crashSpeeds.newPlayer = ((crashSpeeds.player + crashSpeeds.opponent) / 2) * 0.8;
+            crashSpeeds.newOpponent = ((crashSpeeds.player + crashSpeeds.opponent) / 2) * 1.1;
+
+            this.race.opponents[oppIdx].isCrashed = 1;
+            this.race.opponents[oppIdx].maxSpeed *= (1 + Math.abs(differentialSpeedPercent / 3));
+            this.race.opponents[oppIdx].actualSpeed = crashSpeeds.newOpponent;
+            this.actualSpeed = this.actualSpeed > crashSpeeds.newPlayer
+              ? this.actualSpeed : crashSpeeds.newPlayer;
+          }
+        }
+      }
+    }
+  }
+
   accelerationAT = (speed, mult) => {
     const accel = ((this.maxSpeed + 300) / (speed + 300)) * mult * (1.5 - (speed / this.maxSpeed));
     const result = speed >= this.maxSpeed && accel > 0 ? 0 : accel;
@@ -316,7 +361,9 @@ class Player {
       if (this.actualSpeed < 0) this.actualSpeed = 0;
       // this.cursor = this.race.camera.cursor;
       this.race.camera.cursor += this.actualSpeed;
-      this.race.camera.update();
+
+      // making player crash
+      this.crash();
     }
   }
 
