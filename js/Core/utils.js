@@ -76,6 +76,7 @@ const utils = {
       }, ms);
     });
   },
+
   // RPG Functions
   withGrid: (n) => (n * 16),
   asGridCoord: (x, y) => `${x * 16},${y * 16}`,
@@ -176,59 +177,18 @@ const utils = {
     if (callerSpd - objSpd <= 120) return callerSpd - 120;
     return Math.max(callerSpd - ((callerSpd - objSpd) * 1.6), 20);
   },
-  updateOpponentsCarOffset: (car, player, director, oppArr) => {
-    const carParam = car;
-    const playerParam = player;
-    const oppArrParam = oppArr;
-    const lookAhead = 40;
-    const crash = 4;
-    const { carSegments: carSeg } = director;
-    const cSeg = (carSeg.find(({ name }) => name === carParam.opponentName));
-    const arrObjSeg = carSeg.filter(({ pos }) => pos < cSeg.pos + lookAhead && pos > cSeg.pos);
-    const objCrash = carSeg.find(({ pos }) => pos < cSeg.pos + crash && pos > cSeg.pos);
-    let dir = carParam.opponentX;
-    if (cSeg && cSeg.x <= -1.65) dir = 0.5;
-    if (cSeg && cSeg.x >= 1.65) dir = -0.5;
-    arrObjSeg.forEach((objSeg) => {
-      if (objSeg && objSeg.name !== playerParam.name) {
-        const isOverlapped = utils.overlap(cSeg.x, 0.663125, objSeg.x, 0.663125, 1);
-
-        if (isOverlapped) {
-          const changeX = 1;
-          const diffCarsX = Math.abs(objSeg.x - cSeg.x);
-
-          if (objSeg.x > 1 || (objSeg.x > 0 && diffCarsX < 0.3)) dir = -changeX;
-          if (objSeg.x < -1 || (objSeg.x < 0 && diffCarsX < 0.3)) dir = changeX;
-          if (objCrash && objCrash.name !== playerParam.name) {
-            const opp = oppArrParam.findIndex(({ opponentName }) => opponentName === objCrash.name);
-            oppArrParam[opp].actualSpeed *= 1.04;
-            carParam.actualSpeed *= 0.96;
-          }
-        }
-      }
-      if (objSeg && objSeg.name === playerParam.name && !car.isCrashed) {
-        const isOverlapped = utils.overlap(cSeg.x, 0.663125, objSeg.x, 0.8, 1.2);
-
-        if (carParam.actualSpeed > playerParam.actualSpeed && isOverlapped) {
-          const changeX = 5;
-          const diffCarsX = Math.abs(objSeg.x - cSeg.x);
-          if (objSeg.x > 0.95 || (objSeg.x > 0 && diffCarsX < 0.4)) dir = changeX * -1;
-          else if (objSeg.x < -0.95 || (objSeg.x < 0 && diffCarsX < 0.4)) dir = changeX;
-
-          if (objCrash) {
-            const x = (carParam.actualSpeed - playerParam.actualSpeed) / 2;
-            playerParam.actualSpeed += x * 1.8;
-          }
-        }
-      }
-    });
-    return dir;
-  },
   degToRad: (angle) => ((angle * Math.PI) / 180),
-  speedToDeg: (speed, maxSpeed, startAngle, finalAngle) => {
+  rpmToDeg: (actual, minSpd, maxSpd, startAngle, finalAngle) => {
     const angle = finalAngle - startAngle;
-    const ratioSpeed = speed / maxSpeed;
-    return -30 + ratioSpeed * angle;
+    const x = ((maxSpd - actual) / (maxSpd - minSpd));
+    const ratioRPM = Math.min(1, 1 - Math.min(x, 1));
+    return startAngle + (ratioRPM * angle);
+  },
+  getCirclePoint(x, y, radius, angle, correction = 1) {
+    const radian = (angle / 180) * Math.PI;
+    return {
+      x: x + radius * Math.cos(radian) * correction, y: y + radius * Math.sin(radian) * correction,
+    };
   },
   playerFPS: (speed) => (Math.min((speed / 32 + 10), 40)),
 };
