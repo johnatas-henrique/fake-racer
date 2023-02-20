@@ -6,9 +6,9 @@ class Menu {
     this.core = config.core;
     this.animations = config.animations;
     this.menuArrowKeys = new Image();
-    this.menuArrowKeys.src = '../images/sprites/other/arrowKeys.png';
+    this.menuArrowKeys.src = '/assets/images/ui/arrowKeys.png';
     this.menuEnterKey = new Image();
-    this.menuEnterKey.src = '../images/sprites/other/enterKey.png';
+    this.menuEnterKey.src = '/assets/images/ui/enterKey.png';
     this.keyPressListeners = [];
     this.isConfirmButtonPressed = false;
     this.showMenu = 0;

@@ -2,22 +2,22 @@ import utils from '../Core/utils.js';
 
 window.overworldMaps = {
   DemoRoom: {
-    lowerSrc: '../assets/images/maps/DemoLower.png',
-    upperSrc: '../assets/images/maps/DemoUpper.png',
+    lowerSrc: '../assets/images/maps/demoLower.png',
+    upperSrc: '../assets/images/maps/demoUpper.png',
     configObjects: {
       hero: {
         type: 'Person',
         isPlayerControlled: true,
         x: utils.withGrid(5),
         y: utils.withGrid(6),
-        src: '../assets/images/characters/people/hero.png',
+        src: '../assets/images/characters/hero.png',
       },
       conversationBaloon: {
         type: 'GameObject',
         x: utils.withGrid(0),
         y: utils.withGrid(0),
         shadow: false,
-        src: '../assets/images/ui/UI_angry_emote_16x16.png',
+        src: '../assets/images/ui/angryEmote.png',
         sizeX: 1,
         currentAnimation: 'change-right-4',
         showItem: false,
@@ -26,7 +26,7 @@ window.overworldMaps = {
         type: 'Person',
         x: utils.withGrid(7),
         y: utils.withGrid(9),
-        src: '../assets/images/characters/people/schoolgirl1.png',
+        src: '../assets/images/characters/schoolgirl1.png',
         behaviorLoop: [
           { type: 'stand', direction: 'right', time: 60 },
           { type: 'walk', direction: 'up' },
@@ -52,7 +52,7 @@ window.overworldMaps = {
         type: 'Person',
         x: utils.withGrid(8),
         y: utils.withGrid(5),
-        src: '../assets/images/characters/people/thug1.png',
+        src: '../assets/images/characters/thug1.png',
         behaviorLoop: [
           { type: 'stand', direction: 'left', time: 800 },
           { type: 'stand', direction: 'down', time: 3200 },
@@ -97,7 +97,7 @@ window.overworldMaps = {
         type: 'Person',
         x: utils.withGrid(2),
         y: utils.withGrid(6),
-        src: '../assets/images/characters/people/bee1.png',
+        src: '../assets/images/characters/bee1.png',
         behaviorLoop: [
           { type: 'stand', direction: 'up', time: 1100 },
           { type: 'stand', direction: 'left', time: 800 },
@@ -315,8 +315,8 @@ window.overworldMaps = {
     },
   },
   Kitchen: {
-    lowerSrc: '../assets/images/maps/KitchenLower.png',
-    upperSrc: '../assets/images/maps/KitchenUpper.png',
+    lowerSrc: '../assets/images/maps/kitchenLower.png',
+    upperSrc: '../assets/images/maps/kitchenUpper.png',
     gameObjects: {},
     configObjects: {
       hero: {
@@ -324,13 +324,13 @@ window.overworldMaps = {
         isPlayerControlled: true,
         x: utils.withGrid(3),
         y: utils.withGrid(9),
-        src: '../assets/images/characters/people/hero.png',
+        src: '../assets/images/characters/hero.png',
       },
       Carol_Kitchen: {
         type: 'Person',
         x: utils.withGrid(9),
         y: utils.withGrid(6),
-        src: '../assets/images/characters/people/woman1.png',
+        src: '../assets/images/characters/woman1.png',
         talking: [
           {
             events: [
@@ -343,7 +343,7 @@ window.overworldMaps = {
         type: 'Person',
         x: utils.withGrid(6),
         y: utils.withGrid(8),
-        src: '../assets/images/characters/people/man1.png',
+        src: '../assets/images/characters/man1.png',
         talking: [
           {
             events: [
@@ -397,8 +397,8 @@ window.overworldMaps = {
     },
   },
   PizzaShop: {
-    lowerSrc: '../assets/images/maps/PizzaShopLower.png',
-    upperSrc: '../assets/images/maps/PizzaShopUpper.png',
+    lowerSrc: '../assets/images/maps/pizzaShopLower.png',
+    upperSrc: '../assets/images/maps/pizzaShopUpper.png',
     gameObjects: {},
     configObjects: {
       hero: {
@@ -406,19 +406,19 @@ window.overworldMaps = {
         isPlayerControlled: true,
         x: utils.withGrid(5),
         y: utils.withGrid(11),
-        src: '../assets/images/characters/people/hero.png',
+        src: '../assets/images/characters/hero.png',
       },
       Carol_PizzaShop: {
         type: 'Person',
         x: utils.withGrid(4),
         y: utils.withGrid(11),
-        src: '../assets/images/characters/people/man1.png',
+        src: '../assets/images/characters/man1.png',
       },
       Bob_PizzaShop: {
         type: 'Person',
         x: utils.withGrid(9),
         y: utils.withGrid(10),
-        src: '../assets/images/characters/people/man2.png',
+        src: '../assets/images/characters/man2.png',
       },
     },
     cutsceneSpaces: {
@@ -439,7 +439,7 @@ window.overworldMaps = {
     },
   },
   TVStudio: {
-    lowerSrc: '../assets/images/maps/TVStudioLower.png',
+    lowerSrc: '../assets/images/maps/tvStudioLower.png',
     gameObjects: {},
     configObjects: {
       hero: {
@@ -447,27 +447,27 @@ window.overworldMaps = {
         isPlayerControlled: true,
         x: utils.withGrid(7),
         y: utils.withGrid(8),
-        src: '../assets/images/characters/people/hero.png',
+        src: '../assets/images/characters/hero.png',
       },
       Carol_DemoRoom: {
         type: 'Person',
         x: utils.withGrid(3),
         y: utils.withGrid(3),
-        src: '../assets/images/characters/people/man1.png',
+        src: '../assets/images/characters/man1.png',
         offsetX: 8,
       },
       Bob_DemoRoom: {
         type: 'Person',
         x: utils.withGrid(6),
         y: utils.withGrid(3),
-        src: '../assets/images/characters/people/man2.png',
+        src: '../assets/images/characters/man2.png',
         offsetX: 8,
       },
       desk: {
         type: 'GameObject',
         x: utils.withGrid(3),
         y: utils.withGrid(4),
-        src: '../assets/images/characters/objects/desk.png',
+        src: '../assets/images/characters/desk.png',
         sizeX: 5,
         offsetY: -2,
       },

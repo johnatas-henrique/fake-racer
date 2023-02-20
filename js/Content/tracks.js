@@ -1,21 +1,5 @@
 window.tracks = {
-  // straight track used in development
-  // test: {
-  //   trackSize: 6656,
-  //   laps: 78,
-  //   curves: [
 
-  //     // { min: 628, max: 6656, curveInclination: 1 },
-  //   ],
-  //   hills: [
-  //     { initialSegment: 665, size: 0, altimetry: 0 },
-  //   ],
-  //   tunnels: [
-  //     {
-  //       min: 0, max: 0, name: '', height: 12500,
-  //     },
-  //   ],
-  // },
   f1Y91: {
     brasil: {
       trackName: 'Interlagos',
@@ -103,8 +87,18 @@ window.tracks = {
           min: 0, max: 0, name: '', height: 1,
         },
       ],
+      figures: [
+        {
+          offsetX: 2,
+          scaleX: 72,
+          scaleY: 72,
+          imageSrc: '/assets/images/trackside/billboardSega.png',
+          name: 'billboardSega',
+          // segments: [8164, 8268, 8372],
+        },
+      ],
       backgrounds: {
-        front: './images/sprites/background/bgRainForest.png',
+        front: '/assets/images/background/rainForest.png',
       },
     },
     monaco: {
@@ -232,8 +226,18 @@ window.tracks = {
           // min: 3250, max: 3900, name: '', height: 12500,
         },
       ],
+      figures: [
+        {
+          offsetX: 2,
+          scaleX: 72,
+          scaleY: 72,
+          imageSrc: '/assets/images/trackside/billboardSega.png',
+          name: 'billboardSega',
+          // segments: [8164, 8268, 8372],
+        },
+      ],
       backgrounds: {
-        front: './images/sprites/background/bgCity.png',
+        front: '/assets/images/background/cityHouses.png',
       },
     },
     canada: {
@@ -341,9 +345,63 @@ window.tracks = {
           min: 0, max: 0, name: '', height: 1,
         },
       ],
+      figures: [
+        {
+          offsetX: 4,
+          scaleX: 72,
+          scaleY: 72,
+          imageSrc: '/assets/images/trackside/billboardSega.png',
+          name: 'billboardSega',
+          // segments: [8164, 8268, 8372],
+        },
+      ],
       backgrounds: {
-        front: './images/sprites/background/bgRainForest.png',
+        front: '/assets/images/background/cityWinter.png',
       },
     },
+    // straight track used in development
+    // test: {
+    //   trackSize: 1300,
+    //   laps: 78,
+    //   colors: {
+    //     lightRoad: '#424142',
+    //     darkRoad: '#393839',
+    //     lightGrass: '#008800',
+    //     darkGrass: '#006600',
+    //     lightKerb: '#ffffff',
+    //     darkKerb: '#ff0000',
+    //     lightTunnel: '#0000ff',
+    //     darkTunnel: '#00008b',
+    //     frontTunnel: '#606060',
+    //     lightStripe: '#ffffff00',
+    //     darkStripe: '#ffffff',
+    //   },
+    //   curves: [
+    //   // { min: 628, max: 6656, curveInclination: 1 },
+    //   ],
+    //   hills: [
+    //     { initialSegment: 665, size: 0, altimetry: 0 },
+    //   ],
+    //   tunnels: [
+    //     {
+    //       min: 0, max: 0, name: '', height: 1,
+    //       // disabling tunnel because of CPU utilization
+    //       // min: 3250, max: 3900, name: '', height: 12500,
+    //     },
+    //   ],
+    //   figures: [
+    //     {
+    //       offsetX: 2,
+    //       scaleX: 72,
+    //       scaleY: 72,
+    //       imageSrc: '/assets/images/trackside/billboardSega.png',
+    //       name: 'billboardSega',
+    //       // segments: [8164, 8268, 8372],
+    //     },
+    //   ],
+    //   backgrounds: {
+    //     front: '/assets/images/background/cityHouses.png',
+    //   },
+    // },
   },
 };

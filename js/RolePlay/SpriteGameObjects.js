@@ -13,10 +13,10 @@ class SpriteGameObjects {
     this.image.onload = () => {
       this.isLoaded = true;
     };
-    
+
     // Shadow
     this.shadow = new Image();
-    
+
     if (this.useShadow) {
       this.shadow.src = '../assets/images/characters/shadow.png';
     }

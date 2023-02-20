@@ -86,9 +86,9 @@ class Director {
 
   createLights() {
     this.images.startLights = new Image();
-    this.images.startLights.src = '../images/sprites/other/startLights.png';
+    this.images.startLights.src = '/assets/images/trackside/startLights.png';
     this.images.startLightsBar = new Image();
-    this.images.startLightsBar.src = '../images/sprites/other/startLightsBar.png';
+    this.images.startLightsBar.src = '/assets/images/trackside/startLightsBar.png';
     const segmentLineFirst = this.road.getSegmentFromIndex(0);
     const actualTrack = window.tracks.f1Y91[this.trackName];
     const segmentLineTen = this.road.getSegmentFromIndex(actualTrack.trackSize - 240);

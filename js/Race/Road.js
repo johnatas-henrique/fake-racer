@@ -104,18 +104,19 @@ class Road {
 
       // Road Sprites
       // signalDirections
-      const { curve: curvePower, kerb } = this.getSegmentFromIndex(i);
-      if (i % (k * 2) === 0 && Math.abs(curvePower) > 1 && kerb) {
-        const curveSignal = new SpriteRace();
-        curveSignal.offsetX = curvePower > 0 ? -1.5 : 1.5;
-        curveSignal.scaleX = 72;
-        curveSignal.scaleY = 72;
-        curveSignal.image = new Image();
-        const leftSignal = '../images/sprites/other/leftSignal.png';
-        const rightSignal = '../images/sprites/other/rightSignal.png';
-        curveSignal.image.src = curvePower > 0 ? leftSignal : rightSignal;
-        curveSignal.name = 'tsCurveSignal';
-        segmentLine.sprites.push(curveSignal);
+      if (i % (this.k * 2) === 0 && Math.abs(curvePower) > 1 && kerb) {
+        if (curvePower > 0) {
+          const newSprite = new SpriteRace({
+            offsetX: -1.5, scaleX: 72, scaleY: 72, imageSrc: '../assets/images/trackside/leftSignal.png', name: 'tsCurveSignal',
+          });
+          segmentLine.sprites.push(newSprite);
+        }
+        if (curvePower < 0) {
+          const newSprite = new SpriteRace({
+            offsetX: 1.5, scaleX: 72, scaleY: 72, imageSrc: '../assets/images/trackside/rightSignal.png', name: 'tsCurveSignal',
+          });
+          segmentLine.sprites.push(newSprite);
+        }
       }
     }
 

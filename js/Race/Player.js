@@ -49,9 +49,9 @@ class Player {
   init() {
     this.images = {};
     this.images.left = new Image();
-    this.images.left.src = '../images/sprites/player/playerLeft.png';
+    this.images.left.src = '/assets/images/cars/f1BluePlayerLeft.png';
     this.images.right = new Image();
-    this.images.right.src = '../images/sprites/player/playerRight.png';
+    this.images.right.src = '/assets/images/cars/f1BluePlayerRight.png';
     this.sprite.image = this.images.right;
     this.sprite.name = 'Player';
     this.sprite.spritesInX = 6;
@@ -100,7 +100,7 @@ class Player {
     const { arrowleft, arrowright } = this.inputs.multiDirection.map;
     const { sprite } = this;
     const actualImage = this.sprite.image;
-    const actualArrow = actualImage.src.match(/player\w+/g, '')[0].slice(6);
+    const actualArrow = actualImage.src.match(/Player\w+/g, '')[0].slice(6);
     const keyPress = this.findDirection();
 
     if ((!arrowleft && !arrowright) && sprite.sheetPositionX >= 0) {

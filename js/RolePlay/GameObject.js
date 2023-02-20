@@ -11,7 +11,7 @@ class GameObject {
     this.showItem = config.showItem ?? true;
     this.sprite = new SpriteGameObjects({
       gameObject: this,
-      src: config.src || '../assets/images/characters/people/santa.png',
+      src: config.src || '../assets/images/characters/santa.png',
       currentAnimation: config.currentAnimation || null,
       offsetX: config.offsetX,
       offsetY: config.offsetY,

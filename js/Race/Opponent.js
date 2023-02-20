@@ -9,8 +9,16 @@ class Opponent {
     this.startPos = config.startPos || -1;
     this.opponentName = config.opponentName || 'Desconhecido';
     this.carColor = config.carColor ?? 'random';
-    this.image = config.image || '../images/sprites/other/f1Y91Opponents.png';
-    this.sprite = new SpriteRace();
+    this.image = config.image || '/assets/images/cars/f1Y91Opponents.png';
+    this.sprite = new SpriteRace({
+      offsetX: 0.5 * this.startPos,
+      scaleX: 2,
+      scaleY: 2,
+      spritesInX: 8,
+      spritesInY: 1,
+      imageSrc: this.image,
+      name: `op${this.opponentName}`,
+    });
     this.actualSpeed = 0;
     this.scale = 0;
     this.opponentX = 1;

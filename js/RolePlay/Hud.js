@@ -60,7 +60,7 @@ class Hud {
           <rect x=0 y=1 width="0%" height="50%" fill="#ffc934" />
         </svg>
         <p class="Hud_status"></p>
-        <img class="Hud_money_img" src="assets/images/ui/coin-plate.png">
+        <img class="Hud_money_img" src="assets/images/ui/coinPlate.png">
         <span class="Hud_money">0</span>
       `);
     this.update();

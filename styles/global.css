@@ -149,7 +149,7 @@ html, body {
 }
 
 .pause-btn {
-  background: url(../images/sprites/other/pause-play.png);
+  background: url(/assets/images/ui/pausePlay.png);
   background-size: 200%;
   margin-right: 0.2vw;
 }
@@ -159,13 +159,13 @@ html, body {
 }
 
 .fullscreen-btn {
-  background: url(../images/sprites/other/fullscreen.png);
+  background: url(/assets/images/ui/fullScreen.png);
   background-size: cover;
   margin-right: 0.2vw;
 }
 
 .mute-btn {
-  background: url(../images/sprites/other/mute.png);
+  background: url(/assets/images/ui/mute.png);
   background-size: cover;
   cursor: pointer;
   display: block;

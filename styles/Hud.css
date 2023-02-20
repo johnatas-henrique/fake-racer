@@ -1,7 +1,7 @@
 .Hud {
   width: 24vw;
   height: 6.25vw;
-  background: url("../assets/images/ui/combatant-plate.png") no-repeat;
+  background: url("/assets/images/ui/combatantPlate.png") no-repeat;
   background-size: cover;
   position: absolute;
   left: 0.6vw;

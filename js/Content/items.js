@@ -8,7 +8,7 @@ window.gameContent.items = [
   {
     actionId: 'bike',
     action: 'history',
-    image: 'moto-z900.png',
+    image: 'motoZ900.png',
     name: 'Kawasaki Ninja Z900',
     details: 'Moto das entregas. <br><br> Ou dos rolês da vida...',
   },
