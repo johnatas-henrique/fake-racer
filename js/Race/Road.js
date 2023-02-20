@@ -14,6 +14,7 @@ class Road {
     this.width = 2000;
     this.camera = null;
     this.player = null;
+    this.actualTrack = window.tracks.f1Y91[this.trackName];
   }
 
   get segmentsLength() {
@@ -37,9 +38,7 @@ class Road {
     this.player = this.race.player;
 
     this.segments = [];
-    const { k } = this;
-    const actualTrack = window.tracks.f1Y91[this.trackName];
-    const { trackSize, colors } = actualTrack;
+    const { trackSize, colors } = this.actualTrack;
     for (let i = 0; i < trackSize; i += 1) {
       const lightestColors = {
         road: colors.lightRoad,
@@ -73,10 +72,10 @@ class Road {
       const segmentLine = new SegmentLine();
       segmentLine.index = i;
 
-      if (Math.floor(i / k) % 4 === 0) segmentLine.colors = lightestColors;
-      if (Math.floor(i / k) % 4 === 1) segmentLine.colors = darkestColors;
-      if (Math.floor(i / k) % 4 === 2) segmentLine.colors = lightColors;
-      if (Math.floor(i / k) % 4 === 3) segmentLine.colors = darkColors;
+      if (Math.floor(i / this.k) % 4 === 0) segmentLine.colors = lightestColors;
+      if (Math.floor(i / this.k) % 4 === 1) segmentLine.colors = darkestColors;
+      if (Math.floor(i / this.k) % 4 === 2) segmentLine.colors = lightColors;
+      if (Math.floor(i / this.k) % 4 === 3) segmentLine.colors = darkColors;
 
       if (i <= 11) {
         segmentLine.colors.road = '#fff';
@@ -99,10 +98,31 @@ class Road {
           segmentLine.kerb = kerb;
         }
       };
-      actualTrack.curves
-        .forEach((curve) => createCurve(curve.min, curve.max, curve.curveInclination, curve.kerb));
+      this.actualTrack.curves.forEach(
+        (curve) => createCurve(curve.min, curve.max, curve.curveInclination, curve.kerb),
+      );
 
       // Road Sprites
+      const { curve: curvePower, kerb } = this.getSegmentFromIndex(i);
+      this.actualTrack.figures.forEach((sprite) => {
+        // if (sprite.segments.includes(i)) {
+        if (i % (this.k * 2) === 0 && i % (this.k * 4) !== 0 && !kerb) {
+          segmentLine.sprites.push(new SpriteRace({ ...sprite, offsetX: sprite.offsetX * -1 }));
+          return;
+        }
+        if (i % (this.k * 4) === 0 && !kerb) {
+          segmentLine.sprites.push(new SpriteRace(sprite));
+        }
+      });
+      // if (i % (this.k * 8) === 0 && !kerb) {
+      //   const newSprite = new SpriteRace({
+      //     offsetX: -2.5,
+      // scaleX: 72,
+      // scaleY: 72, imageSrc: '/assets/images/trackside/billboardSega.png', name: 'billboardSega',
+      //   });
+      //   segmentLine.sprites.push(newSprite);
+      // }
+
       // signalDirections
       if (i % (this.k * 2) === 0 && Math.abs(curvePower) > 1 && kerb) {
         if (curvePower > 0) {
@@ -142,7 +162,7 @@ class Road {
           counterAngle += 0.5;
         }
 
-        const tunnelInfo = actualTrack.tunnels[0];
+        const tunnelInfo = this.actualTrack.tunnels[0];
         // tunnels
         if (i >= tunnelInfo.min && i <= tunnelInfo.max) {
           if (i === tunnelInfo.min) {
@@ -153,7 +173,7 @@ class Road {
             baseSegment.tunnel = tunnel;
             baseSegment.colors.tunnel = colors.frontTunnel;
             tunnel.title = tunnelInfo.name;
-          } else if (i % (k * 1) === 0) {
+          } else if (i % (this.k * 1) === 0) {
             const tunnel = new Tunnel();
             tunnel.worldH = tunnelInfo.height;
             tunnel.previousSegment = previousSegment;
@@ -163,12 +183,12 @@ class Road {
         }
       }
 
-      if (actualTrack.hills[position + 1]) {
-        const { initialSegment, size, altimetry } = actualTrack.hills[position + 1];
+      if (this.actualTrack.hills[position + 1]) {
+        const { initialSegment, size, altimetry } = this.actualTrack.hills[position + 1];
         createHills(finalSegment, initialSegment, size, altimetry, position + 1);
       }
     };
-    const { initialSegment, size, altimetry } = actualTrack.hills[0];
+    const { initialSegment, size, altimetry } = this.actualTrack.hills[0];
     createHills(1, initialSegment, size, altimetry, 0);
   }
 
