@@ -6,21 +6,20 @@ class Tachometer {
     this.race = config.race;
     this.options = {};
     this.gear = 'AT';
-    this.minSpeedByGear = 0;
-    this.maxSpeedByGear = 330;
+    this.minGearSpd = 0;
+    this.maxGearSpd = 300;
   }
 
   gearBox() {
     if (this.player.gearTypeAuto) {
       this.gear = 'AT';
-      this.minSpeedByGear = 0;
-      this.maxSpeedByGear = (this.player.maxSpeed / 4) * 1.1;
+      this.minGearSpd = 0;
+      this.maxGearSpd = (this.player.maxSpeed / 4);
       return;
     }
     this.gear = this.player.gear;
-    this.minSpeedByGear = this.player.gearBox[this.gear].minSpeed / 4
-    this.maxSpeedByGear = (this.player.gearBox[this.gear].maxSpeed / 4);
-    return;
+    this.minGearSpd = this.player.gearBox[this.gear].minSpeed / 4;
+    this.maxGearSpd = (this.player.gearBox[this.gear].maxSpeed / 4);
   }
 
   init() {
@@ -37,16 +36,13 @@ class Tachometer {
     if (this.director.paused) {
       this.actualSpeed = this.player.actualSpeed;
       this.gearBox();
-      this.angle = utils.rpmToDeg(this.actualSpeed / 4, this.minSpeedByGear, this.maxSpeedByGear, 180, 270);
-      if (this.angle > 261) {
-        this.angle = this.angle - 4 + Math.random() * 4;
-      }
+      this.angle = utils.rpmToDeg(this.actualSpeed / 4, this.minGearSpd, this.maxGearSpd, 180, 270);
+      if (this.angle > 264) this.angle = this.angle - 4 + Math.random() * 4;
     }
   }
 
   drawPointer() {
     const { context, x, y, radius } = this.options;
-    
     const point = utils.getCirclePoint(x, y, radius - 20, this.angle, 0.85);
     const point2 = utils.getCirclePoint(x, y, 2, this.angle + 90, 0.85);
     const point3 = utils.getCirclePoint(x, y, 2, this.angle - 90, 0.85);
@@ -132,8 +128,7 @@ class Tachometer {
 
   drawText() {
     const { x, y, radius } = this.options;
-
-    for (let i = 0, n = 1; i <= 90; i += 15) {
+    for (let i = 0, n = 3; i <= 90; i += 15) {
       const speed = 2 * n;
       n += 1;
 
