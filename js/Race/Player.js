@@ -144,7 +144,8 @@ class Player {
         const callerW = this.sprite.scaleX * 320 * 0.001;
         const otherX = sprite.offsetX * 2;
         const otherSize = (sprite.width / sprite.spritesInX);
-        const otherW = 0.05 * sprite.scaleX * otherSize * 0.001;
+        const constantW = sprite.scaleX * otherSize * 0.001;
+        const otherW = isDriverSprite ? 0.5 * constantW : 0.05 * constantW;
         const overLapResponse = utils.overlap(this.x, callerW, otherX, otherW, 1);
 
         if (overLapResponse && i <= minHit && isNotIgnored) {
@@ -200,9 +201,10 @@ class Player {
 
   offroadBraking() {
     const midSpd = this.maxSpeed / 2;
-    if (Math.abs(this.x) > 2.2 && this.segment.kerb && this.actualSpeed > midSpd) {
+    const player = 0.16 * this.sprite.scaleX;
+    if (Math.abs(this.x) > 2.6 - player && this.segment.kerb && this.actualSpeed > midSpd) {
       this.actualSpeed += this.accelerationAT(this.actualSpeed, -7.2);
-    } else if (Math.abs(this.x) > 1.6 && !this.segment.kerb && this.actualSpeed > midSpd) {
+    } else if (Math.abs(this.x) > 2 - player && !this.segment.kerb && this.actualSpeed > midSpd) {
       this.actualSpeed += this.accelerationAT(this.actualSpeed, -7.2);
     }
   }

@@ -36,8 +36,8 @@ class Opponent {
   * carSpeedCorrection() {
     while (this.maxSpeed >= this.baseSpeed) {
       this.maxSpeed -= 0.2;
-      if (this.maxSpeed > this.baseSpeed * 1.6 || this.maxSpeed > 1260) {
-        this.maxSpeed = Math.min(this.baseSpeed * 1.6, 1260);
+      if (this.maxSpeed > this.baseSpeed * 1.2 || this.maxSpeed > 1260) {
+        this.maxSpeed = Math.min(this.baseSpeed * 1.2, 1260);
       }
       yield this.maxSpeed;
     }
@@ -127,7 +127,7 @@ class Opponent {
 
       this.sprite.offsetX += 0.008 * this.opponentX;
       this.trackPosition += this.actualSpeed;
-      this.isCrashed = this.isCrashed > 0 ? this.isCrashed -= 0.01 : 0;
+      this.isCrashed = this.isCrashed > 0 ? this.isCrashed -= 0.1 : 0;
 
       const actualSegment = this.race.road.getSegment(Math.round(this.trackPosition));
       oldSegment.sprites = oldSegment.sprites.filter(({ name }) => name !== this.sprite.name);
