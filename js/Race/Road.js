@@ -1,3 +1,4 @@
+import utils from '../Core/utils.js';
 import SegmentLine from './SegmentLine.js';
 import SpriteRace from './SpriteRace.js';
 import Tunnel from './Tunnel.js';
@@ -250,22 +251,26 @@ class Road {
         // center strip and lateral stripes
         if (stripe) {
           // left stripe
-          this.render
-            .drawPolygon(stripe, pX + pW * -0.97, pY, pX + pW * -0.94, pY, cX + cW * -0.94, cY, cX + cW * -0.97, cY);
-
-          this.render
-            .drawPolygon(stripe, pX + pW * -0.91, pY, pX + pW * -0.88, pY, cX + cW * -0.88, cY, cX + cW * -0.91, cY);
+          const sLft1 = utils.calcCoords(pX, pW, cX, cW, -0.97, -0.94);
+          const sLft2 = utils.calcCoords(pX, pW, cX, cW, -0.91, -0.88);
+          this.render.drawPolygon(stripe, sLft1.a, pY, sLft1.b, pY, sLft1.c, cY, sLft1.d, cY);
+          this.render.drawPolygon(stripe, sLft2.a, pY, sLft2.b, pY, sLft2.c, cY, sLft2.d, cY);
 
           // right stripe
-          this.render
-            .drawPolygon(stripe, pX + pW * 0.97, pY, pX + pW * 0.94, pY, cX + cW * 0.94, cY, cX + cW * 0.97, cY);
+          const sRgt1 = utils.calcCoords(pX, pW, cX, cW, 0.97, 0.94);
+          const sRgt2 = utils.calcCoords(pX, pW, cX, cW, 0.91, 0.88);
+          this.render.drawPolygon(stripe, sRgt1.a, pY, sRgt1.b, pY, sRgt1.c, cY, sRgt1.d, cY);
+          this.render.drawPolygon(stripe, sRgt2.a, pY, sRgt2.b, pY, sRgt2.c, cY, sRgt2.d, cY);
 
-          this.render
-            .drawPolygon(stripe, pX + pW * 0.91, pY, pX + pW * 0.88, pY, cX + cW * 0.88, cY, cX + cW * 0.91, cY);
+          // section stripe
+          const sSct1 = utils.calcCoords(pX, pW, cX, cW, -0.32, -0.34);
+          const sSct2 = utils.calcCoords(pX, pW, cX, cW, 0.32, 0.34);
+          this.render.drawPolygon(stripe, sSct1.a, pY, sSct1.b, pY, sSct1.c, cY, sSct1.d, cY);
+          this.render.drawPolygon(stripe, sSct2.a, pY, sSct2.b, pY, sSct2.c, cY, sSct2.d, cY);
 
           // center stripe
-          const value = 0.02;
-          this.render.drawTrapezium(pX, pY, pW * value, cX, cY, cW * value, stripe);
+          // const value = 0.02;
+          // this.render.drawTrapezium(pX, pY, pW * value, cX, cY, cW * value, stripe);
         }
 
         // checkered road

@@ -123,7 +123,7 @@ const utils = {
     changeStatus: (type, value) => {
       window.playerState[`update${type.charAt(0).toUpperCase() + type.slice(1)}`](value);
     },
-    nothing: () => {},
+    nothing: () => { },
     history: () => { console.error('criar função para uso'); },
   },
 
@@ -191,6 +191,14 @@ const utils = {
     };
   },
   playerFPS: (speed) => (Math.min((speed / 32 + 10), 40)),
+  calcCoords(pX, pW, cX, cW, pointA, pointB) {
+    return {
+      a: pX + pW * pointA,
+      b: pX + pW * pointB,
+      c: cX + cW * pointB,
+      d: cX + cW * pointA,
+    };
+  },
 };
 
 export default utils;
