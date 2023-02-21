@@ -51,8 +51,9 @@ class Background {
     const clip = 0;
     const scale = 1 / this.race.camera.h;
     this.arrLayers.forEach((item) => {
-      this[item].scaleX = 9;
-      this[item].scaleY = 9;
+      // camera.y * 0.06 does the job here using 1280x240 images
+      this[item].scaleX = 5.25;
+      this[item].scaleY = 5.25;
       const positionW = this.race.camera.screen.midpoint.x * 2 * this[`${item}Offset`];
       const correctedWidth = this.race.player.sprite.width / 64;
       const scaledRight = scale * 0.05 * correctedWidth;

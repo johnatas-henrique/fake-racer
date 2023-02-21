@@ -60,8 +60,8 @@ class Player {
     this.sprite.spritesInX = 6;
     this.sprite.spritesInY = 2;
     this.sprite.sheetPositionY = 1;
-    this.sprite.scaleX = 2.5;
-    this.sprite.scaleY = 3;
+    this.sprite.scaleX = 2;
+    this.sprite.scaleY = 2.2;
 
     const { trackSize } = window.tracks.f1Y91[this.race.trackName];
     const qualyPos = Number(this.race.oppNumber) + 1;

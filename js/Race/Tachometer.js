@@ -69,7 +69,7 @@ class Tachometer {
   outerMettalicArc() {
     const { context, x, y, radius, arcY } = this.options;
     context.save();
-    context.globalAlpha = 0.85;
+    context.globalAlpha = 0.75;
     context.beginPath();
     context.fillStyle = 'rgb(33,33,33)';
     context.arc(x, y, radius, arcY, Math.PI, true);

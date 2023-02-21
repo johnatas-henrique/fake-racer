@@ -6,7 +6,7 @@ class Camera {
     this.road = config.race.road;
     this.director = config.race.director;
     this.x = 0;
-    this.y = 1500;
+    this.y = 875;
     this.z = 0;
     this.h = this.y;
     this.cursor = 0;
