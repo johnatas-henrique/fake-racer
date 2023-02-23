@@ -25,6 +25,7 @@ class Menu {
       track: 'Circuito: ',
       opponents: 'Oponentes: ',
       difficulty: 'Dificuldade: ',
+      controls: 'Controle:',
       isMusicActive: 'Música: ',
       musicVolume: 'Volume da música: ',
       isRPGOn: 'Iniciar modo',
@@ -35,6 +36,7 @@ class Menu {
       track: Object.keys(window.tracks.f1Y91),
       opponents: ['1', '3', '5', '7', '9', '11', '13', '15', '17', '19'],
       difficulty: ['novato', 'corredor', 'campeão'],
+      controls: ['teclado', 'touch', 'acelerômetro'],
       isMusicActive: ['não', 'sim'],
       musicVolume: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
       isRPGOn: ['história'],
@@ -45,10 +47,11 @@ class Menu {
       1: 'track',
       2: 'opponents',
       3: 'difficulty',
-      4: 'isMusicActive',
-      5: 'musicVolume',
-      6: 'isRPGOn',
-      7: 'isRPGOnSave',
+      4: 'controls',
+      5: 'isMusicActive',
+      6: 'musicVolume',
+      7: 'isRPGOn',
+      8: 'isRPGOnSave',
     };
   }
 
@@ -71,12 +74,19 @@ class Menu {
 
   init() {
     if (window.gameState.mode === 'menuScene') {
+      this.core.inputs.buttons.space.classList.add('hidden');
+      this.core.inputs.buttons.enter.classList.remove('hidden');
+      this.core.inputs.buttons.left.classList.remove('hidden');
+      this.core.inputs.buttons.right.classList.remove('hidden');
+      this.core.inputs.buttons.axisY.classList.remove('accelerometer-controls');
+
       this.hideSaveFunction();
       utils.resolutionChanger(this.core);
       utils.classRemover('gameCanvas', 'filter');
       utils.classToggler('pauseBtn', 'hidden');
       utils.classToggler('muteBtn', 'hidden');
 
+      utils.keyUnbinder('Enter', this.core);
       this.core.inputs.keyPressListeners.push(
         new KeyPressListener('Enter', () => this.acceptOption()),
       );
@@ -87,11 +97,13 @@ class Menu {
   enterSingleRaceScene() {
     utils.keyUnbinder('Enter', this.core);
     utils.changeMode('singleRaceScene', this.core);
+    this.showMenu = 0;
   }
 
   enterRPGScene() {
     utils.keyUnbinder('Enter', this.core);
     utils.changeMode('RPGScene', this.core);
+    this.showMenu = 0;
   }
 
   static musicControl() {
@@ -163,25 +175,25 @@ class Menu {
       if (this.menuY > 0 && this.directionPressed() === 'left') this.menuY -= 1;
       else if (this.menuY === 0 && this.directionPressed() === 'left') this.menuY = maxY;
 
-      const inconfirmableOptions = Object.keys(this.menu).length - 2;
+      const firstConfirmableOption = Object.keys(this.menuOptions).length - 2;
 
       if (this.isConfirmButtonPressed && this.menuX === 0) {
         this.isConfirmButtonPressed = false;
         this.enterSingleRaceScene();
       }
 
-      if (this.isConfirmButtonPressed && this.menuX === 6) {
+      if (this.isConfirmButtonPressed && this.menuX === firstConfirmableOption) {
         this.isConfirmButtonPressed = false;
         this.enterRPGScene();
       }
 
-      if (this.isConfirmButtonPressed && this.menuX === 7) {
+      if (this.isConfirmButtonPressed && this.menuX === firstConfirmableOption + 1) {
         this.isConfirmButtonPressed = false;
         this.core.overworld.progress.load();
         this.enterRPGScene();
       }
 
-      if (this.menuX < inconfirmableOptions) {
+      if (this.menuX < firstConfirmableOption) {
         const changeOption = this.menu[this.menuOptions[this.menuX]][this.menuY];
         menuSelectedOptions[this.menuOptions[this.menuX]] = changeOption;
         this.isConfirmButtonPressed = false;

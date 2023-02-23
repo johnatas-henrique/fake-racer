@@ -79,6 +79,15 @@ class Core {
     this.inputs.oneDirection.init();
     this.inputs.multiDirection = new MultiDirectionInput();
     this.inputs.multiDirection.init();
+    this.inputs.buttons = {
+      left: document.querySelector('[name=arrowleft]'),
+      right: document.querySelector('[name=arrowright]'),
+      up: document.querySelector('[name=arrowup]'),
+      down: document.querySelector('[name=arrowdown]'),
+      space: document.querySelector('[name=Space]'),
+      enter: document.querySelector('[name=Enter]'),
+      axisY: document.querySelector('.right-controls'),
+    };
 
     this.stats = new Stats();
     utils.htmlElements.fps().appendChild(this.stats.dom);

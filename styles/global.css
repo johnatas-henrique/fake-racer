@@ -73,12 +73,19 @@ html, body {
   color: black;
   position: absolute;
   width: 100%;
+  flex-wrap: wrap;
   list-style-type: none;
   font-weight: 700;
   font-size: 2vw;
   text-align: justify;
   z-index: 2;
   user-select: none;
+}
+
+.fullscreen-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 #info {
@@ -130,6 +137,17 @@ html, body {
   filter: brightness(75%);
 }
 
+.left-controls, .center-controls, .right-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.accelerometer-controls {
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: row-reverse;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .touch-controls {
     display: none;
@@ -145,7 +163,7 @@ html, body {
   border: 0;
   cursor: pointer;
   height: 3vw;
-  width: 3vw;
+  width: 3.1vw;
 }
 
 .pause-btn {
@@ -175,6 +193,10 @@ html, body {
 
 .mute-btn.off {
   background-position: 3vw 0;
+}
+
+.arrowfont {
+  font-family: Arrows, Verdana, Geneva, sans-serif;
 }
 
 .hidden {

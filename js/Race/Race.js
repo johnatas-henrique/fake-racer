@@ -19,6 +19,7 @@ class Race {
     this.difficulty = config.rpgRace?.difficulty || window.gameState.menuSelectedOptions.difficulty;
     this.raceScene = config.rpgRace?.raceScene || null;
     this.winCondition = config.rpgRace?.winCondition || null;
+    this.controlType = window.gameState.menuSelectedOptions.controls;
     this.eventRPG = config.eventRPG;
     this.road = null;
     this.camera = null;
@@ -68,8 +69,12 @@ class Race {
       utils.resolutionChanger(this.core);
       utils.classRemover('pauseBtn', 'hidden');
       utils.classRemover('muteBtn', 'hidden');
-      const okBtn = document.querySelector('.right-controls').firstElementChild;
-      okBtn.classList.toggle('hidden');
+      if (this.controlType === 'acelerômetro') {
+        this.core.inputs.buttons.left.classList.add('hidden');
+        this.core.inputs.buttons.right.classList.add('hidden');
+        this.core.inputs.buttons.axisY.classList.add('accelerometer-controls');
+      }
+      this.core.inputs.buttons.enter.classList.add('hidden');
 
       this.road = new Road({ race: this });
       this.camera = new Camera({ race: this });

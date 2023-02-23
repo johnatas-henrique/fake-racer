@@ -44,11 +44,13 @@ const utils = {
   },
   keyUnbinder: (keyToUnbind, coreClass) => {
     const callback = ({ keyCode }) => keyCode === keyToUnbind;
-    coreClass.inputs.keyPressListeners.find(callback)?.unbind();
-    const index = coreClass.inputs.keyPressListeners.findIndex(callback);
-
-    if (index !== -1) {
-      coreClass.inputs.keyPressListeners.splice(index, 1);
+    const itemExists = coreClass.inputs.keyPressListeners.find(callback);
+    if (itemExists) {
+      coreClass.inputs.keyPressListeners.find(callback)?.unbind();
+      const index = coreClass.inputs.keyPressListeners.findIndex(callback);
+      if (index !== -1) {
+        coreClass.inputs.keyPressListeners.splice(index, 1);
+      }
     }
   },
   keyInitializer: (keyToUnbind, coreClass) => {

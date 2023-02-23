@@ -50,7 +50,7 @@ class Director {
 
   closeRaceEvent() {
     if (this.isRaceFinished) {
-      utils.keyUnbinder('Enter', this.race.core);
+      utils.keyUnbinder('Space', this.race.core);
       utils.classRemover('gameCanvas', 'filter');
       if (window.gameState.mode === 'singleRaceScene') {
         utils.changeMode('menuScene', this.race.core);
@@ -81,6 +81,7 @@ class Director {
           },
         );
       }
+      this.isRaceFinished = false;
     }
   }
 
@@ -125,12 +126,13 @@ class Director {
 
   init() {
     if (this.raceLaps < 0 || typeof this.raceLaps !== 'number') {
-      this.raceLaps = Math.round(window.tracks.f1Y91[this.trackName].laps * 0.05);
+      this.raceLaps = 5;
     }
+    utils.keyUnbinder('Space', this.race.core);
     this.race.core.inputs.keyPressListeners.push(
-      new KeyPressListener('Enter', () => this.closeRaceEvent()),
+      new KeyPressListener('Space', () => this.closeRaceEvent()),
     );
-    utils.keyInitializer('Enter', this.race.core);
+    utils.keyInitializer('Space', this.race.core);
 
     this.road = this.race.road;
     this.player = this.race.player;
@@ -174,6 +176,7 @@ class Director {
     }
 
     if (this.isRaceFinished) {
+      this.race.core.inputs.buttons.space.classList.remove('hidden');
       utils.keyUnbinder('KeyP', this.race.core);
 
       // correcting X and Y axis of player
@@ -277,7 +280,7 @@ class Director {
         this.render.drawText('#FFFAF4', 'Clique OK', 320, 216 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
         this.render.drawText('#FFFAF4', 'para continuar', 320, 248 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
       } else {
-        this.render.drawText('#FFFAF4', 'Aperte ENTER', 320, 216 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
+        this.render.drawText('#FFFAF4', 'Aperte Espaço', 320, 216 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
         this.render.drawText('#FFFAF4', 'para continuar', 320, 248 + this.shakeMessageY.pos, 2, 'OutriderCond', 'center', 'black', true);
       }
     }
