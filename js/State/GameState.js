@@ -11,6 +11,7 @@ class GameState {
       isMusicActive: 'não',
       controls: this.isTouchActive ? 'touch' : 'teclado',
       musicVolume: '1',
+      sfxVolume: '1',
       isRPGOn: 'história',
       isRPGOnSave: 'jogo',
       isSingleRaceOn: 'rápida',

@@ -37,6 +37,22 @@ class Player {
     };
   }
 
+  engineAudio() {
+    const gearBoxArr = Object.values(this.gearBox);
+    let actualGear = this.gear;
+    if (this.gearTypeAuto === 1) {
+      actualGear = gearBoxArr.sort((a, b) => b.maxSpeed - a.maxSpeed)
+        .findIndex((item) => item.minSpeed <= this.actualSpeed) - 6;
+    }
+    const gearBoxValues = this.gearBox[Math.abs(actualGear)];
+    const totalSpeed = (gearBoxValues.maxSpeed - gearBoxValues.minSpeed);
+    const gearRelativeSpeed = this.actualSpeed - gearBoxValues.minSpeed;
+    const rate = 0.4 + ((gearRelativeSpeed / totalSpeed) * 0.9);
+    const randomizedRate = rate === 1.3 ? 1.24 + Math.random() * 0.08 : rate;
+    const newRate = randomizedRate > 0.4 ? randomizedRate : 0.4;
+    window.sfx.engine.rate(newRate);
+  }
+
   changeXToLeft(curvePower) {
     this.x = this.x <= -this.maxRange
       ? this.x = -this.maxRange
@@ -70,6 +86,7 @@ class Player {
     this.x = (qualyPos) % 2 ? -1 : 1;
     this.actualSpeed = 0;
     document.addEventListener('keydown', this.makeGears);
+    window.sfx.engine.fade(0, 1, 500, window.sfx.engine.play());
   }
 
   reforceCurvePower() {
@@ -278,6 +295,7 @@ class Player {
   update() {
     this.deltaTime += this.race.core.deltaTime;
     if (this.deltaTime > utils.secondInMS / this.fps && this.race.director.paused) {
+      this.engineAudio();
       this.curveAnim(this.actualSpeed);
       this.deltaTime = 0;
     }

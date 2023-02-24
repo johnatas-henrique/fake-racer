@@ -35,4 +35,13 @@ window.sfx = {
     src: ['./assets/sfx/tick.wav'],
     volume: (Number(window.gameState.menuSelectedOptions.musicVolume) + 1) / 10,
   }),
+  engine: new Howl({
+    src: ['./assets/sfx/engine_loop.wav'],
+    loop: true,
+    rate: 2,
+    volume: (Number(window.gameState.menuSelectedOptions.sfxVolume)) / 10,
+    onplay: () => {
+      window.sfx.engine.volume((Number(window.gameState.menuSelectedOptions.sfxVolume)) / 10);
+    },
+  }),
 };

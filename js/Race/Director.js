@@ -37,6 +37,7 @@ class Director {
   pauseOption() {
     this.paused = !this.paused;
     utils.htmlElements.pauseBtn().classList.toggle('off');
+    window.sfx.engine.playing() ? window.sfx.engine.pause() : window.sfx.engine.play();
   }
 
   pauseRace() {
@@ -82,6 +83,7 @@ class Director {
         );
       }
       this.isRaceFinished = false;
+      window.sfx.engine.fade(1, 0, 500, window.sfx.engine.pause());
     }
   }
 

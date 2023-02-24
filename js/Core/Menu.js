@@ -74,6 +74,7 @@ class Menu {
 
   init() {
     if (window.gameState.mode === 'menuScene') {
+      window.sfx.engine.fade(1, 0, 500, window.sfx.engine.stop());
       this.core.inputs.buttons.space.classList.add('hidden');
       this.core.inputs.buttons.enter.classList.remove('hidden');
       this.core.inputs.buttons.left.classList.remove('hidden');
