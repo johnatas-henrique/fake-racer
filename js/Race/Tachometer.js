@@ -43,9 +43,10 @@ class Tachometer {
 
   drawPointer() {
     const { context, x, y, radius } = this.options;
-    const point = utils.getCirclePoint(x, y, radius - 20, this.angle, 0.85);
-    const point2 = utils.getCirclePoint(x, y, 2, this.angle + 90, 0.85);
-    const point3 = utils.getCirclePoint(x, y, 2, this.angle - 90, 0.85);
+    const size = 0.95;
+    const point = utils.getCirclePoint(x, y, radius - 20, this.angle, size);
+    const point2 = utils.getCirclePoint(x, y, 2, this.angle + 90, size);
+    const point3 = utils.getCirclePoint(x, y, 2, this.angle - 90, size);
 
     // draw needle
     context.beginPath();
@@ -61,7 +62,7 @@ class Tachometer {
 
     // draw dial
     context.beginPath();
-    context.arc(x, y, 5, 0, 2 * Math.PI, false);
+    context.arc(x, y, 6, 0, 2 * Math.PI, false);
     context.fillStyle = '#000';
     context.fill();
   }
@@ -69,7 +70,7 @@ class Tachometer {
   outerMettalicArc() {
     const { context, x, y, radius, arcY } = this.options;
     context.save();
-    context.globalAlpha = 0.75;
+    context.globalAlpha = 0.95;
     context.beginPath();
     context.fillStyle = 'rgb(33,33,33)';
     context.arc(x, y, radius, arcY, Math.PI, true);
@@ -79,10 +80,12 @@ class Tachometer {
 
   drawMarks() {
     const { context, x, y, radius } = this.options;
+    const greaterMark = 6;
+    const lesserMark = 4;
     for (let i = 0; i <= 90; i += 15) {
       const iRad = utils.degToRad(i);
-      const onArcX = radius - (Math.cos(iRad) * (radius - 10));
-      const onArcY = radius - (Math.sin(iRad) * (radius - 10));
+      const onArcX = radius - (Math.cos(iRad) * (radius - greaterMark));
+      const onArcY = radius - (Math.sin(iRad) * (radius - greaterMark));
       const innerX = radius - (Math.cos(iRad) * radius);
       const innerY = radius - (Math.sin(iRad) * radius);
 
@@ -104,8 +107,8 @@ class Tachometer {
 
     for (let i = 7.5; i <= 82.5; i += 15) {
       const iRad = utils.degToRad(i);
-      const onArcX = radius - (Math.cos(iRad) * (radius - 5));
-      const onArcY = radius - (Math.sin(iRad) * (radius - 5));
+      const onArcX = radius - (Math.cos(iRad) * (radius - lesserMark));
+      const onArcY = radius - (Math.sin(iRad) * (radius - lesserMark));
       const innerX = radius - (Math.cos(iRad) * radius);
       const innerY = radius - (Math.sin(iRad) * radius);
 
@@ -133,9 +136,9 @@ class Tachometer {
       n += 1;
 
       const iRad = utils.degToRad(i);
-      const onArcX = radius - (Math.cos(iRad) * (radius - 19 - (n * 0.8)));
+      const onArcX = radius - (Math.cos(iRad) * (radius - 10 - (n * 0.8)));
       const yFix = n !== 4 ? 4 : -1;
-      const onArcY = radius - (Math.sin(iRad) * (radius - 15 - yFix));
+      const onArcY = radius - (Math.sin(iRad) * (radius - 8 - yFix));
 
       const fromX = x - radius + onArcX;
       const fromY = y - radius + onArcY;
