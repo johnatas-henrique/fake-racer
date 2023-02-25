@@ -220,7 +220,9 @@ class Menu {
       if (this.menuTitle.pos <= -12) this.menuTitle.direction = 1;
       this.menuTitle.pos += (this.menuTitle.direction / 2);
       if (window.navigator.maxTouchPoints) {
-        this.core.render.drawText('black', 'Aperte OK para iniciar', 320, 180 + this.menuTitle.pos);
+        this.core.render.drawText('black', 'Para uma melhor experiência', 320, 120 + this.menuTitle.pos);
+        this.core.render.drawText('black', 'Maximize a tela', 320, 140 + this.menuTitle.pos);
+        this.core.render.drawText('black', 'Aperte OK para iniciar', 320, 200 + this.menuTitle.pos);
       } else {
         this.core.render.drawText('black', 'Aperte ENTER para iniciar', 320, 180 + this.menuTitle.pos);
       }

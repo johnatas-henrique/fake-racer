@@ -62,9 +62,9 @@ class Core {
 
   static toggleFullScreen() {
     if (!document.fullscreenElement) {
-      utils.htmlElements.gameContainer().requestFullscreen().catch((err) => {
-        alert(`Error, can't enable full-screen ${err.message}`);
-      });
+      utils.htmlElements.gameContainer().requestFullscreen();
+      // eslint-disable-next-line no-restricted-globals
+      screen.orientation.lock('landscape');
     } else {
       document.exitFullscreen();
     }
