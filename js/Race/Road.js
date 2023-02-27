@@ -103,42 +103,22 @@ class Road {
         (curve) => createCurve(curve.min, curve.max, curve.curveInclination, curve.kerb),
       );
 
-      // Road Sprites
-      const { curve: curvePower, kerb } = this.getSegmentFromIndex(i);
+      // Trackside Sprites
+      const { curve: curvePower, kerb: kerbExists } = this.getSegmentFromIndex(i);
+      const kerb = Boolean(kerbExists);
+      const curve = Boolean(curvePower);
+      const straight = !curve;
       this.actualTrack.figures.forEach((sprite) => {
-        // if (sprite.segments.includes(i)) {
-        if (i % (this.k * 2) === 0 && i % (this.k * 4) !== 0 && !kerb) {
-          segmentLine.sprites.push(new SpriteRace({ ...sprite, offsetX: sprite.offsetX * -1 }));
-          return;
-        }
-        if (i % (this.k * 4) === 0 && !kerb) {
+        const { distance, kerbs, curves, straights, twoSides, offsetX, offset = 0 } = sprite;
+        if (sprite.segments?.includes(i)) {
           segmentLine.sprites.push(new SpriteRace(sprite));
         }
-      });
-      // if (i % (this.k * 8) === 0 && !kerb) {
-      //   const newSprite = new SpriteRace({
-      //     offsetX: -2.5,
-      // scaleX: 72,
-      // scaleY: 72, imageSrc: '/assets/images/trackside/billboardSega.png', name: 'billboardSega',
-      //   });
-      //   segmentLine.sprites.push(newSprite);
-      // }
 
-      // signalDirections
-      if (i % (this.k * 2) === 0 && Math.abs(curvePower) > 1 && kerb) {
-        if (curvePower > 0) {
-          const newSprite = new SpriteRace({
-            offsetX: -1.5, scaleX: 72, scaleY: 72, imageSrc: '../assets/images/trackside/leftSignal.png', name: 'tsCurveSignal',
-          });
-          segmentLine.sprites.push(newSprite);
-        }
-        if (curvePower < 0) {
-          const newSprite = new SpriteRace({
-            offsetX: 1.5, scaleX: 72, scaleY: 72, imageSrc: '../assets/images/trackside/rightSignal.png', name: 'tsCurveSignal',
-          });
-          segmentLine.sprites.push(newSprite);
-        }
-      }
+        if ((i + offset) % distance === 0 // road segment
+          && (twoSides || (Math.sign(offsetX) * -1 === Math.sign(curvePower))) // side of track
+          && (kerb === kerbs || curve === curves || straight === straights) // segment type
+        ) { segmentLine.sprites.push(new SpriteRace(sprite)); }
+      });
     }
 
     // adding hills
