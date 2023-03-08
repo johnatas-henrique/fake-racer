@@ -5,27 +5,29 @@ class Tachometer {
     this.actualSpeed = 0;
     this.race = config.race;
     this.options = {};
-    this.gear = 'AT';
+    this.gear = 1;
     this.minGearSpd = 0;
     this.maxGearSpd = 300;
   }
 
   gearBox() {
-    if (this.player.gearTypeAuto) {
-      this.gear = 'AT';
-      this.minGearSpd = 0;
-      this.maxGearSpd = (this.player.maxSpeed / 4);
-      return;
+    const gearBoxArr = Object.values(this.player.gearBox);
+    let actualGear = this.gear;
+    if (this.player.gearTypeAuto === 1) {
+      actualGear = gearBoxArr.sort((a, b) => b.maxSpeed - a.maxSpeed)
+        .findIndex((item) => item.minSpeed <= this.actualSpeed) - 6;
     }
-    this.gear = this.player.gear;
-    this.minGearSpd = this.player.gearBox[this.gear].minSpeed / 4;
-    this.maxGearSpd = (this.player.gearBox[this.gear].maxSpeed / 4);
+
+    this.gear = `${this.gearType} ${Math.abs(actualGear)}`;
+    this.minGearSpd = (this.player.gearBox[Math.abs(actualGear)].minSpeed / 4) * 0.95;
+    this.maxGearSpd = (this.player.gearBox[Math.abs(actualGear)].maxSpeed / 4);
   }
 
   init() {
     this.render = this.race.core.render;
     this.director = this.race.director;
     this.player = this.race.player;
+    this.gearType = this.player.gearTypeAuto ? 'AT' : 'MT';
     this.gearBox();
     this.options = {
       context: this.render.ctx, x: 630, y: 340, radius: 90, arcX: 90, arcY: 90,
