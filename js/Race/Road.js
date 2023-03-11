@@ -10,7 +10,7 @@ class Road {
     this.trackName = config.race.trackName;
     this.segments = [];
     this.segmentLength = 200; // it could be named segmentHeight
-    this.visibleSegments = 450;
+    this.visibleSegments = 600;
     this.k = 13; // number of segments to change kerb color
     this.width = 2000;
     this.camera = null;

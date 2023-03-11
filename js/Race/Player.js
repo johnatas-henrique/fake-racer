@@ -48,7 +48,7 @@ class Player {
     const totalSpeed = (gearBoxValues.maxSpeed - gearBoxValues.minSpeed);
     const gearRelativeSpeed = this.actualSpeed - gearBoxValues.minSpeed;
     const rate = 0.4 + ((gearRelativeSpeed / totalSpeed) * 0.9);
-    const randomizedRate = rate === 1.3 ? 1.24 + Math.random() * 0.08 : rate;
+    const randomizedRate = rate === 1.3 ? 1.27 + Math.random() * 0.04 : rate;
     const newRate = randomizedRate > 0.4 ? randomizedRate : 0.4;
     window.sfx.engine.rate(newRate);
   }
@@ -78,7 +78,6 @@ class Player {
     this.sprite.sheetPositionY = 1;
     this.sprite.scaleX = 2;
     this.sprite.scaleY = 2.2;
-
     const { trackSize } = window.tracks.f1Y91[this.race.trackName];
     const qualyPos = Number(this.race.oppNumber) + 1;
     this.trackPosition = utils.startPosition(trackSize, qualyPos);
@@ -87,6 +86,9 @@ class Player {
     this.actualSpeed = 0;
     document.addEventListener('keydown', this.makeGears);
     window.sfx.engine.fade(0, 1, 500, window.sfx.engine.play());
+
+    const haveGuardRail = this.race.road.actualTrack.figures.find(({ name }) => name === 'guardRailRightLight');
+    if (haveGuardRail) this.maxRange = haveGuardRail.offsetX + 0.9;
   }
 
   reforceCurvePower() {

@@ -128,8 +128,9 @@ class Director {
 
   init() {
     if (this.raceLaps < 0 || typeof this.raceLaps !== 'number') {
-      this.raceLaps = 5;
+      this.raceLaps = Math.round(this.race.road.actualTrack.laps * 0.1);
     }
+    this.race.core.inputs.buttons.space.classList.add('hidden');
     utils.keyUnbinder('Space', this.race.core);
     this.race.core.inputs.keyPressListeners.push(
       new KeyPressListener('Space', () => this.closeRaceEvent()),

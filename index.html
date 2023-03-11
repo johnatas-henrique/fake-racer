@@ -38,14 +38,20 @@
     </ul>
 
     <div class="touch-controls">
+      <div class="fullscreen-controls">
+
+      </div>
       <div class="left-controls">
-        <button class="control-buttons" type="button" name="arrowup">U</button>
-        <button class="control-buttons" type="button" name="arrowdown">D</button>
+        <button class="control-buttons arrowfont" type="button" name="arrowleft">bB</button>
+        <button class="control-buttons arrowfont" type="button" name="arrowright">aA</button>
+      </div>
+      <div class="center-controls">
+        <button class="control-buttons" type="button" name="Space">OK</button>
+        <button class="control-buttons" type="button" name="Enter">OK</button>
       </div>
       <div class="right-controls">
-        <button class="control-buttons" type="button" name="enter">OK</button>
-        <button class="control-buttons" type="button" name="arrowleft">L</button>
-        <button class="control-buttons" type="button" name="arrowright">R</button>
+        <button class="control-buttons arrowfont" type="button" name="arrowup">cC</button>
+        <button class="control-buttons arrowfont" type="button" name="arrowdown">dD</button>
       </div>
     </div>
     <canvas class="game-canvas" width="640" height="360"></canvas>
@@ -70,7 +76,21 @@
   <script type="module" src="./js/Content/tracks.js"></script>
 
   <script type="module" src="./js/init.js"></script>
-
+  <!-- Way to use console.log on phone -->
+  <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+  <script>
+    window.onload = (() => {
+      const willRun = window.gameState.debugPhoneMode;
+      if (willRun) {
+        const el = document.createElement('div');
+        document.body.appendChild(el);
+        eruda.init({
+          container: el,
+          tool: ['console', 'elements']
+        });
+      }
+    })
+  </script>
 </body>
 
 </html>
