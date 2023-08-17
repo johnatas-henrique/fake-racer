@@ -1,0 +1,80 @@
+.Hud {
+  width: 24vw;
+  height: 6.25vw;
+  background: url("/assets/images/ui/combatantPlate.png") no-repeat;
+  background-size: cover;
+  position: absolute;
+  left: 0.6vw;
+  top: 5vw;
+  image-rendering: pixelated;
+}
+
+.Hud_character_crop {
+  position: absolute;
+  top: 0.75vw;
+  left: 2vw;
+  width: 5vw;
+  height: 4.5vw;
+}
+
+.Hud_name {
+  position: absolute;
+  left: 1vw;
+  top: -2vw;
+  white-space: nowrap;
+  background: var(--menu-font-color);
+  color: #fff;
+  font-size: 2vw;
+  padding-left: 0.5vw;
+  padding-right: 0.5vw;
+  margin: 0;
+}
+
+.Hud_gas-container {
+  position: absolute;
+  left: 8vw;
+  top: 1.5vw;
+  width: 10.75vw;
+  height: 1.4vw;
+}
+
+.Hud_gas-container>rect, .Hud_xp-container>rect, .Hud_money {
+  transition: width 1s;
+}
+
+.Hud_xp-container {
+  position: absolute;
+  left: 8vw;
+  top: 3.175vw;
+  width: 10.75vw;
+  height: 0.84vw;
+}
+
+.Hud_level {
+  position: absolute;
+  font-size: 2vw;
+  right: 0vw;
+  top: -0.5vw;
+  width: 4vw;
+  height: 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F8C594;
+  border: 0.25vw solid #A48465;
+  margin: 0;
+}
+
+.Hud_money {
+  position: absolute;
+  top: 4vw;
+  right: 4.6vw;
+  font-size: 2vw;
+}
+
+.Hud_money_img {
+  position: absolute;
+  top: 4.25vw;
+  right: 2.5vw;
+  width: 1.75vw;
+}

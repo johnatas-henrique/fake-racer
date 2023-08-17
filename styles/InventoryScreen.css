@@ -1,0 +1,106 @@
+.InventoryElement {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: space-around;
+  height: 100%;
+  padding: 1vw 2vw;
+  font-family: OutriderCondBold, Verdana, Geneva, sans-serif;
+  background: var(--menu-background);
+  border-top: 0.1vw solid var(--menu-border-color);
+  color: var(--menu-font-color);
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 3;
+}
+
+.Inventory_p {
+  margin-left: 1vw;
+  font-size: 8vh;
+  width: 100vw;
+  height: 10%;
+  border-bottom: 0.2vw solid var(--menu-border-color);
+}
+
+.Inventory_div_items {
+  border: 1px solid var(--menu-font-color);
+  border-radius: 1vw;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 4vh 1vw 4vh 0;
+  height: 80%;
+  width: 60%;
+  padding: 2vh;
+}
+
+.Inventory_div_info {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  border: 1px solid var(--menu-font-color);
+  border-radius: 1vw;
+  padding: 2vh;
+  margin: 4vh 0;
+  height: 80%;
+  width: 35%;
+}
+
+.Inventory_button {
+  height: 16%;
+  width: 16%;
+  margin-left: 4%;
+  font-size: 4vh;
+  font-family: OutriderCondBold, Verdana, Geneva, sans-serif;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  padding: 1%;
+}
+
+.Inventory_button:focus, .Inventory_button:hover {
+  box-shadow: 0 0 0 3px var(--menu-font-color);
+  background-color: var(--menu-selected-background);
+  outline: 0;
+}
+
+.Inventory_img_hover {
+  margin: 1vh 0;
+  max-height: 30%;
+  max-width: 100%;
+}
+
+.Inventory_p_hover_title {
+  font-family: OutriderCondBold, Verdana, Geneva, sans-serif;
+  text-align: center;
+  font-size: 5vh;
+  height: 20%;
+  width: 100%;
+}
+
+.Inventory_p_hover_details {
+  font-family: OutriderCond, Verdana, Geneva, sans-serif;
+  font-size: 3vh;
+  height: 45%;
+  width: 100%;
+}
+
+
+.Inventory_button_close {
+  margin: 0;
+  font-size: 4vh;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  position: absolute;
+  right: 1vw;
+  bottom: 0;
+}

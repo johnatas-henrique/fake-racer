@@ -1,4 +1,8 @@
+.env
+.husky/
+.vscode
 nouse/
 node_modules/
+openssl/
+unfinished/
 zips/
-.env

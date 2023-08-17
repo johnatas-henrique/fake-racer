@@ -9,55 +9,88 @@
   <meta property="og:description" content="Fake-Racer é um tributo a jogos de corrida da era 16-bit">
   <meta property="og:image" content="https://i.imgur.com/XMPnLHm.png">
   <meta property=”og:type” content=”game“ />
-  <link rel="icon" href="./favicon.png" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel='stylesheet' type="text/css" href="./css/main.css">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
+
+  <link rel="icon" href="./favicon.png" />
   <title>Fake Racer</title>
+
+  <link href="./styles/global.css" type="text/css" rel="stylesheet">
+  <link href="./styles/TextMessage.css" type="text/css" rel="stylesheet">
+  <link href="./styles/SceneTransition.css" type="text/css" rel="stylesheet">
+  <link href="./styles/KeyboardMenu.css" type="text/css" rel="stylesheet">
+  <link href="./styles/Menus.css" type="text/css" rel="stylesheet">
+  <link href="./styles/Hud.css" type="text/css" rel="stylesheet">
+  <link href="./styles/InputElement.css" type="text/css" rel="stylesheet">
+  <link href="./styles/InventoryScreen.css" type="text/css" rel="stylesheet">
 </head>
 
 <body translate="no">
-  <div class="container">
-    <ul id="info">
-      <button id="pauseBtn" class="interfaceBtn pause hidden" name="p"></button>
-      <li id="fps"></li>
-      <button id="fullScreenBtn" class="interfaceBtn" name="fullscreenbtn">
-        <img class="img100" src="images/sprites/other/fullscreen.png">
+  <div class="container game-container">
+    <ul id="info" class="info">
+      <button class="interface-btn pause-btn" name="p"></button>
+      <li class="fps"></li>
+      <button class="interface-btn fullscreen-btn" name="fullscreen-btn">
       </button>
-      <span id="mute" class="mute hidden"></span>
-      <!-- <li id="line1"></li>
-      <li id="line2"></li>
-      <li id="line3"></li>
-      <li id="line4"></li>
-      <li id="line5"></li>
-      <li id="line6"></li> -->
+      <span class="mute-btn off"></span>
     </ul>
 
-    <div id="touchControls">
-      <div class="leftControls">
-        <button class="controlButtons" type="button" name="arrowup">U</button>
-        <button class="controlButtons" type="button" name="arrowdown">D</button>
+    <div class="touch-controls">
+      <div class="fullscreen-controls">
+
       </div>
-      <div class="rightControls">
-        <button class="controlButtons" type="button" name="enter">OK</button>
-        <button class="controlButtons" type="button" name="arrowleft">L</button>
-        <button class="controlButtons" type="button" name="arrowright">R</button>
+      <div class="left-controls">
+        <button class="control-buttons arrowfont" type="button" name="arrowleft">bB</button>
+        <button class="control-buttons arrowfont" type="button" name="arrowright">aA</button>
+      </div>
+      <div class="center-controls">
+        <button class="control-buttons" type="button" name="Space">OK</button>
+        <button class="control-buttons" type="button" name="Enter">OK</button>
+      </div>
+      <div class="right-controls">
+        <button class="control-buttons arrowfont" type="button" name="arrowup">cC</button>
+        <button class="control-buttons arrowfont" type="button" name="arrowdown">dD</button>
       </div>
     </div>
-    
-    <canvas id="gameCanvas" width="640" height="360"></canvas>
+    <canvas class="game-canvas" width="640" height="360"></canvas>
   </div>
 
+  <!-- External libs -->
+  <script src="./js/ExternalLibs/howler.min.js"></script>
+  <script src="./js/ExternalLibs/Stats.js"></script>
 
-  <audio id='music'>
-    <source src="music/topgear-title.mp3">
-  </audio>
+  <!-- State -->
+  <script type="module" src="./js/State/PlayerState.js"></script>
+  <script type="module" src="./js/State/GameState.js"></script>
 
-  <script src="./js/stats.js"></script>
-  <script type="module" src="./js/main.js"></script>
+  <!-- Content json-like RPG -->
+  <script type="module" src="./js/Content/overworldMaps.js"></script>
+  <script type="module" src="./js/Content/races.js"></script>
+  <script type="module" src="./js/Content/items.js"></script>
+  <!-- Content json-like race -->
+  <script type="module" src="./js/Content/sfx.js"></script>
+  <script type="module" src="./js/Content/music.js"></script>
+  <script type="module" src="./js/Content/drivers.js"></script>
+  <script type="module" src="./js/Content/tracks.js"></script>
 
+  <script type="module" src="./js/init.js"></script>
+  <!-- Way to use console.log on phone -->
+  <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+  <script>
+    window.onload = (() => {
+      const willRun = window.gameState.debugPhoneMode;
+      if (willRun) {
+        const el = document.createElement('div');
+        document.body.appendChild(el);
+        eruda.init({
+          container: el,
+          tool: ['console', 'elements']
+        });
+      }
+    })
+  </script>
 </body>
 
 </html>

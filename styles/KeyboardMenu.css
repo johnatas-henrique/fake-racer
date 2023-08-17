@@ -1,0 +1,59 @@
+.keyboard-menu {
+  border: 0.1vw solid var(--border-color);
+  background: var(--menu-background);
+  position: absolute;
+}
+
+.keyboard-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--menu-font-color);
+  width: 100%;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  height: 4vw;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  font-size: 2.5vw;
+}
+
+.keyboard-menu button:focus {
+  background: var(--menu-selected-background);
+  outline: 0;
+}
+
+.keyboard-menu .option {
+  position: relative;
+}
+
+.keyboard-menu .option .right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.description-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: var(--menu-font-color);
+  border-top: 0.1vw solid var(--border-color);
+  background: var(--menu-background);
+  padding: 0.2vw;
+}
+
+.description-box p {
+  font-size: 2vw;
+  margin: 0;
+}
+
+.keyboard-menu.pause-menu {
+  top: 30%;
+  left: 45%;
+  width: 10%;
+}

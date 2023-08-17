@@ -1,0 +1,204 @@
+:root {
+  --border-color: #291D4D;
+  --dialog-background: #FFF3B4;
+  --menu-background: #FFE8D2;
+  --menu-border-color: #a48465;
+  --menu-font-color: #3A160D;
+  --menu-selected-background: #7FC2FF;
+}
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+@font-face {
+  font-family: Arrows;
+  src: url(../assets/fonts/arrows.ttf);
+}
+
+@font-face {
+  font-family: OutriderCond;
+  src: url(../assets/fonts/outriderCond.ttf);
+}
+
+@font-face {
+  font-family: OutriderCondBold;
+  src: url(../assets/fonts/outriderCondBold.ttf);
+}
+
+@font-face {
+  font-family: Joystix;
+  src: url(../assets/fonts/joystix.ttf);
+}
+
+@font-face {
+  font-family: Computo;
+  src: url(../assets/fonts/computo.ttf);
+}
+
+html, body {
+  background: #000000;
+  font-family: OutriderCondBold, Verdana, Geneva, sans-serif;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+}
+
+.game-container {
+  height: min(56.25vw, 100vh);
+  margin: 0 auto;
+  outline: 0.1vw solid white;
+  position: relative;
+  width: 100vw;
+}
+
+.game-container .game-canvas {
+  height: 100%;
+  width: 100%;
+  background: grey;
+}
+
+.pixelated {
+  image-rendering: pixelated;
+}
+
+#info, .touch-controls {
+  color: black;
+  position: absolute;
+  width: 100%;
+  flex-wrap: wrap;
+  list-style-type: none;
+  font-weight: 700;
+  font-size: 2vw;
+  text-align: justify;
+  z-index: 2;
+  user-select: none;
+}
+
+.fullscreen-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#info {
+  align-content: end;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 3vw;
+  padding-right: 0.5vw;
+  top: 0vw;
+  width: 100%;
+}
+
+.fps-canvas {
+  cursor: pointer;
+  height: 3vw;
+  margin-left: auto;
+  margin-right: 0.2vw;
+  opacity: 0.85;
+  width: 4vw;
+}
+
+.fps-canvas canvas {
+  height: 100%;
+  width: 100%;
+}
+
+.control-buttons {
+  border-radius: 50%;
+  display: block;
+  font-size: 6vw;
+  font-weight: 700;
+  height: 10vw;
+  width: 10vw;
+  margin: 0 0.3em 0.5em;
+  background: rgba(0, 0, 0, 0.05);
+  color: #c0c0c0;
+}
+
+.touch-controls {
+  bottom: 0em;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1em;
+}
+
+.filter {
+  filter: brightness(75%);
+}
+
+.left-controls, .center-controls, .right-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.accelerometer-controls {
+  justify-content: space-between;
+  width: 100%;
+  flex-direction: row-reverse;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .touch-controls {
+    display: none;
+  }
+
+  .container {
+    height: min(100vh, 56.25vw);
+  }
+}
+
+.interface-btn {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  height: 3vw;
+  width: 3.1vw;
+}
+
+.pause-btn {
+  background: url(/assets/images/ui/pausePlay.png);
+  background-size: 200%;
+  margin-right: 0.2vw;
+}
+
+.pause-btn.off {
+  background-position: 3vw 0;
+}
+
+.fullscreen-btn {
+  background: url(/assets/images/ui/fullScreen.png);
+  background-size: cover;
+  margin-right: 0.2vw;
+}
+
+.mute-btn {
+  background: url(/assets/images/ui/mute.png);
+  background-size: cover;
+  cursor: pointer;
+  display: block;
+  height: 3vw;
+  width: 3vw;
+}
+
+.mute-btn.off {
+  background-position: 3vw 0;
+}
+
+.arrowfont {
+  font-family: Arrows, Verdana, Geneva, sans-serif;
+}
+
+.hidden {
+  display: none;
+}
