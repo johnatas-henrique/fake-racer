@@ -161,9 +161,27 @@ window.tracks = {
           kerbs: true,
         },
         // trackside items
+        {
+          offsetX: -2,
+          scaleX: 108,
+          scaleY: 108,
           imageSrc: '/assets/images/trackside/billboardSega.png',
           name: 'billboardSega',
-          // segments: [8164, 8268, 8372],
+          distance: 130,
+          straights: true,
+          twoSides: true,
+          // segments: [16],
+        },
+        {
+          offsetX: 2,
+          scaleX: 108,
+          scaleY: 108,
+          imageSrc: '/assets/images/trackside/billboardSega.png',
+          name: 'billboardSega',
+          distance: 130,
+          straights: true,
+          twoSides: true,
+          // segments: [16],
         },
       ],
       backgrounds: {
@@ -371,6 +389,30 @@ window.tracks = {
           kerbs: true,
         },
         // trackside items
+        {
+          offsetX: -3,
+          scaleX: 1080,
+          scaleY: 720,
+          imageSrc: '../assets/images/trackside/miniHouseCity.png',
+          name: 'houseCity',
+          distance: 30,
+          kerbs: true,
+          curves: true,
+          straights: true,
+          twoSides: true,
+        },
+        {
+          offsetX: 3,
+          scaleX: 1080,
+          scaleY: 720,
+          imageSrc: '../assets/images/trackside/miniHouseCity.png',
+          name: 'houseCity',
+          distance: 30,
+          kerbs: true,
+          curves: true,
+          straights: true,
+          twoSides: true,
+        },
       ],
       backgrounds: {
         front: '/assets/images/background/cityHouses.png',
@@ -555,9 +597,27 @@ window.tracks = {
           kerbs: true,
         },
         // trackside items
+        {
+          offsetX: -2,
+          scaleX: 108,
+          scaleY: 108,
           imageSrc: '/assets/images/trackside/billboardSega.png',
           name: 'billboardSega',
-          // segments: [8164, 8268, 8372],
+          distance: 130,
+          straights: true,
+          twoSides: true,
+          // segments: [16],
+        },
+        {
+          offsetX: 2,
+          scaleX: 108,
+          scaleY: 108,
+          imageSrc: '/assets/images/trackside/billboardSega.png',
+          name: 'billboardSega',
+          distance: 130,
+          straights: true,
+          twoSides: true,
+          // segments: [16],
         },
       ],
       backgrounds: {
@@ -702,14 +762,36 @@ window.tracks = {
           kerbs: true,
         },
         // trackside items
-    // straight track used in development
+        {
+          offsetX: -2,
+          scaleX: 108,
+          scaleY: 108,
+          imageSrc: '/assets/images/trackside/billboardSega.png',
+          name: 'billboardSega',
+          distance: 130,
+          straights: true,
+          twoSides: true,
+          // segments: [16],
+        },
+        {
+          offsetX: 2,
+          scaleX: 108,
+          scaleY: 108,
+          imageSrc: '/assets/images/trackside/billboardSega.png',
+          name: 'billboardSega',
+          distance: 130,
+          straights: true,
+          twoSides: true,
+          // segments: [16],
+        },
       ],
       backgrounds: {
         front: '/assets/images/background/rainForest.png',
       },
     },
+    // DEV straight track used in development
     // test: {
-    //   trackSize: 1300,
+    //   trackSize: 3900,
     //   laps: 78,
     //   colors: {
     //     lightRoad: '#424142',
@@ -725,27 +807,63 @@ window.tracks = {
     //     darkStripe: '#ffffff',
     //   },
     //   curves: [
-    //   // { min: 628, max: 6656, curveInclination: 1 },
+    //     // { min: 1, max: 12999, curveInclination: 3 },
     //   ],
     //   hills: [
-    //     { initialSegment: 665, size: 0, altimetry: 0 },
+    //     { initialSegment: 3900, size: 0, altimetry: 0 },
     //   ],
     //   tunnels: [
     //     {
     //       min: 0, max: 0, name: '', height: 1,
-    //       // disabling tunnel because of CPU utilization
-    //       // min: 3250, max: 3900, name: '', height: 12500,
+    //       //   // disabling tunnel because of CPU utilization
+    //       //   // min: 0, max: 3900, name: '', height: 12500,
     //     },
+    //     // {
+    //     //   // min: 0, max: 0, name: '', height: 1,
+    //     //   // disabling tunnel because of CPU utilization
+    //     //   min: 1, max: 78000, name: '', height: 12500,
+    //     // },
     //   ],
     //   figures: [
     //     {
-    //       offsetX: 2,
+    //       offsetX: -3,
     //       scaleX: 72,
     //       scaleY: 72,
-    //       imageSrc: '/assets/images/trackside/billboardSega.png',
-    //       name: 'billboardSega',
+    //       imageSrc: '/assets/images/trackside/building01.png',
+    //       name: 'guardRailLeft1',
+    //       distance: 4,
+    //       kerbs: true,
+    //       curves: true,
+    //       straights: true,
+    //       twoSides: true,
     //       // segments: [8164, 8268, 8372],
     //     },
+    //     {
+    //       // offsetX: -2,
+    //       // scaleX: 72,
+    //       // scaleY: 72,
+    //       // imageSrc: '/assets/images/trackside/building01.png',
+    //       // name: 'building01',
+    //       // segments: [16],
+    //     },
+    //     // {
+    //     //   offsetX: 3,
+    //     //   scaleX: 18,
+    //     //   scaleY: 36,
+    //     //   imageSrc: '/assets/images/trackside/guardRailLeft004.png',
+    //     //   name: 'guardRailLeft1',
+    //     //   distance: 4,
+    //     //   // segments: [8164, 8268, 8372],
+    //     // },
+    //     // {
+    //     //   offsetX: 3,
+    //     //   scaleX: 24,
+    //     //   scaleY: 24,
+    //     //   imageSrc: '/assets/images/trackside/fenceRight.png',
+    //     //   name: 'guardRailRight1',
+    //     //   distance: 4,
+    //     //   // segments: [8164, 8268, 8372],
+    //     // },
     //   ],
     //   backgrounds: {
     //     front: '/assets/images/background/cityHouses.png',
